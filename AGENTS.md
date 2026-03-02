@@ -37,6 +37,7 @@ distilled/
 ├── AGENTS.md                 # This file - ecosystem overview
 ├── distilled-aws/            # AWS SDK from Smithy models
 ├── distilled-cloudflare/     # Cloudflare SDK from TypeScript SDK
+├── distilled-gcp/            # GCP SDK from Discovery Documents
 ├── distilled-code/           # Programmatic coding agent library
 └── distilled.cloud/          # Marketing & docs site (Astro)
 ```
@@ -220,6 +221,7 @@ See specialized AGENTS.md in each sub-project:
 
 - **[distilled-aws/AGENTS.md](distilled-aws/AGENTS.md)** - Smithy models, AWS protocols (restJson, restXml, awsQuery), SigV4 signing
 - **[distilled-cloudflare/AGENTS.md](distilled-cloudflare/AGENTS.md)** - TypeScript SDK parsing, error code matching, multipart handling
+- **[distilled-gcp/AGENTS.md](distilled-gcp/AGENTS.md)** - GCP Discovery Documents, REST JSON, OAuth2/ADC authentication
 - **[distilled-code/AGENTS.md](distilled-code/AGENTS.md)** - Programmatic coding agents for automated test generation
 - **[distilled.cloud/AGENTS.md](distilled.cloud/AGENTS.md)** - Astro marketing site and documentation
 

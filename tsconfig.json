@@ -17,6 +17,9 @@
       "path": "./distilled-neon/tsconfig.json"
     },
     {
+      "path": "./distilled-gcp/tsconfig.json"
+    },
+    {
       "path": "./distilled.cloud/tsconfig.json"
     },
   ]
