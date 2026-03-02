@@ -11,6 +11,7 @@ jobs:
     outputs:
       aws: ${{ steps.changes.outputs.aws }}
       coinbase: ${{ steps.changes.outputs.coinbase }}
+      gcp: ${{ steps.changes.outputs.gcp }}
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
     steps:
@@ -23,6 +24,8 @@ jobs:
               - 'distilled-aws/**'
             coinbase:
               - 'distilled-coinbase/**'
+            gcp:
+              - 'distilled-gcp/**'
             neon:
               - 'distilled-neon/**'
             planetscale:
@@ -59,6 +62,23 @@ jobs:
         working-directory: distilled-coinbase
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-coinbase
+
+  pkg-pr-gcp:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.gcp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run setup
+        working-directory: distilled-gcp
+      - run: bun run build
+        working-directory: distilled-gcp
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-gcp
 
   pkg-pr-neon:
     needs: detect-changes

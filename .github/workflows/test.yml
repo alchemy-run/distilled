@@ -15,6 +15,7 @@ jobs:
       aws: ${{ steps.changes.outputs.aws }}
       cloudflare: ${{ steps.changes.outputs.cloudflare }}
       coinbase: ${{ steps.changes.outputs.coinbase }}
+      gcp: ${{ steps.changes.outputs.gcp }}
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
     steps:
@@ -29,6 +30,8 @@ jobs:
               - 'distilled-cloudflare/**'
             coinbase:
               - 'distilled-coinbase/**'
+            gcp:
+              - 'distilled-gcp/**'
             neon:
               - 'distilled-neon/**'
             planetscale:
@@ -99,6 +102,21 @@ jobs:
         env:
           COINBASE_API_KEY_ID: ${{ secrets.COINBASE_API_KEY_ID }}
           COINBASE_API_KEY_SECRET: ${{ secrets.COINBASE_API_KEY_SECRET }}
+
+  ci-gcp:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.gcp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run setup
+        working-directory: distilled-gcp
+      - run: bun run lint
+        working-directory: distilled-gcp
 
   ci-neon:
     needs: detect-changes
