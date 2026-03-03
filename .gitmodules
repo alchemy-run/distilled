@@ -1,0 +1,3 @@
+[submodule "distilled-aws/aws-models"]
+	path = distilled-aws/aws-models
+	url = https://github.com/aws/api-models-aws.git
