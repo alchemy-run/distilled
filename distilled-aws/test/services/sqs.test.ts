@@ -190,6 +190,26 @@ test(
   ),
 );
 
+test(
+  "error - MissingRequiredParameterException for all-undefined attributes",
+  withQueue("distilled-sqs-undef-attrs", (queueUrl) =>
+    setQueueAttributes({
+      QueueUrl: queueUrl,
+      Attributes: {
+        VisibilityTimeout: undefined,
+        MessageRetentionPeriod: undefined,
+        DelaySeconds: undefined,
+      },
+    }).pipe(
+      Effect.retry(retryQueueNotExist),
+      Effect.flip,
+      Effect.map((e) =>
+        expect(e._tag).toBe("MissingRequiredParameterException"),
+      ),
+    ),
+  ),
+);
+
 // ============================================================================
 // Queue Tagging Tests
 // ============================================================================

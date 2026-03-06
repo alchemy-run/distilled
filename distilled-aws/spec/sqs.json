@@ -34,7 +34,11 @@
       "errors": ["RequestLimitExceeded", "InvalidParameterValueException"]
     },
     "setQueueAttributes": {
-      "errors": ["RequestLimitExceeded", "CommonServiceException"]
+      "errors": [
+        "RequestLimitExceeded",
+        "CommonServiceException",
+        "MissingRequiredParameterException"
+      ]
     }
   }
 }

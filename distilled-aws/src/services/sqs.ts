@@ -2198,6 +2198,7 @@ export type SetQueueAttributesError =
   | UnsupportedOperation
   | RequestLimitExceeded
   | CommonServiceException
+  | MissingRequiredParameterException
   | CommonErrors;
 /**
  * Sets the value of one or more queue attributes, like a policy. When you change a
@@ -2235,6 +2236,7 @@ export const setQueueAttributes: API.OperationMethod<
     UnsupportedOperation,
     RequestLimitExceeded,
     CommonServiceException,
+    MissingRequiredParameterException,
   ],
 }));
 export type StartMessageMoveTaskError =

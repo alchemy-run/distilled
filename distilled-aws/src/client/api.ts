@@ -87,6 +87,7 @@ export const make = <Op extends Operation<any, any, any>>(
       serviceSdkId,
       operationName,
     } = (_init ??= init()) as ReturnType<typeof init>;
+
     yield* Effect.logDebug("Payload", payload);
 
     // Build request using the request builder (handles protocol serialization + middleware)
