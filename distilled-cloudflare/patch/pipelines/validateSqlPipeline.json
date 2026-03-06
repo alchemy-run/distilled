@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "TableNotFound": [
+      { "code": 1014 }
+    ]
+  }
+}

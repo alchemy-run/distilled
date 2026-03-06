@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "WorkflowNotFound": [{ "code": 10200 }],
+    "InvalidRoute": [{ "code": 7003 }],
+    "VersionNotFound": [{ "code": 10300 }]
+  }
+}

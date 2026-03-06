@@ -3,6 +3,9 @@
     "PrivateHostNotAllowed": [{ "code": 2009 }],
     "HyperdriveConfigNotFound": [{ "code": 2006 }],
     "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "MethodNotAllowed": [{ "code": 10000, "message": { "includes": "method not allowed" } }]
+    "MethodNotAllowed": [
+      { "code": 10000, "message": { "includes": "method not allowed" } },
+      { "code": 10405, "message": { "includes": "Method not allowed" } }
+    ]
   }
 }

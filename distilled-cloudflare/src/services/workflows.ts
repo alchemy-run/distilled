@@ -19,6 +19,46 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InstanceNotFound extends Schema.TaggedErrorClass<InstanceNotFound>()(
+  "InstanceNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InstanceNotFound, [{ code: 10201 }, { code: 10400 }]);
+
+export class InvalidBody extends Schema.TaggedErrorClass<InvalidBody>()(
+  "InvalidBody",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidBody, [{ code: 10002 }]);
+
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
+
+export class VersionNotFound extends Schema.TaggedErrorClass<VersionNotFound>()(
+  "VersionNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(VersionNotFound, [{ code: 10300 }]);
+
+export class WorkflowInternalError extends Schema.TaggedErrorClass<WorkflowInternalError>()(
+  "WorkflowInternalError",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(WorkflowInternalError, [{ code: 10001 }]);
+
+export class WorkflowNotFound extends Schema.TaggedErrorClass<WorkflowNotFound>()(
+  "WorkflowNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(WorkflowNotFound, [{ code: 10200 }]);
+
+// =============================================================================
 // Instance
 // =============================================================================
 
@@ -42,7 +82,7 @@ export const GetInstanceRequest = Schema.Struct({
 export interface GetInstanceResponse {
   end: string | null;
   error: { message: string; name: string } | null;
-  output: string | number;
+  output: string | number | null;
   params: unknown;
   queued: string;
   start: string | null;
@@ -111,7 +151,7 @@ export const GetInstanceResponse = Schema.Struct({
     }),
     Schema.Null,
   ]),
-  output: Schema.Union([Schema.String, Schema.Number]),
+  output: Schema.Union([Schema.String, Schema.Number, Schema.Null]),
   params: Schema.Unknown,
   queued: Schema.String,
   start: Schema.Union([Schema.String, Schema.Null]),
@@ -203,7 +243,11 @@ export const GetInstanceResponse = Schema.Struct({
   versionId: Schema.String,
 }) as unknown as Schema.Schema<GetInstanceResponse>;
 
-export type GetInstanceError = CommonErrors;
+export type GetInstanceError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | InstanceNotFound;
 
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
@@ -213,7 +257,7 @@ export const getInstance: API.OperationMethod<
 > = API.make(() => ({
   input: GetInstanceRequest,
   output: GetInstanceResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound],
 }));
 
 export interface ListInstancesRequest {
@@ -320,7 +364,11 @@ export const ListInstancesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListInstancesResponse>;
 
-export type ListInstancesError = CommonErrors;
+export type ListInstancesError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | InvalidBody;
 
 export const listInstances: API.OperationMethod<
   ListInstancesRequest,
@@ -330,7 +378,7 @@ export const listInstances: API.OperationMethod<
 > = API.make(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
 }));
 
 export interface CreateInstanceRequest {
@@ -418,7 +466,11 @@ export const CreateInstanceResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateInstanceResponse>;
 
-export type CreateInstanceError = CommonErrors;
+export type CreateInstanceError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | InvalidBody;
 
 export const createInstance: API.OperationMethod<
   CreateInstanceRequest,
@@ -428,7 +480,7 @@ export const createInstance: API.OperationMethod<
 > = API.make(() => ({
   input: CreateInstanceRequest,
   output: CreateInstanceResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
 }));
 
 export interface BulkInstanceRequest {
@@ -480,7 +532,7 @@ export const BulkInstanceRequest = Schema.Struct({
   ).pipe(T.HttpBody()),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/workflows/{workflowName}/instances/batch",
   }),
 ) as unknown as Schema.Schema<BulkInstanceRequest>;
@@ -525,7 +577,11 @@ export const BulkInstanceResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<BulkInstanceResponse>;
 
-export type BulkInstanceError = CommonErrors;
+export type BulkInstanceError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | InvalidBody;
 
 export const bulkInstance: API.OperationMethod<
   BulkInstanceRequest,
@@ -535,7 +591,7 @@ export const bulkInstance: API.OperationMethod<
 > = API.make(() => ({
   input: BulkInstanceRequest,
   output: BulkInstanceResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
 }));
 
 // =============================================================================
@@ -570,7 +626,12 @@ export type CreateInstanceEventResponse = unknown;
 export const CreateInstanceEventResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateInstanceEventResponse>;
 
-export type CreateInstanceEventError = CommonErrors;
+export type CreateInstanceEventError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | InstanceNotFound
+  | InvalidBody;
 
 export const createInstanceEvent: API.OperationMethod<
   CreateInstanceEventRequest,
@@ -580,7 +641,7 @@ export const createInstanceEvent: API.OperationMethod<
 > = API.make(() => ({
   input: CreateInstanceEventRequest,
   output: CreateInstanceEventResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound, InvalidBody],
 }));
 
 // =============================================================================
@@ -636,7 +697,11 @@ export const PatchInstanceStatusResponse = Schema.Struct({
   timestamp: Schema.String,
 }) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
 
-export type PatchInstanceStatusError = CommonErrors;
+export type PatchInstanceStatusError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | InstanceNotFound;
 
 export const patchInstanceStatus: API.OperationMethod<
   PatchInstanceStatusRequest,
@@ -646,7 +711,7 @@ export const patchInstanceStatus: API.OperationMethod<
 > = API.make(() => ({
   input: PatchInstanceStatusRequest,
   output: PatchInstanceStatusResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound],
 }));
 
 // =============================================================================
@@ -694,7 +759,11 @@ export const GetVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetVersionResponse>;
 
-export type GetVersionError = CommonErrors;
+export type GetVersionError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute
+  | VersionNotFound;
 
 export const getVersion: API.OperationMethod<
   GetVersionRequest,
@@ -704,7 +773,7 @@ export const getVersion: API.OperationMethod<
 > = API.make(() => ({
   input: GetVersionRequest,
   output: GetVersionResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute, VersionNotFound],
 }));
 
 export interface ListVersionsRequest {
@@ -749,7 +818,7 @@ export const ListVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListVersionsResponse>;
 
-export type ListVersionsError = CommonErrors;
+export type ListVersionsError = CommonErrors | WorkflowNotFound | InvalidRoute;
 
 export const listVersions: API.OperationMethod<
   ListVersionsRequest,
@@ -759,7 +828,7 @@ export const listVersions: API.OperationMethod<
 > = API.make(() => ({
   input: ListVersionsRequest,
   output: ListVersionsResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute],
 }));
 
 // =============================================================================
@@ -832,7 +901,7 @@ export const GetWorkflowResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetWorkflowResponse>;
 
-export type GetWorkflowError = CommonErrors;
+export type GetWorkflowError = CommonErrors | WorkflowNotFound | InvalidRoute;
 
 export const getWorkflow: API.OperationMethod<
   GetWorkflowRequest,
@@ -842,7 +911,7 @@ export const getWorkflow: API.OperationMethod<
 > = API.make(() => ({
   input: GetWorkflowRequest,
   output: GetWorkflowResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute],
 }));
 
 export interface ListWorkflowsRequest {
@@ -912,7 +981,7 @@ export const ListWorkflowsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListWorkflowsResponse>;
 
-export type ListWorkflowsError = CommonErrors;
+export type ListWorkflowsError = CommonErrors | InvalidRoute;
 
 export const listWorkflows: API.OperationMethod<
   ListWorkflowsRequest,
@@ -922,7 +991,7 @@ export const listWorkflows: API.OperationMethod<
 > = API.make(() => ({
   input: ListWorkflowsRequest,
   output: ListWorkflowsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface PutWorkflowRequest {
@@ -952,12 +1021,12 @@ export interface PutWorkflowResponse {
   id: string;
   className: string;
   createdOn: string;
-  isDeleted: number;
+  isDeleted?: number;
   modifiedOn: string;
   name: string;
   scriptName: string;
-  terminatorRunning: number;
-  triggeredOn: string | null;
+  terminatorRunning?: number;
+  triggeredOn?: string | null;
   versionId: string;
 }
 
@@ -965,12 +1034,12 @@ export const PutWorkflowResponse = Schema.Struct({
   id: Schema.String,
   className: Schema.String,
   createdOn: Schema.String,
-  isDeleted: Schema.Number,
+  isDeleted: Schema.optional(Schema.Number),
   modifiedOn: Schema.String,
   name: Schema.String,
   scriptName: Schema.String,
-  terminatorRunning: Schema.Number,
-  triggeredOn: Schema.Union([Schema.String, Schema.Null]),
+  terminatorRunning: Schema.optional(Schema.Number),
+  triggeredOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   versionId: Schema.String,
 }).pipe(
   Schema.encodeKeys({
@@ -987,7 +1056,10 @@ export const PutWorkflowResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutWorkflowResponse>;
 
-export type PutWorkflowError = CommonErrors;
+export type PutWorkflowError =
+  | CommonErrors
+  | WorkflowInternalError
+  | InvalidRoute;
 
 export const putWorkflow: API.OperationMethod<
   PutWorkflowRequest,
@@ -997,7 +1069,7 @@ export const putWorkflow: API.OperationMethod<
 > = API.make(() => ({
   input: PutWorkflowRequest,
   output: PutWorkflowResponse,
-  errors: [],
+  errors: [WorkflowInternalError, InvalidRoute],
 }));
 
 export interface DeleteWorkflowRequest {
@@ -1017,15 +1089,18 @@ export const DeleteWorkflowRequest = Schema.Struct({
 
 export interface DeleteWorkflowResponse {
   status: "ok";
-  success: boolean | null;
+  success?: boolean | null;
 }
 
 export const DeleteWorkflowResponse = Schema.Struct({
   status: Schema.Literal("ok"),
-  success: Schema.Union([Schema.Boolean, Schema.Null]),
+  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteWorkflowResponse>;
 
-export type DeleteWorkflowError = CommonErrors;
+export type DeleteWorkflowError =
+  | CommonErrors
+  | WorkflowNotFound
+  | InvalidRoute;
 
 export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowRequest,
@@ -1035,5 +1110,5 @@ export const deleteWorkflow: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteWorkflowRequest,
   output: DeleteWorkflowResponse,
-  errors: [],
+  errors: [WorkflowNotFound, InvalidRoute],
 }));

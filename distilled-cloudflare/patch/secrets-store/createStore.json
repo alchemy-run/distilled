@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "InvalidAccountId": [{ "code": 7003 }],
+    "MaximumStoresExceeded": [{ "code": 1003, "message": { "includes": "maximum_stores_exceeded" } }]
+  }
+}

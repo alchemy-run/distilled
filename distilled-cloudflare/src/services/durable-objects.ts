@@ -19,6 +19,28 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidIdentifier extends Schema.TaggedErrorClass<InvalidIdentifier>()(
+  "InvalidIdentifier",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidIdentifier, [{ code: 7003 }]);
+
+export class MalformedParameter extends Schema.TaggedErrorClass<MalformedParameter>()(
+  "MalformedParameter",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MalformedParameter, [{ code: 10077 }]);
+
+export class NamespaceNotFound extends Schema.TaggedErrorClass<NamespaceNotFound>()(
+  "NamespaceNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NamespaceNotFound, [{ code: 10066 }]);
+
+// =============================================================================
 // Namespace
 // =============================================================================
 
@@ -62,7 +84,7 @@ export const ListNamespacesResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
-export type ListNamespacesError = CommonErrors;
+export type ListNamespacesError = CommonErrors | InvalidIdentifier;
 
 export const listNamespaces: API.OperationMethod<
   ListNamespacesRequest,
@@ -72,7 +94,7 @@ export const listNamespaces: API.OperationMethod<
 > = API.make(() => ({
   input: ListNamespacesRequest,
   output: ListNamespacesResponse,
-  errors: [],
+  errors: [InvalidIdentifier],
 }));
 
 // =============================================================================
@@ -110,7 +132,11 @@ export const ListNamespaceObjectsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
 
-export type ListNamespaceObjectsError = CommonErrors;
+export type ListNamespaceObjectsError =
+  | CommonErrors
+  | NamespaceNotFound
+  | InvalidIdentifier
+  | MalformedParameter;
 
 export const listNamespaceObjects: API.OperationMethod<
   ListNamespaceObjectsRequest,
@@ -120,5 +146,5 @@ export const listNamespaceObjects: API.OperationMethod<
 > = API.make(() => ({
   input: ListNamespaceObjectsRequest,
   output: ListNamespaceObjectsResponse,
-  errors: [],
+  errors: [NamespaceNotFound, InvalidIdentifier, MalformedParameter],
 }));

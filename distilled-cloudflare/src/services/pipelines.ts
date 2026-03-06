@@ -19,6 +19,58 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidSinkId extends Schema.TaggedErrorClass<InvalidSinkId>()(
+  "InvalidSinkId",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidSinkId, [{ code: 2 }]);
+
+export class InvalidStreamId extends Schema.TaggedErrorClass<InvalidStreamId>()(
+  "InvalidStreamId",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidStreamId, [{ code: 2 }]);
+
+export class InvalidStreamName extends Schema.TaggedErrorClass<InvalidStreamName>()(
+  "InvalidStreamName",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidStreamName, [{ code: 2 }]);
+
+export class PipelineNotExists extends Schema.TaggedErrorClass<PipelineNotExists>()(
+  "PipelineNotExists",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(PipelineNotExists, [{ code: 1000 }]);
+
+export class SinkNotFound extends Schema.TaggedErrorClass<SinkNotFound>()(
+  "SinkNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(SinkNotFound, [{ code: 1015 }]);
+
+export class StreamAlreadyExists extends Schema.TaggedErrorClass<StreamAlreadyExists>()(
+  "StreamAlreadyExists",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(StreamAlreadyExists, [{ code: 1003 }]);
+
+export class StreamNotFound extends Schema.TaggedErrorClass<StreamNotFound>()(
+  "StreamNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(StreamNotFound, [{ code: 1016 }]);
+
+export class TableNotFound extends Schema.TaggedErrorClass<TableNotFound>()(
+  "TableNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(TableNotFound, [{ code: 1014 }]);
+
+// =============================================================================
 // Pipeline
 // =============================================================================
 
@@ -119,7 +171,7 @@ export const GetPipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<GetPipelineResponse>;
 
-export type GetPipelineError = CommonErrors;
+export type GetPipelineError = CommonErrors | PipelineNotExists;
 
 export const getPipeline: API.OperationMethod<
   GetPipelineRequest,
@@ -129,7 +181,7 @@ export const getPipeline: API.OperationMethod<
 > = API.make(() => ({
   input: GetPipelineRequest,
   output: GetPipelineResponse,
-  errors: [],
+  errors: [PipelineNotExists],
 }));
 
 export interface ListPipelinesRequest {
@@ -153,27 +205,27 @@ export const ListPipelinesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPipelinesRequest>;
 
 export interface ListPipelinesResponse {
-  resultInfo: {
+  resultInfo?: {
     count: number;
     page: number;
     perPage: number;
     totalCount: number;
   };
-  results: {
+  results?: {
     id: string;
     destination: {
       batch: { maxBytes?: number; maxDurationS?: number; maxRows?: number };
       compression: { type?: "none" | "gzip" | "deflate" };
-      format: "json";
+      format?: "json";
       path: {
         bucket: string;
         filename?: string;
         filepath?: string;
         prefix?: string;
       };
-      type: "r2";
+      type?: "r2";
     };
-    endpoint: string;
+    endpoint?: string;
     name: string;
     source: (
       | {
@@ -184,77 +236,81 @@ export interface ListPipelinesResponse {
         }
       | { format: "json"; type: string }
     )[];
-    version: number;
+    version?: number;
   }[];
   /** Indicates whether the API call was successful. */
-  success: boolean;
+  success?: boolean;
 }
 
 export const ListPipelinesResponse = Schema.Struct({
-  resultInfo: Schema.Struct({
-    count: Schema.Number,
-    page: Schema.Number,
-    perPage: Schema.Number,
-    totalCount: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      count: "count",
-      page: "page",
-      perPage: "per_page",
-      totalCount: "total_count",
-    }),
-  ),
-  results: Schema.Array(
+  resultInfo: Schema.optional(
     Schema.Struct({
-      id: Schema.String,
-      destination: Schema.Struct({
-        batch: Schema.Struct({
-          maxBytes: Schema.optional(Schema.Number),
-          maxDurationS: Schema.optional(Schema.Number),
-          maxRows: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            maxBytes: "max_bytes",
-            maxDurationS: "max_duration_s",
-            maxRows: "max_rows",
-          }),
-        ),
-        compression: Schema.Struct({
-          type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
-        }),
-        format: Schema.Literal("json"),
-        path: Schema.Struct({
-          bucket: Schema.String,
-          filename: Schema.optional(Schema.String),
-          filepath: Schema.optional(Schema.String),
-          prefix: Schema.optional(Schema.String),
-        }),
-        type: Schema.Literal("r2"),
+      count: Schema.Number,
+      page: Schema.Number,
+      perPage: Schema.Number,
+      totalCount: Schema.Number,
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
-      endpoint: Schema.String,
-      name: Schema.String,
-      source: Schema.Array(
-        Schema.Union([
-          Schema.Struct({
-            format: Schema.Literal("json"),
-            type: Schema.String,
-            authentication: Schema.optional(Schema.Boolean),
-            cors: Schema.optional(
-              Schema.Struct({
-                origins: Schema.optional(Schema.Array(Schema.String)),
-              }),
-            ),
-          }),
-          Schema.Struct({
-            format: Schema.Literal("json"),
-            type: Schema.String,
-          }),
-        ]),
-      ),
-      version: Schema.Number,
-    }),
+    ),
   ),
-  success: Schema.Boolean,
+  results: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        destination: Schema.Struct({
+          batch: Schema.Struct({
+            maxBytes: Schema.optional(Schema.Number),
+            maxDurationS: Schema.optional(Schema.Number),
+            maxRows: Schema.optional(Schema.Number),
+          }).pipe(
+            Schema.encodeKeys({
+              maxBytes: "max_bytes",
+              maxDurationS: "max_duration_s",
+              maxRows: "max_rows",
+            }),
+          ),
+          compression: Schema.Struct({
+            type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
+          }),
+          format: Schema.optional(Schema.Literal("json")),
+          path: Schema.Struct({
+            bucket: Schema.String,
+            filename: Schema.optional(Schema.String),
+            filepath: Schema.optional(Schema.String),
+            prefix: Schema.optional(Schema.String),
+          }),
+          type: Schema.optional(Schema.Literal("r2")),
+        }),
+        endpoint: Schema.optional(Schema.String),
+        name: Schema.String,
+        source: Schema.Array(
+          Schema.Union([
+            Schema.Struct({
+              format: Schema.Literal("json"),
+              type: Schema.String,
+              authentication: Schema.optional(Schema.Boolean),
+              cors: Schema.optional(
+                Schema.Struct({
+                  origins: Schema.optional(Schema.Array(Schema.String)),
+                }),
+              ),
+            }),
+            Schema.Struct({
+              format: Schema.Literal("json"),
+              type: Schema.String,
+            }),
+          ]),
+        ),
+        version: Schema.optional(Schema.Number),
+      }),
+    ),
+  ),
+  success: Schema.optional(Schema.Boolean),
 }).pipe(
   Schema.encodeKeys({
     resultInfo: "result_info",
@@ -648,7 +704,7 @@ export const UpdatePipelineResponse = Schema.Struct({
   version: Schema.Number,
 }) as unknown as Schema.Schema<UpdatePipelineResponse>;
 
-export type UpdatePipelineError = CommonErrors;
+export type UpdatePipelineError = CommonErrors | PipelineNotExists;
 
 export const updatePipeline: API.OperationMethod<
   UpdatePipelineRequest,
@@ -658,7 +714,7 @@ export const updatePipeline: API.OperationMethod<
 > = API.make(() => ({
   input: UpdatePipelineRequest,
   output: UpdatePipelineResponse,
-  errors: [],
+  errors: [PipelineNotExists],
 }));
 
 export interface DeletePipelineRequest {
@@ -682,7 +738,7 @@ export type DeletePipelineResponse = unknown;
 export const DeletePipelineResponse =
   Schema.Unknown as unknown as Schema.Schema<DeletePipelineResponse>;
 
-export type DeletePipelineError = CommonErrors;
+export type DeletePipelineError = CommonErrors | PipelineNotExists;
 
 export const deletePipeline: API.OperationMethod<
   DeletePipelineRequest,
@@ -692,7 +748,7 @@ export const deletePipeline: API.OperationMethod<
 > = API.make(() => ({
   input: DeletePipelineRequest,
   output: DeletePipelineResponse,
-  errors: [],
+  errors: [PipelineNotExists],
 }));
 
 // =============================================================================
@@ -1208,7 +1264,7 @@ export const GetSinkResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSinkResponse>;
 
-export type GetSinkError = CommonErrors;
+export type GetSinkError = CommonErrors | SinkNotFound | InvalidSinkId;
 
 export const getSink: API.OperationMethod<
   GetSinkRequest,
@@ -1218,7 +1274,7 @@ export const getSink: API.OperationMethod<
 > = API.make(() => ({
   input: GetSinkRequest,
   output: GetSinkResponse,
-  errors: [],
+  errors: [SinkNotFound, InvalidSinkId],
 }));
 
 export interface ListSinksRequest {
@@ -2845,7 +2901,7 @@ export const ValidateSqlPipelineResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ValidateSqlPipelineResponse>;
 
-export type ValidateSqlPipelineError = CommonErrors;
+export type ValidateSqlPipelineError = CommonErrors | TableNotFound;
 
 export const validateSqlPipeline: API.OperationMethod<
   ValidateSqlPipelineRequest,
@@ -2855,7 +2911,7 @@ export const validateSqlPipeline: API.OperationMethod<
 > = API.make(() => ({
   input: ValidateSqlPipelineRequest,
   output: ValidateSqlPipelineResponse,
-  errors: [],
+  errors: [TableNotFound],
 }));
 
 // =============================================================================
@@ -3276,7 +3332,7 @@ export const GetStreamResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetStreamResponse>;
 
-export type GetStreamError = CommonErrors;
+export type GetStreamError = CommonErrors | StreamNotFound | InvalidStreamId;
 
 export const getStream: API.OperationMethod<
   GetStreamRequest,
@@ -3286,7 +3342,7 @@ export const getStream: API.OperationMethod<
 > = API.make(() => ({
   input: GetStreamRequest,
   output: GetStreamResponse,
-  errors: [],
+  errors: [StreamNotFound, InvalidStreamId],
 }));
 
 export interface ListStreamsRequest {
@@ -4508,7 +4564,10 @@ export const CreateStreamResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateStreamResponse>;
 
-export type CreateStreamError = CommonErrors;
+export type CreateStreamError =
+  | CommonErrors
+  | InvalidStreamName
+  | StreamAlreadyExists;
 
 export const createStream: API.OperationMethod<
   CreateStreamRequest,
@@ -4518,7 +4577,7 @@ export const createStream: API.OperationMethod<
 > = API.make(() => ({
   input: CreateStreamRequest,
   output: CreateStreamResponse,
-  errors: [],
+  errors: [InvalidStreamName, StreamAlreadyExists],
 }));
 
 export interface PatchStreamRequest {
@@ -4662,7 +4721,7 @@ export const PatchStreamResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchStreamResponse>;
 
-export type PatchStreamError = CommonErrors;
+export type PatchStreamError = CommonErrors | StreamNotFound;
 
 export const patchStream: API.OperationMethod<
   PatchStreamRequest,
@@ -4672,7 +4731,7 @@ export const patchStream: API.OperationMethod<
 > = API.make(() => ({
   input: PatchStreamRequest,
   output: PatchStreamResponse,
-  errors: [],
+  errors: [StreamNotFound],
 }));
 
 export interface DeleteStreamRequest {
@@ -4699,7 +4758,7 @@ export type DeleteStreamResponse = unknown;
 export const DeleteStreamResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteStreamResponse>;
 
-export type DeleteStreamError = CommonErrors;
+export type DeleteStreamError = CommonErrors | PipelineNotExists;
 
 export const deleteStream: API.OperationMethod<
   DeleteStreamRequest,
@@ -4709,7 +4768,7 @@ export const deleteStream: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteStreamRequest,
   output: DeleteStreamResponse,
-  errors: [],
+  errors: [PipelineNotExists],
 }));
 
 // =============================================================================

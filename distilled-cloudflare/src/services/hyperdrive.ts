@@ -46,6 +46,7 @@ export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>(
 ) {}
 T.applyErrorMatchers(MethodNotAllowed, [
   { code: 10000, message: { includes: "method not allowed" } },
+  { code: 10405, message: { includes: "Method not allowed" } },
 ]);
 
 export class PrivateHostNotAllowed extends Schema.TaggedErrorClass<PrivateHostNotAllowed>()(
