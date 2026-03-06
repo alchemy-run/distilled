@@ -2,5 +2,3 @@ node_modules/
 lib/
 .tsbuildinfo/
 .env
-specs/
-!specs/.gitkeep

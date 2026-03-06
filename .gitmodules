@@ -1,0 +1,3 @@
+[submodule "distilled-gcp/specs/gcp-discovery-api"]
+	path = distilled-gcp/specs/gcp-discovery-api
+	url = https://github.com/alchemy-run/gcp-discovery-api.git

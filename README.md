@@ -1,5 +1,12 @@
 # distilled
 
+This codebases uses git submodules. setting the following options in the git config is recommended
+```bash
+git config push.recurseSubmodules on-demand
+git config submodule.recurse true
+```
+
+
 Effect-native SDKs for cloud providers with tagged errors, retry policies and streaming pagination.
 
 ```typescript
