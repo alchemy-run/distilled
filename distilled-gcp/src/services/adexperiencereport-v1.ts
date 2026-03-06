@@ -24,29 +24,29 @@ const svc = T.Service({
 // ==========================================================================
 
 export interface PlatformSummary {
-  /** The time at which the site's status last changed on this platform. */
-  lastChangeTime?: string;
   /** The site's regions on this platform. No longer populated, because there is no longer any semantic difference between sites in different regions. */
   region?: Array<"REGION_UNKNOWN" | "REGION_A" | "REGION_B" | "REGION_C" | (string & {})>;
-  /** The site's Ad Experience Report status on this platform. */
-  betterAdsStatus?: "UNKNOWN" | "PASSING" | "WARNING" | "FAILING" | (string & {});
+  /** The time at which the site's status last changed on this platform. */
+  lastChangeTime?: string;
+  /** A link to the full Ad Experience Report for the site on this platform.. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
+  reportUrl?: string;
   /** Whether the site is currently under review on this platform. */
   underReview?: boolean;
   /** The time at which [enforcement](https://support.google.com/webtools/answer/7308033) against the site began or will begin on this platform. Not set when the filter_status is OFF. */
   enforcementTime?: string;
-  /** A link to the full Ad Experience Report for the site on this platform.. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string;
+  /** The site's Ad Experience Report status on this platform. */
+  betterAdsStatus?: "UNKNOWN" | "PASSING" | "WARNING" | "FAILING" | (string & {});
   /** The site's [enforcement status](https://support.google.com/webtools/answer/7308033) on this platform. */
   filterStatus?: "UNKNOWN" | "ON" | "OFF" | "PAUSED" | "PENDING" | (string & {});
 }
 
 export const PlatformSummary: Schema.Schema<PlatformSummary> = Schema.suspend(() => Schema.Struct({
-  lastChangeTime: Schema.optional(Schema.String),
   region: Schema.optional(Schema.Array(Schema.String)),
-  betterAdsStatus: Schema.optional(Schema.String),
+  lastChangeTime: Schema.optional(Schema.String),
+  reportUrl: Schema.optional(Schema.String),
   underReview: Schema.optional(Schema.Boolean),
   enforcementTime: Schema.optional(Schema.String),
-  reportUrl: Schema.optional(Schema.String),
+  betterAdsStatus: Schema.optional(Schema.String),
   filterStatus: Schema.optional(Schema.String),
 })).annotate({ identifier: "PlatformSummary" }) as any as Schema.Schema<PlatformSummary>;
 
@@ -78,6 +78,27 @@ export const ViolatingSitesResponse: Schema.Schema<ViolatingSitesResponse> = Sch
 // Operations
 // ==========================================================================
 
+export interface ListViolatingSitesRequest {
+}
+
+export const ListViolatingSitesRequest = Schema.Struct({
+}).pipe(
+  T.Http({ method: "GET", path: "v1/violatingSites" }),
+  svc,
+) as unknown as Schema.Schema<ListViolatingSitesRequest>;
+
+export type ListViolatingSitesResponse = ViolatingSitesResponse;
+export const ListViolatingSitesResponse = ViolatingSitesResponse;
+
+export type ListViolatingSitesError = CommonErrors;
+
+/** Lists sites that are failing in the Ad Experience Report on at least one platform. */
+export const listViolatingSites: API.OperationMethod<ListViolatingSitesRequest, ListViolatingSitesResponse, ListViolatingSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: ListViolatingSitesRequest,
+  output: ListViolatingSitesResponse,
+  errors: [],
+}));
+
 export interface GetSitesRequest {
   /** Required. The name of the site whose summary to get, e.g. `sites/http%3A%2F%2Fwww.google.com%2F`. Format: `sites/{site}` */
   name: string;
@@ -99,27 +120,6 @@ export type GetSitesError = CommonErrors;
 export const getSites: API.OperationMethod<GetSitesRequest, GetSitesResponse, GetSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: GetSitesRequest,
   output: GetSitesResponse,
-  errors: [],
-}));
-
-export interface ListViolatingSitesRequest {
-}
-
-export const ListViolatingSitesRequest = Schema.Struct({
-}).pipe(
-  T.Http({ method: "GET", path: "v1/violatingSites" }),
-  svc,
-) as unknown as Schema.Schema<ListViolatingSitesRequest>;
-
-export type ListViolatingSitesResponse = ViolatingSitesResponse;
-export const ListViolatingSitesResponse = ViolatingSitesResponse;
-
-export type ListViolatingSitesError = CommonErrors;
-
-/** Lists sites that are failing in the Ad Experience Report on at least one platform. */
-export const listViolatingSites: API.OperationMethod<ListViolatingSitesRequest, ListViolatingSitesResponse, ListViolatingSitesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: ListViolatingSitesRequest,
-  output: ListViolatingSitesResponse,
   errors: [],
 }));
 

@@ -1233,8 +1233,6 @@ export interface SystemUpdate {
   startMinutes?: number;
   /** If the type is WINDOWED, the end of the maintenance window, measured as the number of minutes after midnight in device's local time. This value must be between 0 and 1439, inclusive. If this value is less than start_minutes, then the maintenance window spans midnight. If the maintenance window specified is smaller than 30 minutes, the actual window is extended to 30 minutes beyond the start time. */
   endMinutes?: number;
-  /** If this is greater than zero, then this is the number of days after a pending update becoming available that a device can remain compliant, without taking the update. Has no effect otherwise. */
-  allowedDaysWithoutUpdate?: number;
   /** An annually repeating time period in which over-the-air (OTA) system updates are postponed to freeze the OS version running on a device. To prevent freezing the device indefinitely, each freeze period must be separated by at least 60 days. */
   freezePeriods?: Array<FreezePeriod>;
 }
@@ -1243,7 +1241,6 @@ export const SystemUpdate: Schema.Schema<SystemUpdate> = Schema.suspend(() => Sc
   type: Schema.optional(Schema.String),
   startMinutes: Schema.optional(Schema.Number),
   endMinutes: Schema.optional(Schema.Number),
-  allowedDaysWithoutUpdate: Schema.optional(Schema.Number),
   freezePeriods: Schema.optional(Schema.Array(FreezePeriod)),
 })).annotate({ identifier: "SystemUpdate" }) as any as Schema.Schema<SystemUpdate>;
 
@@ -1760,7 +1757,7 @@ export const ApnPolicy: Schema.Schema<ApnPolicy> = Schema.suspend(() => Schema.S
 export interface PrivateDnsSettings {
   /** Optional. The configuration mode for device's global private DNS settings. If this is set to PRIVATE_DNS_SPECIFIED_HOST, then private_dns_host must be set. */
   privateDnsMode?: "PRIVATE_DNS_MODE_UNSPECIFIED" | "PRIVATE_DNS_USER_CHOICE" | "PRIVATE_DNS_AUTOMATIC" | "PRIVATE_DNS_SPECIFIED_HOST" | (string & {});
-  /** Optional. The hostname of the DNS server. This must be set if and only if private_dns_mode is set to PRIVATE_DNS_SPECIFIED_HOST. Supported on Android 10 and above on fully managed devices. A NonComplianceDetail with MANAGEMENT_MODE is reported on other management modes. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 10. A NonComplianceDetail with PENDING is reported if the device is not connected to a network. A NonComplianceDetail with nonComplianceReason INVALID_VALUE and specificNonComplianceReason PRIVATE_DNS_HOST_NOT_SERVING is reported if the specified host is not a DNS server or not supported on Android. A NonComplianceReason with nonComplianceReason INVALID_VALUE is reported if applying this setting fails for any other reason. */
+  /** Optional. The hostname of the DNS server. This must be set if and only if private_dns_mode is set to PRIVATE_DNS_SPECIFIED_HOST. Supported on Android 10 and above on fully managed devices. A NonComplianceDetail with MANAGEMENT_MODE is reported on other management modes. A NonComplianceDetail with API_LEVEL is reported if the Android version is less than 10. A NonComplianceDetail with PENDING is reported if the device is not connected to a network. A NonComplianceDetail with nonComplianceReason INVALID_VALUE and specificNonComplianceReason PRIVATE_DNS_HOST_NOT_SERVING is reported if the specified host is not a DNS server or not supported on Android. A NonComplianceDetail with INVALID_VALUE is reported if applying this setting fails for any other reason. */
   privateDnsHost?: string;
 }
 

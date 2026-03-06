@@ -26,22 +26,22 @@ const svc = T.Service({
 export interface Reader {
   /** Output only. The resource name of the reader. The last part of ppid in the resource name is the publisher provided id. */
   name?: string;
-  /** Output only. Time the publication reader was created and associated with a Google user. */
-  createTime?: string;
-  /** Output only. The SwG publication id that the reader has linked their subscription to. */
-  publicationId?: string;
   /** Output only. The publisher provided id of the reader. */
   ppid?: string;
   /** Output only. The SwG publication id that the reader's subscription linking was originating from. */
   originatingPublicationId?: string;
+  /** Output only. The SwG publication id that the reader has linked their subscription to. */
+  publicationId?: string;
+  /** Output only. Time the publication reader was created and associated with a Google user. */
+  createTime?: string;
 }
 
 export const Reader: Schema.Schema<Reader> = Schema.suspend(() => Schema.Struct({
   name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  publicationId: Schema.optional(Schema.String),
   ppid: Schema.optional(Schema.String),
   originatingPublicationId: Schema.optional(Schema.String),
+  publicationId: Schema.optional(Schema.String),
+  createTime: Schema.optional(Schema.String),
 })).annotate({ identifier: "Reader" }) as any as Schema.Schema<Reader>;
 
 export interface DeleteReaderResponse {
@@ -53,19 +53,19 @@ export const DeleteReaderResponse: Schema.Schema<DeleteReaderResponse> = Schema.
 export interface Entitlement {
   /** Required. The publication's product ID that the user has access to. This is the same product ID as can be found in Schema.org markup (http://schema.org/productID). E.g. "dailybugle.com:basic" */
   productId?: string;
+  /** Required. Expiration time of the entitlement. Entitlements that have expired over 30 days will be purged. The max expire_time is 398 days from now(). */
+  expireTime?: string;
   /** A source-specific subscription token. This is an opaque string that the publisher provides to Google. This token is opaque and has no meaning to Google. */
   subscriptionToken?: string;
   /** The detail field can carry a description of the SKU that corresponds to what the user has been granted access to. This description, which is opaque to Google, can be displayed in the Google user subscription console for users who linked the subscription to a Google Account. Max 80 character limit. */
   detail?: string;
-  /** Required. Expiration time of the entitlement. Entitlements that have expired over 30 days will be purged. The max expire_time is 398 days from now(). */
-  expireTime?: string;
 }
 
 export const Entitlement: Schema.Schema<Entitlement> = Schema.suspend(() => Schema.Struct({
   productId: Schema.optional(Schema.String),
+  expireTime: Schema.optional(Schema.String),
   subscriptionToken: Schema.optional(Schema.String),
   detail: Schema.optional(Schema.String),
-  expireTime: Schema.optional(Schema.String),
 })).annotate({ identifier: "Entitlement" }) as any as Schema.Schema<Entitlement>;
 
 export interface ReaderEntitlements {

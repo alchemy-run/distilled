@@ -1168,7 +1168,7 @@ export interface PairIdInfo {
   publisherId?: string;
   /** Required. Descriptive name of the publisher to be displayed in the UI for a better targeting experience. */
   publisherName?: string;
-  /** Optional. This field denotes the percentage of membership match of this user list with the corresponding publisher's first party data. Must be between 0 and 100 inclusive. */
+  /** Required. This field denotes the percentage of membership match of this user list with the corresponding publisher's first party data. Must be between 0 and 100 inclusive. */
   matchRatePercentage?: number;
   /** Optional. The count of the advertiser's first party data records that have been uploaded to a clean room provider. This does not signify the size of a PAIR user list. */
   advertiserIdentifierCount?: string;

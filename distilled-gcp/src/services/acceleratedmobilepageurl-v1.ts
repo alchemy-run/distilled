@@ -23,17 +23,20 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface BatchGetAmpUrlsRequest {
-  /** List of URLs to look up for the paired AMP URLs. The URLs are case-sensitive. Up to 50 URLs per lookup (see [Usage Limits](/amp/cache/reference/limits)). */
-  urls?: Array<string>;
-  /** The lookup_strategy being requested. */
-  lookupStrategy?: "FETCH_LIVE_DOC" | "IN_INDEX_DOC" | (string & {});
+export interface AmpUrlError {
+  /** The error code of an API call. */
+  errorCode?: "ERROR_CODE_UNSPECIFIED" | "INPUT_URL_NOT_FOUND" | "NO_AMP_URL" | "APPLICATION_ERROR" | "URL_IS_VALID_AMP" | "URL_IS_INVALID_AMP" | (string & {});
+  /** The original non-AMP URL. */
+  originalUrl?: string;
+  /** An optional descriptive error message. */
+  errorMessage?: string;
 }
 
-export const BatchGetAmpUrlsRequest: Schema.Schema<BatchGetAmpUrlsRequest> = Schema.suspend(() => Schema.Struct({
-  urls: Schema.optional(Schema.Array(Schema.String)),
-  lookupStrategy: Schema.optional(Schema.String),
-})).annotate({ identifier: "BatchGetAmpUrlsRequest" }) as any as Schema.Schema<BatchGetAmpUrlsRequest>;
+export const AmpUrlError: Schema.Schema<AmpUrlError> = Schema.suspend(() => Schema.Struct({
+  errorCode: Schema.optional(Schema.String),
+  originalUrl: Schema.optional(Schema.String),
+  errorMessage: Schema.optional(Schema.String),
+})).annotate({ identifier: "AmpUrlError" }) as any as Schema.Schema<AmpUrlError>;
 
 export interface AmpUrl {
   /** The original non-AMP URL. */
@@ -50,32 +53,29 @@ export const AmpUrl: Schema.Schema<AmpUrl> = Schema.suspend(() => Schema.Struct(
   cdnAmpUrl: Schema.optional(Schema.String),
 })).annotate({ identifier: "AmpUrl" }) as any as Schema.Schema<AmpUrl>;
 
-export interface AmpUrlError {
-  /** The error code of an API call. */
-  errorCode?: "ERROR_CODE_UNSPECIFIED" | "INPUT_URL_NOT_FOUND" | "NO_AMP_URL" | "APPLICATION_ERROR" | "URL_IS_VALID_AMP" | "URL_IS_INVALID_AMP" | (string & {});
-  /** An optional descriptive error message. */
-  errorMessage?: string;
-  /** The original non-AMP URL. */
-  originalUrl?: string;
-}
-
-export const AmpUrlError: Schema.Schema<AmpUrlError> = Schema.suspend(() => Schema.Struct({
-  errorCode: Schema.optional(Schema.String),
-  errorMessage: Schema.optional(Schema.String),
-  originalUrl: Schema.optional(Schema.String),
-})).annotate({ identifier: "AmpUrlError" }) as any as Schema.Schema<AmpUrlError>;
-
 export interface BatchGetAmpUrlsResponse {
-  /** For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once. */
-  ampUrls?: Array<AmpUrl>;
   /** The errors for requested URLs that have no AMP URL. */
   urlErrors?: Array<AmpUrlError>;
+  /** For each URL in BatchAmpUrlsRequest, the URL response. The response might not be in the same order as URLs in the batch request. If BatchAmpUrlsRequest contains duplicate URLs, AmpUrl is generated only once. */
+  ampUrls?: Array<AmpUrl>;
 }
 
 export const BatchGetAmpUrlsResponse: Schema.Schema<BatchGetAmpUrlsResponse> = Schema.suspend(() => Schema.Struct({
-  ampUrls: Schema.optional(Schema.Array(AmpUrl)),
   urlErrors: Schema.optional(Schema.Array(AmpUrlError)),
+  ampUrls: Schema.optional(Schema.Array(AmpUrl)),
 })).annotate({ identifier: "BatchGetAmpUrlsResponse" }) as any as Schema.Schema<BatchGetAmpUrlsResponse>;
+
+export interface BatchGetAmpUrlsRequest {
+  /** The lookup_strategy being requested. */
+  lookupStrategy?: "FETCH_LIVE_DOC" | "IN_INDEX_DOC" | (string & {});
+  /** List of URLs to look up for the paired AMP URLs. The URLs are case-sensitive. Up to 50 URLs per lookup (see [Usage Limits](/amp/cache/reference/limits)). */
+  urls?: Array<string>;
+}
+
+export const BatchGetAmpUrlsRequest: Schema.Schema<BatchGetAmpUrlsRequest> = Schema.suspend(() => Schema.Struct({
+  lookupStrategy: Schema.optional(Schema.String),
+  urls: Schema.optional(Schema.Array(Schema.String)),
+})).annotate({ identifier: "BatchGetAmpUrlsRequest" }) as any as Schema.Schema<BatchGetAmpUrlsRequest>;
 
 // ==========================================================================
 // Operations

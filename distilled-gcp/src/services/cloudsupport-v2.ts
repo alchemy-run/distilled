@@ -23,493 +23,70 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Actor {
-  /** The name to display for the actor. If not provided, it is inferred from credentials supplied during case creation. When an email is provided, a display name must also be provided. This will be obfuscated if the user is a Google Support agent. */
-  displayName?: string;
-  /** The email address of the actor. If not provided, it is inferred from the credentials supplied during case creation. When a name is provided, an email must also be provided. If the user is a Google Support agent, this is obfuscated. This field is deprecated. Use `username` instead. */
-  email?: string;
-  /** Output only. Whether the actor is a Google support actor. */
-  googleSupport?: boolean;
-  /** Output only. The username of the actor. It may look like an email or other format provided by the identity provider. If not provided, it is inferred from the credentials supplied. When a name is provided, a username must also be provided. If the user is a Google Support agent, this will not be set. */
-  username?: string;
-}
-
-export const Actor: Schema.Schema<Actor> = Schema.suspend(() => Schema.Struct({
-  displayName: Schema.optional(Schema.String),
-  email: Schema.optional(Schema.String),
-  googleSupport: Schema.optional(Schema.Boolean),
-  username: Schema.optional(Schema.String),
-})).annotate({ identifier: "Actor" }) as any as Schema.Schema<Actor>;
-
-export interface Attachment {
-  /** Output only. Identifier. The resource name of the attachment. */
-  name?: string;
-  /** Output only. The time at which the attachment was created. */
-  createTime?: string;
-  /** Output only. The user who uploaded the attachment. Note, the name and email will be obfuscated if the attachment was uploaded by Google support. */
-  creator?: Actor;
-  /** The filename of the attachment (e.g. `"graph.jpg"`). */
-  filename?: string;
-  /** Output only. The MIME type of the attachment (e.g. text/plain). */
-  mimeType?: string;
-  /** Output only. The size of the attachment in bytes. */
-  sizeBytes?: string;
-}
-
-export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  creator: Schema.optional(Actor),
-  filename: Schema.optional(Schema.String),
-  mimeType: Schema.optional(Schema.String),
-  sizeBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
-
-export interface ListAttachmentsResponse {
-  /** The list of attachments associated with a case. */
-  attachments?: Array<Attachment>;
-  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.attachments.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
-}
-
-export const ListAttachmentsResponse: Schema.Schema<ListAttachmentsResponse> = Schema.suspend(() => Schema.Struct({
-  attachments: Schema.optional(Schema.Array(Attachment)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAttachmentsResponse" }) as any as Schema.Schema<ListAttachmentsResponse>;
-
-export interface CreateAttachmentRequest {
-  /** Required. The attachment to be created. */
-  attachment?: Attachment;
-}
-
-export const CreateAttachmentRequest: Schema.Schema<CreateAttachmentRequest> = Schema.suspend(() => Schema.Struct({
-  attachment: Schema.optional(Attachment),
-})).annotate({ identifier: "CreateAttachmentRequest" }) as any as Schema.Schema<CreateAttachmentRequest>;
-
-export interface ObjectId {
-  /** # gdata.* are outside protos with mising documentation */
-  bucketName?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectName?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  generation?: string;
-}
-
-export const ObjectId: Schema.Schema<ObjectId> = Schema.suspend(() => Schema.Struct({
-  bucketName: Schema.optional(Schema.String),
-  objectName: Schema.optional(Schema.String),
-  generation: Schema.optional(Schema.String),
-})).annotate({ identifier: "ObjectId" }) as any as Schema.Schema<ObjectId>;
-
 export interface Blobstore2Info {
   /** # gdata.* are outside protos with mising documentation */
-  blobId?: string;
-  /** # gdata.* are outside protos with mising documentation */
   blobGeneration?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  readToken?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  uploadMetadataContainer?: string;
   /** # gdata.* are outside protos with mising documentation */
   downloadReadHandle?: string;
   /** # gdata.* are outside protos with mising documentation */
   downloadExternalReadToken?: string;
   /** # gdata.* are outside protos with mising documentation */
+  readToken?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  blobId?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  uploadMetadataContainer?: string;
+  /** # gdata.* are outside protos with mising documentation */
   uploadFragmentListCreationInfo?: string;
 }
 
 export const Blobstore2Info: Schema.Schema<Blobstore2Info> = Schema.suspend(() => Schema.Struct({
-  blobId: Schema.optional(Schema.String),
   blobGeneration: Schema.optional(Schema.String),
-  readToken: Schema.optional(Schema.String),
-  uploadMetadataContainer: Schema.optional(Schema.String),
   downloadReadHandle: Schema.optional(Schema.String),
   downloadExternalReadToken: Schema.optional(Schema.String),
+  readToken: Schema.optional(Schema.String),
+  blobId: Schema.optional(Schema.String),
+  uploadMetadataContainer: Schema.optional(Schema.String),
   uploadFragmentListCreationInfo: Schema.optional(Schema.String),
 })).annotate({ identifier: "Blobstore2Info" }) as any as Schema.Schema<Blobstore2Info>;
 
-export interface CompositeMedia {
-  /** # gdata.* are outside protos with mising documentation */
-  length?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  referenceType?: "PATH" | "BLOB_REF" | "INLINE" | "BIGSTORE_REF" | "COSMO_BINARY_REFERENCE" | (string & {});
-  /** # gdata.* are outside protos with mising documentation */
-  path?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  blobRef?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  inline?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectId?: ObjectId;
-  /** # gdata.* are outside protos with mising documentation */
-  blobstore2Info?: Blobstore2Info;
-  /** # gdata.* are outside protos with mising documentation */
-  cosmoBinaryReference?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  crc32cHash?: number;
-  /** # gdata.* are outside protos with mising documentation */
-  md5Hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  sha1Hash?: string;
-}
-
-export const CompositeMedia: Schema.Schema<CompositeMedia> = Schema.suspend(() => Schema.Struct({
-  length: Schema.optional(Schema.String),
-  referenceType: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  blobRef: Schema.optional(Schema.String),
-  inline: Schema.optional(Schema.String),
-  objectId: Schema.optional(ObjectId),
-  blobstore2Info: Schema.optional(Blobstore2Info),
-  cosmoBinaryReference: Schema.optional(Schema.String),
-  crc32cHash: Schema.optional(Schema.Number),
-  md5Hash: Schema.optional(Schema.String),
-  sha1Hash: Schema.optional(Schema.String),
-})).annotate({ identifier: "CompositeMedia" }) as any as Schema.Schema<CompositeMedia>;
-
-export interface DiffVersionResponse {
-  /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectSizeBytes?: string;
-}
-
-export const DiffVersionResponse: Schema.Schema<DiffVersionResponse> = Schema.suspend(() => Schema.Struct({
-  objectVersion: Schema.optional(Schema.String),
-  objectSizeBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "DiffVersionResponse" }) as any as Schema.Schema<DiffVersionResponse>;
-
-export interface DiffChecksumsResponse {
-  /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectSizeBytes?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  chunkSizeBytes?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  checksumsLocation?: CompositeMedia;
-  /** # gdata.* are outside protos with mising documentation */
-  objectLocation?: CompositeMedia;
-}
-
-export const DiffChecksumsResponse: Schema.Schema<DiffChecksumsResponse> = Schema.suspend(() => Schema.Struct({
-  objectVersion: Schema.optional(Schema.String),
-  objectSizeBytes: Schema.optional(Schema.String),
-  chunkSizeBytes: Schema.optional(Schema.String),
-  checksumsLocation: Schema.optional(CompositeMedia),
-  objectLocation: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffChecksumsResponse" }) as any as Schema.Schema<DiffChecksumsResponse>;
-
-export interface DiffDownloadResponse {
-  /** # gdata.* are outside protos with mising documentation */
-  objectLocation?: CompositeMedia;
-}
-
-export const DiffDownloadResponse: Schema.Schema<DiffDownloadResponse> = Schema.suspend(() => Schema.Struct({
-  objectLocation: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffDownloadResponse" }) as any as Schema.Schema<DiffDownloadResponse>;
-
-export interface DiffUploadRequest {
-  /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectInfo?: CompositeMedia;
-  /** # gdata.* are outside protos with mising documentation */
-  checksumsInfo?: CompositeMedia;
-}
-
-export const DiffUploadRequest: Schema.Schema<DiffUploadRequest> = Schema.suspend(() => Schema.Struct({
-  objectVersion: Schema.optional(Schema.String),
-  objectInfo: Schema.optional(CompositeMedia),
-  checksumsInfo: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffUploadRequest" }) as any as Schema.Schema<DiffUploadRequest>;
-
-export interface DiffUploadResponse {
-  /** # gdata.* are outside protos with mising documentation */
-  objectVersion?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  originalObject?: CompositeMedia;
-}
-
-export const DiffUploadResponse: Schema.Schema<DiffUploadResponse> = Schema.suspend(() => Schema.Struct({
-  objectVersion: Schema.optional(Schema.String),
-  originalObject: Schema.optional(CompositeMedia),
-})).annotate({ identifier: "DiffUploadResponse" }) as any as Schema.Schema<DiffUploadResponse>;
-
-export interface ContentTypeInfo {
-  /** # gdata.* are outside protos with mising documentation */
-  bestGuess?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromHeader?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromFileName?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromUrlPath?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  fromBytes?: string;
-}
-
-export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> = Schema.suspend(() => Schema.Struct({
-  bestGuess: Schema.optional(Schema.String),
-  fromHeader: Schema.optional(Schema.String),
-  fromFileName: Schema.optional(Schema.String),
-  fromUrlPath: Schema.optional(Schema.String),
-  fromBytes: Schema.optional(Schema.String),
-})).annotate({ identifier: "ContentTypeInfo" }) as any as Schema.Schema<ContentTypeInfo>;
-
-export interface DownloadParameters {
-  /** # gdata.* are outside protos with mising documentation */
-  allowGzipCompression?: boolean;
-  /** # gdata.* are outside protos with mising documentation */
-  ignoreRange?: boolean;
-}
-
-export const DownloadParameters: Schema.Schema<DownloadParameters> = Schema.suspend(() => Schema.Struct({
-  allowGzipCompression: Schema.optional(Schema.Boolean),
-  ignoreRange: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "DownloadParameters" }) as any as Schema.Schema<DownloadParameters>;
-
-export interface Media {
-  /** # gdata.* are outside protos with mising documentation */
-  contentType?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  timestamp?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  token?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  length?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  filename?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  referenceType?: "PATH" | "BLOB_REF" | "INLINE" | "GET_MEDIA" | "COMPOSITE_MEDIA" | "BIGSTORE_REF" | "DIFF_VERSION_RESPONSE" | "DIFF_CHECKSUMS_RESPONSE" | "DIFF_DOWNLOAD_RESPONSE" | "DIFF_UPLOAD_REQUEST" | "DIFF_UPLOAD_RESPONSE" | "COSMO_BINARY_REFERENCE" | "ARBITRARY_BYTES" | (string & {});
-  /** # gdata.* are outside protos with mising documentation */
-  path?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  blobRef?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  inline?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  mediaId?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  algorithm?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  compositeMedia?: Array<CompositeMedia>;
-  /** # gdata.* are outside protos with mising documentation */
-  bigstoreObjectRef?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  objectId?: ObjectId;
-  /** # gdata.* are outside protos with mising documentation */
-  blobstore2Info?: Blobstore2Info;
-  /** # gdata.* are outside protos with mising documentation */
-  diffVersionResponse?: DiffVersionResponse;
-  /** # gdata.* are outside protos with mising documentation */
-  diffChecksumsResponse?: DiffChecksumsResponse;
-  /** # gdata.* are outside protos with mising documentation */
-  diffDownloadResponse?: DiffDownloadResponse;
-  /** # gdata.* are outside protos with mising documentation */
-  diffUploadRequest?: DiffUploadRequest;
-  /** # gdata.* are outside protos with mising documentation */
-  diffUploadResponse?: DiffUploadResponse;
-  /** # gdata.* are outside protos with mising documentation */
-  contentTypeInfo?: ContentTypeInfo;
-  /** # gdata.* are outside protos with mising documentation */
-  downloadParameters?: DownloadParameters;
-  /** # gdata.* are outside protos with mising documentation */
-  crc32cHash?: number;
-  /** # gdata.* are outside protos with mising documentation */
-  md5Hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  sha1Hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  sha256Hash?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  isPotentialRetry?: boolean;
-  /** # gdata.* are outside protos with mising documentation */
-  cosmoBinaryReference?: string;
-  /** # gdata.* are outside protos with mising documentation */
-  hashVerified?: boolean;
-}
-
-export const Media: Schema.Schema<Media> = Schema.suspend(() => Schema.Struct({
-  contentType: Schema.optional(Schema.String),
-  timestamp: Schema.optional(Schema.String),
-  token: Schema.optional(Schema.String),
-  length: Schema.optional(Schema.String),
-  filename: Schema.optional(Schema.String),
-  referenceType: Schema.optional(Schema.String),
-  path: Schema.optional(Schema.String),
-  blobRef: Schema.optional(Schema.String),
-  inline: Schema.optional(Schema.String),
-  mediaId: Schema.optional(Schema.String),
-  hash: Schema.optional(Schema.String),
-  algorithm: Schema.optional(Schema.String),
-  compositeMedia: Schema.optional(Schema.Array(CompositeMedia)),
-  bigstoreObjectRef: Schema.optional(Schema.String),
-  objectId: Schema.optional(ObjectId),
-  blobstore2Info: Schema.optional(Blobstore2Info),
-  diffVersionResponse: Schema.optional(DiffVersionResponse),
-  diffChecksumsResponse: Schema.optional(DiffChecksumsResponse),
-  diffDownloadResponse: Schema.optional(DiffDownloadResponse),
-  diffUploadRequest: Schema.optional(DiffUploadRequest),
-  diffUploadResponse: Schema.optional(DiffUploadResponse),
-  contentTypeInfo: Schema.optional(ContentTypeInfo),
-  downloadParameters: Schema.optional(DownloadParameters),
-  crc32cHash: Schema.optional(Schema.Number),
-  md5Hash: Schema.optional(Schema.String),
-  sha1Hash: Schema.optional(Schema.String),
-  sha256Hash: Schema.optional(Schema.String),
-  isPotentialRetry: Schema.optional(Schema.Boolean),
-  cosmoBinaryReference: Schema.optional(Schema.String),
-  hashVerified: Schema.optional(Schema.Boolean),
-})).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
-
-export interface CaseClassification {
-  /** The unique ID for a classification. Must be specified for case creation. To retrieve valid classification IDs for case creation, use `caseClassifications.search`. Classification IDs returned by `caseClassifications.search` are guaranteed to be valid for at least 6 months. If a given classification is deactiveated, it will immediately stop being returned. After 6 months, `case.create` requests using the classification ID will fail. */
-  id?: string;
-  /** A display name for the classification. The display name is not static and can change. To uniquely and consistently identify classifications, use the `CaseClassification.id` field. */
+export interface Actor {
+  /** Output only. Whether the actor is a Google support actor. */
+  googleSupport?: boolean;
+  /** Output only. The username of the actor. It may look like an email or other format provided by the identity provider. If not provided, it is inferred from the credentials supplied. When a name is provided, a username must also be provided. If the user is a Google Support agent, this will not be set. */
+  username?: string;
+  /** The name to display for the actor. If not provided, it is inferred from credentials supplied during case creation. When an email is provided, a display name must also be provided. This will be obfuscated if the user is a Google Support agent. */
   displayName?: string;
+  /** The email address of the actor. If not provided, it is inferred from the credentials supplied during case creation. When a name is provided, an email must also be provided. If the user is a Google Support agent, this is obfuscated. This field is deprecated. Use `username` instead. */
+  email?: string;
 }
 
-export const CaseClassification: Schema.Schema<CaseClassification> = Schema.suspend(() => Schema.Struct({
-  id: Schema.optional(Schema.String),
+export const Actor: Schema.Schema<Actor> = Schema.suspend(() => Schema.Struct({
+  googleSupport: Schema.optional(Schema.Boolean),
+  username: Schema.optional(Schema.String),
   displayName: Schema.optional(Schema.String),
-})).annotate({ identifier: "CaseClassification" }) as any as Schema.Schema<CaseClassification>;
-
-export interface Case {
-  /** Identifier. The resource name for the case. */
-  name?: string;
-  /** The short summary of the issue reported in this case. */
-  displayName?: string;
-  /** A broad description of the issue. */
-  description?: string;
-  /** The issue classification applicable to this case. */
-  classification?: CaseClassification;
-  /** The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API. */
-  timeZone?: string;
-  /** The email addresses to receive updates on this case. */
-  subscriberEmailAddresses?: Array<string>;
-  /** Output only. The current status of the support case. */
-  state?: "STATE_UNSPECIFIED" | "NEW" | "IN_PROGRESS_GOOGLE_SUPPORT" | "ACTION_REQUIRED" | "SOLUTION_PROVIDED" | "CLOSED" | (string & {});
-  /** Output only. The time this case was created. */
-  createTime?: string;
-  /** Output only. The time this case was last updated. */
-  updateTime?: string;
-  /** The user who created the case. Note: The name and email will be obfuscated if the case was created by Google Support. */
-  creator?: Actor;
-  /** A user-supplied email address to send case update notifications for. This should only be used in BYOID flows, where we cannot infer the user's email address directly from their EUCs. */
-  contactEmail?: string;
-  /** Whether the case is currently escalated. */
-  escalated?: boolean;
-  /** Whether this case was created for internal API testing and should not be acted on by the support team. */
-  testCase?: boolean;
-  /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
-  languageCode?: string;
-  /** The priority of this case. */
-  priority?: "PRIORITY_UNSPECIFIED" | "P0" | "P1" | "P2" | "P3" | "P4" | (string & {});
-}
-
-export const Case: Schema.Schema<Case> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  displayName: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  classification: Schema.optional(CaseClassification),
-  timeZone: Schema.optional(Schema.String),
-  subscriberEmailAddresses: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
-  creator: Schema.optional(Actor),
-  contactEmail: Schema.optional(Schema.String),
-  escalated: Schema.optional(Schema.Boolean),
-  testCase: Schema.optional(Schema.Boolean),
-  languageCode: Schema.optional(Schema.String),
-  priority: Schema.optional(Schema.String),
-})).annotate({ identifier: "Case" }) as any as Schema.Schema<Case>;
-
-export interface ListCasesResponse {
-  /** The list of cases associated with the parent after any filters have been applied. */
-  cases?: Array<Case>;
-  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
-}
-
-export const ListCasesResponse: Schema.Schema<ListCasesResponse> = Schema.suspend(() => Schema.Struct({
-  cases: Schema.optional(Schema.Array(Case)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListCasesResponse" }) as any as Schema.Schema<ListCasesResponse>;
-
-export interface SearchCasesResponse {
-  /** The list of cases associated with the parent after any filters have been applied. */
-  cases?: Array<Case>;
-  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.search` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
-}
-
-export const SearchCasesResponse: Schema.Schema<SearchCasesResponse> = Schema.suspend(() => Schema.Struct({
-  cases: Schema.optional(Schema.Array(Case)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchCasesResponse" }) as any as Schema.Schema<SearchCasesResponse>;
-
-export interface Escalation {
-  /** Required. The reason why the Case is being escalated. */
-  reason?: "REASON_UNSPECIFIED" | "RESOLUTION_TIME" | "TECHNICAL_EXPERTISE" | "BUSINESS_IMPACT" | (string & {});
-  /** Required. A free text description to accompany the `reason` field above. Provides additional context on why the case is being escalated. */
-  justification?: string;
-}
-
-export const Escalation: Schema.Schema<Escalation> = Schema.suspend(() => Schema.Struct({
-  reason: Schema.optional(Schema.String),
-  justification: Schema.optional(Schema.String),
-})).annotate({ identifier: "Escalation" }) as any as Schema.Schema<Escalation>;
-
-export interface EscalateCaseRequest {
-  /** The escalation information to be sent with the escalation request. */
-  escalation?: Escalation;
-}
-
-export const EscalateCaseRequest: Schema.Schema<EscalateCaseRequest> = Schema.suspend(() => Schema.Struct({
-  escalation: Schema.optional(Escalation),
-})).annotate({ identifier: "EscalateCaseRequest" }) as any as Schema.Schema<EscalateCaseRequest>;
-
-export interface CloseCaseRequest {
-}
-
-export const CloseCaseRequest: Schema.Schema<CloseCaseRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CloseCaseRequest" }) as any as Schema.Schema<CloseCaseRequest>;
-
-export interface SearchCaseClassificationsResponse {
-  /** The classifications retrieved. */
-  caseClassifications?: Array<CaseClassification>;
-  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `caseClassifications.list` requests. If unspecified, there are no more results to retrieve. */
-  nextPageToken?: string;
-}
-
-export const SearchCaseClassificationsResponse: Schema.Schema<SearchCaseClassificationsResponse> = Schema.suspend(() => Schema.Struct({
-  caseClassifications: Schema.optional(Schema.Array(CaseClassification)),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "SearchCaseClassificationsResponse" }) as any as Schema.Schema<SearchCaseClassificationsResponse>;
+  email: Schema.optional(Schema.String),
+})).annotate({ identifier: "Actor" }) as any as Schema.Schema<Actor>;
 
 export interface Comment {
+  /** Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons. */
+  plainTextBody?: string;
+  /** The full comment body. Maximum of 12800 characters. */
+  body?: string;
   /** Output only. Identifier. The resource name of the comment. */
   name?: string;
   /** Output only. The time when the comment was created. */
   createTime?: string;
   /** Output only. The user or Google Support agent who created the comment. */
   creator?: Actor;
-  /** The full comment body. Maximum of 12800 characters. */
-  body?: string;
-  /** Output only. DEPRECATED. DO NOT USE. A duplicate of the `body` field. This field is only present for legacy reasons. */
-  plainTextBody?: string;
 }
 
 export const Comment: Schema.Schema<Comment> = Schema.suspend(() => Schema.Struct({
+  plainTextBody: Schema.optional(Schema.String),
+  body: Schema.optional(Schema.String),
   name: Schema.optional(Schema.String),
   createTime: Schema.optional(Schema.String),
   creator: Schema.optional(Actor),
-  body: Schema.optional(Schema.String),
-  plainTextBody: Schema.optional(Schema.String),
 })).annotate({ identifier: "Comment" }) as any as Schema.Schema<Comment>;
 
 export interface ListCommentsResponse {
@@ -524,9 +101,466 @@ export const ListCommentsResponse: Schema.Schema<ListCommentsResponse> = Schema.
   nextPageToken: Schema.optional(Schema.String),
 })).annotate({ identifier: "ListCommentsResponse" }) as any as Schema.Schema<ListCommentsResponse>;
 
+export interface ObjectId {
+  /** # gdata.* are outside protos with mising documentation */
+  objectName?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  bucketName?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  generation?: string;
+}
+
+export const ObjectId: Schema.Schema<ObjectId> = Schema.suspend(() => Schema.Struct({
+  objectName: Schema.optional(Schema.String),
+  bucketName: Schema.optional(Schema.String),
+  generation: Schema.optional(Schema.String),
+})).annotate({ identifier: "ObjectId" }) as any as Schema.Schema<ObjectId>;
+
+export interface CompositeMedia {
+  /** # gdata.* are outside protos with mising documentation */
+  referenceType?: "PATH" | "BLOB_REF" | "INLINE" | "BIGSTORE_REF" | "COSMO_BINARY_REFERENCE" | (string & {});
+  /** # gdata.* are outside protos with mising documentation */
+  path?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  blobRef?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  blobstore2Info?: Blobstore2Info;
+  /** # gdata.* are outside protos with mising documentation */
+  md5Hash?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  length?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  cosmoBinaryReference?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  sha1Hash?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  inline?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  objectId?: ObjectId;
+  /** # gdata.* are outside protos with mising documentation */
+  crc32cHash?: number;
+}
+
+export const CompositeMedia: Schema.Schema<CompositeMedia> = Schema.suspend(() => Schema.Struct({
+  referenceType: Schema.optional(Schema.String),
+  path: Schema.optional(Schema.String),
+  blobRef: Schema.optional(Schema.String),
+  blobstore2Info: Schema.optional(Blobstore2Info),
+  md5Hash: Schema.optional(Schema.String),
+  length: Schema.optional(Schema.String),
+  cosmoBinaryReference: Schema.optional(Schema.String),
+  sha1Hash: Schema.optional(Schema.String),
+  inline: Schema.optional(Schema.String),
+  objectId: Schema.optional(ObjectId),
+  crc32cHash: Schema.optional(Schema.Number),
+})).annotate({ identifier: "CompositeMedia" }) as any as Schema.Schema<CompositeMedia>;
+
+export interface DiffUploadResponse {
+  /** # gdata.* are outside protos with mising documentation */
+  originalObject?: CompositeMedia;
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string;
+}
+
+export const DiffUploadResponse: Schema.Schema<DiffUploadResponse> = Schema.suspend(() => Schema.Struct({
+  originalObject: Schema.optional(CompositeMedia),
+  objectVersion: Schema.optional(Schema.String),
+})).annotate({ identifier: "DiffUploadResponse" }) as any as Schema.Schema<DiffUploadResponse>;
+
+export interface DiffChecksumsResponse {
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  checksumsLocation?: CompositeMedia;
+  /** # gdata.* are outside protos with mising documentation */
+  chunkSizeBytes?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  objectLocation?: CompositeMedia;
+  /** # gdata.* are outside protos with mising documentation */
+  objectSizeBytes?: string;
+}
+
+export const DiffChecksumsResponse: Schema.Schema<DiffChecksumsResponse> = Schema.suspend(() => Schema.Struct({
+  objectVersion: Schema.optional(Schema.String),
+  checksumsLocation: Schema.optional(CompositeMedia),
+  chunkSizeBytes: Schema.optional(Schema.String),
+  objectLocation: Schema.optional(CompositeMedia),
+  objectSizeBytes: Schema.optional(Schema.String),
+})).annotate({ identifier: "DiffChecksumsResponse" }) as any as Schema.Schema<DiffChecksumsResponse>;
+
+export interface DownloadParameters {
+  /** # gdata.* are outside protos with mising documentation */
+  ignoreRange?: boolean;
+  /** # gdata.* are outside protos with mising documentation */
+  allowGzipCompression?: boolean;
+}
+
+export const DownloadParameters: Schema.Schema<DownloadParameters> = Schema.suspend(() => Schema.Struct({
+  ignoreRange: Schema.optional(Schema.Boolean),
+  allowGzipCompression: Schema.optional(Schema.Boolean),
+})).annotate({ identifier: "DownloadParameters" }) as any as Schema.Schema<DownloadParameters>;
+
+export interface ContentTypeInfo {
+  /** # gdata.* are outside protos with mising documentation */
+  fromHeader?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  fromFileName?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  fromUrlPath?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  fromBytes?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  bestGuess?: string;
+}
+
+export const ContentTypeInfo: Schema.Schema<ContentTypeInfo> = Schema.suspend(() => Schema.Struct({
+  fromHeader: Schema.optional(Schema.String),
+  fromFileName: Schema.optional(Schema.String),
+  fromUrlPath: Schema.optional(Schema.String),
+  fromBytes: Schema.optional(Schema.String),
+  bestGuess: Schema.optional(Schema.String),
+})).annotate({ identifier: "ContentTypeInfo" }) as any as Schema.Schema<ContentTypeInfo>;
+
+export interface DiffUploadRequest {
+  /** # gdata.* are outside protos with mising documentation */
+  objectInfo?: CompositeMedia;
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  checksumsInfo?: CompositeMedia;
+}
+
+export const DiffUploadRequest: Schema.Schema<DiffUploadRequest> = Schema.suspend(() => Schema.Struct({
+  objectInfo: Schema.optional(CompositeMedia),
+  objectVersion: Schema.optional(Schema.String),
+  checksumsInfo: Schema.optional(CompositeMedia),
+})).annotate({ identifier: "DiffUploadRequest" }) as any as Schema.Schema<DiffUploadRequest>;
+
+export interface DiffVersionResponse {
+  /** # gdata.* are outside protos with mising documentation */
+  objectVersion?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  objectSizeBytes?: string;
+}
+
+export const DiffVersionResponse: Schema.Schema<DiffVersionResponse> = Schema.suspend(() => Schema.Struct({
+  objectVersion: Schema.optional(Schema.String),
+  objectSizeBytes: Schema.optional(Schema.String),
+})).annotate({ identifier: "DiffVersionResponse" }) as any as Schema.Schema<DiffVersionResponse>;
+
+export interface DiffDownloadResponse {
+  /** # gdata.* are outside protos with mising documentation */
+  objectLocation?: CompositeMedia;
+}
+
+export const DiffDownloadResponse: Schema.Schema<DiffDownloadResponse> = Schema.suspend(() => Schema.Struct({
+  objectLocation: Schema.optional(CompositeMedia),
+})).annotate({ identifier: "DiffDownloadResponse" }) as any as Schema.Schema<DiffDownloadResponse>;
+
+export interface Media {
+  /** # gdata.* are outside protos with mising documentation */
+  diffUploadResponse?: DiffUploadResponse;
+  /** # gdata.* are outside protos with mising documentation */
+  cosmoBinaryReference?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  isPotentialRetry?: boolean;
+  /** # gdata.* are outside protos with mising documentation */
+  objectId?: ObjectId;
+  /** # gdata.* are outside protos with mising documentation */
+  sha256Hash?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  bigstoreObjectRef?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  blobRef?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  sha1Hash?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  timestamp?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  diffChecksumsResponse?: DiffChecksumsResponse;
+  /** # gdata.* are outside protos with mising documentation */
+  downloadParameters?: DownloadParameters;
+  /** # gdata.* are outside protos with mising documentation */
+  contentTypeInfo?: ContentTypeInfo;
+  /** # gdata.* are outside protos with mising documentation */
+  referenceType?: "PATH" | "BLOB_REF" | "INLINE" | "GET_MEDIA" | "COMPOSITE_MEDIA" | "BIGSTORE_REF" | "DIFF_VERSION_RESPONSE" | "DIFF_CHECKSUMS_RESPONSE" | "DIFF_DOWNLOAD_RESPONSE" | "DIFF_UPLOAD_REQUEST" | "DIFF_UPLOAD_RESPONSE" | "COSMO_BINARY_REFERENCE" | "ARBITRARY_BYTES" | (string & {});
+  /** # gdata.* are outside protos with mising documentation */
+  md5Hash?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  path?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  mediaId?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  length?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  token?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  diffUploadRequest?: DiffUploadRequest;
+  /** # gdata.* are outside protos with mising documentation */
+  algorithm?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  blobstore2Info?: Blobstore2Info;
+  /** # gdata.* are outside protos with mising documentation */
+  filename?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  hash?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  crc32cHash?: number;
+  /** # gdata.* are outside protos with mising documentation */
+  inline?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  compositeMedia?: Array<CompositeMedia>;
+  /** # gdata.* are outside protos with mising documentation */
+  contentType?: string;
+  /** # gdata.* are outside protos with mising documentation */
+  hashVerified?: boolean;
+  /** # gdata.* are outside protos with mising documentation */
+  diffVersionResponse?: DiffVersionResponse;
+  /** # gdata.* are outside protos with mising documentation */
+  diffDownloadResponse?: DiffDownloadResponse;
+}
+
+export const Media: Schema.Schema<Media> = Schema.suspend(() => Schema.Struct({
+  diffUploadResponse: Schema.optional(DiffUploadResponse),
+  cosmoBinaryReference: Schema.optional(Schema.String),
+  isPotentialRetry: Schema.optional(Schema.Boolean),
+  objectId: Schema.optional(ObjectId),
+  sha256Hash: Schema.optional(Schema.String),
+  bigstoreObjectRef: Schema.optional(Schema.String),
+  blobRef: Schema.optional(Schema.String),
+  sha1Hash: Schema.optional(Schema.String),
+  timestamp: Schema.optional(Schema.String),
+  diffChecksumsResponse: Schema.optional(DiffChecksumsResponse),
+  downloadParameters: Schema.optional(DownloadParameters),
+  contentTypeInfo: Schema.optional(ContentTypeInfo),
+  referenceType: Schema.optional(Schema.String),
+  md5Hash: Schema.optional(Schema.String),
+  path: Schema.optional(Schema.String),
+  mediaId: Schema.optional(Schema.String),
+  length: Schema.optional(Schema.String),
+  token: Schema.optional(Schema.String),
+  diffUploadRequest: Schema.optional(DiffUploadRequest),
+  algorithm: Schema.optional(Schema.String),
+  blobstore2Info: Schema.optional(Blobstore2Info),
+  filename: Schema.optional(Schema.String),
+  hash: Schema.optional(Schema.String),
+  crc32cHash: Schema.optional(Schema.Number),
+  inline: Schema.optional(Schema.String),
+  compositeMedia: Schema.optional(Schema.Array(CompositeMedia)),
+  contentType: Schema.optional(Schema.String),
+  hashVerified: Schema.optional(Schema.Boolean),
+  diffVersionResponse: Schema.optional(DiffVersionResponse),
+  diffDownloadResponse: Schema.optional(DiffDownloadResponse),
+})).annotate({ identifier: "Media" }) as any as Schema.Schema<Media>;
+
+export interface CaseClassification {
+  /** The unique ID for a classification. Must be specified for case creation. To retrieve valid classification IDs for case creation, use `caseClassifications.search`. Classification IDs returned by `caseClassifications.search` are guaranteed to be valid for at least 6 months. If a given classification is deactiveated, it will immediately stop being returned. After 6 months, `case.create` requests using the classification ID will fail. */
+  id?: string;
+  /** A display name for the classification. The display name is not static and can change. To uniquely and consistently identify classifications, use the `CaseClassification.id` field. */
+  displayName?: string;
+}
+
+export const CaseClassification: Schema.Schema<CaseClassification> = Schema.suspend(() => Schema.Struct({
+  id: Schema.optional(Schema.String),
+  displayName: Schema.optional(Schema.String),
+})).annotate({ identifier: "CaseClassification" }) as any as Schema.Schema<CaseClassification>;
+
+export interface CloseCaseRequest {
+}
+
+export const CloseCaseRequest: Schema.Schema<CloseCaseRequest> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "CloseCaseRequest" }) as any as Schema.Schema<CloseCaseRequest>;
+
+export interface Attachment {
+  /** Output only. The size of the attachment in bytes. */
+  sizeBytes?: string;
+  /** Output only. The MIME type of the attachment (e.g. text/plain). */
+  mimeType?: string;
+  /** Output only. Identifier. The resource name of the attachment. */
+  name?: string;
+  /** Output only. The time at which the attachment was created. */
+  createTime?: string;
+  /** Output only. The user who uploaded the attachment. Note, the name and email will be obfuscated if the attachment was uploaded by Google support. */
+  creator?: Actor;
+  /** The filename of the attachment (e.g. `"graph.jpg"`). */
+  filename?: string;
+}
+
+export const Attachment: Schema.Schema<Attachment> = Schema.suspend(() => Schema.Struct({
+  sizeBytes: Schema.optional(Schema.String),
+  mimeType: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  createTime: Schema.optional(Schema.String),
+  creator: Schema.optional(Actor),
+  filename: Schema.optional(Schema.String),
+})).annotate({ identifier: "Attachment" }) as any as Schema.Schema<Attachment>;
+
+export interface CreateAttachmentRequest {
+  /** Required. The attachment to be created. */
+  attachment?: Attachment;
+}
+
+export const CreateAttachmentRequest: Schema.Schema<CreateAttachmentRequest> = Schema.suspend(() => Schema.Struct({
+  attachment: Schema.optional(Attachment),
+})).annotate({ identifier: "CreateAttachmentRequest" }) as any as Schema.Schema<CreateAttachmentRequest>;
+
+export interface Escalation {
+  /** Required. A free text description to accompany the `reason` field above. Provides additional context on why the case is being escalated. */
+  justification?: string;
+  /** Required. The reason why the Case is being escalated. */
+  reason?: "REASON_UNSPECIFIED" | "RESOLUTION_TIME" | "TECHNICAL_EXPERTISE" | "BUSINESS_IMPACT" | (string & {});
+}
+
+export const Escalation: Schema.Schema<Escalation> = Schema.suspend(() => Schema.Struct({
+  justification: Schema.optional(Schema.String),
+  reason: Schema.optional(Schema.String),
+})).annotate({ identifier: "Escalation" }) as any as Schema.Schema<Escalation>;
+
+export interface EscalateCaseRequest {
+  /** The escalation information to be sent with the escalation request. */
+  escalation?: Escalation;
+}
+
+export const EscalateCaseRequest: Schema.Schema<EscalateCaseRequest> = Schema.suspend(() => Schema.Struct({
+  escalation: Schema.optional(Escalation),
+})).annotate({ identifier: "EscalateCaseRequest" }) as any as Schema.Schema<EscalateCaseRequest>;
+
+export interface Case {
+  /** Identifier. The resource name for the case. */
+  name?: string;
+  /** A broad description of the issue. */
+  description?: string;
+  /** The issue classification applicable to this case. */
+  classification?: CaseClassification;
+  /** The email addresses to receive updates on this case. */
+  subscriberEmailAddresses?: Array<string>;
+  /** A user-supplied email address to send case update notifications for. This should only be used in BYOID flows, where we cannot infer the user's email address directly from their EUCs. */
+  contactEmail?: string;
+  /** Whether this case was created for internal API testing and should not be acted on by the support team. */
+  testCase?: boolean;
+  /** The timezone of the user who created the support case. It should be in a format IANA recognizes: https://www.iana.org/time-zones. There is no additional validation done by the API. */
+  timeZone?: string;
+  /** Output only. The current status of the support case. */
+  state?: "STATE_UNSPECIFIED" | "NEW" | "IN_PROGRESS_GOOGLE_SUPPORT" | "ACTION_REQUIRED" | "SOLUTION_PROVIDED" | "CLOSED" | (string & {});
+  /** Output only. The time this case was created. */
+  createTime?: string;
+  /** The priority of this case. */
+  priority?: "PRIORITY_UNSPECIFIED" | "P0" | "P1" | "P2" | "P3" | "P4" | (string & {});
+  /** The short summary of the issue reported in this case. */
+  displayName?: string;
+  /** The language the user has requested to receive support in. This should be a BCP 47 language code (e.g., `"en"`, `"zh-CN"`, `"zh-TW"`, `"ja"`, `"ko"`). If no language or an unsupported language is specified, this field defaults to English (en). Language selection during case creation may affect your available support options. For a list of supported languages and their support working hours, see: https://cloud.google.com/support/docs/language-working-hours */
+  languageCode?: string;
+  /** The user who created the case. Note: The name and email will be obfuscated if the case was created by Google Support. */
+  creator?: Actor;
+  /** Whether the case is currently escalated. */
+  escalated?: boolean;
+  /** Output only. The time this case was last updated. */
+  updateTime?: string;
+}
+
+export const Case: Schema.Schema<Case> = Schema.suspend(() => Schema.Struct({
+  name: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.String),
+  classification: Schema.optional(CaseClassification),
+  subscriberEmailAddresses: Schema.optional(Schema.Array(Schema.String)),
+  contactEmail: Schema.optional(Schema.String),
+  testCase: Schema.optional(Schema.Boolean),
+  timeZone: Schema.optional(Schema.String),
+  state: Schema.optional(Schema.String),
+  createTime: Schema.optional(Schema.String),
+  priority: Schema.optional(Schema.String),
+  displayName: Schema.optional(Schema.String),
+  languageCode: Schema.optional(Schema.String),
+  creator: Schema.optional(Actor),
+  escalated: Schema.optional(Schema.Boolean),
+  updateTime: Schema.optional(Schema.String),
+})).annotate({ identifier: "Case" }) as any as Schema.Schema<Case>;
+
+export interface SearchCasesResponse {
+  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.search` requests. If unspecified, there are no more results to retrieve. */
+  nextPageToken?: string;
+  /** The list of cases associated with the parent after any filters have been applied. */
+  cases?: Array<Case>;
+}
+
+export const SearchCasesResponse: Schema.Schema<SearchCasesResponse> = Schema.suspend(() => Schema.Struct({
+  nextPageToken: Schema.optional(Schema.String),
+  cases: Schema.optional(Schema.Array(Case)),
+})).annotate({ identifier: "SearchCasesResponse" }) as any as Schema.Schema<SearchCasesResponse>;
+
+export interface ListCasesResponse {
+  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.list` requests. If unspecified, there are no more results to retrieve. */
+  nextPageToken?: string;
+  /** The list of cases associated with the parent after any filters have been applied. */
+  cases?: Array<Case>;
+}
+
+export const ListCasesResponse: Schema.Schema<ListCasesResponse> = Schema.suspend(() => Schema.Struct({
+  nextPageToken: Schema.optional(Schema.String),
+  cases: Schema.optional(Schema.Array(Case)),
+})).annotate({ identifier: "ListCasesResponse" }) as any as Schema.Schema<ListCasesResponse>;
+
+export interface ListAttachmentsResponse {
+  /** The list of attachments associated with a case. */
+  attachments?: Array<Attachment>;
+  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `cases.attachments.list` requests. If unspecified, there are no more results to retrieve. */
+  nextPageToken?: string;
+}
+
+export const ListAttachmentsResponse: Schema.Schema<ListAttachmentsResponse> = Schema.suspend(() => Schema.Struct({
+  attachments: Schema.optional(Schema.Array(Attachment)),
+  nextPageToken: Schema.optional(Schema.String),
+})).annotate({ identifier: "ListAttachmentsResponse" }) as any as Schema.Schema<ListAttachmentsResponse>;
+
+export interface SearchCaseClassificationsResponse {
+  /** The classifications retrieved. */
+  caseClassifications?: Array<CaseClassification>;
+  /** A token to retrieve the next page of results. Set this in the `page_token` field of subsequent `caseClassifications.list` requests. If unspecified, there are no more results to retrieve. */
+  nextPageToken?: string;
+}
+
+export const SearchCaseClassificationsResponse: Schema.Schema<SearchCaseClassificationsResponse> = Schema.suspend(() => Schema.Struct({
+  caseClassifications: Schema.optional(Schema.Array(CaseClassification)),
+  nextPageToken: Schema.optional(Schema.String),
+})).annotate({ identifier: "SearchCaseClassificationsResponse" }) as any as Schema.Schema<SearchCaseClassificationsResponse>;
+
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface SearchCaseClassificationsRequest {
+  /** An expression used to filter case classifications. If it's an empty string, then no filtering happens. Otherwise, case classifications will be returned that match the filter. */
+  query?: string;
+  /** The maximum number of classifications fetched with each request. */
+  pageSize?: number;
+  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
+  pageToken?: string;
+}
+
+export const SearchCaseClassificationsRequest = Schema.Struct({
+  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/caseClassifications:search" }),
+  svc,
+) as unknown as Schema.Schema<SearchCaseClassificationsRequest>;
+
+export type SearchCaseClassificationsResponse_Op = SearchCaseClassificationsResponse;
+export const SearchCaseClassificationsResponse_Op = SearchCaseClassificationsResponse;
+
+export type SearchCaseClassificationsError = CommonErrors;
+
+/** Retrieve valid classifications to use when creating a support case. Classifications are hierarchical. Each classification is a string containing all levels of the hierarchy separated by `" > "`. For example, `"Technical Issue > Compute > Compute Engine"`. Classification IDs returned by this endpoint are valid for at least six months. When a classification is deactivated, this endpoint immediately stops returning it. After six months, `case.create` requests using the classification will fail. EXAMPLES: cURL: ```shell curl \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ 'https://cloudsupport.googleapis.com/v2/caseClassifications:search?query=display_name:"*Compute%20Engine*"' ``` Python: ```python import googleapiclient.discovery supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version="v2", discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version=v2", ) request = supportApiService.caseClassifications().search( query='display_name:"*Compute Engine*"' ) print(request.execute()) ``` */
+export const searchCaseClassifications: API.PaginatedOperationMethod<SearchCaseClassificationsRequest, SearchCaseClassificationsResponse_Op, SearchCaseClassificationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
+  input: SearchCaseClassificationsRequest,
+  output: SearchCaseClassificationsResponse_Op,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
 
 export interface UploadMediaRequest {
   /** Required. The name of the case or Cloud resource to which the attachment should be attached. */
@@ -579,6 +613,100 @@ export const downloadMedia: API.OperationMethod<DownloadMediaRequest, DownloadMe
   errors: [],
 }));
 
+export interface SearchCasesRequest {
+  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
+  pageToken?: string;
+  /** The name of the parent resource to search for cases under. */
+  parent: string;
+  /** The maximum number of cases fetched with each request. The default page size is 10. */
+  pageSize?: number;
+  /** An expression used to filter cases. Expressions use the following fields separated by `AND` and specified with `=`: - `organization`: An organization name in the form `organizations/`. - `project`: A project name in the form `projects/`. - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. You must specify either `organization` or `project`. To search across `displayName`, `description`, and comments, use a global restriction with no keyword or operator. For example, `"my search"`. To search only cases updated after a certain date, use `update_time` restricted with that particular date, time, and timezone in ISO datetime format. For example, `update_time>"2020-01-01T00:00:00-05:00"`. `update_time` only supports the greater than operator (`>`). Examples: - `organization="organizations/123456789"` - `project="projects/my-project-id"` - `project="projects/123456789"` - `organization="organizations/123456789" AND state=CLOSED` - `project="projects/my-project-id" AND creator.email="tester@example.com"` - `project="projects/my-project-id" AND (priority=P0 OR priority=P1)` */
+  query?: string;
+}
+
+export const SearchCasesRequest = Schema.Struct({
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
+}).pipe(
+  T.Http({ method: "GET", path: "v2/{v2Id}/{v2Id1}/cases:search" }),
+  svc,
+) as unknown as Schema.Schema<SearchCasesRequest>;
+
+export type SearchCasesResponse_Op = SearchCasesResponse;
+export const SearchCasesResponse_Op = SearchCasesResponse;
+
+export type SearchCasesError = CommonErrors;
+
+/** Search for cases using a query. EXAMPLES: cURL: ```shell parent="projects/some-project" curl \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ "https://cloudsupport.googleapis.com/v2/$parent/cases:search" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().search( parent="projects/some-project", query="state=OPEN" ) print(request.execute()) ``` */
+export const searchCases: API.PaginatedOperationMethod<SearchCasesRequest, SearchCasesResponse_Op, SearchCasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
+  input: SearchCasesRequest,
+  output: SearchCasesResponse_Op,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface EscalateCasesRequest {
+  /** Required. The name of the case to be escalated. */
+  name: string;
+  /** Request body */
+  body?: EscalateCaseRequest;
+}
+
+export const EscalateCasesRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(EscalateCaseRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "v2/{v2Id}/{v2Id1}/cases/{casesId}:escalate", hasBody: true }),
+  svc,
+) as unknown as Schema.Schema<EscalateCasesRequest>;
+
+export type EscalateCasesResponse = Case;
+export const EscalateCasesResponse = Case;
+
+export type EscalateCasesError = CommonErrors;
+
+/** Escalate a case, starting the Google Cloud Support escalation management process. This operation is only available for some support services. Go to https://cloud.google.com/support and look for 'Technical support escalations' in the feature list to find out which ones let you do that. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request POST \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ --header "Content-Type: application/json" \ --data '{ "escalation": { "reason": "BUSINESS_IMPACT", "justification": "This is a test escalation." } }' \ "https://cloudsupport.googleapis.com/v2/$case:escalate" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().escalate( name="projects/some-project/cases/43595344", body={ "escalation": { "reason": "BUSINESS_IMPACT", "justification": "This is a test escalation.", }, }, ) print(request.execute()) ``` */
+export const escalateCases: API.OperationMethod<EscalateCasesRequest, EscalateCasesResponse, EscalateCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: EscalateCasesRequest,
+  output: EscalateCasesResponse,
+  errors: [],
+}));
+
+export interface PatchCasesRequest {
+  /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
+  updateMask?: string;
+  /** Identifier. The resource name for the case. */
+  name: string;
+  /** Request body */
+  body?: Case;
+}
+
+export const PatchCasesRequest = Schema.Struct({
+  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(Case).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "PATCH", path: "v2/{v2Id}/{v2Id1}/cases/{casesId}", hasBody: true }),
+  svc,
+) as unknown as Schema.Schema<PatchCasesRequest>;
+
+export type PatchCasesResponse = Case;
+export const PatchCasesResponse = Case;
+
+export type PatchCasesError = CommonErrors;
+
+/** Update a case. Only some fields can be updated. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request PATCH \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ --header "Content-Type: application/json" \ --data '{ "priority": "P1" }' \ "https://cloudsupport.googleapis.com/v2/$case?updateMask=priority" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().patch( name="projects/some-project/cases/43112854", body={ "displayName": "This is Now a New Title", "priority": "P2", }, ) print(request.execute()) ``` */
+export const patchCases: API.OperationMethod<PatchCasesRequest, PatchCasesResponse, PatchCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: PatchCasesRequest,
+  output: PatchCasesResponse,
+  errors: [],
+}));
+
 export interface GetCasesRequest {
   /** Required. The full name of a case to be retrieved. */
   name: string;
@@ -606,18 +734,18 @@ export const getCases: API.OperationMethod<GetCasesRequest, GetCasesResponse, Ge
 export interface ListCasesRequest {
   /** Required. The name of a parent to list cases under. */
   parent: string;
-  /** An expression used to filter cases. If it's an empty string, then no filtering happens. Otherwise, the endpoint returns the cases that match the filter. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. EXAMPLES: - `state=CLOSED` - `state=OPEN AND creator.email="tester@example.com"` - `state=OPEN AND (priority=P0 OR priority=P1)` */
-  filter?: string;
   /** The maximum number of cases fetched with each request. Defaults to 10. */
   pageSize?: number;
+  /** An expression used to filter cases. If it's an empty string, then no filtering happens. Otherwise, the endpoint returns the cases that match the filter. Expressions use the following fields separated by `AND` and specified with `=`: - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. EXAMPLES: - `state=CLOSED` - `state=OPEN AND creator.email="tester@example.com"` - `state=OPEN AND (priority=P0 OR priority=P1)` */
+  filter?: string;
   /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
   pageToken?: string;
 }
 
 export const ListCasesRequest = Schema.Struct({
   parent: Schema.String.pipe(T.HttpPath("parent")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/{v2Id}/{v2Id1}/cases" }),
@@ -633,43 +761,6 @@ export type ListCasesError = CommonErrors;
 export const listCases: API.PaginatedOperationMethod<ListCasesRequest, ListCasesResponse_Op, ListCasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
   input: ListCasesRequest,
   output: ListCasesResponse_Op,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface SearchCasesRequest {
-  /** The name of the parent resource to search for cases under. */
-  parent: string;
-  /** An expression used to filter cases. Expressions use the following fields separated by `AND` and specified with `=`: - `organization`: An organization name in the form `organizations/`. - `project`: A project name in the form `projects/`. - `state`: Can be `OPEN` or `CLOSED`. - `priority`: Can be `P0`, `P1`, `P2`, `P3`, or `P4`. You can specify multiple values for priority using the `OR` operator. For example, `priority=P1 OR priority=P2`. - `creator.email`: The email address of the case creator. You must specify either `organization` or `project`. To search across `displayName`, `description`, and comments, use a global restriction with no keyword or operator. For example, `"my search"`. To search only cases updated after a certain date, use `update_time` restricted with that particular date, time, and timezone in ISO datetime format. For example, `update_time>"2020-01-01T00:00:00-05:00"`. `update_time` only supports the greater than operator (`>`). Examples: - `organization="organizations/123456789"` - `project="projects/my-project-id"` - `project="projects/123456789"` - `organization="organizations/123456789" AND state=CLOSED` - `project="projects/my-project-id" AND creator.email="tester@example.com"` - `project="projects/my-project-id" AND (priority=P0 OR priority=P1)` */
-  query?: string;
-  /** The maximum number of cases fetched with each request. The default page size is 10. */
-  pageSize?: number;
-  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
-  pageToken?: string;
-}
-
-export const SearchCasesRequest = Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/{v2Id}/{v2Id1}/cases:search" }),
-  svc,
-) as unknown as Schema.Schema<SearchCasesRequest>;
-
-export type SearchCasesResponse_Op = SearchCasesResponse;
-export const SearchCasesResponse_Op = SearchCasesResponse;
-
-export type SearchCasesError = CommonErrors;
-
-/** Search for cases using a query. EXAMPLES: cURL: ```shell parent="projects/some-project" curl \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ "https://cloudsupport.googleapis.com/v2/$parent/cases:search" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().search( parent="projects/some-project", query="state=OPEN" ) print(request.execute()) ``` */
-export const searchCases: API.PaginatedOperationMethod<SearchCasesRequest, SearchCasesResponse_Op, SearchCasesError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: SearchCasesRequest,
-  output: SearchCasesResponse_Op,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -701,63 +792,6 @@ export type CreateCasesError = CommonErrors;
 export const createCases: API.OperationMethod<CreateCasesRequest, CreateCasesResponse, CreateCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: CreateCasesRequest,
   output: CreateCasesResponse,
-  errors: [],
-}));
-
-export interface PatchCasesRequest {
-  /** Identifier. The resource name for the case. */
-  name: string;
-  /** A list of attributes of the case that should be updated. Supported values are `priority`, `display_name`, and `subscriber_email_addresses`. If no fields are specified, all supported fields are updated. Be careful - if you do not provide a field mask, then you might accidentally clear some fields. For example, if you leave the field mask empty and do not provide a value for `subscriber_email_addresses`, then `subscriber_email_addresses` is updated to empty. */
-  updateMask?: string;
-  /** Request body */
-  body?: Case;
-}
-
-export const PatchCasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-  body: Schema.optional(Case).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "PATCH", path: "v2/{v2Id}/{v2Id1}/cases/{casesId}", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<PatchCasesRequest>;
-
-export type PatchCasesResponse = Case;
-export const PatchCasesResponse = Case;
-
-export type PatchCasesError = CommonErrors;
-
-/** Update a case. Only some fields can be updated. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request PATCH \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ --header "Content-Type: application/json" \ --data '{ "priority": "P1" }' \ "https://cloudsupport.googleapis.com/v2/$case?updateMask=priority" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().patch( name="projects/some-project/cases/43112854", body={ "displayName": "This is Now a New Title", "priority": "P2", }, ) print(request.execute()) ``` */
-export const patchCases: API.OperationMethod<PatchCasesRequest, PatchCasesResponse, PatchCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: PatchCasesRequest,
-  output: PatchCasesResponse,
-  errors: [],
-}));
-
-export interface EscalateCasesRequest {
-  /** Required. The name of the case to be escalated. */
-  name: string;
-  /** Request body */
-  body?: EscalateCaseRequest;
-}
-
-export const EscalateCasesRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(EscalateCaseRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v2/{v2Id}/{v2Id1}/cases/{casesId}:escalate", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<EscalateCasesRequest>;
-
-export type EscalateCasesResponse = Case;
-export const EscalateCasesResponse = Case;
-
-export type EscalateCasesError = CommonErrors;
-
-/** Escalate a case, starting the Google Cloud Support escalation management process. This operation is only available for some support services. Go to https://cloud.google.com/support and look for 'Technical support escalations' in the feature list to find out which ones let you do that. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43595344" curl \ --request POST \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ --header "Content-Type: application/json" \ --data '{ "escalation": { "reason": "BUSINESS_IMPACT", "justification": "This is a test escalation." } }' \ "https://cloudsupport.googleapis.com/v2/$case:escalate" ``` Python: ```python import googleapiclient.discovery api_version = "v2" supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version={api_version}", ) request = supportApiService.cases().escalate( name="projects/some-project/cases/43595344", body={ "escalation": { "reason": "BUSINESS_IMPACT", "justification": "This is a test escalation.", }, }, ) print(request.execute()) ``` */
-export const escalateCases: API.OperationMethod<EscalateCasesRequest, EscalateCasesResponse, EscalateCasesError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: EscalateCasesRequest,
-  output: EscalateCasesResponse,
   errors: [],
 }));
 
@@ -823,18 +857,18 @@ export const listCasesAttachments: API.PaginatedOperationMethod<ListCasesAttachm
 }));
 
 export interface ListCasesCommentsRequest {
+  /** A token identifying the page of results to return. If unspecified, the first page is returned. */
+  pageToken?: string;
   /** Required. The name of the case for which to list comments. */
   parent: string;
   /** The maximum number of comments to fetch. Defaults to 10. */
   pageSize?: number;
-  /** A token identifying the page of results to return. If unspecified, the first page is returned. */
-  pageToken?: string;
 }
 
 export const ListCasesCommentsRequest = Schema.Struct({
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({ method: "GET", path: "v2/{v2Id}/{v2Id1}/cases/{casesId}/comments" }),
   svc,
@@ -881,39 +915,5 @@ export const createCasesComments: API.OperationMethod<CreateCasesCommentsRequest
   input: CreateCasesCommentsRequest,
   output: CreateCasesCommentsResponse,
   errors: [],
-}));
-
-export interface SearchCaseClassificationsRequest {
-  /** An expression used to filter case classifications. If it's an empty string, then no filtering happens. Otherwise, case classifications will be returned that match the filter. */
-  query?: string;
-  /** The maximum number of classifications fetched with each request. */
-  pageSize?: number;
-  /** A token identifying the page of results to return. If unspecified, the first page is retrieved. */
-  pageToken?: string;
-}
-
-export const SearchCaseClassificationsRequest = Schema.Struct({
-  query: Schema.optional(Schema.String).pipe(T.HttpQuery("query")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "v2/caseClassifications:search" }),
-  svc,
-) as unknown as Schema.Schema<SearchCaseClassificationsRequest>;
-
-export type SearchCaseClassificationsResponse_Op = SearchCaseClassificationsResponse;
-export const SearchCaseClassificationsResponse_Op = SearchCaseClassificationsResponse;
-
-export type SearchCaseClassificationsError = CommonErrors;
-
-/** Retrieve valid classifications to use when creating a support case. Classifications are hierarchical. Each classification is a string containing all levels of the hierarchy separated by `" > "`. For example, `"Technical Issue > Compute > Compute Engine"`. Classification IDs returned by this endpoint are valid for at least six months. When a classification is deactivated, this endpoint immediately stops returning it. After six months, `case.create` requests using the classification will fail. EXAMPLES: cURL: ```shell curl \ --header "Authorization: Bearer $(gcloud auth print-access-token)" \ 'https://cloudsupport.googleapis.com/v2/caseClassifications:search?query=display_name:"*Compute%20Engine*"' ``` Python: ```python import googleapiclient.discovery supportApiService = googleapiclient.discovery.build( serviceName="cloudsupport", version="v2", discoveryServiceUrl=f"https://cloudsupport.googleapis.com/$discovery/rest?version=v2", ) request = supportApiService.caseClassifications().search( query='display_name:"*Compute Engine*"' ) print(request.execute()) ``` */
-export const searchCaseClassifications: API.PaginatedOperationMethod<SearchCaseClassificationsRequest, SearchCaseClassificationsResponse_Op, SearchCaseClassificationsError, GCPAuth | HttpClient.HttpClient> = API.makePaginated(() => ({
-  input: SearchCaseClassificationsRequest,
-  output: SearchCaseClassificationsResponse_Op,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 

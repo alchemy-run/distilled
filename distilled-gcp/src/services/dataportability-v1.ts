@@ -23,20 +23,50 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface CancelPortabilityArchiveRequest {
+}
+
+export const CancelPortabilityArchiveRequest: Schema.Schema<CancelPortabilityArchiveRequest> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "CancelPortabilityArchiveRequest" }) as any as Schema.Schema<CancelPortabilityArchiveRequest>;
+
+export interface RetryPortabilityArchiveRequest {
+}
+
+export const RetryPortabilityArchiveRequest: Schema.Schema<RetryPortabilityArchiveRequest> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "RetryPortabilityArchiveRequest" }) as any as Schema.Schema<RetryPortabilityArchiveRequest>;
+
 export interface InitiatePortabilityArchiveRequest {
+  /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
+  endTime?: string;
   /** The resources from which you're exporting data. These values have a 1:1 correspondence with the OAuth scopes. */
   resources?: Array<string>;
   /** Optional. The timestamp that represents the starting point for the data you are exporting. If the start_time is not specified in the InitiatePortabilityArchiveRequest, the field is set to the earliest available data. */
   startTime?: string;
-  /** Optional. The timestamp that represents the end point for the data you are exporting. If the end_time is not specified in the InitiatePortabilityArchiveRequest, this field is set to the latest available data. */
-  endTime?: string;
 }
 
 export const InitiatePortabilityArchiveRequest: Schema.Schema<InitiatePortabilityArchiveRequest> = Schema.suspend(() => Schema.Struct({
+  endTime: Schema.optional(Schema.String),
   resources: Schema.optional(Schema.Array(Schema.String)),
   startTime: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
 })).annotate({ identifier: "InitiatePortabilityArchiveRequest" }) as any as Schema.Schema<InitiatePortabilityArchiveRequest>;
+
+export interface CheckAccessTypeRequest {
+}
+
+export const CheckAccessTypeRequest: Schema.Schema<CheckAccessTypeRequest> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "CheckAccessTypeRequest" }) as any as Schema.Schema<CheckAccessTypeRequest>;
+
+export interface CancelPortabilityArchiveResponse {
+}
+
+export const CancelPortabilityArchiveResponse: Schema.Schema<CancelPortabilityArchiveResponse> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "CancelPortabilityArchiveResponse" }) as any as Schema.Schema<CancelPortabilityArchiveResponse>;
+
+export interface ResetAuthorizationRequest {
+}
+
+export const ResetAuthorizationRequest: Schema.Schema<ResetAuthorizationRequest> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "ResetAuthorizationRequest" }) as any as Schema.Schema<ResetAuthorizationRequest>;
 
 export interface InitiatePortabilityArchiveResponse {
   /** The archive job ID that is initiated in the API. This can be used to get the state of the job. */
@@ -50,72 +80,6 @@ export const InitiatePortabilityArchiveResponse: Schema.Schema<InitiatePortabili
   accessType: Schema.optional(Schema.String),
 })).annotate({ identifier: "InitiatePortabilityArchiveResponse" }) as any as Schema.Schema<InitiatePortabilityArchiveResponse>;
 
-export interface PortabilityArchiveState {
-  /** Resource that represents the state of the Archive job. */
-  state?: "STATE_UNSPECIFIED" | "IN_PROGRESS" | "COMPLETE" | "FAILED" | "CANCELLED" | (string & {});
-  /** If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket. */
-  urls?: Array<string>;
-  /** The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request. */
-  name?: string;
-  /** The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest. */
-  startTime?: string;
-  /** The timestamp that represents the end point for the data you are exporting. If the end_time value is set in the InitiatePortabilityArchiveRequest, this field is set to that value. If end_time is not set, this value is set to the time the export was requested. */
-  exportTime?: string;
-}
-
-export const PortabilityArchiveState: Schema.Schema<PortabilityArchiveState> = Schema.suspend(() => Schema.Struct({
-  state: Schema.optional(Schema.String),
-  urls: Schema.optional(Schema.Array(Schema.String)),
-  name: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  exportTime: Schema.optional(Schema.String),
-})).annotate({ identifier: "PortabilityArchiveState" }) as any as Schema.Schema<PortabilityArchiveState>;
-
-export interface ResetAuthorizationRequest {
-}
-
-export const ResetAuthorizationRequest: Schema.Schema<ResetAuthorizationRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "ResetAuthorizationRequest" }) as any as Schema.Schema<ResetAuthorizationRequest>;
-
-export interface Empty {
-}
-
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
-
-export interface RetryPortabilityArchiveRequest {
-}
-
-export const RetryPortabilityArchiveRequest: Schema.Schema<RetryPortabilityArchiveRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "RetryPortabilityArchiveRequest" }) as any as Schema.Schema<RetryPortabilityArchiveRequest>;
-
-export interface RetryPortabilityArchiveResponse {
-  /** The archive job ID that is initiated by the retry endpoint. This can be used to get the state of the new job. */
-  archiveJobId?: string;
-}
-
-export const RetryPortabilityArchiveResponse: Schema.Schema<RetryPortabilityArchiveResponse> = Schema.suspend(() => Schema.Struct({
-  archiveJobId: Schema.optional(Schema.String),
-})).annotate({ identifier: "RetryPortabilityArchiveResponse" }) as any as Schema.Schema<RetryPortabilityArchiveResponse>;
-
-export interface CancelPortabilityArchiveRequest {
-}
-
-export const CancelPortabilityArchiveRequest: Schema.Schema<CancelPortabilityArchiveRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelPortabilityArchiveRequest" }) as any as Schema.Schema<CancelPortabilityArchiveRequest>;
-
-export interface CancelPortabilityArchiveResponse {
-}
-
-export const CancelPortabilityArchiveResponse: Schema.Schema<CancelPortabilityArchiveResponse> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CancelPortabilityArchiveResponse" }) as any as Schema.Schema<CancelPortabilityArchiveResponse>;
-
-export interface CheckAccessTypeRequest {
-}
-
-export const CheckAccessTypeRequest: Schema.Schema<CheckAccessTypeRequest> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "CheckAccessTypeRequest" }) as any as Schema.Schema<CheckAccessTypeRequest>;
-
 export interface CheckAccessTypeResponse {
   /** Jobs initiated with this token will be time-based if all requested resources have time-based access. */
   timeBasedResources?: Array<string>;
@@ -128,9 +92,69 @@ export const CheckAccessTypeResponse: Schema.Schema<CheckAccessTypeResponse> = S
   oneTimeResources: Schema.optional(Schema.Array(Schema.String)),
 })).annotate({ identifier: "CheckAccessTypeResponse" }) as any as Schema.Schema<CheckAccessTypeResponse>;
 
+export interface Empty {
+}
+
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+
+export interface RetryPortabilityArchiveResponse {
+  /** The archive job ID that is initiated by the retry endpoint. This can be used to get the state of the new job. */
+  archiveJobId?: string;
+}
+
+export const RetryPortabilityArchiveResponse: Schema.Schema<RetryPortabilityArchiveResponse> = Schema.suspend(() => Schema.Struct({
+  archiveJobId: Schema.optional(Schema.String),
+})).annotate({ identifier: "RetryPortabilityArchiveResponse" }) as any as Schema.Schema<RetryPortabilityArchiveResponse>;
+
+export interface PortabilityArchiveState {
+  /** Resource that represents the state of the Archive job. */
+  state?: "STATE_UNSPECIFIED" | "IN_PROGRESS" | "COMPLETE" | "FAILED" | "CANCELLED" | (string & {});
+  /** The resource name of ArchiveJob's PortabilityArchiveState singleton. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID provided in the request. */
+  name?: string;
+  /** If the state is complete, this method returns the signed URLs of the objects in the Cloud Storage bucket. */
+  urls?: Array<string>;
+  /** The timestamp that represents the end point for the data you are exporting. If the end_time value is set in the InitiatePortabilityArchiveRequest, this field is set to that value. If end_time is not set, this value is set to the time the export was requested. */
+  exportTime?: string;
+  /** The timestamp that represents the starting point for the data you are exporting. This field is set only if the start_time field is specified in the InitiatePortabilityArchiveRequest. */
+  startTime?: string;
+}
+
+export const PortabilityArchiveState: Schema.Schema<PortabilityArchiveState> = Schema.suspend(() => Schema.Struct({
+  state: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  urls: Schema.optional(Schema.Array(Schema.String)),
+  exportTime: Schema.optional(Schema.String),
+  startTime: Schema.optional(Schema.String),
+})).annotate({ identifier: "PortabilityArchiveState" }) as any as Schema.Schema<PortabilityArchiveState>;
+
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface ResetAuthorizationRequest_Op {
+  /** Request body */
+  body?: ResetAuthorizationRequest;
+}
+
+export const ResetAuthorizationRequest_Op = Schema.Struct({
+  body: Schema.optional(ResetAuthorizationRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "v1/authorization:reset", hasBody: true }),
+  svc,
+) as unknown as Schema.Schema<ResetAuthorizationRequest_Op>;
+
+export type ResetAuthorizationResponse = Empty;
+export const ResetAuthorizationResponse = Empty;
+
+export type ResetAuthorizationError = CommonErrors;
+
+/** Revokes OAuth tokens and resets exhausted scopes for a user/project pair. This method allows you to initiate a request after a new consent is granted. This method also indicates that previous archives can be garbage collected. You should call this method when all jobs are complete and all archives are downloaded. Do not call it only when you start a new job. */
+export const resetAuthorization: API.OperationMethod<ResetAuthorizationRequest_Op, ResetAuthorizationResponse, ResetAuthorizationError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: ResetAuthorizationRequest_Op,
+  output: ResetAuthorizationResponse,
+  errors: [],
+}));
 
 export interface InitiatePortabilityArchiveRequest_Op {
   /** Request body */
@@ -153,57 +177,6 @@ export type InitiatePortabilityArchiveError = CommonErrors;
 export const initiatePortabilityArchive: API.OperationMethod<InitiatePortabilityArchiveRequest_Op, InitiatePortabilityArchiveResponse_Op, InitiatePortabilityArchiveError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: InitiatePortabilityArchiveRequest_Op,
   output: InitiatePortabilityArchiveResponse_Op,
-  errors: [],
-}));
-
-export interface GetPortabilityArchiveStateArchiveJobsRequest {
-  /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
-  name: string;
-}
-
-export const GetPortabilityArchiveStateArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-}).pipe(
-  T.Http({ method: "GET", path: "v1/archiveJobs/{archiveJobsId}/portabilityArchiveState" }),
-  svc,
-) as unknown as Schema.Schema<GetPortabilityArchiveStateArchiveJobsRequest>;
-
-export type GetPortabilityArchiveStateArchiveJobsResponse = PortabilityArchiveState;
-export const GetPortabilityArchiveStateArchiveJobsResponse = PortabilityArchiveState;
-
-export type GetPortabilityArchiveStateArchiveJobsError = CommonErrors;
-
-/** Retrieves the state of an Archive job for the Portability API. */
-export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<GetPortabilityArchiveStateArchiveJobsRequest, GetPortabilityArchiveStateArchiveJobsResponse, GetPortabilityArchiveStateArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: GetPortabilityArchiveStateArchiveJobsRequest,
-  output: GetPortabilityArchiveStateArchiveJobsResponse,
-  errors: [],
-}));
-
-export interface RetryArchiveJobsRequest {
-  /** Required. The Archive job ID you're retrying. This is returned by the InitiatePortabilityArchiveResponse. Retrying is only executed if the initial job failed. */
-  name: string;
-  /** Request body */
-  body?: RetryPortabilityArchiveRequest;
-}
-
-export const RetryArchiveJobsRequest = Schema.Struct({
-  name: Schema.String.pipe(T.HttpPath("name")),
-  body: Schema.optional(RetryPortabilityArchiveRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/archiveJobs/{archiveJobsId}:retry", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<RetryArchiveJobsRequest>;
-
-export type RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
-export const RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
-
-export type RetryArchiveJobsError = CommonErrors;
-
-/** Retries a failed Portability Archive job. */
-export const retryArchiveJobs: API.OperationMethod<RetryArchiveJobsRequest, RetryArchiveJobsResponse, RetryArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: RetryArchiveJobsRequest,
-  output: RetryArchiveJobsResponse,
   errors: [],
 }));
 
@@ -234,27 +207,54 @@ export const cancelArchiveJobs: API.OperationMethod<CancelArchiveJobsRequest, Ca
   errors: [],
 }));
 
-export interface ResetAuthorizationRequest_Op {
+export interface RetryArchiveJobsRequest {
+  /** Required. The Archive job ID you're retrying. This is returned by the InitiatePortabilityArchiveResponse. Retrying is only executed if the initial job failed. */
+  name: string;
   /** Request body */
-  body?: ResetAuthorizationRequest;
+  body?: RetryPortabilityArchiveRequest;
 }
 
-export const ResetAuthorizationRequest_Op = Schema.Struct({
-  body: Schema.optional(ResetAuthorizationRequest).pipe(T.HttpBody()),
+export const RetryArchiveJobsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+  body: Schema.optional(RetryPortabilityArchiveRequest).pipe(T.HttpBody()),
 }).pipe(
-  T.Http({ method: "POST", path: "v1/authorization:reset", hasBody: true }),
+  T.Http({ method: "POST", path: "v1/archiveJobs/{archiveJobsId}:retry", hasBody: true }),
   svc,
-) as unknown as Schema.Schema<ResetAuthorizationRequest_Op>;
+) as unknown as Schema.Schema<RetryArchiveJobsRequest>;
 
-export type ResetAuthorizationResponse = Empty;
-export const ResetAuthorizationResponse = Empty;
+export type RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
+export const RetryArchiveJobsResponse = RetryPortabilityArchiveResponse;
 
-export type ResetAuthorizationError = CommonErrors;
+export type RetryArchiveJobsError = CommonErrors;
 
-/** Revokes OAuth tokens and resets exhausted scopes for a user/project pair. This method allows you to initiate a request after a new consent is granted. This method also indicates that previous archives can be garbage collected. You should call this method when all jobs are complete and all archives are downloaded. Do not call it only when you start a new job. */
-export const resetAuthorization: API.OperationMethod<ResetAuthorizationRequest_Op, ResetAuthorizationResponse, ResetAuthorizationError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: ResetAuthorizationRequest_Op,
-  output: ResetAuthorizationResponse,
+/** Retries a failed Portability Archive job. */
+export const retryArchiveJobs: API.OperationMethod<RetryArchiveJobsRequest, RetryArchiveJobsResponse, RetryArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: RetryArchiveJobsRequest,
+  output: RetryArchiveJobsResponse,
+  errors: [],
+}));
+
+export interface GetPortabilityArchiveStateArchiveJobsRequest {
+  /** Required. The archive job ID that is returned when you request the state of the job. The format is: archiveJobs/{archive_job}/portabilityArchiveState. archive_job is the job ID returned by the InitiatePortabilityArchiveResponse. */
+  name: string;
+}
+
+export const GetPortabilityArchiveStateArchiveJobsRequest = Schema.Struct({
+  name: Schema.String.pipe(T.HttpPath("name")),
+}).pipe(
+  T.Http({ method: "GET", path: "v1/archiveJobs/{archiveJobsId}/portabilityArchiveState" }),
+  svc,
+) as unknown as Schema.Schema<GetPortabilityArchiveStateArchiveJobsRequest>;
+
+export type GetPortabilityArchiveStateArchiveJobsResponse = PortabilityArchiveState;
+export const GetPortabilityArchiveStateArchiveJobsResponse = PortabilityArchiveState;
+
+export type GetPortabilityArchiveStateArchiveJobsError = CommonErrors;
+
+/** Retrieves the state of an Archive job for the Portability API. */
+export const getPortabilityArchiveStateArchiveJobs: API.OperationMethod<GetPortabilityArchiveStateArchiveJobsRequest, GetPortabilityArchiveStateArchiveJobsResponse, GetPortabilityArchiveStateArchiveJobsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: GetPortabilityArchiveStateArchiveJobsRequest,
+  output: GetPortabilityArchiveStateArchiveJobsResponse,
   errors: [],
 }));
 

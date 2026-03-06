@@ -26,31 +26,31 @@ const svc = T.Service({
 export interface UrlNotification {
   /** The object of this notification. The URL must be owned by the publisher of this notification and, in case of `URL_UPDATED` notifications, it _must_ be crawlable by Google. */
   url?: string;
-  /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
-  notifyTime?: string;
   /** The URL life cycle event that Google is being notified about. */
   type?: "URL_NOTIFICATION_TYPE_UNSPECIFIED" | "URL_UPDATED" | "URL_DELETED" | (string & {});
+  /** Creation timestamp for this notification. Users should _not_ specify it, the field is ignored at the request time. */
+  notifyTime?: string;
 }
 
 export const UrlNotification: Schema.Schema<UrlNotification> = Schema.suspend(() => Schema.Struct({
   url: Schema.optional(Schema.String),
-  notifyTime: Schema.optional(Schema.String),
   type: Schema.optional(Schema.String),
+  notifyTime: Schema.optional(Schema.String),
 })).annotate({ identifier: "UrlNotification" }) as any as Schema.Schema<UrlNotification>;
 
 export interface UrlNotificationMetadata {
   /** URL to which this metadata refers. */
   url?: string;
-  /** Latest notification received with type `URL_REMOVED`. */
-  latestRemove?: UrlNotification;
   /** Latest notification received with type `URL_UPDATED`. */
   latestUpdate?: UrlNotification;
+  /** Latest notification received with type `URL_REMOVED`. */
+  latestRemove?: UrlNotification;
 }
 
 export const UrlNotificationMetadata: Schema.Schema<UrlNotificationMetadata> = Schema.suspend(() => Schema.Struct({
   url: Schema.optional(Schema.String),
-  latestRemove: Schema.optional(UrlNotification),
   latestUpdate: Schema.optional(UrlNotification),
+  latestRemove: Schema.optional(UrlNotification),
 })).annotate({ identifier: "UrlNotificationMetadata" }) as any as Schema.Schema<UrlNotificationMetadata>;
 
 export interface PublishUrlNotificationResponse {
@@ -65,30 +65,6 @@ export const PublishUrlNotificationResponse: Schema.Schema<PublishUrlNotificatio
 // ==========================================================================
 // Operations
 // ==========================================================================
-
-export interface GetMetadataUrlNotificationsRequest {
-  /** URL that is being queried. */
-  url?: string;
-}
-
-export const GetMetadataUrlNotificationsRequest = Schema.Struct({
-  url: Schema.optional(Schema.String).pipe(T.HttpQuery("url")),
-}).pipe(
-  T.Http({ method: "GET", path: "v3/urlNotifications/metadata" }),
-  svc,
-) as unknown as Schema.Schema<GetMetadataUrlNotificationsRequest>;
-
-export type GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
-export const GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
-
-export type GetMetadataUrlNotificationsError = CommonErrors;
-
-/** Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API. */
-export const getMetadataUrlNotifications: API.OperationMethod<GetMetadataUrlNotificationsRequest, GetMetadataUrlNotificationsResponse, GetMetadataUrlNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
-  input: GetMetadataUrlNotificationsRequest,
-  output: GetMetadataUrlNotificationsResponse,
-  errors: [],
-}));
 
 export interface PublishUrlNotificationsRequest {
   /** Request body */
@@ -111,6 +87,30 @@ export type PublishUrlNotificationsError = CommonErrors;
 export const publishUrlNotifications: API.OperationMethod<PublishUrlNotificationsRequest, PublishUrlNotificationsResponse, PublishUrlNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
   input: PublishUrlNotificationsRequest,
   output: PublishUrlNotificationsResponse,
+  errors: [],
+}));
+
+export interface GetMetadataUrlNotificationsRequest {
+  /** URL that is being queried. */
+  url?: string;
+}
+
+export const GetMetadataUrlNotificationsRequest = Schema.Struct({
+  url: Schema.optional(Schema.String).pipe(T.HttpQuery("url")),
+}).pipe(
+  T.Http({ method: "GET", path: "v3/urlNotifications/metadata" }),
+  svc,
+) as unknown as Schema.Schema<GetMetadataUrlNotificationsRequest>;
+
+export type GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
+export const GetMetadataUrlNotificationsResponse = UrlNotificationMetadata;
+
+export type GetMetadataUrlNotificationsError = CommonErrors;
+
+/** Gets metadata about a Web Document. This method can _only_ be used to query URLs that were previously seen in successful Indexing API notifications. Includes the latest `UrlNotification` received via this API. */
+export const getMetadataUrlNotifications: API.OperationMethod<GetMetadataUrlNotificationsRequest, GetMetadataUrlNotificationsResponse, GetMetadataUrlNotificationsError, GCPAuth | HttpClient.HttpClient> = API.make(() => ({
+  input: GetMetadataUrlNotificationsRequest,
+  output: GetMetadataUrlNotificationsResponse,
   errors: [],
 }));
 

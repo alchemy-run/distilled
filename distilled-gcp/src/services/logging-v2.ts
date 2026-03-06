@@ -1033,7 +1033,7 @@ export interface LogEntry {
   textPayload?: string;
   /** The log entry payload, represented as a structure that is expressed as a JSON object. */
   jsonPayload?: Record<string, unknown>;
-  /** Optional. The time the event described by the log entry occurred. This time is used to compute the log entry's age and to enforce the logs retention period. If this field is omitted in a new log entry, then Logging assigns it the current time. Timestamps have nanosecond accuracy, but trailing zeros in the fractional seconds might be omitted when the timestamp is displayed.Incoming log entries must have timestamps that don't exceed the logs retention period (https://cloud.google.com/logging/quotas#logs_retention_periods) in the past, and that don't exceed 24 hours in the future. Log entries outside those time boundaries are rejected by Logging. */
+  /** Optional. The time the event described by the log entry occurred. This time is used to compute the log entry's age and to enforce the logs retention period. If this field is omitted in a new log entry, then Logging assigns it the current time. Timestamps have nanosecond accuracy, but trailing zeros in the fractional seconds might be omitted when the timestamp is displayed. */
   timestamp?: string;
   /** Output only. The time the log entry was received by Logging. */
   receiveTimestamp?: string;

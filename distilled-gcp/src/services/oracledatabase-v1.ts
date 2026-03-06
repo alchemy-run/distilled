@@ -1894,6 +1894,10 @@ export interface Database {
   gcpOracleZone?: string;
   /** Output only. The Status of Operations Insights for this Database. */
   opsInsightsStatus?: "OPERATIONS_INSIGHTS_STATUS_UNSPECIFIED" | "ENABLING" | "ENABLED" | "DISABLING" | "NOT_ENABLED" | "FAILED_ENABLING" | "FAILED_DISABLING" | (string & {});
+  /** Optional. The ID of the pluggable database associated with the Database. The ID must be unique within the project and location. */
+  pluggableDatabaseId?: string;
+  /** Optional. The pluggable database associated with the Database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. */
+  pluggableDatabaseName?: string;
 }
 
 export const Database: Schema.Schema<Database> = Schema.suspend(() => Schema.Struct({
@@ -1911,6 +1915,8 @@ export const Database: Schema.Schema<Database> = Schema.suspend(() => Schema.Str
   dbHomeName: Schema.optional(Schema.String),
   gcpOracleZone: Schema.optional(Schema.String),
   opsInsightsStatus: Schema.optional(Schema.String),
+  pluggableDatabaseId: Schema.optional(Schema.String),
+  pluggableDatabaseName: Schema.optional(Schema.String),
 })).annotate({ identifier: "Database" }) as any as Schema.Schema<Database>;
 
 export interface ListDatabasesResponse {

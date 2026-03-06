@@ -375,6 +375,8 @@ export interface PostgreSql {
   database?: string;
   /** Output only. Ephemeral is true if this data connect service is served from temporary in-memory emulation of Postgres. While Cloud SQL is being provisioned, the data connect service provides the ephemeral service to help developers get started. Once the Cloud SQL is provisioned, Data Connect service will transfer its data on a best-effort basis to the Cloud SQL instance. WARNING: Ephemeral data sources will expire after 24 hour. The data will be lost if they aren't transferred to the Cloud SQL instance. WARNING: When `ephemeral=true`, mutations to the database are not guaranteed to be durably persisted, even if an OK status code is returned. All or parts of the data may be lost or reverted to earlier versions. */
   ephemeral?: boolean;
+  /** Optional. User-configured PostgreSQL schema. Defaults to "public" if not specified. */
+  schema?: string;
 }
 
 export const PostgreSql: Schema.Schema<PostgreSql> = Schema.suspend(() => Schema.Struct({
@@ -384,6 +386,7 @@ export const PostgreSql: Schema.Schema<PostgreSql> = Schema.suspend(() => Schema
   cloudSql: Schema.optional(CloudSqlInstance),
   database: Schema.optional(Schema.String),
   ephemeral: Schema.optional(Schema.Boolean),
+  schema: Schema.optional(Schema.String),
 })).annotate({ identifier: "PostgreSql" }) as any as Schema.Schema<PostgreSql>;
 
 export interface HttpGraphql {

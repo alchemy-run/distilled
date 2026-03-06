@@ -2399,7 +2399,7 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> = Schem
   nextPageToken: Schema.optional(Schema.String),
 })).annotate({ identifier: "ListLocationsResponse" }) as any as Schema.Schema<ListLocationsResponse>;
 
-export interface OperationMetadata {
+export interface GoogleCloudBackupdrV1OperationMetadata {
   /** Output only. The time the operation was created. */
   createTime?: string;
   /** Output only. The time the operation finished running. */
@@ -2418,7 +2418,7 @@ export interface OperationMetadata {
   additionalInfo?: Record<string, string>;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspend(() => Schema.Struct({
+export const GoogleCloudBackupdrV1OperationMetadata: Schema.Schema<GoogleCloudBackupdrV1OperationMetadata> = Schema.suspend(() => Schema.Struct({
   createTime: Schema.optional(Schema.String),
   endTime: Schema.optional(Schema.String),
   target: Schema.optional(Schema.String),
@@ -2427,7 +2427,7 @@ export const OperationMetadata: Schema.Schema<OperationMetadata> = Schema.suspen
   requestedCancellation: Schema.optional(Schema.Boolean),
   apiVersion: Schema.optional(Schema.String),
   additionalInfo: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-})).annotate({ identifier: "OperationMetadata" }) as any as Schema.Schema<OperationMetadata>;
+})).annotate({ identifier: "GoogleCloudBackupdrV1OperationMetadata" }) as any as Schema.Schema<GoogleCloudBackupdrV1OperationMetadata>;
 
 export interface SetInternalStatusResponse {
 }
@@ -2469,7 +2469,7 @@ export const RestoreBackupResponse: Schema.Schema<RestoreBackupResponse> = Schem
 })).annotate({ identifier: "RestoreBackupResponse" }) as any as Schema.Schema<RestoreBackupResponse>;
 
 export interface LocationMetadata {
-  unsupportedFeatures?: Array<"FEATURE_UNSPECIFIED" | "MANAGEMENT_SERVER" | "COMPUTE_INSTANCE" | "PROTECTION_SUMMARY" | (string & {})>;
+  unsupportedFeatures?: Array<"FEATURE_UNSPECIFIED" | "MANAGEMENT_SERVER" | "COMPUTE_INSTANCE" | "PROTECTION_SUMMARY" | "DISK" | "CLOUD_SQL" | "ALLOY_DB" | "FILESTORE" | "SAAS_PLATFORM" | (string & {})>;
 }
 
 export const LocationMetadata: Schema.Schema<LocationMetadata> = Schema.suspend(() => Schema.Struct({

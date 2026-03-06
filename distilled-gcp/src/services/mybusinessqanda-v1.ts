@@ -39,94 +39,58 @@ export const Author: Schema.Schema<Author> = Schema.suspend(() => Schema.Struct(
 })).annotate({ identifier: "Author" }) as any as Schema.Schema<Author>;
 
 export interface Answer {
-  /** Output only. The unique name for the answer locations/* /questions/* /answers/* */
-  name?: string;
   /** Output only. The author of the answer. Will only be set during list operations. */
   author?: Author;
-  /** Output only. The number of upvotes for the answer. */
-  upvoteCount?: number;
-  /** Required. The text of the answer. It should contain at least one non-whitespace character. The maximum length is 4096 characters. */
-  text?: string;
-  /** Output only. The timestamp for when the answer was written. Only retrieved during ListResponse fetching. */
-  createTime?: string;
   /** Output only. The timestamp for when the answer was last modified. */
   updateTime?: string;
+  /** Output only. The timestamp for when the answer was written. Only retrieved during ListResponse fetching. */
+  createTime?: string;
+  /** Required. The text of the answer. It should contain at least one non-whitespace character. The maximum length is 4096 characters. */
+  text?: string;
+  /** Output only. The unique name for the answer locations/* /questions/* /answers/* */
+  name?: string;
+  /** Output only. The number of upvotes for the answer. */
+  upvoteCount?: number;
 }
 
 export const Answer: Schema.Schema<Answer> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
   author: Schema.optional(Author),
-  upvoteCount: Schema.optional(Schema.Number),
-  text: Schema.optional(Schema.String),
-  createTime: Schema.optional(Schema.String),
   updateTime: Schema.optional(Schema.String),
+  createTime: Schema.optional(Schema.String),
+  text: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  upvoteCount: Schema.optional(Schema.Number),
 })).annotate({ identifier: "Answer" }) as any as Schema.Schema<Answer>;
 
 export interface Question {
-  /** Immutable. The unique name for the question. locations/* /questions/* This field will be ignored if set during question creation. */
-  name?: string;
-  /** Output only. The author of the question. */
-  author?: Author;
-  /** Output only. The number of upvotes for the question. */
-  upvoteCount?: number;
-  /** Required. The text of the question. It should contain at least three words and the total length should be greater than or equal to 10 characters. The maximum length is 4096 characters. */
-  text?: string;
   /** Output only. The timestamp for when the question was written. */
   createTime?: string;
-  /** Output only. The timestamp for when the question was last modified. */
-  updateTime?: string;
+  /** Required. The text of the question. It should contain at least three words and the total length should be greater than or equal to 10 characters. The maximum length is 4096 characters. */
+  text?: string;
+  /** Immutable. The unique name for the question. locations/* /questions/* This field will be ignored if set during question creation. */
+  name?: string;
+  /** Output only. The number of upvotes for the question. */
+  upvoteCount?: number;
   /** Output only. A list of answers to the question, sorted by upvotes. This may not be a complete list of answers depending on the request parameters (answers_per_question) */
   topAnswers?: Array<Answer>;
+  /** Output only. The author of the question. */
+  author?: Author;
+  /** Output only. The timestamp for when the question was last modified. */
+  updateTime?: string;
   /** Output only. The total number of answers posted for this question. */
   totalAnswerCount?: number;
 }
 
 export const Question: Schema.Schema<Question> = Schema.suspend(() => Schema.Struct({
-  name: Schema.optional(Schema.String),
-  author: Schema.optional(Author),
-  upvoteCount: Schema.optional(Schema.Number),
-  text: Schema.optional(Schema.String),
   createTime: Schema.optional(Schema.String),
-  updateTime: Schema.optional(Schema.String),
+  text: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+  upvoteCount: Schema.optional(Schema.Number),
   topAnswers: Schema.optional(Schema.Array(Answer)),
+  author: Schema.optional(Author),
+  updateTime: Schema.optional(Schema.String),
   totalAnswerCount: Schema.optional(Schema.Number),
 })).annotate({ identifier: "Question" }) as any as Schema.Schema<Question>;
-
-export interface ListQuestionsResponse {
-  /** The requested questions, */
-  questions?: Array<Question>;
-  /** The total number of questions posted for this location across all pages. */
-  totalSize?: number;
-  /** If the number of questions exceeds the requested max page size, this field is populated with a token to fetch the next page of questions on a subsequent call. If there are no more questions, this field is not present in the response. */
-  nextPageToken?: string;
-}
-
-export const ListQuestionsResponse: Schema.Schema<ListQuestionsResponse> = Schema.suspend(() => Schema.Struct({
-  questions: Schema.optional(Schema.Array(Question)),
-  totalSize: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListQuestionsResponse" }) as any as Schema.Schema<ListQuestionsResponse>;
-
-export interface ListAnswersResponse {
-  /** The requested answers. */
-  answers?: Array<Answer>;
-  /** The total number of answers posted for this question across all pages. */
-  totalSize?: number;
-  /** If the number of answers exceeds the requested max page size, this field is populated with a token to fetch the next page of answers on a subsequent call. If there are no more answers, this field is not present in the response. */
-  nextPageToken?: string;
-}
-
-export const ListAnswersResponse: Schema.Schema<ListAnswersResponse> = Schema.suspend(() => Schema.Struct({
-  answers: Schema.optional(Schema.Array(Answer)),
-  totalSize: Schema.optional(Schema.Number),
-  nextPageToken: Schema.optional(Schema.String),
-})).annotate({ identifier: "ListAnswersResponse" }) as any as Schema.Schema<ListAnswersResponse>;
-
-export interface Empty {
-}
-
-export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
-})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
 
 export interface UpsertAnswerRequest {
   /** Required. The new answer. */
@@ -137,32 +101,68 @@ export const UpsertAnswerRequest: Schema.Schema<UpsertAnswerRequest> = Schema.su
   answer: Schema.optional(Answer),
 })).annotate({ identifier: "UpsertAnswerRequest" }) as any as Schema.Schema<UpsertAnswerRequest>;
 
+export interface ListQuestionsResponse {
+  /** The requested questions, */
+  questions?: Array<Question>;
+  /** If the number of questions exceeds the requested max page size, this field is populated with a token to fetch the next page of questions on a subsequent call. If there are no more questions, this field is not present in the response. */
+  nextPageToken?: string;
+  /** The total number of questions posted for this location across all pages. */
+  totalSize?: number;
+}
+
+export const ListQuestionsResponse: Schema.Schema<ListQuestionsResponse> = Schema.suspend(() => Schema.Struct({
+  questions: Schema.optional(Schema.Array(Question)),
+  nextPageToken: Schema.optional(Schema.String),
+  totalSize: Schema.optional(Schema.Number),
+})).annotate({ identifier: "ListQuestionsResponse" }) as any as Schema.Schema<ListQuestionsResponse>;
+
+export interface ListAnswersResponse {
+  /** The total number of answers posted for this question across all pages. */
+  totalSize?: number;
+  /** The requested answers. */
+  answers?: Array<Answer>;
+  /** If the number of answers exceeds the requested max page size, this field is populated with a token to fetch the next page of answers on a subsequent call. If there are no more answers, this field is not present in the response. */
+  nextPageToken?: string;
+}
+
+export const ListAnswersResponse: Schema.Schema<ListAnswersResponse> = Schema.suspend(() => Schema.Struct({
+  totalSize: Schema.optional(Schema.Number),
+  answers: Schema.optional(Schema.Array(Answer)),
+  nextPageToken: Schema.optional(Schema.String),
+})).annotate({ identifier: "ListAnswersResponse" }) as any as Schema.Schema<ListAnswersResponse>;
+
+export interface Empty {
+}
+
+export const Empty: Schema.Schema<Empty> = Schema.suspend(() => Schema.Struct({
+})).annotate({ identifier: "Empty" }) as any as Schema.Schema<Empty>;
+
 // ==========================================================================
 // Operations
 // ==========================================================================
 
 export interface ListLocationsQuestionsRequest {
+  /** Optional. How many answers to fetch per question. The default and maximum `answers_per_question` values are 10. */
+  answersPerQuestion?: number;
+  /** Optional. The order to return the questions. Valid options include 'update_time desc' and 'upvote_count desc', which will return the questions sorted descendingly by the requested field. The default sort order is 'update_time desc'. */
+  orderBy?: string;
+  /** Optional. A filter constraining the questions to return. The only filter currently supported is "ignore_answered=true" */
+  filter?: string;
+  /** Optional. If specified, the next page of questions is retrieved. */
+  pageToken?: string;
   /** Required. The name of the location to fetch questions for. */
   parent: string;
   /** Optional. How many questions to fetch per page. The default and maximum `page_size` values are 10. */
   pageSize?: number;
-  /** Optional. If specified, the next page of questions is retrieved. */
-  pageToken?: string;
-  /** Optional. How many answers to fetch per question. The default and maximum `answers_per_question` values are 10. */
-  answersPerQuestion?: number;
-  /** Optional. A filter constraining the questions to return. The only filter currently supported is "ignore_answered=true" */
-  filter?: string;
-  /** Optional. The order to return the questions. Valid options include 'update_time desc' and 'upvote_count desc', which will return the questions sorted descendingly by the requested field. The default sort order is 'update_time desc'. */
-  orderBy?: string;
 }
 
 export const ListLocationsQuestionsRequest = Schema.Struct({
+  answersPerQuestion: Schema.optional(Schema.Number).pipe(T.HttpQuery("answersPerQuestion")),
+  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  answersPerQuestion: Schema.optional(Schema.Number).pipe(T.HttpQuery("answersPerQuestion")),
-  filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/locations/{locationsId}/questions" }),
   svc,
@@ -266,20 +266,20 @@ export const deleteLocationsQuestions: API.OperationMethod<DeleteLocationsQuesti
 }));
 
 export interface ListLocationsQuestionsAnswersRequest {
+  /** Optional. If specified, the next page of answers is retrieved. */
+  pageToken?: string;
   /** Required. The name of the question to fetch answers for. */
   parent: string;
   /** Optional. How many answers to fetch per page. The default and maximum `page_size` values are 10. */
   pageSize?: number;
-  /** Optional. If specified, the next page of answers is retrieved. */
-  pageToken?: string;
   /** Optional. The order to return the answers. Valid options include 'update_time desc' and 'upvote_count desc', which will return the answers sorted descendingly by the requested field. The default sort order is 'update_time desc'. */
   orderBy?: string;
 }
 
 export const ListLocationsQuestionsAnswersRequest = Schema.Struct({
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   parent: Schema.String.pipe(T.HttpPath("parent")),
   pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
 }).pipe(
   T.Http({ method: "GET", path: "v1/locations/{locationsId}/questions/{questionsId}/answers" }),

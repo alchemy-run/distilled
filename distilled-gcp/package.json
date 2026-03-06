@@ -44,10 +44,10 @@
     }
   },
   "scripts": {
-    "setup": "bun run scripts/setup.ts",
+    "specs:fetch": "git submodule update --force --init --recursive specs/gcp-discovery-api && git -C specs/gcp-discovery-api checkout -- .",
+    "specs:update": "git -C specs/gcp-discovery-api fetch && git -C specs/gcp-discovery-api pull",
     "build": "bun run scripts/generate-clients.ts",
     "test": "vitest run",
-    "test:watch": "vitest watch",
     "typecheck": "tsc -b",
     "lint": "oxlint",
     "format": "oxfmt './src' './test' './scripts'"

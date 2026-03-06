@@ -391,7 +391,7 @@ export interface Connection {
   uid?: string;
   /** Optional. The crypto key configuration. This field is used by the Customer-Managed Encryption Keys (CMEK) feature. */
   cryptoKeyConfig?: CryptoKeyConfig;
-  /** Optional. Configuration for the git proxy feature. Enabling the git proxy allows clients to perform git operations on the repositories linked in the connection. */
+  /** Optional. Configuration for the git proxy feature. Enabling the git proxy allows clients to perform git operations on the repositories linked in the connection. [Learn more](https://docs.cloud.google.com/developer-connect/docs/configure-git-proxy). */
   gitProxyConfig?: GitProxyConfig;
 }
 

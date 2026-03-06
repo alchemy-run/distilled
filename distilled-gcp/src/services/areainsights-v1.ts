@@ -35,30 +35,6 @@ export const LatLng: Schema.Schema<LatLng> = Schema.suspend(() => Schema.Struct(
   longitude: Schema.optional(Schema.Number),
 })).annotate({ identifier: "LatLng" }) as any as Schema.Schema<LatLng>;
 
-export interface Circle {
-  /** The latitude and longitude of the center of the circle. */
-  latLng?: LatLng;
-  /** **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJgUbEo8cfqokR5lP9_Wh_DaM`. */
-  place?: string;
-  /** Optional. The radius of the circle in meters */
-  radius?: number;
-}
-
-export const Circle: Schema.Schema<Circle> = Schema.suspend(() => Schema.Struct({
-  latLng: Schema.optional(LatLng),
-  place: Schema.optional(Schema.String),
-  radius: Schema.optional(Schema.Number),
-})).annotate({ identifier: "Circle" }) as any as Schema.Schema<Circle>;
-
-export interface Region {
-  /** The [place ID](https://developers.google.com/maps/documentation/places/web-service/place-id) of the geographic region. Not all region types are supported; see documentation for details. **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJPV4oX_65j4ARVW8IJ6IJUYs`. */
-  place?: string;
-}
-
-export const Region: Schema.Schema<Region> = Schema.suspend(() => Schema.Struct({
-  place: Schema.optional(Schema.String),
-})).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
-
 export interface Polygon {
   /** Optional. The coordinates that define the polygon. */
   coordinates?: Array<LatLng>;
@@ -77,6 +53,81 @@ export const CustomArea: Schema.Schema<CustomArea> = Schema.suspend(() => Schema
   polygon: Schema.optional(Polygon),
 })).annotate({ identifier: "CustomArea" }) as any as Schema.Schema<CustomArea>;
 
+export interface RatingFilter {
+  /** Optional. Restricts results to places whose average user rating is greater than or equal to min_rating. Values must be between 1.0 and 5.0. */
+  minRating?: number;
+  /** Optional. Restricts results to places whose average user rating is strictly less than or equal to max_rating. Values must be between 1.0 and 5.0. */
+  maxRating?: number;
+}
+
+export const RatingFilter: Schema.Schema<RatingFilter> = Schema.suspend(() => Schema.Struct({
+  minRating: Schema.optional(Schema.Number),
+  maxRating: Schema.optional(Schema.Number),
+})).annotate({ identifier: "RatingFilter" }) as any as Schema.Schema<RatingFilter>;
+
+export interface PlaceInsight {
+  /** The unique identifier of the place. This resource name can be used to retrieve details about the place using the [Places API](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places/get). */
+  place?: string;
+}
+
+export const PlaceInsight: Schema.Schema<PlaceInsight> = Schema.suspend(() => Schema.Struct({
+  place: Schema.optional(Schema.String),
+})).annotate({ identifier: "PlaceInsight" }) as any as Schema.Schema<PlaceInsight>;
+
+export interface Region {
+  /** The [place ID](https://developers.google.com/maps/documentation/places/web-service/place-id) of the geographic region. Not all region types are supported; see documentation for details. **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJPV4oX_65j4ARVW8IJ6IJUYs`. */
+  place?: string;
+}
+
+export const Region: Schema.Schema<Region> = Schema.suspend(() => Schema.Struct({
+  place: Schema.optional(Schema.String),
+})).annotate({ identifier: "Region" }) as any as Schema.Schema<Region>;
+
+export interface TypeFilter {
+  /** Optional. Excluded Place types. */
+  excludedTypes?: Array<string>;
+  /** Optional. Excluded primary Place types. */
+  excludedPrimaryTypes?: Array<string>;
+  /** Optional. Included primary Place types. */
+  includedPrimaryTypes?: Array<string>;
+  /** Optional. Included Place types. */
+  includedTypes?: Array<string>;
+}
+
+export const TypeFilter: Schema.Schema<TypeFilter> = Schema.suspend(() => Schema.Struct({
+  excludedTypes: Schema.optional(Schema.Array(Schema.String)),
+  excludedPrimaryTypes: Schema.optional(Schema.Array(Schema.String)),
+  includedPrimaryTypes: Schema.optional(Schema.Array(Schema.String)),
+  includedTypes: Schema.optional(Schema.Array(Schema.String)),
+})).annotate({ identifier: "TypeFilter" }) as any as Schema.Schema<TypeFilter>;
+
+export interface ComputeInsightsResponse {
+  /** Result for Insights.INSIGHT_PLACES. */
+  placeInsights?: Array<PlaceInsight>;
+  /** Result for Insights.INSIGHT_COUNT. */
+  count?: string;
+}
+
+export const ComputeInsightsResponse: Schema.Schema<ComputeInsightsResponse> = Schema.suspend(() => Schema.Struct({
+  placeInsights: Schema.optional(Schema.Array(PlaceInsight)),
+  count: Schema.optional(Schema.String),
+})).annotate({ identifier: "ComputeInsightsResponse" }) as any as Schema.Schema<ComputeInsightsResponse>;
+
+export interface Circle {
+  /** Optional. The radius of the circle in meters */
+  radius?: number;
+  /** **Format:** Must be in the format `places/PLACE_ID`, where `PLACE_ID` is the unique identifier of a place. For example: `places/ChIJgUbEo8cfqokR5lP9_Wh_DaM`. */
+  place?: string;
+  /** The latitude and longitude of the center of the circle. */
+  latLng?: LatLng;
+}
+
+export const Circle: Schema.Schema<Circle> = Schema.suspend(() => Schema.Struct({
+  radius: Schema.optional(Schema.Number),
+  place: Schema.optional(Schema.String),
+  latLng: Schema.optional(LatLng),
+})).annotate({ identifier: "Circle" }) as any as Schema.Schema<Circle>;
+
 export interface LocationFilter {
   /** Area as a circle. */
   circle?: Circle;
@@ -92,36 +143,6 @@ export const LocationFilter: Schema.Schema<LocationFilter> = Schema.suspend(() =
   customArea: Schema.optional(CustomArea),
 })).annotate({ identifier: "LocationFilter" }) as any as Schema.Schema<LocationFilter>;
 
-export interface TypeFilter {
-  /** Optional. Included Place types. */
-  includedTypes?: Array<string>;
-  /** Optional. Excluded Place types. */
-  excludedTypes?: Array<string>;
-  /** Optional. Included primary Place types. */
-  includedPrimaryTypes?: Array<string>;
-  /** Optional. Excluded primary Place types. */
-  excludedPrimaryTypes?: Array<string>;
-}
-
-export const TypeFilter: Schema.Schema<TypeFilter> = Schema.suspend(() => Schema.Struct({
-  includedTypes: Schema.optional(Schema.Array(Schema.String)),
-  excludedTypes: Schema.optional(Schema.Array(Schema.String)),
-  includedPrimaryTypes: Schema.optional(Schema.Array(Schema.String)),
-  excludedPrimaryTypes: Schema.optional(Schema.Array(Schema.String)),
-})).annotate({ identifier: "TypeFilter" }) as any as Schema.Schema<TypeFilter>;
-
-export interface RatingFilter {
-  /** Optional. Restricts results to places whose average user rating is greater than or equal to min_rating. Values must be between 1.0 and 5.0. */
-  minRating?: number;
-  /** Optional. Restricts results to places whose average user rating is strictly less than or equal to max_rating. Values must be between 1.0 and 5.0. */
-  maxRating?: number;
-}
-
-export const RatingFilter: Schema.Schema<RatingFilter> = Schema.suspend(() => Schema.Struct({
-  minRating: Schema.optional(Schema.Number),
-  maxRating: Schema.optional(Schema.Number),
-})).annotate({ identifier: "RatingFilter" }) as any as Schema.Schema<RatingFilter>;
-
 export interface Filter {
   /** Required. Restricts results to places which are located in the area specified by location filters. */
   locationFilter?: LocationFilter;
@@ -129,18 +150,18 @@ export interface Filter {
   typeFilter?: TypeFilter;
   /** Optional. Restricts results to places whose operating status is included on this list. If operating_status is not set, OPERATING_STATUS_OPERATIONAL is used as default. */
   operatingStatus?: Array<"OPERATING_STATUS_UNSPECIFIED" | "OPERATING_STATUS_OPERATIONAL" | "OPERATING_STATUS_PERMANENTLY_CLOSED" | "OPERATING_STATUS_TEMPORARILY_CLOSED" | (string & {})>;
-  /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
-  priceLevels?: Array<"PRICE_LEVEL_UNSPECIFIED" | "PRICE_LEVEL_FREE" | "PRICE_LEVEL_INEXPENSIVE" | "PRICE_LEVEL_MODERATE" | "PRICE_LEVEL_EXPENSIVE" | "PRICE_LEVEL_VERY_EXPENSIVE" | (string & {})>;
   /** Optional. Restricts results to places whose average user ratings are in the range specified by rating_filter. If rating_filter is not set, all ratings are included in the result. */
   ratingFilter?: RatingFilter;
+  /** Optional. Restricts results to places whose price level is included on this list. If `price_levels` is not set, all price levels are included in the results. */
+  priceLevels?: Array<"PRICE_LEVEL_UNSPECIFIED" | "PRICE_LEVEL_FREE" | "PRICE_LEVEL_INEXPENSIVE" | "PRICE_LEVEL_MODERATE" | "PRICE_LEVEL_EXPENSIVE" | "PRICE_LEVEL_VERY_EXPENSIVE" | (string & {})>;
 }
 
 export const Filter: Schema.Schema<Filter> = Schema.suspend(() => Schema.Struct({
   locationFilter: Schema.optional(LocationFilter),
   typeFilter: Schema.optional(TypeFilter),
   operatingStatus: Schema.optional(Schema.Array(Schema.String)),
-  priceLevels: Schema.optional(Schema.Array(Schema.String)),
   ratingFilter: Schema.optional(RatingFilter),
+  priceLevels: Schema.optional(Schema.Array(Schema.String)),
 })).annotate({ identifier: "Filter" }) as any as Schema.Schema<Filter>;
 
 export interface ComputeInsightsRequest {
@@ -154,27 +175,6 @@ export const ComputeInsightsRequest: Schema.Schema<ComputeInsightsRequest> = Sch
   insights: Schema.optional(Schema.Array(Schema.String)),
   filter: Schema.optional(Filter),
 })).annotate({ identifier: "ComputeInsightsRequest" }) as any as Schema.Schema<ComputeInsightsRequest>;
-
-export interface PlaceInsight {
-  /** The unique identifier of the place. This resource name can be used to retrieve details about the place using the [Places API](https://developers.google.com/maps/documentation/places/web-service/reference/rest/v1/places/get). */
-  place?: string;
-}
-
-export const PlaceInsight: Schema.Schema<PlaceInsight> = Schema.suspend(() => Schema.Struct({
-  place: Schema.optional(Schema.String),
-})).annotate({ identifier: "PlaceInsight" }) as any as Schema.Schema<PlaceInsight>;
-
-export interface ComputeInsightsResponse {
-  /** Result for Insights.INSIGHT_COUNT. */
-  count?: string;
-  /** Result for Insights.INSIGHT_PLACES. */
-  placeInsights?: Array<PlaceInsight>;
-}
-
-export const ComputeInsightsResponse: Schema.Schema<ComputeInsightsResponse> = Schema.suspend(() => Schema.Struct({
-  count: Schema.optional(Schema.String),
-  placeInsights: Schema.optional(Schema.Array(PlaceInsight)),
-})).annotate({ identifier: "ComputeInsightsResponse" }) as any as Schema.Schema<ComputeInsightsResponse>;
 
 // ==========================================================================
 // Operations

@@ -2359,7 +2359,7 @@ export const GoogleDevtoolsCloudbuildV1BuiltImage: Schema.Schema<GoogleDevtoolsC
 
 export interface GoogleDevtoolsCloudbuildV1Hash {
   /** The type of hash that was performed. */
-  type?: "NONE" | "SHA256" | "MD5" | "GO_MODULE_H1" | "SHA512" | (string & {});
+  type?: "NONE" | "SHA256" | "MD5" | "GO_MODULE_H1" | "SHA512" | "DIRSUM_SHA256" | (string & {});
   /** The hash value. */
   value?: string;
 }
@@ -2632,7 +2632,7 @@ export const GoogleDevtoolsCloudbuildV1PoolOption: Schema.Schema<GoogleDevtoolsC
 
 export interface GoogleDevtoolsCloudbuildV1BuildOptions {
   /** Requested hash for SourceProvenance. */
-  sourceProvenanceHash?: Array<"NONE" | "SHA256" | "MD5" | "GO_MODULE_H1" | "SHA512" | (string & {})>;
+  sourceProvenanceHash?: Array<"NONE" | "SHA256" | "MD5" | "GO_MODULE_H1" | "SHA512" | "DIRSUM_SHA256" | (string & {})>;
   /** Requested verifiability options. */
   requestedVerifyOption?: "NOT_VERIFIED" | "VERIFIED" | (string & {});
   /** Compute Engine machine type on which to run the build. */
