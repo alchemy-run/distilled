@@ -1,137 +1,44 @@
 /**
  * Annotation-based traits for declarative operation definitions.
  *
- * This module provides a type-safe annotation system for defining HTTP operations
- * using Schema annotations. Traits can be applied via `.pipe()` or composed with `all()`.
- *
- * @example
- * ```ts
- * import { Schema } from "effect";
- * import * as T from "./traits";
- *
- * const GetEvmAccountInput = Schema.Struct({
- *   address: Schema.String.pipe(T.PathParam()),
- * }).pipe(
- *   T.Http({ method: "GET", path: "/v2/evm/accounts/{address}" })
- * );
- * ```
+ * Re-exports core traits from distilled-core plus Coinbase-specific extensions.
  */
 
-/**
- * Internal symbol for annotation metadata storage
- */
-const annotationMetaSymbol = Symbol.for("coinbase/annotation-meta");
+// Re-export all core traits
+export {
+  // Annotation infrastructure
+  type Annotation,
+  makeAnnotation,
+  all,
+  // HTTP traits
+  httpSymbol,
+  type HttpMethod,
+  type HttpTrait,
+  Http,
+  // Path parameter traits
+  pathParamSymbol,
+  PathParam,
+  // Query parameter traits
+  queryParamSymbol,
+  QueryParam,
+  // API error code trait
+  apiErrorCodeSymbol,
+  ApiErrorCode,
+  // Annotation retrieval helpers
+  getAnnotation,
+  getHttpTrait,
+  isPathParam,
+  getQueryParam,
+  getApiErrorCode,
+  getPathParams,
+  buildPath,
+} from "distilled-core/Traits";
 
-/**
- * Any type that has an .annotate() method returning itself.
- * This includes Schema.Schema and Schema.PropertySignature.
- */
-type Annotatable = {
-  annotate(annotations: unknown): Annotatable;
-};
+// ============================================================================
+// Coinbase-Specific Traits
+// ============================================================================
 
-/**
- * An Annotation is a callable that can be used with .pipe() AND
- * has symbol properties so it works directly with Schema.Struct/Class.
- */
-export interface Annotation {
-  <A extends Annotatable>(schema: A): A;
-  readonly [annotationMetaSymbol]: Array<{ symbol: symbol; value: unknown }>;
-  readonly [key: symbol]: unknown;
-  readonly [key: string]: unknown;
-}
-
-/**
- * Create an annotation builder for a given symbol and value
- */
-function makeAnnotation<T>(sym: symbol, value: T): Annotation {
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotate({ [sym]: value }) as A;
-
-  (fn as any)[annotationMetaSymbol] = [{ symbol: sym, value }];
-  (fn as any)[sym] = value;
-
-  return fn as Annotation;
-}
-
-/**
- * Combine multiple annotations into one.
- */
-export function all(...annotate: Annotation[]): Annotation {
-  const entries: Array<{ symbol: symbol; value: unknown }> = [];
-  const raw: Record<symbol, unknown> = {};
-
-  for (const a of annotate) {
-    for (const entry of a[annotationMetaSymbol]) {
-      entries.push(entry);
-      raw[entry.symbol] = entry.value;
-    }
-  }
-
-  const fn = <A extends Annotatable>(schema: A): A => schema.annotate(raw) as A;
-
-  (fn as any)[annotationMetaSymbol] = entries;
-
-  for (const { symbol, value } of entries) {
-    (fn as any)[symbol] = value;
-  }
-
-  return fn as Annotation;
-}
-
-// =============================================================================
-// HTTP Operation Traits
-// =============================================================================
-
-/** Symbol for HTTP operation metadata (method + path template) */
-export const httpSymbol = Symbol.for("coinbase/http");
-
-/** HTTP method type */
-export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
-/** HTTP trait configuration */
-export interface HttpTrait {
-  /** HTTP method */
-  method: HttpMethod;
-  /** Path template with {param} placeholders */
-  path: string;
-}
-
-/**
- * Http trait - defines the HTTP method and path template for an operation.
- * Path parameters are specified using {paramName} syntax.
- */
-export const Http = (trait: HttpTrait) => makeAnnotation(httpSymbol, trait);
-
-// =============================================================================
-// Path Parameter Traits
-// =============================================================================
-
-/** Symbol for path parameter annotation */
-export const pathParamSymbol = Symbol.for("coinbase/path-param");
-
-/**
- * PathParam trait - marks a field as a path parameter.
- */
-export const PathParam = () => makeAnnotation(pathParamSymbol, true);
-
-// =============================================================================
-// Query Parameter Traits
-// =============================================================================
-
-/** Symbol for query parameter annotation */
-export const queryParamSymbol = Symbol.for("coinbase/query-param");
-
-/**
- * QueryParam trait - marks a field as a query parameter.
- * Optionally specify a different wire name.
- */
-export const QueryParam = (name?: string) =>
-  makeAnnotation(queryParamSymbol, name ?? true);
-
-// =============================================================================
-// Header Parameter Traits
-// =============================================================================
+import { makeAnnotation } from "distilled-core/Traits";
 
 /** Symbol for header parameter annotation */
 export const headerParamSymbol = Symbol.for("coinbase/header-param");
@@ -143,10 +50,6 @@ export const headerParamSymbol = Symbol.for("coinbase/header-param");
 export const HeaderParam = (name: string) =>
   makeAnnotation(headerParamSymbol, name);
 
-// =============================================================================
-// Wallet Auth Trait
-// =============================================================================
-
 /** Symbol for requiring wallet auth */
 export const walletAuthSymbol = Symbol.for("coinbase/wallet-auth");
 
@@ -155,68 +58,12 @@ export const walletAuthSymbol = Symbol.for("coinbase/wallet-auth");
  */
 export const WalletAuth = () => makeAnnotation(walletAuthSymbol, true);
 
-// =============================================================================
-// API Error Code Trait
-// =============================================================================
-
-/** Symbol for API error code mapping */
-export const apiErrorCodeSymbol = Symbol.for("coinbase/ApiErrorCode");
-
-/**
- * ApiErrorCode trait - maps an error class to an API error code.
- */
-export const ApiErrorCode = (code: string) =>
-  makeAnnotation(apiErrorCodeSymbol, code);
-
-// =============================================================================
-// Annotation Retrieval Helpers
-// =============================================================================
+// ============================================================================
+// Coinbase-Specific Annotation Retrieval Helpers
+// ============================================================================
 
 import * as AST from "effect/SchemaAST";
-
-/**
- * Get annotation value from an AST node, following encoding chain if needed.
- */
-export const getAnnotation = <T>(
-  ast: AST.AST,
-  symbol: symbol,
-): T | undefined => {
-  // Direct annotation
-  const annotations = ast.annotations as Record<symbol, unknown> | undefined;
-  const direct = annotations?.[symbol] as T | undefined;
-  if (direct !== undefined) return direct;
-
-  // Follow encoding chain (replaces v3 Transformation handling)
-  if (ast.encoding && ast.encoding.length > 0) {
-    return getAnnotation<T>(ast.encoding[0].to, symbol);
-  }
-
-  return undefined;
-};
-
-/**
- * Get HTTP trait from a schema's AST.
- */
-export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
-  getAnnotation<HttpTrait>(ast, httpSymbol);
-
-/**
- * Check if a PropertySignature has the pathParam annotation.
- */
-export const isPathParam = (prop: AST.PropertySignature): boolean => {
-  // Check on the property type (v4: PropertySignatures don't have annotations directly)
-  return getAnnotation<boolean>(prop.type, pathParamSymbol) === true;
-};
-
-/**
- * Get query param name from a PropertySignature.
- */
-export const getQueryParam = (
-  prop: AST.PropertySignature,
-): string | boolean | undefined => {
-  // Check on the property type (v4: PropertySignatures don't have annotations directly)
-  return getAnnotation<string | boolean>(prop.type, queryParamSymbol);
-};
+import { getAnnotation } from "distilled-core/Traits";
 
 /**
  * Get header param name from a PropertySignature.
@@ -224,7 +71,6 @@ export const getQueryParam = (
 export const getHeaderParam = (
   prop: AST.PropertySignature,
 ): string | undefined => {
-  // Check on the property type (v4: PropertySignatures don't have annotations directly)
   return getAnnotation<string>(prop.type, headerParamSymbol);
 };
 
@@ -233,44 +79,3 @@ export const getHeaderParam = (
  */
 export const requiresWalletAuth = (ast: AST.AST): boolean =>
   getAnnotation<boolean>(ast, walletAuthSymbol) === true;
-
-/**
- * Get API error code from an error class AST.
- */
-export const getApiErrorCode = (ast: AST.AST): string | undefined =>
-  getAnnotation<string>(ast, apiErrorCodeSymbol);
-
-/**
- * Extract path parameters from a schema's struct properties.
- */
-export const getPathParams = (ast: AST.AST): string[] => {
-  // Handle Objects (struct) - v4 renamed from TypeLiteral
-  if (ast._tag === "Objects") {
-    return ast.propertySignatures
-      .filter((prop) => isPathParam(prop))
-      .map((prop) => String(prop.name));
-  }
-
-  // Follow encoding chain (replaces v3 Transformation handling)
-  if (ast.encoding && ast.encoding.length > 0) {
-    return getPathParams(ast.encoding[0].to);
-  }
-
-  return [];
-};
-
-/**
- * Build the request path by substituting path parameters into the template.
- */
-export const buildPath = (
-  template: string,
-  input: Record<string, unknown>,
-): string => {
-  return template.replace(/\{(\w+)\}/g, (_, name) => {
-    const value = input[name];
-    if (value === undefined || value === null) {
-      throw new Error(`Missing path parameter: ${name}`);
-    }
-    return encodeURIComponent(String(value));
-  });
-};

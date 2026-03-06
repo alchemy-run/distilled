@@ -31,12 +31,10 @@ export * from "./client";
 export * from "./credentials";
 export * from "./errors";
 export * from "./pagination";
-export * from "./sensitive";
-
 // Namespace exports
 export * as Category from "./category";
 export * as Retry from "./retry";
-export * as Traits from "./traits";
+export * as Traits from "distilled-core/Traits";
 
 // All operations
 export * from "./operations";

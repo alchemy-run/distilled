@@ -8109,15 +8109,19 @@ export const EvaluationReviewRequestCommentList = S.Array(
 );
 export interface EvaluationReviewMetadata {
   ReviewId?: string;
-  CreatedTime: Date;
-  CreatedBy: string;
+  RequestedTime?: Date;
+  RequestedBy?: string;
+  CreatedTime?: Date;
+  CreatedBy?: string;
   ReviewRequestComments: EvaluationReviewRequestComment[];
 }
 export const EvaluationReviewMetadata = S.suspend(() =>
   S.Struct({
     ReviewId: S.optional(S.String),
-    CreatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    CreatedBy: S.String,
+    RequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    RequestedBy: S.optional(S.String),
+    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    CreatedBy: S.optional(S.String),
     ReviewRequestComments: EvaluationReviewRequestCommentList,
   }),
 ).annotate({
@@ -33194,8 +33198,7 @@ export type SearchContactEvaluationsError =
  *
  * - A Search operation, unlike a List operation, takes time to index changes to resource (create, update or
  * delete). If you don't see updated information for recently changed contact evaluations, try calling the API again
- * in a few seconds. Contact Evaluations may not be fully backfilled with historical data in all regions yet, however
- * all recently created Contact Evaluations should be available for search.
+ * in a few seconds.
  *
  * **Endpoints**: See Amazon Connect endpoints and quotas.
  */

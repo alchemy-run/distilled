@@ -53,6 +53,7 @@
     "format": "oxfmt './src' './test' './scripts'"
   },
   "dependencies": {
+    "distilled-core": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {

@@ -96,6 +96,7 @@ export type ResourceId = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export type PolicyDocument = string;
 export type PeeredCidr = string;
+export type PeerNetworkRouteTableId = string;
 
 //# Schemas
 export interface AcceptMarketplaceRegistrationInput {
@@ -2717,11 +2718,14 @@ export const ListOdbNetworksOutput = S.suspend(() =>
 }) as any as S.Schema<ListOdbNetworksOutput>;
 export type PeeredCidrList = string[];
 export const PeeredCidrList = S.Array(S.String);
+export type PeerNetworkRouteTableIdList = string[];
+export const PeerNetworkRouteTableIdList = S.Array(S.String);
 export interface CreateOdbPeeringConnectionInput {
   odbNetworkId: string;
   peerNetworkId: string;
   displayName?: string;
   peerNetworkCidrsToBeAdded?: string[];
+  peerNetworkRouteTableIds?: string[];
   clientToken?: string;
   tags?: { [key: string]: string | undefined };
 }
@@ -2731,6 +2735,7 @@ export const CreateOdbPeeringConnectionInput = S.suspend(() =>
     peerNetworkId: S.String,
     displayName: S.optional(S.String),
     peerNetworkCidrsToBeAdded: S.optional(PeeredCidrList),
+    peerNetworkRouteTableIds: S.optional(PeerNetworkRouteTableIdList),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(RequestTagMap),
   }).pipe(

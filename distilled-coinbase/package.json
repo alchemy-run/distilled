@@ -49,11 +49,6 @@
       "bun": "./src/retry.ts",
       "default": "./lib/retry.js"
     },
-    "./Sensitive": {
-      "types": "./lib/sensitive.d.ts",
-      "bun": "./src/sensitive.ts",
-      "default": "./lib/sensitive.js"
-    },
     "./Traits": {
       "types": "./lib/traits.d.ts",
       "bun": "./src/traits.ts",
@@ -74,7 +69,9 @@
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check ."
   },
-  "dependencies": {},
+  "dependencies": {
+    "distilled-core": "workspace:*"
+  },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",
     "@effect/vitest": "^0.27.0",

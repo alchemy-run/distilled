@@ -28,7 +28,7 @@ import {
   DefaultPaginationTrait,
   getPath,
 } from "./pagination";
-import * as Traits from "./traits";
+import * as Traits from "distilled-core/Traits";
 
 // API Error Response Schema - parse just the code and message
 const ApiErrorResponse = Schema.Struct({

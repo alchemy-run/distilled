@@ -4,31 +4,40 @@
  * This module provides a type-safe annotation system for defining HTTP operations
  * using Schema annotations. Traits can be applied via `.pipe()` or composed with `all()`.
  *
+ * Vendor SDKs should use `makeSymbol` to create vendor-namespaced symbols,
+ * or use the pre-built `Http()`, `PathParam()`, `QueryParam()`, and `ApiErrorCode()`.
+ *
  * @example
  * ```ts
  * import { Schema } from "effect";
- * import * as T from "./traits";
+ * import * as T from "distilled-core/Traits";
  *
- * const GetOrganizationInput = Schema.Struct({
- *   organization: Schema.String.pipe(T.PathParam()),
+ * const GetProjectInput = Schema.Struct({
+ *   project_id: Schema.String.pipe(T.PathParam()),
  * }).pipe(
- *   T.Http({ method: "GET", path: "/organizations/{organization}" })
+ *   T.Http({ method: "GET", path: "/projects/{project_id}" })
  * );
  * ```
  */
 
+import * as AST from "effect/SchemaAST";
+
+// ============================================================================
+// Annotation Infrastructure
+// ============================================================================
+
 /**
- * Internal symbol for annotation metadata storage
+ * Internal symbol for annotation metadata storage.
+ * Shared across all distilled SDKs for interoperability.
  */
-const annotationMetaSymbol = Symbol.for("planetscale/annotation-meta");
+const annotationMetaSymbol = Symbol.for("distilled/annotation-meta");
 
 /**
  * Any type that has an .annotate() method returning itself.
  * This includes Schema.Schema and Schema.PropertySignature.
  */
 type Annotatable = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  annotate(annotations: any): Annotatable;
+  annotate(annotations: unknown): Annotatable;
 };
 
 /**
@@ -46,9 +55,17 @@ export interface Annotation {
 }
 
 /**
- * Create an annotation builder for a given symbol and value
+ * Create an annotation builder for a given symbol and value.
+ * This is the core primitive for building vendor-specific annotations.
+ *
+ * @example
+ * ```ts
+ * // Create a vendor-specific annotation
+ * const mySymbol = Symbol.for("myvendor/custom-trait");
+ * const CustomTrait = (value: string) => makeAnnotation(mySymbol, value);
+ * ```
  */
-function makeAnnotation<T>(sym: symbol, value: T): Annotation {
+export function makeAnnotation<T>(sym: symbol, value: T): Annotation {
   const fn = <A extends Annotatable>(schema: A): A =>
     schema.annotate({ [sym]: value }) as A;
 
@@ -100,7 +117,7 @@ export function all(...annotations: Annotation[]): Annotation {
 // =============================================================================
 
 /** Symbol for HTTP operation metadata (method + path template) */
-export const httpSymbol = Symbol.for("planetscale/http");
+export const httpSymbol = Symbol.for("distilled/http");
 
 /** HTTP method type */
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -119,11 +136,10 @@ export interface HttpTrait {
  *
  * @example
  * ```ts
- * const GetDatabaseInput = Schema.Struct({
- *   organization: Schema.String.pipe(T.PathParam()),
- *   database: Schema.String.pipe(T.PathParam()),
+ * const GetProjectInput = Schema.Struct({
+ *   project_id: Schema.String.pipe(T.PathParam()),
  * }).pipe(
- *   T.Http({ method: "GET", path: "/organizations/{organization}/databases/{database}" })
+ *   T.Http({ method: "GET", path: "/projects/{project_id}" })
  * );
  * ```
  */
@@ -134,7 +150,7 @@ export const Http = (trait: HttpTrait) => makeAnnotation(httpSymbol, trait);
 // =============================================================================
 
 /** Symbol for path parameter annotation */
-export const pathParamSymbol = Symbol.for("planetscale/path-param");
+export const pathParamSymbol = Symbol.for("distilled/path-param");
 
 /**
  * PathParam trait - marks a field as a path parameter.
@@ -143,9 +159,9 @@ export const pathParamSymbol = Symbol.for("planetscale/path-param");
  * @example
  * ```ts
  * const Input = Schema.Struct({
- *   organization: Schema.String.pipe(T.PathParam()),
+ *   project_id: Schema.String.pipe(T.PathParam()),
  * }).pipe(
- *   T.Http({ method: "GET", path: "/organizations/{organization}" })
+ *   T.Http({ method: "GET", path: "/projects/{project_id}" })
  * );
  * ```
  */
@@ -156,7 +172,7 @@ export const PathParam = () => makeAnnotation(pathParamSymbol, true);
 // =============================================================================
 
 /** Symbol for query parameter annotation */
-export const queryParamSymbol = Symbol.for("planetscale/query-param");
+export const queryParamSymbol = Symbol.for("distilled/query-param");
 
 /**
  * QueryParam trait - marks a field as a query parameter.
@@ -177,7 +193,7 @@ export const QueryParam = (name?: string) =>
 // =============================================================================
 
 /** Symbol for API error code mapping */
-export const apiErrorCodeSymbol = Symbol.for("planetscale/ApiErrorCode");
+export const apiErrorCodeSymbol = Symbol.for("distilled/ApiErrorCode");
 
 /**
  * ApiErrorCode trait - maps an error class to an API error code.
@@ -197,8 +213,6 @@ export const ApiErrorCode = (code: string) =>
 // =============================================================================
 // Annotation Retrieval Helpers
 // =============================================================================
-
-import * as AST from "effect/SchemaAST";
 
 /**
  * Get annotation value from an AST node, following encoding chain if needed.
@@ -230,7 +244,7 @@ export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
  * Check if a PropertySignature has the pathParam annotation.
  */
 export const isPathParam = (prop: AST.PropertySignature): boolean => {
-  // Check on the property type (v4: PropertySignatures don't have annotations directly)
+  // Check on the property type (v4 - annotations are on the type AST)
   return getAnnotation<boolean>(prop.type, pathParamSymbol) === true;
 };
 
@@ -240,7 +254,7 @@ export const isPathParam = (prop: AST.PropertySignature): boolean => {
 export const getQueryParam = (
   prop: AST.PropertySignature,
 ): string | boolean | undefined => {
-  // Check on the property type (v4: PropertySignatures don't have annotations directly)
+  // Check on the property type (v4 - annotations are on the type AST)
   return getAnnotation<string | boolean>(prop.type, queryParamSymbol);
 };
 

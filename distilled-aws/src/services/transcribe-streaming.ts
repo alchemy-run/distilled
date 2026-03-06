@@ -109,6 +109,7 @@ export type RequestId = string;
 export type Confidence = number;
 export type Stable = boolean;
 export type NumberOfChannels = number;
+export type SessionResumeWindow = number;
 
 //# Schemas
 export interface GetMedicalScribeStreamRequest {
@@ -1539,6 +1540,7 @@ export interface StartStreamTranscriptionRequest {
   IdentifyMultipleLanguages?: boolean;
   VocabularyNames?: string;
   VocabularyFilterNames?: string;
+  SessionResumeWindow?: number;
 }
 export const StartStreamTranscriptionRequest = S.suspend(() =>
   S.Struct({
@@ -1608,6 +1610,9 @@ export const StartStreamTranscriptionRequest = S.suspend(() =>
     ),
     VocabularyFilterNames: S.optional(S.String).pipe(
       T.HttpHeader("x-amzn-transcribe-vocabulary-filter-names"),
+    ),
+    SessionResumeWindow: S.optional(S.Number).pipe(
+      T.HttpHeader("x-amzn-transcribe-session-resume-window"),
     ),
   }).pipe(
     T.all(
@@ -1836,6 +1841,7 @@ export interface StartStreamTranscriptionResponse {
   IdentifyMultipleLanguages?: boolean;
   VocabularyNames?: string;
   VocabularyFilterNames?: string;
+  SessionResumeWindow?: number;
 }
 export const StartStreamTranscriptionResponse = S.suspend(() =>
   S.Struct({
@@ -1908,6 +1914,9 @@ export const StartStreamTranscriptionResponse = S.suspend(() =>
     ),
     VocabularyFilterNames: S.optional(S.String).pipe(
       T.HttpHeader("x-amzn-transcribe-vocabulary-filter-names"),
+    ),
+    SessionResumeWindow: S.optional(S.Number).pipe(
+      T.HttpHeader("x-amzn-transcribe-session-resume-window"),
     ),
   }),
 ).annotate({

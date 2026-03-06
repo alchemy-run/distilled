@@ -23,7 +23,7 @@ import {
   GCPNetworkError,
   UnknownGCPError,
 } from "../errors.ts";
-import { Retry, makeDefault } from "../retry.ts";
+import { Retry, makeDefault } from "distilled-core/Retry";
 import * as T from "../traits.ts";
 import { buildRequest } from "./request-builder.ts";
 import { parseResponse, extractTagFromAst } from "./response-parser.ts";

@@ -1,22 +1,14 @@
-import { Effect, Schema, Stream } from "effect";
+import { Effect, Stream } from "effect";
+import {
+  type PaginatedTrait,
+  getPath,
+  paginatePages as corePaginatePages,
+  paginateItems as corePaginateItems,
+  cursorPaginationOptions,
+} from "distilled-core/Pagination";
 
-/**
- * Pagination trait for Coinbase CDP APIs.
- *
- * Coinbase uses cursor-based pagination with:
- * - Input: `pageToken` (opaque string cursor), `pageSize` (integer, default 20)
- * - Output: `nextPageToken` (string, absent/empty when no more pages)
- */
-export interface PaginatedTrait {
-  /** The name of the input member containing the page token (default: "pageToken") */
-  inputToken: string;
-  /** The path to the output member containing the next page token (default: "nextPageToken") */
-  outputToken: string;
-  /** The path to the output member containing the paginated items */
-  items: string;
-  /** The name of the input member that limits page size (default: "pageSize") */
-  pageSize?: string;
-}
+export type { PaginatedTrait };
+export { getPath };
 
 /**
  * Default pagination trait for Coinbase CDP APIs.
@@ -26,21 +18,6 @@ export const DefaultPaginationTrait: PaginatedTrait = {
   outputToken: "nextPageToken",
   items: "data",
   pageSize: "pageSize",
-};
-
-/**
- * Helper to get a value from an object using a dot-separated path.
- */
-export const getPath = (obj: unknown, path: string): unknown => {
-  const parts = path.split(".");
-  let current: unknown = obj;
-  for (const part of parts) {
-    if (current == null || typeof current !== "object") {
-      return undefined;
-    }
-    current = (current as Record<string, unknown>)[part];
-  }
-  return current;
 };
 
 /**
@@ -69,38 +46,11 @@ export const paginatePages = <
   input: Omit<Input, "pageToken">,
   pagination: PaginatedTrait = DefaultPaginationTrait,
 ): Stream.Stream<Output, E, R> => {
-  type State = { pageToken: string | undefined; done: boolean };
-
-  const unfoldFn = (state: State) =>
-    Effect.gen(function* () {
-      if (state.done) {
-        return undefined;
-      }
-
-      const requestPayload = {
-        ...input,
-        ...(state.pageToken
-          ? { [pagination.inputToken]: state.pageToken }
-          : {}),
-      } as Input;
-
-      const response = yield* operation(requestPayload);
-
-      const nextPageToken = getPath(response, pagination.outputToken) as
-        | string
-        | undefined;
-
-      const nextState: State = {
-        pageToken: nextPageToken,
-        done: !nextPageToken || nextPageToken === "",
-      };
-
-      return [response, nextState] as const;
-    });
-
-  return Stream.unfold(
-    { pageToken: undefined, done: false } as State,
-    unfoldFn,
+  return corePaginatePages(
+    operation,
+    input as Record<string, unknown>,
+    pagination,
+    cursorPaginationOptions,
   );
 };
 
@@ -123,12 +73,10 @@ export const paginateItems = <
   input: Omit<Input, "pageToken">,
   pagination: PaginatedTrait = DefaultPaginationTrait,
 ): Stream.Stream<Item, E, R> => {
-  return paginatePages(operation, input, pagination).pipe(
-    Stream.flatMap((page) => {
-      const items = getPath(page, pagination.items) as
-        | readonly Item[]
-        | undefined;
-      return Stream.fromIterable(items ?? []);
-    }),
+  return corePaginateItems(
+    operation,
+    input as Record<string, unknown>,
+    pagination,
+    cursorPaginationOptions,
   );
 };

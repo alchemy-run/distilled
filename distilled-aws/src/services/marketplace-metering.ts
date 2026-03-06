@@ -128,6 +128,7 @@ export type AllocatedUsageQuantity = number;
 export type TagKey = string;
 export type TagValue = string;
 export type CustomerAWSAccountId = string;
+export type LicenseArn = string;
 export type ProductCode = string;
 export type ErrorMessage = string;
 export type ClientToken = string;
@@ -163,6 +164,7 @@ export interface UsageRecord {
   Quantity?: number;
   UsageAllocations?: UsageAllocation[];
   CustomerAWSAccountId?: string;
+  LicenseArn?: string;
 }
 export const UsageRecord = S.suspend(() =>
   S.Struct({
@@ -172,16 +174,20 @@ export const UsageRecord = S.suspend(() =>
     Quantity: S.optional(S.Number),
     UsageAllocations: S.optional(UsageAllocations),
     CustomerAWSAccountId: S.optional(S.String),
+    LicenseArn: S.optional(S.String),
   }),
 ).annotate({ identifier: "UsageRecord" }) as any as S.Schema<UsageRecord>;
 export type UsageRecordList = UsageRecord[];
 export const UsageRecordList = S.Array(UsageRecord);
 export interface BatchMeterUsageRequest {
   UsageRecords: UsageRecord[];
-  ProductCode: string;
+  ProductCode?: string;
 }
 export const BatchMeterUsageRequest = S.suspend(() =>
-  S.Struct({ UsageRecords: UsageRecordList, ProductCode: S.String }).pipe(
+  S.Struct({
+    UsageRecords: UsageRecordList,
+    ProductCode: S.optional(S.String),
+  }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
@@ -297,12 +303,14 @@ export interface ResolveCustomerResult {
   CustomerIdentifier?: string;
   ProductCode?: string;
   CustomerAWSAccountId?: string;
+  LicenseArn?: string;
 }
 export const ResolveCustomerResult = S.suspend(() =>
   S.Struct({
     CustomerIdentifier: S.optional(S.String),
     ProductCode: S.optional(S.String),
     CustomerAWSAccountId: S.optional(S.String),
+    LicenseArn: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ResolveCustomerResult",
@@ -319,6 +327,10 @@ export class InternalServiceErrorException extends S.TaggedErrorClass<InternalSe
 ) {}
 export class InvalidCustomerIdentifierException extends S.TaggedErrorClass<InvalidCustomerIdentifierException>()(
   "InvalidCustomerIdentifierException",
+  { message: S.optional(S.String) },
+) {}
+export class InvalidLicenseException extends S.TaggedErrorClass<InvalidLicenseException>()(
+  "InvalidLicenseException",
   { message: S.optional(S.String) },
 ) {}
 export class InvalidProductCodeException extends S.TaggedErrorClass<InvalidProductCodeException>()(
@@ -387,6 +399,7 @@ export type BatchMeterUsageError =
   | DisabledApiException
   | InternalServiceErrorException
   | InvalidCustomerIdentifierException
+  | InvalidLicenseException
   | InvalidProductCodeException
   | InvalidTagException
   | InvalidUsageAllocationsException
@@ -395,8 +408,7 @@ export type BatchMeterUsageError =
   | TimestampOutOfBoundsException
   | CommonErrors;
 /**
- * The `CustomerIdentifier` and `CustomerAWSAccountID` are mutually exclusive parameters. You must use one or the other, but not both in the same API request.
- * For new implementations, we recommend using the `CustomerAWSAccountID`. Your current integration will continue to work. When updating your implementation, consider migrating to `CustomerAWSAccountID` for improved integration.
+ * Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use `CustomerAWSAccountId` (instead of `CustomerIdentifier`), `LicenseArn` (instead of `ProductCode`) to support this feature. Existing integrations will continue to work. Review the new integration for Concurrent Agreements here.
  *
  * To post metering records for customers, SaaS applications call
  * `BatchMeterUsage`, which is used for metering SaaS flexible
@@ -438,6 +450,7 @@ export const batchMeterUsage: API.OperationMethod<
     DisabledApiException,
     InternalServiceErrorException,
     InvalidCustomerIdentifierException,
+    InvalidLicenseException,
     InvalidProductCodeException,
     InvalidTagException,
     InvalidUsageAllocationsException,
@@ -604,7 +617,7 @@ export type ResolveCustomerError =
  * process. When a buyer visits your website during the registration process, the buyer
  * submits a registration token through their browser. The registration token is resolved
  * through this API to obtain a `CustomerIdentifier` along with the
- * `CustomerAWSAccountId` and `ProductCode`.
+ * `CustomerAWSAccountId`, `ProductCode`, and `LicenseArn`.
  *
  * To successfully resolve the token, the API must be called from the account that was used to publish the SaaS
  * application. For an example of using `ResolveCustomer`, see ResolveCustomer code example in the Amazon Web Services Marketplace Seller

@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
-import * as T from "../traits";
+import * as T from "distilled-core/Traits";
 import { Forbidden, NotFound, UnprocessableEntity } from "../errors";
 
 // Input Schema

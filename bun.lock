@@ -16,7 +16,7 @@
     },
     "distilled-aws": {
       "name": "distilled-aws",
-      "version": "0.0.26",
+      "version": "0.0.27",
       "dependencies": {
         "@aws-crypto/crc32": "^5.2.0",
         "@aws-crypto/util": "^5.2.0",
@@ -65,6 +65,9 @@
     "distilled-coinbase": {
       "name": "distilled-coinbase",
       "version": "0.0.0",
+      "dependencies": {
+        "distilled-core": "workspace:*",
+      },
       "devDependencies": {
         "@effect/platform-bun": "catalog:",
         "@effect/vitest": "^0.27.0",
@@ -79,10 +82,21 @@
         "jose": ">=6.0.0",
       },
     },
+    "distilled-core": {
+      "name": "distilled-core",
+      "version": "0.0.1",
+      "devDependencies": {
+        "effect": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
     "distilled-gcp": {
       "name": "distilled-gcp",
       "version": "0.0.1",
       "dependencies": {
+        "distilled-core": "workspace:*",
         "effect": "catalog:",
       },
       "devDependencies": {
@@ -97,6 +111,9 @@
     "distilled-neon": {
       "name": "distilled-neon",
       "version": "0.0.1",
+      "dependencies": {
+        "distilled-core": "workspace:*",
+      },
       "devDependencies": {
         "@effect/platform-bun": "catalog:",
         "@effect/vitest": "catalog:",
@@ -112,6 +129,9 @@
     "distilled-planetscale": {
       "name": "distilled-planetscale",
       "version": "0.0.1",
+      "dependencies": {
+        "distilled-core": "workspace:*",
+      },
       "devDependencies": {
         "@effect/platform-bun": "catalog:",
         "@effect/vitest": "^0.27.0",
@@ -957,6 +977,8 @@
 
     "distilled-coinbase": ["distilled-coinbase@workspace:distilled-coinbase"],
 
+    "distilled-core": ["distilled-core@workspace:distilled-core"],
+
     "distilled-gcp": ["distilled-gcp@workspace:distilled-gcp"],
 
     "distilled-neon": ["distilled-neon@workspace:distilled-neon"],
@@ -1737,7 +1759,15 @@
 
     "distilled-coinbase/@effect/vitest": ["@effect/vitest@0.27.0", "", { "peerDependencies": { "effect": "^3.19.0", "vitest": "^3.2.0" } }, "sha512-8bM7n9xlMUYw9GqPIVgXFwFm2jf27m/R7psI64PGpwU5+26iwyxp9eAXEsfT5S6lqztYfpQQ1Ubp5o6HfNYzJQ=="],
 
+    "distilled-coinbase/@types/bun": ["@types/bun@1.3.10", "", { "dependencies": { "bun-types": "1.3.10" } }, "sha512-0+rlrUrOrTSskibryHbvQkDOWRJwJZqZlxrUs1u4oOoTln8+WIXBPmAuCF35SWB2z4Zl3E84Nl/D0P7803nigQ=="],
+
+    "distilled-gcp/@types/bun": ["@types/bun@1.3.10", "", { "dependencies": { "bun-types": "1.3.10" } }, "sha512-0+rlrUrOrTSskibryHbvQkDOWRJwJZqZlxrUs1u4oOoTln8+WIXBPmAuCF35SWB2z4Zl3E84Nl/D0P7803nigQ=="],
+
+    "distilled-neon/@types/bun": ["@types/bun@1.3.10", "", { "dependencies": { "bun-types": "1.3.10" } }, "sha512-0+rlrUrOrTSskibryHbvQkDOWRJwJZqZlxrUs1u4oOoTln8+WIXBPmAuCF35SWB2z4Zl3E84Nl/D0P7803nigQ=="],
+
     "distilled-planetscale/@effect/vitest": ["@effect/vitest@0.27.0", "", { "peerDependencies": { "effect": "^3.19.0", "vitest": "^3.2.0" } }, "sha512-8bM7n9xlMUYw9GqPIVgXFwFm2jf27m/R7psI64PGpwU5+26iwyxp9eAXEsfT5S6lqztYfpQQ1Ubp5o6HfNYzJQ=="],
+
+    "distilled-planetscale/@types/bun": ["@types/bun@1.3.10", "", { "dependencies": { "bun-types": "1.3.10" } }, "sha512-0+rlrUrOrTSskibryHbvQkDOWRJwJZqZlxrUs1u4oOoTln8+WIXBPmAuCF35SWB2z4Zl3E84Nl/D0P7803nigQ=="],
 
     "dom-serializer/entities": ["entities@4.5.0", "", {}, "sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw=="],
 
@@ -1884,6 +1914,14 @@
     "boxen/string-width/strip-ansi": ["strip-ansi@7.1.2", "", { "dependencies": { "ansi-regex": "^6.0.1" } }, "sha512-gmBGslpoQJtgnMAvOVqGZpEz9dyoKTCzy2nfz/n8aIFhN/jCE/rCmcxabB6jOOHV+0WNnylOxaxBQPSvcWklhA=="],
 
     "csso/css-tree/mdn-data": ["mdn-data@2.0.28", "", {}, "sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g=="],
+
+    "distilled-coinbase/@types/bun/bun-types": ["bun-types@1.3.10", "", { "dependencies": { "@types/node": "*" } }, "sha512-tcpfCCl6XWo6nCVnpcVrxQ+9AYN1iqMIzgrSKYMB/fjLtV2eyAVEg7AxQJuCq/26R6HpKWykQXuSOq/21RYcbg=="],
+
+    "distilled-gcp/@types/bun/bun-types": ["bun-types@1.3.10", "", { "dependencies": { "@types/node": "*" } }, "sha512-tcpfCCl6XWo6nCVnpcVrxQ+9AYN1iqMIzgrSKYMB/fjLtV2eyAVEg7AxQJuCq/26R6HpKWykQXuSOq/21RYcbg=="],
+
+    "distilled-neon/@types/bun/bun-types": ["bun-types@1.3.10", "", { "dependencies": { "@types/node": "*" } }, "sha512-tcpfCCl6XWo6nCVnpcVrxQ+9AYN1iqMIzgrSKYMB/fjLtV2eyAVEg7AxQJuCq/26R6HpKWykQXuSOq/21RYcbg=="],
+
+    "distilled-planetscale/@types/bun/bun-types": ["bun-types@1.3.10", "", { "dependencies": { "@types/node": "*" } }, "sha512-tcpfCCl6XWo6nCVnpcVrxQ+9AYN1iqMIzgrSKYMB/fjLtV2eyAVEg7AxQJuCq/26R6HpKWykQXuSOq/21RYcbg=="],
 
     "jszip/readable-stream/safe-buffer": ["safe-buffer@5.1.2", "", {}, "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g=="],
 

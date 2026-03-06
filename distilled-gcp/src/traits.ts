@@ -5,78 +5,21 @@
  * to HTTP request/response components (path, query, headers, body).
  *
  * GCP uses REST JSON protocol exclusively, similar to Cloudflare.
+ *
+ * The annotation infrastructure (makeAnnotation, all, Annotation) is
+ * imported from distilled-core/Traits. GCP-specific annotations and
+ * retrieval helpers are defined locally.
  */
 
-import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
+import {
+  makeAnnotation,
+  all,
+  type Annotation,
+} from "distilled-core/Traits";
 
-// =============================================================================
-// Annotation Infrastructure
-// =============================================================================
-
-const annotationMetaSymbol = Symbol.for("distilled-gcp/annotation-meta");
-
-type Annotatable = {
-  annotate(annotations: Record<symbol, unknown>): Annotatable;
-};
-
-export interface Annotation {
-  <A extends Annotatable>(schema: A): A;
-  readonly [annotationMetaSymbol]: Array<{ symbol: symbol; value: unknown }>;
-  readonly [key: symbol]: unknown;
-}
-
-function makeAnnotation<T>(sym: symbol, value: T): Annotation {
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotate({ [sym]: value }) as A;
-
-  Object.defineProperty(fn, annotationMetaSymbol, {
-    value: [{ symbol: sym, value }],
-    writable: false,
-    enumerable: false,
-  });
-  Object.defineProperty(fn, sym, {
-    value,
-    writable: false,
-    enumerable: false,
-  });
-
-  return fn as Annotation;
-}
-
-/**
- * Combine multiple annotations into one.
- */
-export function all(...annotations: Annotation[]): Annotation {
-  const entries: Array<{ symbol: symbol; value: unknown }> = [];
-  const raw: Record<symbol, unknown> = {};
-
-  for (const a of annotations) {
-    for (const entry of a[annotationMetaSymbol]) {
-      entries.push(entry);
-      raw[entry.symbol] = entry.value;
-    }
-  }
-
-  const fn = <A extends Annotatable>(schema: A): A =>
-    schema.annotate(raw) as A;
-
-  Object.defineProperty(fn, annotationMetaSymbol, {
-    value: entries,
-    writable: false,
-    enumerable: false,
-  });
-
-  for (const { symbol, value } of entries) {
-    Object.defineProperty(fn, symbol, {
-      value,
-      writable: false,
-      enumerable: false,
-    });
-  }
-
-  return fn as Annotation;
-}
+// Re-export infrastructure for consumers
+export { makeAnnotation, all, type Annotation };
 
 // =============================================================================
 // HTTP Binding Traits

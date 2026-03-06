@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
-import * as T from "../traits";
+import * as T from "distilled-core/Traits";
 
 // Input Schema
 export const ListProjectVPCEndpointsInput = Schema.Struct({

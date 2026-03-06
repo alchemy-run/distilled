@@ -470,6 +470,14 @@ export const CreatePermissionVersionResponse = S.suspend(() =>
 }) as any as S.Schema<CreatePermissionVersionResponse>;
 export type PermissionArnList = string[];
 export const PermissionArnList = S.Array(S.String.pipe(T.XmlName("item")));
+export interface ResourceShareConfiguration {
+  retainSharingOnAccountLeaveOrganization?: boolean;
+}
+export const ResourceShareConfiguration = S.suspend(() =>
+  S.Struct({ retainSharingOnAccountLeaveOrganization: S.optional(S.Boolean) }),
+).annotate({
+  identifier: "ResourceShareConfiguration",
+}) as any as S.Schema<ResourceShareConfiguration>;
 export interface CreateResourceShareRequest {
   name: string;
   resourceArns?: string[];
@@ -479,6 +487,7 @@ export interface CreateResourceShareRequest {
   clientToken?: string;
   permissionArns?: string[];
   sources?: string[];
+  resourceShareConfiguration?: ResourceShareConfiguration;
 }
 export const CreateResourceShareRequest = S.suspend(() =>
   S.Struct({
@@ -490,6 +499,7 @@ export const CreateResourceShareRequest = S.suspend(() =>
     clientToken: S.optional(S.String),
     permissionArns: S.optional(PermissionArnList),
     sources: S.optional(SourceArnOrAccountList),
+    resourceShareConfiguration: S.optional(ResourceShareConfiguration),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/createresourceshare" }),
@@ -528,6 +538,7 @@ export interface ResourceShare {
   creationTime?: Date;
   lastUpdatedTime?: Date;
   featureSet?: ResourceShareFeatureSet;
+  resourceShareConfiguration?: ResourceShareConfiguration;
 }
 export const ResourceShare = S.suspend(() =>
   S.Struct({
@@ -543,6 +554,7 @@ export const ResourceShare = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     featureSet: S.optional(ResourceShareFeatureSet),
+    resourceShareConfiguration: S.optional(ResourceShareConfiguration),
   }),
 ).annotate({ identifier: "ResourceShare" }) as any as S.Schema<ResourceShare>;
 export interface CreateResourceShareResponse {

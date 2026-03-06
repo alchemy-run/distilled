@@ -14518,6 +14518,7 @@ export type IntegrationV2Type =
   | "SEND_FINDINGS_TO_SECURITY_HUB"
   | "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
   | "UPDATE_FINDINGS_IN_SECURITY_HUB"
+  | "EXTENDED_PLAN"
   | (string & {});
 export const IntegrationV2Type = S.String;
 export type IntegrationV2TypeList = IntegrationV2Type[];
@@ -14530,6 +14531,7 @@ export interface ProductV2 {
   IntegrationV2Types?: IntegrationV2Type[];
   MarketplaceUrl?: string;
   ActivationUrl?: string;
+  MarketplaceProductId?: string;
 }
 export const ProductV2 = S.suspend(() =>
   S.Struct({
@@ -14540,6 +14542,7 @@ export const ProductV2 = S.suspend(() =>
     IntegrationV2Types: S.optional(IntegrationV2TypeList),
     MarketplaceUrl: S.optional(S.String),
     ActivationUrl: S.optional(S.String),
+    MarketplaceProductId: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProductV2" }) as any as S.Schema<ProductV2>;
 export type ProductsV2List = ProductV2[];
@@ -15599,6 +15602,7 @@ export type GroupByField =
   | "compliance.standards"
   | "cloud.account.name"
   | "vendor_attributes.severity"
+  | "metadata.product.vendor_name"
   | (string & {});
 export const GroupByField = S.String;
 export interface GroupByRule {
@@ -18266,11 +18270,11 @@ export type AcceptAdministratorInvitationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
+ * We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts.
+ * For information, see Managing Security Hub CSPM administrator and member accounts with Organizations
+ * in the *Security Hub CSPM User Guide*.
  *
- * Accepts the invitation to be a member account and be monitored by the Security Hub administrator
+ * Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator
  * account that the invitation was sent from.
  *
  * This operation is only used by member accounts that are not added through
@@ -18305,9 +18309,9 @@ export type AcceptInvitationError =
 /**
  * This method is deprecated. Instead, use `AcceptAdministratorInvitation`.
  *
- * The Security Hub console continues to use `AcceptInvitation`. It will eventually change to use `AcceptAdministratorInvitation`. Any IAM policies that specifically control access to this function must continue to use `AcceptInvitation`. You should also add `AcceptAdministratorInvitation` to your policies to ensure that the correct permissions are in place after the console begins to use `AcceptAdministratorInvitation`.
+ * The Security Hub CSPM console continues to use `AcceptInvitation`. It will eventually change to use `AcceptAdministratorInvitation`. Any IAM policies that specifically control access to this function must continue to use `AcceptInvitation`. You should also add `AcceptAdministratorInvitation` to your policies to ensure that the correct permissions are in place after the console begins to use `AcceptAdministratorInvitation`.
  *
- * Accepts the invitation to be a member account and be monitored by the Security Hub administrator
+ * Accepts the invitation to be a member account and be monitored by the Security Hub CSPM administrator
  * account that the invitation was sent from.
  *
  * This operation is only used by member accounts that are not added through
@@ -18369,7 +18373,7 @@ export type BatchDisableStandardsError =
  * Disables the standards specified by the provided
  * `StandardsSubscriptionArns`.
  *
- * For more information, see Security Standards section of the Security Hub User
+ * For more information, see Security Standards section of the Security Hub CSPM User
  * Guide.
  */
 export const batchDisableStandards: API.OperationMethod<
@@ -18401,7 +18405,7 @@ export type BatchEnableStandardsError =
  * operation.
  *
  * For more information, see the Security Standards
- * section of the *Security Hub User Guide*.
+ * section of the *Security Hub CSPM User Guide*.
  */
 export const batchEnableStandards: API.OperationMethod<
   BatchEnableStandardsRequest,
@@ -18457,8 +18461,8 @@ export type BatchGetConfigurationPolicyAssociationsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Returns associations between an Security Hub configuration and a batch of target accounts, organizational units, or the root.
- * Only the Security Hub delegated administrator can invoke this operation from the home Region. A configuration
+ * Returns associations between an Security Hub CSPM configuration and a batch of target accounts, organizational units, or the root.
+ * Only the Security Hub CSPM delegated administrator can invoke this operation from the home Region. A configuration
  * can refer to a configuration policy or to a self-managed configuration.
  */
 export const batchGetConfigurationPolicyAssociations: API.OperationMethod<
@@ -18535,9 +18539,9 @@ export type BatchImportFindingsError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Imports security findings generated by a finding provider into Security Hub.
+ * Imports security findings generated by a finding provider into Security Hub CSPM.
  * This action is requested by the finding provider to import its findings into
- * Security Hub.
+ * Security Hub CSPM.
  *
  * `BatchImportFindings` must be called by one of the following:
  *
@@ -18547,7 +18551,7 @@ export type BatchImportFindingsError =
  * In these cases, the identifier of the account that you are calling `BatchImportFindings`
  * from needs to be the same as the `AwsAccountId` attribute for the finding.
  *
- * - An Amazon Web Services account that Security Hub has allow-listed for an official partner
+ * - An Amazon Web Services account that Security Hub CSPM has allow-listed for an official partner
  * integration. In this case, you can call `BatchImportFindings` from the allow-listed
  * account and send findings from different customer accounts in the same batch.
  *
@@ -18555,7 +18559,7 @@ export type BatchImportFindingsError =
  * larger than 240 Kb.
  *
  * After a finding is created, `BatchImportFindings` cannot be used to update
- * the following finding fields and objects, which Security Hub customers use to manage their
+ * the following finding fields and objects, which Security Hub CSPM customers use to manage their
  * investigation workflow.
  *
  * - `Note`
@@ -18629,7 +18633,7 @@ export type BatchUpdateFindingsError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Used by Security Hub customers to update information about their investigation into one or more findings.
+ * Used by Security Hub CSPM customers to update information about their investigation into one or more findings.
  * Requested by administrator accounts or member accounts.
  * Administrator accounts can update findings for their account and their member accounts.
  * A member account can update findings only for their own account.
@@ -18654,11 +18658,11 @@ export type BatchUpdateFindingsError =
  * - `Workflow`
  *
  * If you use this operation to update a finding, your updates don’t affect the value for the `UpdatedAt` field of the finding.
- * Also note that it can take several minutes for Security Hub to process your request and update each finding specified in the request.
+ * Also note that it can take several minutes for Security Hub CSPM to process your request and update each finding specified in the request.
  *
  * You can configure IAM policies to restrict access to fields and field values.
  * For example, you might not want member accounts to be able to suppress findings or change the finding severity.
- * For more information see Configuring access to BatchUpdateFindings in the *Security Hub User Guide*.
+ * For more information see Configuring access to BatchUpdateFindings in the *Security Hub CSPM User Guide*.
  */
 export const batchUpdateFindings: API.OperationMethod<
   BatchUpdateFindingsRequest,
@@ -18740,9 +18744,9 @@ export type CreateActionTargetError =
   | ResourceConflictException
   | CommonErrors;
 /**
- * Creates a custom action target in Security Hub.
+ * Creates a custom action target in Security Hub CSPM.
  *
- * You can use custom actions on findings and insights in Security Hub to trigger target actions
+ * You can use custom actions on findings and insights in Security Hub CSPM to trigger target actions
  * in Amazon CloudWatch Events.
  */
 export const createActionTarget: API.OperationMethod<
@@ -18854,7 +18858,7 @@ export type CreateConfigurationPolicyError =
   | ResourceConflictException
   | CommonErrors;
 /**
- * Creates a configuration policy with the defined configuration. Only the Security Hub delegated administrator
+ * Creates a configuration policy with the defined configuration. Only the Security Hub CSPM delegated administrator
  * can invoke this operation from the home Region.
  */
 export const createConfigurationPolicy: API.OperationMethod<
@@ -18916,7 +18920,7 @@ export type CreateFindingAggregatorError =
  *
  * Used to enable cross-Region aggregation. This operation can be invoked from the home Region only.
  *
- * For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub in the *Security Hub User Guide*.
+ * For information about how cross-Region aggregation works, see Understanding cross-Region aggregation in Security Hub CSPM in the *Security Hub CSPM User Guide*.
  */
 export const createFindingAggregator: API.OperationMethod<
   CreateFindingAggregatorRequest,
@@ -18942,7 +18946,7 @@ export type CreateInsightError =
   | ResourceConflictException
   | CommonErrors;
 /**
- * Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate
+ * Creates a custom insight in Security Hub CSPM. An insight is a consolidation of findings that relate
  * to a security issue that requires attention or remediation.
  *
  * To group the related findings in the insight, use the
@@ -18973,7 +18977,7 @@ export type CreateMembersError =
   | ResourceConflictException
   | CommonErrors;
 /**
- * Creates a member association in Security Hub between the specified accounts and the account
+ * Creates a member association in Security Hub CSPM between the specified accounts and the account
  * used to make the request, which is the administrator account. If you are integrated with
  * Organizations, then the administrator account is designated by the organization management account.
  *
@@ -18983,24 +18987,24 @@ export type CreateMembersError =
  * For accounts that are managed using Organizations, `CreateMembers` is only used
  * in the following cases:
  *
- * - Security Hub is not configured to automatically add new organization accounts.
+ * - Security Hub CSPM is not configured to automatically add new organization accounts.
  *
- * - The account was disassociated or deleted in Security Hub.
+ * - The account was disassociated or deleted in Security Hub CSPM.
  *
- * This action can only be used by an account that has Security Hub enabled. To enable Security Hub, you
+ * This action can only be used by an account that has Security Hub CSPM enabled. To enable Security Hub CSPM, you
  * can use the `EnableSecurityHub` operation.
  *
  * For accounts that are not organization members, you create the account association and
  * then send an invitation to the member account. To send the invitation, you use the
  * `InviteMembers` operation. If the account owner accepts
- * the invitation, the account becomes a member account in Security Hub.
+ * the invitation, the account becomes a member account in Security Hub CSPM.
  *
  * Accounts that are managed using Organizations don't receive an invitation. They
- * automatically become a member account in Security Hub.
+ * automatically become a member account in Security Hub CSPM.
  *
- * - If the organization account does not have Security Hub enabled, then Security Hub and the default standards are automatically enabled. Note that Security Hub cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub before the administrator account enables it as a member account.
+ * - If the organization account does not have Security Hub CSPM enabled, then Security Hub CSPM and the default standards are automatically enabled. Note that Security Hub CSPM cannot be enabled automatically for the organization management account. The organization management account must enable Security Hub CSPM before the administrator account enables it as a member account.
  *
- * - For organization accounts that already have Security Hub enabled, Security Hub does not make any other changes to those accounts. It does not change their enabled standards or controls.
+ * - For organization accounts that already have Security Hub CSPM enabled, Security Hub CSPM does not make any other changes to those accounts. It does not change their enabled standards or controls.
  *
  * A permissions policy is added that permits the administrator account to view the findings
  * generated in the member account.
@@ -19059,11 +19063,11 @@ export type DeclineInvitationsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
+ * We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts.
+ * For information, see Managing Security Hub CSPM administrator and member accounts with Organizations
+ * in the *Security Hub CSPM User Guide*.
  *
- * Declines invitations to become a Security Hub member account.
+ * Declines invitations to become a Security Hub CSPM member account.
  *
  * A prospective member account uses this operation to decline an invitation to become a member.
  *
@@ -19092,7 +19096,7 @@ export type DeleteActionTargetError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes a custom action target from Security Hub.
+ * Deletes a custom action target from Security Hub CSPM.
  *
  * Deleting a custom action target does not affect any findings or insights that were
  * already sent to Amazon CloudWatch Events using the custom action.
@@ -19178,7 +19182,7 @@ export type DeleteConfigurationPolicyError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes a configuration policy. Only the Security Hub delegated administrator can invoke this operation
+ * Deletes a configuration policy. Only the Security Hub CSPM delegated administrator can invoke this operation
  * from the home Region. For the deletion to succeed, you must first disassociate a configuration policy from target accounts,
  * organizational units, or the root by invoking the `StartConfigurationPolicyDisassociation` operation.
  */
@@ -19296,13 +19300,13 @@ export type DeleteInvitationsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
+ * We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts.
+ * For information, see Managing Security Hub CSPM administrator and member accounts with Organizations
+ * in the *Security Hub CSPM User Guide*.
  *
- * Deletes invitations to become a Security Hub member account.
+ * Deletes invitations to become a Security Hub CSPM member account.
  *
- * A Security Hub administrator account can use this operation to delete invitations sent to one or more prospective member accounts.
+ * A Security Hub CSPM administrator account can use this operation to delete invitations sent to one or more prospective member accounts.
  *
  * This operation is only used to delete invitations that are sent to prospective member accounts that aren't part of an Amazon Web Services organization.
  * Organization accounts don't receive invitations.
@@ -19331,7 +19335,7 @@ export type DeleteMembersError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Deletes the specified member accounts from Security Hub.
+ * Deletes the specified member accounts from Security Hub CSPM.
  *
  * You can invoke this API only to delete accounts that became members through invitation. You can't invoke this
  * API to delete accounts that belong to an Organizations organization.
@@ -19359,7 +19363,7 @@ export type DescribeActionTargetsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Returns a list of the custom action targets in Security Hub in your account.
+ * Returns a list of the custom action targets in Security Hub CSPM in your account.
  */
 export const describeActionTargets: API.OperationMethod<
   DescribeActionTargetsRequest,
@@ -19406,7 +19410,7 @@ export type DescribeHubError =
   | CommonErrors;
 /**
  * Returns details about the Hub resource in your account, including the
- * `HubArn` and the time when you enabled Security Hub.
+ * `HubArn` and the time when you enabled Security Hub CSPM.
  */
 export const describeHub: API.OperationMethod<
   DescribeHubRequest,
@@ -19431,8 +19435,8 @@ export type DescribeOrganizationConfigurationError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Returns information about the way your organization is configured in Security Hub. Only the
- * Security Hub administrator account can invoke this operation.
+ * Returns information about the way your organization is configured in Security Hub CSPM. Only the
+ * Security Hub CSPM administrator account can invoke this operation.
  */
 export const describeOrganizationConfiguration: API.OperationMethod<
   DescribeOrganizationConfigurationRequest,
@@ -19456,7 +19460,7 @@ export type DescribeProductsError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Returns information about product integrations in Security Hub.
+ * Returns information about product integrations in Security Hub CSPM.
  *
  * You can optionally provide an integration ARN. If you provide an integration ARN, then
  * the results only include that integration.
@@ -19577,7 +19581,7 @@ export type DescribeStandardsError =
   | InvalidInputException
   | CommonErrors;
 /**
- * Returns a list of the available standards in Security Hub.
+ * Returns a list of the available standards in Security Hub CSPM.
  *
  * For each standard, the results include the standard ARN, the name, and a description.
  */
@@ -19670,8 +19674,8 @@ export type DisableImportFindingsForProductError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Disables the integration of the specified product with Security Hub. After the integration is
- * disabled, findings from that product are no longer sent to Security Hub.
+ * Disables the integration of the specified product with Security Hub CSPM. After the integration is
+ * disabled, findings from that product are no longer sent to Security Hub CSPM.
  */
 export const disableImportFindingsForProduct: API.OperationMethod<
   DisableImportFindingsForProductRequest,
@@ -19697,7 +19701,7 @@ export type DisableOrganizationAdminAccountError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Disables a Security Hub administrator account. Can only be called by the organization
+ * Disables a Security Hub CSPM administrator account. Can only be called by the organization
  * management account.
  */
 export const disableOrganizationAdminAccount: API.OperationMethod<
@@ -19724,17 +19728,17 @@ export type DisableSecurityHubError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Disables Security Hub in your account only in the current Amazon Web Services Region. To disable Security Hub in all
- * Regions, you must submit one request per Region where you have enabled Security Hub.
+ * Disables Security Hub CSPM in your account only in the current Amazon Web Services Region. To disable Security Hub CSPM in all
+ * Regions, you must submit one request per Region where you have enabled Security Hub CSPM.
  *
- * You can't disable Security Hub in an account that is currently the Security Hub administrator.
+ * You can't disable Security Hub CSPM in an account that is currently the Security Hub CSPM administrator.
  *
- * When you disable Security Hub, your existing findings and insights and any Security Hub configuration
+ * When you disable Security Hub CSPM, your existing findings and insights and any Security Hub CSPM configuration
  * settings are deleted after 90 days and cannot be recovered. Any standards that were enabled
  * are disabled, and your administrator and member account associations are removed.
  *
  * If you want to save your existing findings, you must export them before you disable
- * Security Hub.
+ * Security Hub CSPM.
  */
 export const disableSecurityHub: API.OperationMethod<
   DisableSecurityHubRequest,
@@ -19784,7 +19788,7 @@ export type DisassociateFromAdministratorAccountError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Disassociates the current Security Hub member account from the associated administrator
+ * Disassociates the current Security Hub CSPM member account from the associated administrator
  * account.
  *
  * This operation is only used by accounts that are not part of an organization. For
@@ -19817,9 +19821,9 @@ export type DisassociateFromMasterAccountError =
 /**
  * This method is deprecated. Instead, use `DisassociateFromAdministratorAccount`.
  *
- * The Security Hub console continues to use `DisassociateFromMasterAccount`. It will eventually change to use `DisassociateFromAdministratorAccount`. Any IAM policies that specifically control access to this function must continue to use `DisassociateFromMasterAccount`. You should also add `DisassociateFromAdministratorAccount` to your policies to ensure that the correct permissions are in place after the console begins to use `DisassociateFromAdministratorAccount`.
+ * The Security Hub CSPM console continues to use `DisassociateFromMasterAccount`. It will eventually change to use `DisassociateFromAdministratorAccount`. Any IAM policies that specifically control access to this function must continue to use `DisassociateFromMasterAccount`. You should also add `DisassociateFromAdministratorAccount` to your policies to ensure that the correct permissions are in place after the console begins to use `DisassociateFromAdministratorAccount`.
  *
- * Disassociates the current Security Hub member account from the associated administrator
+ * Disassociates the current Security Hub CSPM member account from the associated administrator
  * account.
  *
  * This operation is only used by accounts that are not part of an organization. For
@@ -19881,11 +19885,11 @@ export type EnableImportFindingsForProductError =
   | ResourceConflictException
   | CommonErrors;
 /**
- * Enables the integration of a partner product with Security Hub. Integrated products send
- * findings to Security Hub.
+ * Enables the integration of a partner product with Security Hub CSPM. Integrated products send
+ * findings to Security Hub CSPM.
  *
  * When you enable a product integration, a permissions policy that grants permission for
- * the product to send findings to Security Hub is applied.
+ * the product to send findings to Security Hub CSPM is applied.
  */
 export const enableImportFindingsForProduct: API.OperationMethod<
   EnableImportFindingsForProductRequest,
@@ -19911,7 +19915,7 @@ export type EnableOrganizationAdminAccountError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Designates the Security Hub administrator account for an organization. Can only be called by
+ * Designates the Security Hub CSPM administrator account for an organization. Can only be called by
  * the organization management account.
  */
 export const enableOrganizationAdminAccount: API.OperationMethod<
@@ -19938,13 +19942,13 @@ export type EnableSecurityHubError =
   | ResourceConflictException
   | CommonErrors;
 /**
- * Enables Security Hub for your account in the current Region or the Region you specify in the
+ * Enables Security Hub CSPM for your account in the current Region or the Region you specify in the
  * request.
  *
- * When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings
- * from other services that are integrated with Security Hub.
+ * When you enable Security Hub CSPM, you grant to Security Hub CSPM the permissions necessary to gather findings
+ * from other services that are integrated with Security Hub CSPM.
  *
- * When you use the `EnableSecurityHub` operation to enable Security Hub, you also
+ * When you use the `EnableSecurityHub` operation to enable Security Hub CSPM, you also
  * automatically enable the following standards:
  *
  * - Center for Internet Security (CIS) Amazon Web Services Foundations Benchmark v1.2.0
@@ -19956,10 +19960,10 @@ export type EnableSecurityHubError =
  * To opt out of automatically enabled standards, set
  * `EnableDefaultStandards` to `false`.
  *
- * After you enable Security Hub, to enable a standard, use the `BatchEnableStandards` operation. To disable a standard, use the
+ * After you enable Security Hub CSPM, to enable a standard, use the `BatchEnableStandards` operation. To disable a standard, use the
  * `BatchDisableStandards` operation.
  *
- * To learn more, see the setup information in the *Security Hub User Guide*.
+ * To learn more, see the setup information in the *Security Hub CSPM User Guide*.
  */
 export const enableSecurityHub: API.OperationMethod<
   EnableSecurityHubRequest,
@@ -20009,7 +20013,7 @@ export type GetAdministratorAccountError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Provides the details for the Security Hub administrator account for the current member account.
+ * Provides the details for the Security Hub CSPM administrator account for the current member account.
  *
  * Can be used by both member accounts that are managed using Organizations and accounts that were
  * invited manually.
@@ -20095,7 +20099,7 @@ export type GetConfigurationPolicyError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Provides information about a configuration policy. Only the Security Hub delegated administrator can invoke
+ * Provides information about a configuration policy. Only the Security Hub CSPM delegated administrator can invoke
  * this operation from the home Region.
  */
 export const getConfigurationPolicy: API.OperationMethod<
@@ -20125,7 +20129,7 @@ export type GetConfigurationPolicyAssociationError =
   | CommonErrors;
 /**
  * Returns the association between a configuration and a target account, organizational unit, or the root. The
- * configuration can be a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
+ * configuration can be a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can
  * invoke this operation from the home Region.
  */
 export const getConfigurationPolicyAssociation: API.OperationMethod<
@@ -20256,7 +20260,7 @@ export type GetFindingHistoryError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Returns the history of a Security Hub finding. The history includes changes made to any fields in
+ * Returns the history of a Security Hub CSPM finding. The history includes changes made to any fields in
  * the Amazon Web Services Security Finding Format (ASFF) except top-level timestamp fields, such as the `CreatedAt` and
  * `UpdatedAt` fields.
  *
@@ -20479,7 +20483,7 @@ export type GetInsightResultsError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Lists the results of the Security Hub insight specified by the insight ARN.
+ * Lists the results of the Security Hub CSPM insight specified by the insight ARN.
  */
 export const getInsightResults: API.OperationMethod<
   GetInsightResultsRequest,
@@ -20551,11 +20555,11 @@ export type GetInvitationsCountError =
   | LimitExceededException
   | CommonErrors;
 /**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
+ * We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts.
+ * For information, see Managing Security Hub CSPM administrator and member accounts with Organizations
+ * in the *Security Hub CSPM User Guide*.
  *
- * Returns the count of all Security Hub membership invitations that were sent to the
+ * Returns the count of all Security Hub CSPM membership invitations that were sent to the
  * calling member account, not including the currently accepted invitation.
  */
 export const getInvitationsCount: API.OperationMethod<
@@ -20583,9 +20587,9 @@ export type GetMasterAccountError =
 /**
  * This method is deprecated. Instead, use `GetAdministratorAccount`.
  *
- * The Security Hub console continues to use `GetMasterAccount`. It will eventually change to use `GetAdministratorAccount`. Any IAM policies that specifically control access to this function must continue to use `GetMasterAccount`. You should also add `GetAdministratorAccount` to your policies to ensure that the correct permissions are in place after the console begins to use `GetAdministratorAccount`.
+ * The Security Hub CSPM console continues to use `GetMasterAccount`. It will eventually change to use `GetAdministratorAccount`. Any IAM policies that specifically control access to this function must continue to use `GetMasterAccount`. You should also add `GetAdministratorAccount` to your policies to ensure that the correct permissions are in place after the console begins to use `GetAdministratorAccount`.
  *
- * Provides the details for the Security Hub administrator account for the current member account.
+ * Provides the details for the Security Hub CSPM administrator account for the current member account.
  *
  * Can be used by both member accounts that are managed using Organizations and accounts that were
  * invited manually.
@@ -20614,10 +20618,10 @@ export type GetMembersError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Returns the details for the Security Hub member accounts for the specified account IDs.
+ * Returns the details for the Security Hub CSPM member accounts for the specified account IDs.
  *
- * An administrator account can be either the delegated Security Hub administrator account for an
- * organization or an administrator account that enabled Security Hub manually.
+ * An administrator account can be either the delegated Security Hub CSPM administrator account for an
+ * organization or an administrator account that enabled Security Hub CSPM manually.
  *
  * The results include both member accounts that are managed using Organizations and accounts that
  * were invited manually.
@@ -20794,19 +20798,19 @@ export type InviteMembersError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
+ * We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts.
+ * For information, see Managing Security Hub CSPM administrator and member accounts with Organizations
+ * in the *Security Hub CSPM User Guide*.
  *
- * Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that
+ * Invites other Amazon Web Services accounts to become member accounts for the Security Hub CSPM administrator account that
  * the invitation is sent from.
  *
  * This operation is only used to invite accounts that don't belong to an Amazon Web Services organization.
  * Organization accounts don't receive invitations.
  *
- * Before you can use this action to invite a member, you must first use the `CreateMembers` action to create the member account in Security Hub.
+ * Before you can use this action to invite a member, you must first use the `CreateMembers` action to create the member account in Security Hub CSPM.
  *
- * When the account owner enables Security Hub and accepts the invitation to become a member
+ * When the account owner enables Security Hub CSPM and accepts the invitation to become a member
  * account, the administrator account can view the findings generated in the member account.
  */
 export const inviteMembers: API.OperationMethod<
@@ -20934,7 +20938,7 @@ export type ListConfigurationPoliciesError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Lists the configuration policies that the Security Hub delegated administrator has created for your
+ * Lists the configuration policies that the Security Hub CSPM delegated administrator has created for your
  * organization. Only the delegated administrator can invoke this operation from the home Region.
  */
 export const listConfigurationPolicies: API.OperationMethod<
@@ -20983,7 +20987,7 @@ export type ListConfigurationPolicyAssociationsError =
   | CommonErrors;
 /**
  * Provides information about the associations for your configuration policies and self-managed behavior. Only the
- * Security Hub delegated administrator can invoke this operation from the home Region.
+ * Security Hub CSPM delegated administrator can invoke this operation from the home Region.
  */
 export const listConfigurationPolicyAssociations: API.OperationMethod<
   ListConfigurationPolicyAssociationsRequest,
@@ -21057,7 +21061,7 @@ export type ListEnabledProductsForImportError =
   | CommonErrors;
 /**
  * Lists all findings-generating solutions (products) that you are subscribed to receive
- * findings from in Security Hub.
+ * findings from in Security Hub CSPM.
  */
 export const listEnabledProductsForImport: API.OperationMethod<
   ListEnabledProductsForImportRequest,
@@ -21145,11 +21149,11 @@ export type ListInvitationsError =
   | LimitExceededException
   | CommonErrors;
 /**
- * We recommend using Organizations instead of Security Hub invitations to manage your member accounts.
- * For information, see Managing Security Hub administrator and member accounts with Organizations
- * in the *Security Hub User Guide*.
+ * We recommend using Organizations instead of Security Hub CSPM invitations to manage your member accounts.
+ * For information, see Managing Security Hub CSPM administrator and member accounts with Organizations
+ * in the *Security Hub CSPM User Guide*.
  *
- * Lists all Security Hub membership invitations that were sent to the calling account.
+ * Lists all Security Hub CSPM membership invitations that were sent to the calling account.
  *
  * Only accounts that are managed by invitation can use this operation.
  * Accounts that are managed using the integration with Organizations don't receive invitations.
@@ -21197,7 +21201,7 @@ export type ListMembersError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Lists details about all member accounts for the current Security Hub administrator
+ * Lists details about all member accounts for the current Security Hub CSPM administrator
  * account.
  *
  * The results include both member accounts that belong to an organization and member
@@ -21246,7 +21250,7 @@ export type ListOrganizationAdminAccountsError =
   | LimitExceededException
   | CommonErrors;
 /**
- * Lists the Security Hub administrator accounts. Can only be called by the organization
+ * Lists the Security Hub CSPM administrator accounts. Can only be called by the organization
  * management account.
  */
 export const listOrganizationAdminAccounts: API.OperationMethod<
@@ -21433,7 +21437,7 @@ export type StartConfigurationPolicyAssociationError =
   | CommonErrors;
 /**
  * Associates a target account, organizational unit, or the root with a specified configuration. The target can be
- * associated with a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can
+ * associated with a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can
  * invoke this operation from the home Region.
  */
 export const startConfigurationPolicyAssociation: API.OperationMethod<
@@ -21465,7 +21469,7 @@ export type StartConfigurationPolicyDisassociationError =
  * Disassociates a target account, organizational unit, or the root from a specified configuration. When you
  * disassociate a configuration from its target, the target inherits the configuration of the closest parent. If there’s no
  * configuration to inherit, the target retains its settings but becomes a self-managed account. A target can be disassociated from
- * a configuration policy or self-managed behavior. Only the Security Hub delegated administrator can invoke this
+ * a configuration policy or self-managed behavior. Only the Security Hub CSPM delegated administrator can invoke this
  * operation from the home Region.
  */
 export const startConfigurationPolicyDisassociation: API.OperationMethod<
@@ -21528,7 +21532,7 @@ export type UpdateActionTargetError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates the name and description of a custom action target in Security Hub.
+ * Updates the name and description of a custom action target in Security Hub CSPM.
  */
 export const updateActionTarget: API.OperationMethod<
   UpdateActionTargetRequest,
@@ -21611,7 +21615,7 @@ export type UpdateConfigurationPolicyError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates a configuration policy. Only the Security Hub delegated
+ * Updates a configuration policy. Only the Security Hub CSPM delegated
  * administrator can invoke this operation from the home Region.
  */
 export const updateConfigurationPolicy: API.OperationMethod<
@@ -21704,12 +21708,12 @@ export type UpdateFindingsError =
  * `UpdateFindings` is a deprecated operation. Instead of `UpdateFindings`, use
  * the `BatchUpdateFindings` operation.
  *
- * The `UpdateFindings` operation updates the `Note` and `RecordState` of the Security Hub aggregated
+ * The `UpdateFindings` operation updates the `Note` and `RecordState` of the Security Hub CSPM aggregated
  * findings that the filter attributes specify. Any member account that can view the finding
  * can also see the update to the finding.
  *
  * Finding updates made with `UpdateFindings` aren't persisted if the same finding is later updated by the
- * finding provider through the `BatchImportFindings` operation. In addition, Security Hub doesn't
+ * finding provider through the `BatchImportFindings` operation. In addition, Security Hub CSPM doesn't
  * record updates made with `UpdateFindings` in the finding history.
  */
 export const updateFindings: API.OperationMethod<
@@ -21736,7 +21740,7 @@ export type UpdateInsightError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates the Security Hub insight identified by the specified insight ARN.
+ * Updates the Security Hub CSPM insight identified by the specified insight ARN.
  */
 export const updateInsight: API.OperationMethod<
   UpdateInsightRequest,
@@ -21764,8 +21768,8 @@ export type UpdateOrganizationConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates the configuration of your organization in Security Hub. Only the
- * Security Hub administrator account can invoke this operation.
+ * Updates the configuration of your organization in Security Hub CSPM. Only the
+ * Security Hub CSPM administrator account can invoke this operation.
  */
 export const updateOrganizationConfiguration: API.OperationMethod<
   UpdateOrganizationConfigurationRequest,
@@ -21824,7 +21828,7 @@ export type UpdateSecurityHubConfigurationError =
   | ResourceNotFoundException
   | CommonErrors;
 /**
- * Updates configuration options for Security Hub.
+ * Updates configuration options for Security Hub CSPM.
  */
 export const updateSecurityHubConfiguration: API.OperationMethod<
   UpdateSecurityHubConfigurationRequest,

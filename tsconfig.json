@@ -2,6 +2,9 @@
   "files": [],
   "references": [
     {
+      "path": "./distilled-core/tsconfig.json"
+    },
+    {
       "path": "./distilled-aws/tsconfig.json"
     },
     {

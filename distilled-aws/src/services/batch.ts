@@ -210,6 +210,14 @@ export const Ec2Configuration = S.suspend(() =>
 }) as any as S.Schema<Ec2Configuration>;
 export type Ec2ConfigurationList = Ec2Configuration[];
 export const Ec2ConfigurationList = S.Array(Ec2Configuration);
+export interface ComputeScalingPolicy {
+  minScaleDownDelayMinutes?: number;
+}
+export const ComputeScalingPolicy = S.suspend(() =>
+  S.Struct({ minScaleDownDelayMinutes: S.optional(S.Number) }),
+).annotate({
+  identifier: "ComputeScalingPolicy",
+}) as any as S.Schema<ComputeScalingPolicy>;
 export interface ComputeResource {
   type?: CRType;
   allocationStrategy?: CRAllocationStrategy;
@@ -228,6 +236,7 @@ export interface ComputeResource {
   spotIamFleetRole?: string;
   launchTemplate?: LaunchTemplateSpecification;
   ec2Configuration?: Ec2Configuration[];
+  scalingPolicy?: ComputeScalingPolicy;
 }
 export const ComputeResource = S.suspend(() =>
   S.Struct({
@@ -248,6 +257,7 @@ export const ComputeResource = S.suspend(() =>
     spotIamFleetRole: S.optional(S.String),
     launchTemplate: S.optional(LaunchTemplateSpecification),
     ec2Configuration: S.optional(Ec2ConfigurationList),
+    scalingPolicy: S.optional(ComputeScalingPolicy),
   }),
 ).annotate({
   identifier: "ComputeResource",
@@ -4020,6 +4030,7 @@ export interface ComputeResourceUpdate {
   updateToLatestImageVersion?: boolean;
   type?: CRType;
   imageId?: string;
+  scalingPolicy?: ComputeScalingPolicy;
 }
 export const ComputeResourceUpdate = S.suspend(() =>
   S.Struct({
@@ -4040,6 +4051,7 @@ export const ComputeResourceUpdate = S.suspend(() =>
     updateToLatestImageVersion: S.optional(S.Boolean),
     type: S.optional(CRType),
     imageId: S.optional(S.String),
+    scalingPolicy: S.optional(ComputeScalingPolicy),
   }),
 ).annotate({
   identifier: "ComputeResourceUpdate",

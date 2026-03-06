@@ -2771,6 +2771,8 @@ export type StandardIdentifier =
   | "PROFILE"
   | "ASSET"
   | "CASE"
+  | "DEVICE"
+  | "WEB_ANALYTICS"
   | "ORDER"
   | "COMMUNICATION_RECORD"
   | "AIR_PREFERENCE"
@@ -3673,6 +3675,7 @@ export interface GetProfileObjectTypeResponse {
   SourceLastUpdatedTimestampFormat?: string;
   MaxAvailableProfileObjectCount?: number;
   MaxProfileObjectCount?: number;
+  SourcePriority?: number;
   Fields?: { [key: string]: ObjectTypeField | undefined };
   Keys?: { [key: string]: ObjectTypeKey[] | undefined };
   CreatedAt?: Date;
@@ -3690,6 +3693,7 @@ export const GetProfileObjectTypeResponse = S.suspend(() =>
     SourceLastUpdatedTimestampFormat: S.optional(S.String),
     MaxAvailableProfileObjectCount: S.optional(S.Number),
     MaxProfileObjectCount: S.optional(S.Number),
+    SourcePriority: S.optional(S.Number),
     Fields: S.optional(FieldMap),
     Keys: S.optional(KeyMap),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -5441,6 +5445,7 @@ export interface ListProfileObjectTypeItem {
   LastUpdatedAt?: Date;
   MaxProfileObjectCount?: number;
   MaxAvailableProfileObjectCount?: number;
+  SourcePriority?: number;
   Tags?: { [key: string]: string | undefined };
 }
 export const ListProfileObjectTypeItem = S.suspend(() =>
@@ -5451,6 +5456,7 @@ export const ListProfileObjectTypeItem = S.suspend(() =>
     LastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MaxProfileObjectCount: S.optional(S.Number),
     MaxAvailableProfileObjectCount: S.optional(S.Number),
+    SourcePriority: S.optional(S.Number),
     Tags: S.optional(TagMap),
   }),
 ).annotate({
@@ -6141,6 +6147,7 @@ export interface PutProfileObjectTypeRequest {
   AllowProfileCreation?: boolean;
   SourceLastUpdatedTimestampFormat?: string;
   MaxProfileObjectCount?: number;
+  SourcePriority?: number;
   Fields?: { [key: string]: ObjectTypeField | undefined };
   Keys?: { [key: string]: ObjectTypeKey[] | undefined };
   Tags?: { [key: string]: string | undefined };
@@ -6156,6 +6163,7 @@ export const PutProfileObjectTypeRequest = S.suspend(() =>
     AllowProfileCreation: S.optional(S.Boolean),
     SourceLastUpdatedTimestampFormat: S.optional(S.String),
     MaxProfileObjectCount: S.optional(S.Number),
+    SourcePriority: S.optional(S.Number),
     Fields: S.optional(FieldMap),
     Keys: S.optional(KeyMap),
     Tags: S.optional(TagMap),
@@ -6185,6 +6193,7 @@ export interface PutProfileObjectTypeResponse {
   SourceLastUpdatedTimestampFormat?: string;
   MaxProfileObjectCount?: number;
   MaxAvailableProfileObjectCount?: number;
+  SourcePriority?: number;
   Fields?: { [key: string]: ObjectTypeField | undefined };
   Keys?: { [key: string]: ObjectTypeKey[] | undefined };
   CreatedAt?: Date;
@@ -6202,6 +6211,7 @@ export const PutProfileObjectTypeResponse = S.suspend(() =>
     SourceLastUpdatedTimestampFormat: S.optional(S.String),
     MaxProfileObjectCount: S.optional(S.Number),
     MaxAvailableProfileObjectCount: S.optional(S.Number),
+    SourcePriority: S.optional(S.Number),
     Fields: S.optional(FieldMap),
     Keys: S.optional(KeyMap),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),

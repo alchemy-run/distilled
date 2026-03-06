@@ -1,22 +1,14 @@
 import { Effect, Schema, Stream } from "effect";
+import {
+  type PaginatedTrait,
+  getPath,
+  paginatePages as corePaginatePages,
+  paginateItems as corePaginateItems,
+  cursorPaginationOptions,
+} from "distilled-core/Pagination";
 
-/**
- * Pagination trait for Neon APIs.
- *
- * Neon uses cursor-based pagination with:
- * - Input: `cursor` (string), `limit`
- * - Output: `pagination.cursor` (null if no more pages), items in a named field
- */
-export interface PaginatedTrait {
-  /** The name of the input member containing the cursor (default: "cursor") */
-  inputToken: string;
-  /** The path to the output member containing the next cursor (default: "pagination.cursor") */
-  outputToken: string;
-  /** The path to the output member containing the paginated items */
-  items: string;
-  /** The name of the input member that limits page size (default: "limit") */
-  pageSize?: string;
-}
+export type { PaginatedTrait };
+export { getPath };
 
 /**
  * Default pagination trait for Neon APIs.
@@ -26,22 +18,6 @@ export const DefaultPaginationTrait: PaginatedTrait = {
   outputToken: "pagination.cursor",
   items: "projects",
   pageSize: "limit",
-};
-
-/**
- * Helper to get a value from an object using a dot-separated path.
- * Used for pagination traits where outputToken and items can be paths.
- */
-export const getPath = (obj: unknown, path: string): unknown => {
-  const parts = path.split(".");
-  let current: unknown = obj;
-  for (const part of parts) {
-    if (current == null || typeof current !== "object") {
-      return undefined;
-    }
-    current = (current as Record<string, unknown>)[part];
-  }
-  return current;
 };
 
 /**
@@ -94,39 +70,12 @@ export const paginatePages = <
   input: Omit<Input, "cursor">,
   pagination: PaginatedTrait = DefaultPaginationTrait,
 ): Stream.Stream<Output, E, R> => {
-  type State = { cursor: string | undefined; done: boolean };
-
-  const unfoldFn = (state: State) =>
-    Effect.gen(function* () {
-      if (state.done) {
-        return undefined;
-      }
-
-      // Build the request with the cursor
-      const requestPayload = {
-        ...input,
-        ...(state.cursor ? { [pagination.inputToken]: state.cursor } : {}),
-      } as Input;
-
-      // Make the API call
-      const response = yield* operation(requestPayload);
-
-      // Extract the next cursor
-      const nextCursor = getPath(response, pagination.outputToken) as
-        | string
-        | null
-        | undefined;
-
-      // Return the full page and next state
-      const nextState: State = {
-        cursor: nextCursor ?? undefined,
-        done: nextCursor === null || nextCursor === undefined,
-      };
-
-      return [response, nextState] as const;
-    });
-
-  return Stream.unfold({ cursor: undefined, done: false } as State, unfoldFn);
+  return corePaginatePages(
+    operation,
+    input as Record<string, unknown>,
+    pagination,
+    cursorPaginationOptions,
+  );
 };
 
 /**
@@ -153,12 +102,10 @@ export const paginateItems = <
   input: Omit<Input, "cursor">,
   pagination: PaginatedTrait = DefaultPaginationTrait,
 ): Stream.Stream<Item, E, R> => {
-  return paginatePages(operation, input, pagination).pipe(
-    Stream.flatMap((page) => {
-      const items = getPath(page, pagination.items) as
-        | readonly Item[]
-        | undefined;
-      return Stream.fromIterable(items ?? []);
-    }),
+  return corePaginateItems(
+    operation,
+    input as Record<string, unknown>,
+    pagination,
+    cursorPaginationOptions,
   );
 };

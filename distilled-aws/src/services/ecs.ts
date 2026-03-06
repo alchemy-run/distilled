@@ -1304,7 +1304,11 @@ export type ManagedInstancesMonitoringOptions =
   | "DETAILED"
   | (string & {});
 export const ManagedInstancesMonitoringOptions = S.String;
-export type CapacityOptionType = "ON_DEMAND" | "SPOT" | (string & {});
+export type CapacityOptionType =
+  | "ON_DEMAND"
+  | "SPOT"
+  | "RESERVED"
+  | (string & {});
 export const CapacityOptionType = S.String;
 export interface VCpuCountRangeRequest {
   min: number;
@@ -1534,6 +1538,24 @@ export const InstanceRequirementsRequest = S.suspend(() =>
 ).annotate({
   identifier: "InstanceRequirementsRequest",
 }) as any as S.Schema<InstanceRequirementsRequest>;
+export type CapacityReservationPreference =
+  | "RESERVATIONS_ONLY"
+  | "RESERVATIONS_FIRST"
+  | "RESERVATIONS_EXCLUDED"
+  | (string & {});
+export const CapacityReservationPreference = S.String;
+export interface CapacityReservationRequest {
+  reservationGroupArn?: string;
+  reservationPreference?: CapacityReservationPreference;
+}
+export const CapacityReservationRequest = S.suspend(() =>
+  S.Struct({
+    reservationGroupArn: S.optional(S.String),
+    reservationPreference: S.optional(CapacityReservationPreference),
+  }),
+).annotate({
+  identifier: "CapacityReservationRequest",
+}) as any as S.Schema<CapacityReservationRequest>;
 export interface InstanceLaunchTemplate {
   ec2InstanceProfileArn: string;
   networkConfiguration: ManagedInstancesNetworkConfiguration;
@@ -1542,6 +1564,7 @@ export interface InstanceLaunchTemplate {
   capacityOptionType?: CapacityOptionType;
   instanceRequirements?: InstanceRequirementsRequest;
   fipsEnabled?: boolean;
+  capacityReservations?: CapacityReservationRequest;
 }
 export const InstanceLaunchTemplate = S.suspend(() =>
   S.Struct({
@@ -1552,6 +1575,7 @@ export const InstanceLaunchTemplate = S.suspend(() =>
     capacityOptionType: S.optional(CapacityOptionType),
     instanceRequirements: S.optional(InstanceRequirementsRequest),
     fipsEnabled: S.optional(S.Boolean),
+    capacityReservations: S.optional(CapacityReservationRequest),
   }),
 ).annotate({
   identifier: "InstanceLaunchTemplate",
@@ -1710,6 +1734,7 @@ export interface InstanceLaunchTemplateUpdate {
   storageConfiguration?: ManagedInstancesStorageConfiguration;
   monitoring?: ManagedInstancesMonitoringOptions;
   instanceRequirements?: InstanceRequirementsRequest;
+  capacityReservations?: CapacityReservationRequest;
 }
 export const InstanceLaunchTemplateUpdate = S.suspend(() =>
   S.Struct({
@@ -1718,6 +1743,7 @@ export const InstanceLaunchTemplateUpdate = S.suspend(() =>
     storageConfiguration: S.optional(ManagedInstancesStorageConfiguration),
     monitoring: S.optional(ManagedInstancesMonitoringOptions),
     instanceRequirements: S.optional(InstanceRequirementsRequest),
+    capacityReservations: S.optional(CapacityReservationRequest),
   }),
 ).annotate({
   identifier: "InstanceLaunchTemplateUpdate",

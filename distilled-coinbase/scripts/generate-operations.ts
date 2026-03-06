@@ -986,7 +986,7 @@ import * as T from "../traits";`;
     sensitiveTypesToImport.push("SensitiveNullableString");
   }
   if (sensitiveTypesToImport.length > 0) {
-    imports += `\nimport { ${sensitiveTypesToImport.join(", ")} } from "../sensitive";`;
+    imports += `\nimport { ${sensitiveTypesToImport.join(", ")} } from "distilled-core/Sensitive";`;
   }
 
   const code = [

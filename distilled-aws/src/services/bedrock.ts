@@ -7339,6 +7339,8 @@ export type ModelInvocationJobOutputDataConfig = {
 export const ModelInvocationJobOutputDataConfig = S.Union([
   S.Struct({ s3OutputDataConfig: ModelInvocationJobS3OutputDataConfig }),
 ]);
+export type ModelInvocationType = "InvokeModel" | "Converse" | (string & {});
+export const ModelInvocationType = S.String;
 export interface CreateModelInvocationJobRequest {
   jobName: string;
   roleArn: string;
@@ -7349,6 +7351,7 @@ export interface CreateModelInvocationJobRequest {
   vpcConfig?: VpcConfig;
   timeoutDurationInHours?: number;
   tags?: Tag[];
+  modelInvocationType?: ModelInvocationType;
 }
 export const CreateModelInvocationJobRequest = S.suspend(() =>
   S.Struct({
@@ -7361,6 +7364,7 @@ export const CreateModelInvocationJobRequest = S.suspend(() =>
     vpcConfig: S.optional(VpcConfig),
     timeoutDurationInHours: S.optional(S.Number),
     tags: S.optional(TagList),
+    modelInvocationType: S.optional(ModelInvocationType),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/model-invocation-job" }),
@@ -7428,6 +7432,7 @@ export interface GetModelInvocationJobResponse {
   vpcConfig?: VpcConfig;
   timeoutDurationInHours?: number;
   jobExpirationTime?: Date;
+  modelInvocationType?: ModelInvocationType;
 }
 export const GetModelInvocationJobResponse = S.suspend(() =>
   S.Struct({
@@ -7450,6 +7455,7 @@ export const GetModelInvocationJobResponse = S.suspend(() =>
     jobExpirationTime: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    modelInvocationType: S.optional(ModelInvocationType),
   }),
 ).annotate({
   identifier: "GetModelInvocationJobResponse",
@@ -7509,6 +7515,7 @@ export interface ModelInvocationJobSummary {
   vpcConfig?: VpcConfig;
   timeoutDurationInHours?: number;
   jobExpirationTime?: Date;
+  modelInvocationType?: ModelInvocationType;
 }
 export const ModelInvocationJobSummary = S.suspend(() =>
   S.Struct({
@@ -7531,6 +7538,7 @@ export const ModelInvocationJobSummary = S.suspend(() =>
     jobExpirationTime: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ),
+    modelInvocationType: S.optional(ModelInvocationType),
   }),
 ).annotate({
   identifier: "ModelInvocationJobSummary",
@@ -7617,9 +7625,27 @@ export type FoundationModelLifecycleStatus =
 export const FoundationModelLifecycleStatus = S.String;
 export interface FoundationModelLifecycle {
   status: FoundationModelLifecycleStatus;
+  startOfLifeTime?: Date;
+  endOfLifeTime?: Date;
+  legacyTime?: Date;
+  publicExtendedAccessTime?: Date;
 }
 export const FoundationModelLifecycle = S.suspend(() =>
-  S.Struct({ status: FoundationModelLifecycleStatus }),
+  S.Struct({
+    status: FoundationModelLifecycleStatus,
+    startOfLifeTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    endOfLifeTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    legacyTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+    publicExtendedAccessTime: S.optional(
+      T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    ),
+  }),
 ).annotate({
   identifier: "FoundationModelLifecycle",
 }) as any as S.Schema<FoundationModelLifecycle>;

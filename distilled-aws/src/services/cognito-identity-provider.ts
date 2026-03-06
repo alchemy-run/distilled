@@ -108,6 +108,9 @@ export type CustomAttributeNameType = string;
 export type StringType = string;
 export type MessageType = string;
 export type InvalidParameterExceptionReasonCodeType = string;
+export type ClientIdType = string | redacted.Redacted<string>;
+export type ClientSecretType = string | redacted.Redacted<string>;
+export type ClientSecretIdType = string;
 export type UsernameType = string | redacted.Redacted<string>;
 export type GroupNameType = string;
 export type AttributeNameType = string;
@@ -116,7 +119,6 @@ export type PasswordType = string | redacted.Redacted<string>;
 export type ForceAliasCreation = boolean;
 export type ProviderNameType = string;
 export type DeviceKeyType = string;
-export type ClientIdType = string | redacted.Redacted<string>;
 export type SessionType = string | redacted.Redacted<string>;
 export type TokenModelType = string | redacted.Redacted<string>;
 export type IntegerType = number;
@@ -182,7 +184,6 @@ export type ScopeType = string;
 export type HexStringType = string;
 export type AuthSessionValidityType = number;
 export type RetryGracePeriodSecondsType = number;
-export type ClientSecretType = string | redacted.Redacted<string>;
 export type WrappedIntegerType = number;
 export type EmailNotificationSubjectType = string;
 export type EmailNotificationBodyType = string;
@@ -291,6 +292,56 @@ export const AddCustomAttributesResponse = S.suspend(() =>
 ).annotate({
   identifier: "AddCustomAttributesResponse",
 }) as any as S.Schema<AddCustomAttributesResponse>;
+export interface AddUserPoolClientSecretRequest {
+  UserPoolId: string;
+  ClientId: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string>;
+}
+export const AddUserPoolClientSecretRequest = S.suspend(() =>
+  S.Struct({
+    UserPoolId: S.String,
+    ClientId: SensitiveString,
+    ClientSecret: S.optional(SensitiveString),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "AddUserPoolClientSecretRequest",
+}) as any as S.Schema<AddUserPoolClientSecretRequest>;
+export interface ClientSecretDescriptorType {
+  ClientSecretId?: string;
+  ClientSecretValue?: string | redacted.Redacted<string>;
+  ClientSecretCreateDate?: Date;
+}
+export const ClientSecretDescriptorType = S.suspend(() =>
+  S.Struct({
+    ClientSecretId: S.optional(S.String),
+    ClientSecretValue: S.optional(SensitiveString),
+    ClientSecretCreateDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "ClientSecretDescriptorType",
+}) as any as S.Schema<ClientSecretDescriptorType>;
+export interface AddUserPoolClientSecretResponse {
+  ClientSecretDescriptor?: ClientSecretDescriptorType;
+}
+export const AddUserPoolClientSecretResponse = S.suspend(() =>
+  S.Struct({
+    ClientSecretDescriptor: S.optional(ClientSecretDescriptorType),
+  }).pipe(ns),
+).annotate({
+  identifier: "AddUserPoolClientSecretResponse",
+}) as any as S.Schema<AddUserPoolClientSecretResponse>;
 export interface AdminAddUserToGroupRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
@@ -2820,6 +2871,7 @@ export interface CreateUserPoolClientRequest {
   UserPoolId: string;
   ClientName: string;
   GenerateSecret?: boolean;
+  ClientSecret?: string | redacted.Redacted<string>;
   RefreshTokenValidity?: number;
   AccessTokenValidity?: number;
   IdTokenValidity?: number;
@@ -2846,6 +2898,7 @@ export const CreateUserPoolClientRequest = S.suspend(() =>
     UserPoolId: S.String,
     ClientName: S.String,
     GenerateSecret: S.optional(S.Boolean),
+    ClientSecret: S.optional(SensitiveString),
     RefreshTokenValidity: S.optional(S.Number),
     AccessTokenValidity: S.optional(S.Number),
     IdTokenValidity: S.optional(S.Number),
@@ -3222,6 +3275,36 @@ export const DeleteUserPoolClientResponse = S.suspend(() =>
 ).annotate({
   identifier: "DeleteUserPoolClientResponse",
 }) as any as S.Schema<DeleteUserPoolClientResponse>;
+export interface DeleteUserPoolClientSecretRequest {
+  UserPoolId: string;
+  ClientId: string | redacted.Redacted<string>;
+  ClientSecretId: string;
+}
+export const DeleteUserPoolClientSecretRequest = S.suspend(() =>
+  S.Struct({
+    UserPoolId: S.String,
+    ClientId: SensitiveString,
+    ClientSecretId: S.String,
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteUserPoolClientSecretRequest",
+}) as any as S.Schema<DeleteUserPoolClientSecretRequest>;
+export interface DeleteUserPoolClientSecretResponse {}
+export const DeleteUserPoolClientSecretResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteUserPoolClientSecretResponse",
+}) as any as S.Schema<DeleteUserPoolClientSecretResponse>;
 export interface DeleteUserPoolDomainRequest {
   Domain: string;
   UserPoolId: string;
@@ -4744,6 +4827,46 @@ export const ListUserPoolClientsResponse = S.suspend(() =>
 ).annotate({
   identifier: "ListUserPoolClientsResponse",
 }) as any as S.Schema<ListUserPoolClientsResponse>;
+export interface ListUserPoolClientSecretsRequest {
+  UserPoolId: string;
+  ClientId: string | redacted.Redacted<string>;
+  NextToken?: string;
+}
+export const ListUserPoolClientSecretsRequest = S.suspend(() =>
+  S.Struct({
+    UserPoolId: S.String,
+    ClientId: SensitiveString,
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListUserPoolClientSecretsRequest",
+}) as any as S.Schema<ListUserPoolClientSecretsRequest>;
+export type ClientSecretDescriptorListType = ClientSecretDescriptorType[];
+export const ClientSecretDescriptorListType = S.Array(
+  ClientSecretDescriptorType,
+);
+export interface ListUserPoolClientSecretsResponse {
+  ClientSecrets?: ClientSecretDescriptorType[];
+  NextToken?: string;
+}
+export const ListUserPoolClientSecretsResponse = S.suspend(() =>
+  S.Struct({
+    ClientSecrets: S.optional(ClientSecretDescriptorListType),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListUserPoolClientSecretsResponse",
+}) as any as S.Schema<ListUserPoolClientSecretsResponse>;
 export interface ListUserPoolsRequest {
   NextToken?: string;
   MaxResults: number;
@@ -6013,16 +6136,24 @@ export class UserImportInProgressException extends S.TaggedErrorClass<UserImport
   "UserImportInProgressException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
+export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
+  "AccessDeniedException",
+  { message: S.optional(S.String) },
+).pipe(C.withAuthError) {}
+export class InternalServerException extends S.TaggedErrorClass<InternalServerException>()(
+  "InternalServerException",
+  { message: S.optional(S.String) },
+) {}
+export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
+  "LimitExceededException",
+  { message: S.optional(S.String) },
+).pipe(C.withBadRequestError) {}
 export class UserNotFoundException extends S.TaggedErrorClass<UserNotFoundException>()(
   "UserNotFoundException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class InvalidLambdaResponseException extends S.TaggedErrorClass<InvalidLambdaResponseException>()(
   "InvalidLambdaResponseException",
-  { message: S.optional(S.String) },
-).pipe(C.withBadRequestError) {}
-export class LimitExceededException extends S.TaggedErrorClass<LimitExceededException>()(
-  "LimitExceededException",
   { message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 export class TooManyFailedAttemptsException extends S.TaggedErrorClass<TooManyFailedAttemptsException>()(
@@ -6249,6 +6380,34 @@ export const addCustomAttributes: API.OperationMethod<
     ResourceNotFoundException,
     TooManyRequestsException,
     UserImportInProgressException,
+  ],
+}));
+export type AddUserPoolClientSecretError =
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Creates a new client secret for an existing confidential user pool app client. Supports up to 2 active secrets per app client for zero-downtime credential rotation workflows.
+ */
+export const addUserPoolClientSecret: API.OperationMethod<
+  AddUserPoolClientSecretRequest,
+  AddUserPoolClientSecretResponse,
+  AddUserPoolClientSecretError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AddUserPoolClientSecretRequest,
+  output: AddUserPoolClientSecretResponse,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
   ],
 }));
 export type AdminAddUserToGroupError =
@@ -7778,6 +7937,7 @@ export type CompleteWebAuthnRegistrationError =
   | InvalidParameterException
   | LimitExceededException
   | NotAuthorizedException
+  | PasswordResetRequiredException
   | TooManyRequestsException
   | WebAuthnChallengeNotFoundException
   | WebAuthnClientMismatchException
@@ -7806,6 +7966,7 @@ export const completeWebAuthnRegistration: API.OperationMethod<
     InvalidParameterException,
     LimitExceededException,
     NotAuthorizedException,
+    PasswordResetRequiredException,
     TooManyRequestsException,
     WebAuthnChallengeNotFoundException,
     WebAuthnClientMismatchException,
@@ -8784,6 +8945,32 @@ export const deleteUserPoolClient: API.OperationMethod<
     TooManyRequestsException,
   ],
 }));
+export type DeleteUserPoolClientSecretError =
+  | InternalServerException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Deletes a specific client secret from a user pool app client. You cannot delete the last remaining secret for an app client.
+ */
+export const deleteUserPoolClientSecret: API.OperationMethod<
+  DeleteUserPoolClientSecretRequest,
+  DeleteUserPoolClientSecretResponse,
+  DeleteUserPoolClientSecretError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteUserPoolClientSecretRequest,
+  output: DeleteUserPoolClientSecretResponse,
+  errors: [
+    InternalServerException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 export type DeleteUserPoolDomainError =
   | ConcurrentModificationException
   | InternalErrorException
@@ -8818,6 +9005,7 @@ export type DeleteWebAuthnCredentialError =
   | InvalidParameterException
   | LimitExceededException
   | NotAuthorizedException
+  | PasswordResetRequiredException
   | ResourceNotFoundException
   | TooManyRequestsException
   | CommonErrors;
@@ -8846,6 +9034,7 @@ export const deleteWebAuthnCredential: API.OperationMethod<
     InvalidParameterException,
     LimitExceededException,
     NotAuthorizedException,
+    PasswordResetRequiredException,
     ResourceNotFoundException,
     TooManyRequestsException,
   ],
@@ -10312,6 +10501,32 @@ export const listUserPoolClients: API.OperationMethod<
     pageSize: "MaxResults",
   } as const,
 }));
+export type ListUserPoolClientSecretsError =
+  | InternalServerException
+  | InvalidParameterException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors;
+/**
+ * Lists all client secrets associated with a user pool app client. Returns metadata about the secrets. The response does not include pagination tokens as there are only 2 secrets at any given time and we return both with every ListUserPoolClientSecrets call. For security reasons, the response never reveals the actual secret value in ClientSecretValue.
+ */
+export const listUserPoolClientSecrets: API.OperationMethod<
+  ListUserPoolClientSecretsRequest,
+  ListUserPoolClientSecretsResponse,
+  ListUserPoolClientSecretsError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListUserPoolClientSecretsRequest,
+  output: ListUserPoolClientSecretsResponse,
+  errors: [
+    InternalServerException,
+    InvalidParameterException,
+    LimitExceededException,
+    ResourceNotFoundException,
+    TooManyRequestsException,
+  ],
+}));
 export type ListUserPoolsError =
   | InternalErrorException
   | InvalidParameterException
@@ -10377,6 +10592,10 @@ export type ListUsersError =
 /**
  * Given a user pool ID, returns a list of users and their basic details in a user
  * pool.
+ *
+ * This operation is eventually consistent. You might experience a delay before results
+ * are up-to-date. To validate the existence or configuration of an individual user, use
+ * `AdminGetUser`.
  *
  * Amazon Cognito evaluates Identity and Access Management (IAM) policies in requests for this API operation. For
  * this operation, you must use IAM credentials to authorize requests, and you must
@@ -10489,6 +10708,7 @@ export type ListWebAuthnCredentialsError =
   | InvalidParameterException
   | LimitExceededException
   | NotAuthorizedException
+  | PasswordResetRequiredException
   | TooManyRequestsException
   | CommonErrors;
 /**
@@ -10516,6 +10736,7 @@ export const listWebAuthnCredentials: API.OperationMethod<
     InvalidParameterException,
     LimitExceededException,
     NotAuthorizedException,
+    PasswordResetRequiredException,
     TooManyRequestsException,
   ],
 }));
@@ -11095,6 +11316,7 @@ export type StartWebAuthnRegistrationError =
   | InvalidParameterException
   | LimitExceededException
   | NotAuthorizedException
+  | PasswordResetRequiredException
   | TooManyRequestsException
   | WebAuthnConfigurationMissingException
   | WebAuthnNotEnabledException
@@ -11121,6 +11343,7 @@ export const startWebAuthnRegistration: API.OperationMethod<
     InvalidParameterException,
     LimitExceededException,
     NotAuthorizedException,
+    PasswordResetRequiredException,
     TooManyRequestsException,
     WebAuthnConfigurationMissingException,
     WebAuthnNotEnabledException,
@@ -11643,7 +11866,7 @@ export type UpdateUserPoolError =
  * defaults, construct this API request to pass the existing configuration of your user
  * pool, modified to include the changes that you want to make.
  *
- * If you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
+ * With the exception of `UserPoolTier`, if you don't provide a value for an attribute, Amazon Cognito sets it to its default value.
  *
  * This action might generate an SMS text message. Starting June 1, 2021, US telecom carriers
  * require you to register an origination phone number before you can send SMS messages

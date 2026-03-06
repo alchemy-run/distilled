@@ -1,8 +1,8 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
-import * as T from "../traits";
+import * as T from "distilled-core/Traits";
 import { Forbidden, NotFound } from "../errors";
-import { SensitiveString } from "../sensitive";
+import { SensitiveString } from "distilled-core/Sensitive";
 
 // Input Schema
 export const CreateServiceTokenInput = Schema.Struct({

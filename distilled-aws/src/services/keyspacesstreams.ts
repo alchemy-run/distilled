@@ -154,6 +154,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -181,6 +182,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -208,6 +210,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -235,6 +238,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -262,6 +266,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -289,6 +294,7 @@ export type KeyspacesCellValue =
       dateT: string;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -316,6 +322,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT: string;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -343,6 +350,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT: string;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -370,6 +378,35 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT: string;
+      floatT?: never;
+      inetT?: never;
+      intT?: never;
+      listT?: never;
+      mapT?: never;
+      setT?: never;
+      smallintT?: never;
+      textT?: never;
+      timeT?: never;
+      timestampT?: never;
+      timeuuidT?: never;
+      tinyintT?: never;
+      tupleT?: never;
+      uuidT?: never;
+      varcharT?: never;
+      varintT?: never;
+      udtT?: never;
+    }
+  | {
+      asciiT?: never;
+      bigintT?: never;
+      blobT?: never;
+      boolT?: never;
+      counterT?: never;
+      dateT?: never;
+      decimalT?: never;
+      doubleT?: never;
+      durationT?: never;
       floatT: string;
       inetT?: never;
       intT?: never;
@@ -397,6 +434,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT: string;
       intT?: never;
@@ -424,6 +462,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT: string;
@@ -451,6 +490,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -478,6 +518,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -505,6 +546,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -532,6 +574,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -559,6 +602,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -586,6 +630,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -613,6 +658,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -640,6 +686,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -667,6 +714,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -694,6 +742,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -721,6 +770,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -748,6 +798,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -775,6 +826,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -802,6 +854,7 @@ export type KeyspacesCellValue =
       dateT?: never;
       decimalT?: never;
       doubleT?: never;
+      durationT?: never;
       floatT?: never;
       inetT?: never;
       intT?: never;
@@ -829,6 +882,7 @@ export const KeyspacesCellValue = S.Union([
   S.Struct({ dateT: S.String }),
   S.Struct({ decimalT: S.String }),
   S.Struct({ doubleT: S.String }),
+  S.Struct({ durationT: S.String }),
   S.Struct({ floatT: S.String }),
   S.Struct({ inetT: S.String }),
   S.Struct({ intT: S.String }),

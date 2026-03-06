@@ -156,12 +156,14 @@ export type Route53RecordName = string;
 export type Route53ResourceRecordSetIdentifier = string;
 export type DocumentDbGlobalClusterIdentifier = string;
 export type DocumentDbClusterArn = string;
+export type RdsDbInstanceArn = string;
 export type AccountId = string;
 export type PlanName = string;
 export type Duration = string;
 export type ListExecutionEventsMaxResults = number;
 export type ListExecutionsMaxResults = number;
 export type Route53HealthCheckId = string;
+export type RecoveryExecutionId = string;
 export type TagKey = string;
 export type TagValue = string;
 
@@ -239,7 +241,11 @@ export type EvaluationStatus =
   | "unknown"
   | (string & {});
 export const EvaluationStatus = S.String;
-export type ExecutionAction = "activate" | "deactivate" | (string & {});
+export type ExecutionAction =
+  | "activate"
+  | "deactivate"
+  | "postRecovery"
+  | (string & {});
 export const ExecutionAction = S.String;
 export interface MinimalWorkflow {
   action?: ExecutionAction;
@@ -379,6 +385,8 @@ export const LambdaList = S.Array(Lambdas);
 export type RegionToRunIn =
   | "activatingRegion"
   | "deactivatingRegion"
+  | "activeRegion"
+  | "inactiveRegion"
   | (string & {});
 export const RegionToRunIn = S.String;
 export type LambdaUngracefulBehavior = "skip" | (string & {});
@@ -775,6 +783,43 @@ export const DocumentDbConfiguration = S.suspend(() =>
 ).annotate({
   identifier: "DocumentDbConfiguration",
 }) as any as S.Schema<DocumentDbConfiguration>;
+export type RdsDbInstanceArnMap = { [key: string]: string | undefined };
+export const RdsDbInstanceArnMap = S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
+export interface RdsPromoteReadReplicaConfiguration {
+  timeoutMinutes?: number;
+  crossAccountRole?: string;
+  externalId?: string;
+  dbInstanceArnMap: { [key: string]: string | undefined };
+}
+export const RdsPromoteReadReplicaConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    dbInstanceArnMap: RdsDbInstanceArnMap,
+  }),
+).annotate({
+  identifier: "RdsPromoteReadReplicaConfiguration",
+}) as any as S.Schema<RdsPromoteReadReplicaConfiguration>;
+export interface RdsCreateCrossRegionReplicaConfiguration {
+  timeoutMinutes?: number;
+  crossAccountRole?: string;
+  externalId?: string;
+  dbInstanceArnMap: { [key: string]: string | undefined };
+}
+export const RdsCreateCrossRegionReplicaConfiguration = S.suspend(() =>
+  S.Struct({
+    timeoutMinutes: S.optional(S.Number),
+    crossAccountRole: S.optional(S.String),
+    externalId: S.optional(S.String),
+    dbInstanceArnMap: RdsDbInstanceArnMap,
+  }),
+).annotate({
+  identifier: "RdsCreateCrossRegionReplicaConfiguration",
+}) as any as S.Schema<RdsCreateCrossRegionReplicaConfiguration>;
 export type ExecutionBlockConfiguration =
   | {
       customActionLambdaConfig: CustomActionLambdaConfiguration;
@@ -788,6 +833,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -801,6 +848,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -814,6 +863,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -827,6 +878,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -840,6 +893,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -853,6 +908,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -866,6 +923,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -879,6 +938,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -892,6 +953,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig: EksResourceScalingConfiguration;
       route53HealthCheckConfig?: never;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -905,6 +968,8 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig: Route53HealthCheckConfiguration;
       documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -918,6 +983,38 @@ export type ExecutionBlockConfiguration =
       eksResourceScalingConfig?: never;
       route53HealthCheckConfig?: never;
       documentDbConfig: DocumentDbConfiguration;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig: RdsPromoteReadReplicaConfiguration;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig: RdsCreateCrossRegionReplicaConfiguration;
     };
 export const ExecutionBlockConfiguration = S.Union([
   S.Struct({ customActionLambdaConfig: CustomActionLambdaConfiguration }),
@@ -938,6 +1035,11 @@ export const ExecutionBlockConfiguration = S.Union([
   S.Struct({ eksResourceScalingConfig: EksResourceScalingConfiguration }),
   S.Struct({ route53HealthCheckConfig: Route53HealthCheckConfiguration }),
   S.Struct({ documentDbConfig: DocumentDbConfiguration }),
+  S.Struct({ rdsPromoteReadReplicaConfig: RdsPromoteReadReplicaConfiguration }),
+  S.Struct({
+    rdsCreateCrossRegionReadReplicaConfig:
+      RdsCreateCrossRegionReplicaConfiguration,
+  }),
 ]) as any as S.Schema<ExecutionBlockConfiguration>;
 export type ExecutionBlockType =
   | "CustomActionLambda"
@@ -951,6 +1053,8 @@ export type ExecutionBlockType =
   | "EKSResourceScaling"
   | "Route53HealthCheck"
   | "DocumentDb"
+  | "RdsPromoteReadReplica"
+  | "RdsCreateCrossRegionReplica"
   | (string & {});
 export const ExecutionBlockType = S.String;
 export interface Step {
@@ -973,7 +1077,11 @@ export type Steps = Step[];
 export const Steps = S.Array(
   S.suspend((): S.Schema<Step> => Step).annotate({ identifier: "Step" }),
 ) as any as S.Schema<Steps>;
-export type WorkflowTargetAction = "activate" | "deactivate" | (string & {});
+export type WorkflowTargetAction =
+  | "activate"
+  | "deactivate"
+  | "postRecovery"
+  | (string & {});
 export const WorkflowTargetAction = S.String;
 export interface Workflow {
   steps?: Step[];
@@ -1172,6 +1280,7 @@ export interface GetPlanExecutionResponse {
   executionState: ExecutionState;
   executionAction: ExecutionAction;
   executionRegion: string;
+  recoveryExecutionId?: string;
   stepStates?: StepState[];
   plan?: Plan;
   actualRecoveryTime?: string;
@@ -1191,6 +1300,7 @@ export const GetPlanExecutionResponse = S.suspend(() =>
     executionState: ExecutionState,
     executionAction: ExecutionAction,
     executionRegion: S.String,
+    recoveryExecutionId: S.optional(S.String),
     stepStates: S.optional(StepStates),
     plan: S.optional(Plan),
     actualRecoveryTime: S.optional(S.String),
@@ -1337,6 +1447,7 @@ export interface AbbreviatedExecution {
   executionState: ExecutionState;
   executionAction: ExecutionAction;
   executionRegion: string;
+  recoveryExecutionId?: string;
   actualRecoveryTime?: string;
 }
 export const AbbreviatedExecution = S.suspend(() =>
@@ -1352,6 +1463,7 @@ export const AbbreviatedExecution = S.suspend(() =>
     executionState: ExecutionState,
     executionAction: ExecutionAction,
     executionRegion: S.String,
+    recoveryExecutionId: S.optional(S.String),
     actualRecoveryTime: S.optional(S.String),
   }),
 ).annotate({
@@ -1533,6 +1645,7 @@ export interface StartPlanExecutionRequest {
   mode?: ExecutionMode;
   comment?: string;
   latestVersion?: string;
+  recoveryExecutionId?: string;
 }
 export const StartPlanExecutionRequest = S.suspend(() =>
   S.Struct({
@@ -1542,6 +1655,7 @@ export const StartPlanExecutionRequest = S.suspend(() =>
     mode: S.optional(ExecutionMode),
     comment: S.optional(S.String),
     latestVersion: S.optional(S.String),
+    recoveryExecutionId: S.optional(S.String),
   }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),

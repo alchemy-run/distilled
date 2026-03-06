@@ -246,6 +246,8 @@ export interface GatewayDetails {
   MaintenanceStartTime?: MaintenanceStartTime;
   NextUpdateAvailabilityTime?: Date;
   VpcEndpoint?: string;
+  DeprecationDate?: Date;
+  SoftwareVersion?: string;
 }
 export const GatewayDetails = S.suspend(() =>
   S.Struct({
@@ -259,6 +261,10 @@ export const GatewayDetails = S.suspend(() =>
       S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     ),
     VpcEndpoint: S.optional(S.String),
+    DeprecationDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    SoftwareVersion: S.optional(S.String),
   }),
 ).annotate({ identifier: "GatewayDetails" }) as any as S.Schema<GatewayDetails>;
 export interface GetGatewayOutput {
@@ -1293,7 +1299,7 @@ export type PutHypervisorPropertyMappingsError =
 /**
  * This action sets the property mappings for the specified hypervisor.
  * A hypervisor property mapping displays the relationship of entity properties
- * available from the on-premises hypervisor to the properties available in Amazon Web Services.
+ * available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const putHypervisorPropertyMappings: API.OperationMethod<
   PutHypervisorPropertyMappingsInput,
@@ -1311,7 +1317,7 @@ export type GetHypervisorPropertyMappingsError =
 /**
  * This action retrieves the property mappings for the specified hypervisor.
  * A hypervisor property mapping displays the relationship of entity properties
- * available from the on-premises hypervisor to the properties available in Amazon Web Services.
+ * available from the hypervisor to the properties available in Amazon Web Services.
  */
 export const getHypervisorPropertyMappings: API.OperationMethod<
   GetHypervisorPropertyMappingsInput,

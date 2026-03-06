@@ -43,10 +43,10 @@ export const Sensitive = <A>(
       S.decodeTo(
         S.Union([S.toType(schema), S.Redacted(S.toType(schema))]),
         SchemaTransformation.transform({
-          // Decode: wire format → always wrap in Redacted
+          // Decode: wire format -> always wrap in Redacted
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           decode: (a) => Redacted.make(a) as any,
-          // Encode: accept both raw and Redacted → extract raw value
+          // Encode: accept both raw and Redacted -> extract raw value
           encode: (v) => (Redacted.isRedacted(v) ? Redacted.value(v) : v),
         }),
       ),

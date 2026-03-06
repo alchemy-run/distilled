@@ -588,7 +588,7 @@ export const ${functionName} = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   // Combine all code
   let imports = `import * as Schema from "effect/Schema";
 import { API } from "../client";
-import * as T from "../traits";`;
+import * as T from "distilled-core/Traits";`;
 
   // Add error imports if needed
   if (hasErrors) {
@@ -604,7 +604,7 @@ import * as T from "../traits";`;
     sensitiveTypesToImport.push("SensitiveNullableString");
   }
   if (sensitiveTypesToImport.length > 0) {
-    imports += `\nimport { ${sensitiveTypesToImport.join(", ")} } from "../sensitive";`;
+    imports += `\nimport { ${sensitiveTypesToImport.join(", ")} } from "distilled-core/Sensitive";`;
   }
 
   const code = [
