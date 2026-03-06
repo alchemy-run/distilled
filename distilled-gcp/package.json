@@ -45,7 +45,7 @@
   },
   "scripts": {
     "specs:fetch": "git submodule update --force --init --recursive specs/gcp-discovery-api && git -C specs/gcp-discovery-api checkout -- .",
-    "specs:update": "git -C specs/gcp-discovery-api fetch && git -C specs/gcp-discovery-api pull",
+    "specs:update": "git -C specs/gcp-discovery-api fetch && git -C specs/gcp-discovery-api checkout main && git -C specs/gcp-discovery-api pull",
     "build": "bun run scripts/generate-clients.ts",
     "test": "vitest run",
     "typecheck": "tsc -b",
