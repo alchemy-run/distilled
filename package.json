@@ -21,10 +21,10 @@
       "distilled.cloud"
     ],
     "catalog": {
-      "@effect/cli": "4.0.0-beta.0",
-      "@effect/platform-bun": "4.0.0-beta.0",
-      "@effect/platform-node": "4.0.0-beta.0",
-      "@effect/vitest": "4.0.0-beta.0",
+      "@effect/cli": "4.0.0-beta.28",
+      "@effect/platform-bun": "4.0.0-beta.28",
+      "@effect/platform-node": "4.0.0-beta.28",
+      "@effect/vitest": "4.0.0-beta.28",
       "@libsql/client": "^0.15.0",
       "@opentui/core": "latest",
       "@opentui/solid": "latest",
@@ -33,7 +33,7 @@
       "@types/node": "latest",
       "@typescript/native-preview": "^7.0.0-dev.20251230.1",
       "diff": "^8.0.2",
-      "effect": "4.0.0-beta.0",
+      "effect": "4.0.0-beta.28",
       "fast-json-patch": "^3.1.1",
       "fast-xml-parser": "^5.3.2",
       "jsonc-parser": "^3.3.1",
