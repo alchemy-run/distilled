@@ -101,6 +101,7 @@ export class UnknownAwsError extends S.TaggedErrorClass<UnknownAwsError>()(
     service: S.optional(S.String),
     /** The operation name (e.g., "createBucket", "putObject") */
     operation: S.optional(S.String),
+    message: S.String,
   },
 ) {}
 

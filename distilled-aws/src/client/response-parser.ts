@@ -153,13 +153,12 @@ export const makeResponseParser = <A>(
       return yield* Effect.fail(decoded);
     }
 
-    return yield* Effect.fail(
-      new UnknownAwsError({
-        errorTag: errorCode,
-        errorData: data,
-        service: options?.service,
-        operation: options?.operation,
-      }),
-    );
+    return yield* new UnknownAwsError({
+      errorTag: errorCode,
+      errorData: data,
+      service: options?.service,
+      operation: options?.operation,
+      message: typeof data?.message === "string" ? data.message : errorCode,
+    });
   });
 };
