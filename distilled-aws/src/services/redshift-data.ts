@@ -108,7 +108,7 @@ export type ListStatementsLimit = number;
 
 //# Schemas
 export type SqlList = string[];
-export const SqlList = S.Array(S.String);
+export const SqlList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface BatchExecuteStatementInput {
   Sqls: string[];
   ClusterIdentifier?: string;
@@ -123,28 +123,29 @@ export interface BatchExecuteStatementInput {
   SessionKeepAliveSeconds?: number;
   SessionId?: string;
 }
-export const BatchExecuteStatementInput = S.suspend(() =>
-  S.Struct({
-    Sqls: SqlList,
-    ClusterIdentifier: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.optional(S.String),
-    WithEvent: S.optional(S.Boolean),
-    StatementName: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    ResultFormat: S.optional(S.String),
-    SessionKeepAliveSeconds: S.optional(S.Number),
-    SessionId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const BatchExecuteStatementInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Sqls: SqlList,
+      ClusterIdentifier: S.optional(S.String),
+      SecretArn: S.optional(S.String),
+      DbUser: S.optional(S.String),
+      Database: S.optional(S.String),
+      WithEvent: S.optional(S.Boolean),
+      StatementName: S.optional(S.String),
+      WorkgroupName: S.optional(S.String),
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      ResultFormat: S.optional(S.String),
+      SessionKeepAliveSeconds: S.optional(S.Number),
+      SessionId: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "BatchExecuteStatementInput",
 }) as any as S.Schema<BatchExecuteStatementInput>;
 export type DbGroupList = string[];
-export const DbGroupList = S.Array(S.String);
+export const DbGroupList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface BatchExecuteStatementOutput {
   Id?: string;
   CreatedAt?: Date;
@@ -156,46 +157,49 @@ export interface BatchExecuteStatementOutput {
   WorkgroupName?: string;
   SessionId?: string;
 }
-export const BatchExecuteStatementOutput = S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ClusterIdentifier: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    DbGroups: S.optional(DbGroupList),
-    Database: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    SessionId: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "BatchExecuteStatementOutput",
-}) as any as S.Schema<BatchExecuteStatementOutput>;
+export const BatchExecuteStatementOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Id: S.optional(S.String),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      ClusterIdentifier: S.optional(S.String),
+      DbUser: S.optional(S.String),
+      DbGroups: S.optional(DbGroupList),
+      Database: S.optional(S.String),
+      SecretArn: S.optional(S.String),
+      WorkgroupName: S.optional(S.String),
+      SessionId: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "BatchExecuteStatementOutput",
+  }) as any as S.Schema<BatchExecuteStatementOutput>;
 export interface CancelStatementRequest {
   Id: string;
 }
-export const CancelStatementRequest = S.suspend(() =>
-  S.Struct({ Id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const CancelStatementRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Id: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "CancelStatementRequest",
 }) as any as S.Schema<CancelStatementRequest>;
 export interface CancelStatementResponse {
   Status?: boolean;
 }
-export const CancelStatementResponse = S.suspend(() =>
-  S.Struct({ Status: S.optional(S.Boolean) }),
+export const CancelStatementResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Status: S.optional(S.Boolean) }),
 ).annotate({
   identifier: "CancelStatementResponse",
 }) as any as S.Schema<CancelStatementResponse>;
 export interface DescribeStatementRequest {
   Id: string;
 }
-export const DescribeStatementRequest = S.suspend(() =>
-  S.Struct({ Id: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeStatementRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Id: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeStatementRequest",
 }) as any as S.Schema<DescribeStatementRequest>;
@@ -203,11 +207,12 @@ export interface SqlParameter {
   name: string;
   value: string;
 }
-export const SqlParameter = S.suspend(() =>
+export const SqlParameter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, value: S.String }),
 ).annotate({ identifier: "SqlParameter" }) as any as S.Schema<SqlParameter>;
 export type SqlParametersList = SqlParameter[];
-export const SqlParametersList = S.Array(SqlParameter);
+export const SqlParametersList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SqlParameter);
 export interface SubStatementData {
   Id: string;
   Duration?: number;
@@ -221,7 +226,7 @@ export interface SubStatementData {
   RedshiftQueryId?: number;
   HasResultSet?: boolean;
 }
-export const SubStatementData = S.suspend(() =>
+export const SubStatementData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Id: S.String,
     Duration: S.optional(S.Number),
@@ -239,7 +244,8 @@ export const SubStatementData = S.suspend(() =>
   identifier: "SubStatementData",
 }) as any as S.Schema<SubStatementData>;
 export type SubStatementList = SubStatementData[];
-export const SubStatementList = S.Array(SubStatementData);
+export const SubStatementList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SubStatementData);
 export interface DescribeStatementResponse {
   Id: string;
   SecretArn?: string;
@@ -263,30 +269,31 @@ export interface DescribeStatementResponse {
   ResultFormat?: string;
   SessionId?: string;
 }
-export const DescribeStatementResponse = S.suspend(() =>
-  S.Struct({
-    Id: S.String,
-    SecretArn: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    Database: S.optional(S.String),
-    ClusterIdentifier: S.optional(S.String),
-    Duration: S.optional(S.Number),
-    Error: S.optional(S.String),
-    Status: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    RedshiftPid: S.optional(S.Number),
-    HasResultSet: S.optional(S.Boolean),
-    QueryString: S.optional(S.String),
-    ResultRows: S.optional(S.Number),
-    ResultSize: S.optional(S.Number),
-    RedshiftQueryId: S.optional(S.Number),
-    QueryParameters: S.optional(SqlParametersList),
-    SubStatements: S.optional(SubStatementList),
-    WorkgroupName: S.optional(S.String),
-    ResultFormat: S.optional(S.String),
-    SessionId: S.optional(S.String),
-  }),
+export const DescribeStatementResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Id: S.String,
+      SecretArn: S.optional(S.String),
+      DbUser: S.optional(S.String),
+      Database: S.optional(S.String),
+      ClusterIdentifier: S.optional(S.String),
+      Duration: S.optional(S.Number),
+      Error: S.optional(S.String),
+      Status: S.optional(S.String),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      RedshiftPid: S.optional(S.Number),
+      HasResultSet: S.optional(S.Boolean),
+      QueryString: S.optional(S.String),
+      ResultRows: S.optional(S.Number),
+      ResultSize: S.optional(S.Number),
+      RedshiftQueryId: S.optional(S.Number),
+      QueryParameters: S.optional(SqlParametersList),
+      SubStatements: S.optional(SubStatementList),
+      WorkgroupName: S.optional(S.String),
+      ResultFormat: S.optional(S.String),
+      SessionId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DescribeStatementResponse",
 }) as any as S.Schema<DescribeStatementResponse>;
@@ -302,7 +309,7 @@ export interface DescribeTableRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const DescribeTableRequest = S.suspend(() =>
+export const DescribeTableRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
@@ -335,7 +342,7 @@ export interface ColumnMetadata {
   length?: number;
   columnDefault?: string;
 }
-export const ColumnMetadata = S.suspend(() =>
+export const ColumnMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     isCaseSensitive: S.optional(S.Boolean),
     isCurrency: S.optional(S.Boolean),
@@ -353,13 +360,13 @@ export const ColumnMetadata = S.suspend(() =>
   }),
 ).annotate({ identifier: "ColumnMetadata" }) as any as S.Schema<ColumnMetadata>;
 export type ColumnList = ColumnMetadata[];
-export const ColumnList = S.Array(ColumnMetadata);
+export const ColumnList = /*@__PURE__*/ /*#__PURE__*/ S.Array(ColumnMetadata);
 export interface DescribeTableResponse {
   TableName?: string;
   ColumnList?: ColumnMetadata[];
   NextToken?: string;
 }
-export const DescribeTableResponse = S.suspend(() =>
+export const DescribeTableResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     TableName: S.optional(S.String),
     ColumnList: S.optional(ColumnList),
@@ -383,7 +390,7 @@ export interface ExecuteStatementInput {
   SessionKeepAliveSeconds?: number;
   SessionId?: string;
 }
-export const ExecuteStatementInput = S.suspend(() =>
+export const ExecuteStatementInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Sql: S.String,
     ClusterIdentifier: S.optional(S.String),
@@ -415,18 +422,19 @@ export interface ExecuteStatementOutput {
   WorkgroupName?: string;
   SessionId?: string;
 }
-export const ExecuteStatementOutput = S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ClusterIdentifier: S.optional(S.String),
-    DbUser: S.optional(S.String),
-    DbGroups: S.optional(DbGroupList),
-    Database: S.optional(S.String),
-    SecretArn: S.optional(S.String),
-    WorkgroupName: S.optional(S.String),
-    SessionId: S.optional(S.String),
-  }),
+export const ExecuteStatementOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Id: S.optional(S.String),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      ClusterIdentifier: S.optional(S.String),
+      DbUser: S.optional(S.String),
+      DbGroups: S.optional(DbGroupList),
+      Database: S.optional(S.String),
+      SecretArn: S.optional(S.String),
+      WorkgroupName: S.optional(S.String),
+      SessionId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ExecuteStatementOutput",
 }) as any as S.Schema<ExecuteStatementOutput>;
@@ -434,10 +442,11 @@ export interface GetStatementResultRequest {
   Id: string;
   NextToken?: string;
 }
-export const GetStatementResultRequest = S.suspend(() =>
-  S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const GetStatementResultRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "GetStatementResultRequest",
 }) as any as S.Schema<GetStatementResultRequest>;
@@ -490,7 +499,7 @@ export type Field =
       stringValue?: never;
       blobValue: Uint8Array;
     };
-export const Field = S.Union([
+export const Field = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ isNull: S.Boolean }),
   S.Struct({ booleanValue: S.Boolean }),
   S.Struct({ longValue: S.Number }),
@@ -499,24 +508,26 @@ export const Field = S.Union([
   S.Struct({ blobValue: T.Blob }),
 ]);
 export type FieldList = Field[];
-export const FieldList = S.Array(Field);
+export const FieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Field);
 export type SqlRecords = Field[][];
-export const SqlRecords = S.Array(FieldList);
+export const SqlRecords = /*@__PURE__*/ /*#__PURE__*/ S.Array(FieldList);
 export type ColumnMetadataList = ColumnMetadata[];
-export const ColumnMetadataList = S.Array(ColumnMetadata);
+export const ColumnMetadataList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ColumnMetadata);
 export interface GetStatementResultResponse {
   Records: Field[][];
   ColumnMetadata?: ColumnMetadata[];
   TotalNumRows?: number;
   NextToken?: string;
 }
-export const GetStatementResultResponse = S.suspend(() =>
-  S.Struct({
-    Records: SqlRecords,
-    ColumnMetadata: S.optional(ColumnMetadataList),
-    TotalNumRows: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }),
+export const GetStatementResultResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Records: SqlRecords,
+      ColumnMetadata: S.optional(ColumnMetadataList),
+      TotalNumRows: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "GetStatementResultResponse",
 }) as any as S.Schema<GetStatementResultResponse>;
@@ -524,17 +535,21 @@ export interface GetStatementResultV2Request {
   Id: string;
   NextToken?: string;
 }
-export const GetStatementResultV2Request = S.suspend(() =>
-  S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetStatementResultV2Request",
-}) as any as S.Schema<GetStatementResultV2Request>;
+export const GetStatementResultV2Request =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Id: S.String, NextToken: S.optional(S.String) }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "GetStatementResultV2Request",
+  }) as any as S.Schema<GetStatementResultV2Request>;
 export type QueryRecords = { CSVRecords: string };
-export const QueryRecords = S.Union([S.Struct({ CSVRecords: S.String })]);
+export const QueryRecords = /*@__PURE__*/ /*#__PURE__*/ S.Union([
+  S.Struct({ CSVRecords: S.String }),
+]);
 export type FormattedSqlRecords = QueryRecords[];
-export const FormattedSqlRecords = S.Array(QueryRecords);
+export const FormattedSqlRecords =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(QueryRecords);
 export interface GetStatementResultV2Response {
   Records: QueryRecords[];
   ColumnMetadata?: ColumnMetadata[];
@@ -542,17 +557,18 @@ export interface GetStatementResultV2Response {
   ResultFormat?: string;
   NextToken?: string;
 }
-export const GetStatementResultV2Response = S.suspend(() =>
-  S.Struct({
-    Records: FormattedSqlRecords,
-    ColumnMetadata: S.optional(ColumnMetadataList),
-    TotalNumRows: S.optional(S.Number),
-    ResultFormat: S.optional(S.String),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetStatementResultV2Response",
-}) as any as S.Schema<GetStatementResultV2Response>;
+export const GetStatementResultV2Response =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Records: FormattedSqlRecords,
+      ColumnMetadata: S.optional(ColumnMetadataList),
+      TotalNumRows: S.optional(S.Number),
+      ResultFormat: S.optional(S.String),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetStatementResultV2Response",
+  }) as any as S.Schema<GetStatementResultV2Response>;
 export interface ListDatabasesRequest {
   ClusterIdentifier?: string;
   Database: string;
@@ -562,7 +578,7 @@ export interface ListDatabasesRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const ListDatabasesRequest = S.suspend(() =>
+export const ListDatabasesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     Database: S.String,
@@ -578,12 +594,12 @@ export const ListDatabasesRequest = S.suspend(() =>
   identifier: "ListDatabasesRequest",
 }) as any as S.Schema<ListDatabasesRequest>;
 export type DatabaseList = string[];
-export const DatabaseList = S.Array(S.String);
+export const DatabaseList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListDatabasesResponse {
   Databases?: string[];
   NextToken?: string;
 }
-export const ListDatabasesResponse = S.suspend(() =>
+export const ListDatabasesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Databases: S.optional(DatabaseList),
     NextToken: S.optional(S.String),
@@ -602,7 +618,7 @@ export interface ListSchemasRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const ListSchemasRequest = S.suspend(() =>
+export const ListSchemasRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
@@ -620,12 +636,12 @@ export const ListSchemasRequest = S.suspend(() =>
   identifier: "ListSchemasRequest",
 }) as any as S.Schema<ListSchemasRequest>;
 export type SchemaList = string[];
-export const SchemaList = S.Array(S.String);
+export const SchemaList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListSchemasResponse {
   Schemas?: string[];
   NextToken?: string;
 }
-export const ListSchemasResponse = S.suspend(() =>
+export const ListSchemasResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Schemas: S.optional(SchemaList),
     NextToken: S.optional(S.String),
@@ -643,7 +659,7 @@ export interface ListStatementsRequest {
   ClusterIdentifier?: string;
   WorkgroupName?: string;
 }
-export const ListStatementsRequest = S.suspend(() =>
+export const ListStatementsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -660,7 +676,9 @@ export const ListStatementsRequest = S.suspend(() =>
   identifier: "ListStatementsRequest",
 }) as any as S.Schema<ListStatementsRequest>;
 export type StatementStringList = string[];
-export const StatementStringList = S.Array(S.String);
+export const StatementStringList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface StatementData {
   Id: string;
   QueryString?: string;
@@ -675,7 +693,7 @@ export interface StatementData {
   ResultFormat?: string;
   SessionId?: string;
 }
-export const StatementData = S.suspend(() =>
+export const StatementData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Id: S.String,
     QueryString: S.optional(S.String),
@@ -692,13 +710,14 @@ export const StatementData = S.suspend(() =>
   }),
 ).annotate({ identifier: "StatementData" }) as any as S.Schema<StatementData>;
 export type StatementList = StatementData[];
-export const StatementList = S.Array(StatementData);
+export const StatementList = /*@__PURE__*/ /*#__PURE__*/ S.Array(StatementData);
 export interface ListStatementsResponse {
   Statements: StatementData[];
   NextToken?: string;
 }
-export const ListStatementsResponse = S.suspend(() =>
-  S.Struct({ Statements: StatementList, NextToken: S.optional(S.String) }),
+export const ListStatementsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Statements: StatementList, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListStatementsResponse",
 }) as any as S.Schema<ListStatementsResponse>;
@@ -714,7 +733,7 @@ export interface ListTablesRequest {
   MaxResults?: number;
   WorkgroupName?: string;
 }
-export const ListTablesRequest = S.suspend(() =>
+export const ListTablesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClusterIdentifier: S.optional(S.String),
     SecretArn: S.optional(S.String),
@@ -737,7 +756,7 @@ export interface TableMember {
   type?: string;
   schema?: string;
 }
-export const TableMember = S.suspend(() =>
+export const TableMember = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     type: S.optional(S.String),
@@ -745,12 +764,12 @@ export const TableMember = S.suspend(() =>
   }),
 ).annotate({ identifier: "TableMember" }) as any as S.Schema<TableMember>;
 export type TableList = TableMember[];
-export const TableList = S.Array(TableMember);
+export const TableList = /*@__PURE__*/ /*#__PURE__*/ S.Array(TableMember);
 export interface ListTablesResponse {
   Tables?: TableMember[];
   NextToken?: string;
 }
-export const ListTablesResponse = S.suspend(() =>
+export const ListTablesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Tables: S.optional(TableList), NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListTablesResponse",

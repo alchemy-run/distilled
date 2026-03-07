@@ -69,8 +69,16 @@ import {
   EncryptRequest,
 } from "../src/services/kms.ts";
 
-const toJsonSchema = (schema: S.Top) =>
-  JsonSchema.toSchemaDraft07(S.toJsonSchemaDocument(schema).schema);
+const toJsonSchema = (schema: S.Top) => {
+  const document = JsonSchema.toDocumentDraft07(S.toJsonSchemaDocument(schema));
+  const draft07Schema = { ...document.schema };
+
+  if (Object.keys(document.definitions).length > 0) {
+    draft07Schema.definitions = document.definitions;
+  }
+
+  return draft07Schema;
+};
 
 describe("JSON Schema Generation", () => {
   describe("Primitive Types", () => {

@@ -74,25 +74,26 @@ export type NextStep = string;
 
 //# Schemas
 export type FilterName = "FEATURE" | "SEVERITY" | "TYPE" | (string & {});
-export const FilterName = S.String;
+export const FilterName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type MatchOption = "EQUALS" | "NOT_EQUALS" | (string & {});
-export const MatchOption = S.String;
+export const MatchOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type FilterValues = string[];
-export const FilterValues = S.Array(S.String);
+export const FilterValues = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ActionFilter {
   key: FilterName;
   matchOption: MatchOption;
   values: string[];
 }
-export const ActionFilter = S.suspend(() =>
+export const ActionFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: FilterName, matchOption: MatchOption, values: FilterValues }),
 ).annotate({ identifier: "ActionFilter" }) as any as S.Schema<ActionFilter>;
 export type ActionFilterList = ActionFilter[];
-export const ActionFilterList = S.Array(ActionFilter);
+export const ActionFilterList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ActionFilter);
 export interface RequestFilter {
   actions?: ActionFilter[];
 }
-export const RequestFilter = S.suspend(() =>
+export const RequestFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ actions: S.optional(ActionFilterList) }),
 ).annotate({ identifier: "RequestFilter" }) as any as S.Schema<RequestFilter>;
 export interface ListRecommendedActionsRequest {
@@ -100,17 +101,18 @@ export interface ListRecommendedActionsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListRecommendedActionsRequest = S.suspend(() =>
-  S.Struct({
-    filter: S.optional(RequestFilter),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListRecommendedActionsRequest",
-}) as any as S.Schema<ListRecommendedActionsRequest>;
+export const ListRecommendedActionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      filter: S.optional(RequestFilter),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListRecommendedActionsRequest",
+  }) as any as S.Schema<ListRecommendedActionsRequest>;
 export type ActionType =
   | "ADD_ALTERNATE_BILLING_CONTACT"
   | "CREATE_ANOMALY_MONITOR"
@@ -133,9 +135,9 @@ export type ActionType =
   | "UPDATE_TAX_EXEMPTION_CERTIFICATE"
   | "UPDATE_TAX_REGISTRATION_NUMBER"
   | (string & {});
-export const ActionType = S.String;
+export const ActionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Severity = "INFO" | "WARNING" | "CRITICAL" | (string & {});
-export const Severity = S.String;
+export const Severity = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Feature =
   | "ACCOUNT"
   | "BUDGETS"
@@ -148,11 +150,14 @@ export type Feature =
   | "SAVINGS_PLANS"
   | "TAX_SETTINGS"
   | (string & {});
-export const Feature = S.String;
+export const Feature = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Context = { [key: string]: string | undefined };
-export const Context = S.Record(S.String, S.String.pipe(S.optional));
+export const Context = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export type NextSteps = string[];
-export const NextSteps = S.Array(S.String);
+export const NextSteps = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface RecommendedAction {
   id?: string;
   type?: ActionType;
@@ -163,7 +168,7 @@ export interface RecommendedAction {
   nextSteps?: string[];
   lastUpdatedTimeStamp?: string;
 }
-export const RecommendedAction = S.suspend(() =>
+export const RecommendedAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     type: S.optional(ActionType),
@@ -178,37 +183,41 @@ export const RecommendedAction = S.suspend(() =>
   identifier: "RecommendedAction",
 }) as any as S.Schema<RecommendedAction>;
 export type RecommendedActions = RecommendedAction[];
-export const RecommendedActions = S.Array(RecommendedAction);
+export const RecommendedActions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecommendedAction);
 export interface ListRecommendedActionsResponse {
   recommendedActions: RecommendedAction[];
   nextToken?: string;
 }
-export const ListRecommendedActionsResponse = S.suspend(() =>
-  S.Struct({
-    recommendedActions: RecommendedActions,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRecommendedActionsResponse",
-}) as any as S.Schema<ListRecommendedActionsResponse>;
+export const ListRecommendedActionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      recommendedActions: RecommendedActions,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListRecommendedActionsResponse",
+  }) as any as S.Schema<ListRecommendedActionsResponse>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ValidationExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.String, message: S.String }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

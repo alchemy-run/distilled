@@ -98,8 +98,8 @@ export type RescoreId = string;
 export interface CapacityUnitsConfiguration {
   RescoreCapacityUnits: number;
 }
-export const CapacityUnitsConfiguration = S.suspend(() =>
-  S.Struct({ RescoreCapacityUnits: S.Number }),
+export const CapacityUnitsConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ RescoreCapacityUnits: S.Number }),
 ).annotate({
   identifier: "CapacityUnitsConfiguration",
 }) as any as S.Schema<CapacityUnitsConfiguration>;
@@ -107,11 +107,11 @@ export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface CreateRescoreExecutionPlanRequest {
   Name: string;
   Description?: string;
@@ -119,75 +119,78 @@ export interface CreateRescoreExecutionPlanRequest {
   Tags?: Tag[];
   ClientToken?: string;
 }
-export const CreateRescoreExecutionPlanRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Description: S.optional(S.String),
-    CapacityUnits: S.optional(CapacityUnitsConfiguration),
-    Tags: S.optional(TagList),
-    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/rescore-execution-plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateRescoreExecutionPlanRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.String,
+      Description: S.optional(S.String),
+      CapacityUnits: S.optional(CapacityUnitsConfiguration),
+      Tags: S.optional(TagList),
+      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/rescore-execution-plans" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateRescoreExecutionPlanRequest",
-}) as any as S.Schema<CreateRescoreExecutionPlanRequest>;
+  ).annotate({
+    identifier: "CreateRescoreExecutionPlanRequest",
+  }) as any as S.Schema<CreateRescoreExecutionPlanRequest>;
 export interface CreateRescoreExecutionPlanResponse {
   Id: string;
   Arn: string;
 }
-export const CreateRescoreExecutionPlanResponse = S.suspend(() =>
-  S.Struct({ Id: S.String, Arn: S.String }),
-).annotate({
-  identifier: "CreateRescoreExecutionPlanResponse",
-}) as any as S.Schema<CreateRescoreExecutionPlanResponse>;
+export const CreateRescoreExecutionPlanResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Id: S.String, Arn: S.String }),
+  ).annotate({
+    identifier: "CreateRescoreExecutionPlanResponse",
+  }) as any as S.Schema<CreateRescoreExecutionPlanResponse>;
 export interface DeleteRescoreExecutionPlanRequest {
   Id: string;
 }
-export const DeleteRescoreExecutionPlanRequest = S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteRescoreExecutionPlanRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/rescore-execution-plans/{Id}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteRescoreExecutionPlanRequest",
-}) as any as S.Schema<DeleteRescoreExecutionPlanRequest>;
+  ).annotate({
+    identifier: "DeleteRescoreExecutionPlanRequest",
+  }) as any as S.Schema<DeleteRescoreExecutionPlanRequest>;
 export interface DeleteRescoreExecutionPlanResponse {}
-export const DeleteRescoreExecutionPlanResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRescoreExecutionPlanResponse",
-}) as any as S.Schema<DeleteRescoreExecutionPlanResponse>;
+export const DeleteRescoreExecutionPlanResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteRescoreExecutionPlanResponse",
+  }) as any as S.Schema<DeleteRescoreExecutionPlanResponse>;
 export interface DescribeRescoreExecutionPlanRequest {
   Id: string;
 }
-export const DescribeRescoreExecutionPlanRequest = S.suspend(() =>
-  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeRescoreExecutionPlanRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/rescore-execution-plans/{Id}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeRescoreExecutionPlanRequest",
-}) as any as S.Schema<DescribeRescoreExecutionPlanRequest>;
+  ).annotate({
+    identifier: "DescribeRescoreExecutionPlanRequest",
+  }) as any as S.Schema<DescribeRescoreExecutionPlanRequest>;
 export type RescoreExecutionPlanStatus =
   | "CREATING"
   | "UPDATING"
@@ -195,7 +198,7 @@ export type RescoreExecutionPlanStatus =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const RescoreExecutionPlanStatus = S.String;
+export const RescoreExecutionPlanStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DescribeRescoreExecutionPlanResponse {
   Id?: string;
   Arn?: string;
@@ -207,42 +210,44 @@ export interface DescribeRescoreExecutionPlanResponse {
   Status?: RescoreExecutionPlanStatus;
   ErrorMessage?: string;
 }
-export const DescribeRescoreExecutionPlanResponse = S.suspend(() =>
-  S.Struct({
-    Id: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    CapacityUnits: S.optional(CapacityUnitsConfiguration),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(RescoreExecutionPlanStatus),
-    ErrorMessage: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeRescoreExecutionPlanResponse",
-}) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
+export const DescribeRescoreExecutionPlanResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Id: S.optional(S.String),
+      Arn: S.optional(S.String),
+      Name: S.optional(S.String),
+      Description: S.optional(S.String),
+      CapacityUnits: S.optional(CapacityUnitsConfiguration),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      Status: S.optional(RescoreExecutionPlanStatus),
+      ErrorMessage: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeRescoreExecutionPlanResponse",
+  }) as any as S.Schema<DescribeRescoreExecutionPlanResponse>;
 export interface ListRescoreExecutionPlansRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListRescoreExecutionPlansRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rescore-execution-plans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListRescoreExecutionPlansRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/rescore-execution-plans" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListRescoreExecutionPlansRequest",
-}) as any as S.Schema<ListRescoreExecutionPlansRequest>;
+  ).annotate({
+    identifier: "ListRescoreExecutionPlansRequest",
+  }) as any as S.Schema<ListRescoreExecutionPlansRequest>;
 export interface RescoreExecutionPlanSummary {
   Name?: string;
   Id?: string;
@@ -250,55 +255,58 @@ export interface RescoreExecutionPlanSummary {
   UpdatedAt?: Date;
   Status?: RescoreExecutionPlanStatus;
 }
-export const RescoreExecutionPlanSummary = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    Id: S.optional(S.String),
-    CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(RescoreExecutionPlanStatus),
-  }),
-).annotate({
-  identifier: "RescoreExecutionPlanSummary",
-}) as any as S.Schema<RescoreExecutionPlanSummary>;
+export const RescoreExecutionPlanSummary =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.optional(S.String),
+      Id: S.optional(S.String),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      Status: S.optional(RescoreExecutionPlanStatus),
+    }),
+  ).annotate({
+    identifier: "RescoreExecutionPlanSummary",
+  }) as any as S.Schema<RescoreExecutionPlanSummary>;
 export type RescoreExecutionPlanSummaryList = RescoreExecutionPlanSummary[];
-export const RescoreExecutionPlanSummaryList = S.Array(
-  RescoreExecutionPlanSummary,
-);
+export const RescoreExecutionPlanSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RescoreExecutionPlanSummary);
 export interface ListRescoreExecutionPlansResponse {
   SummaryItems?: RescoreExecutionPlanSummary[];
   NextToken?: string;
 }
-export const ListRescoreExecutionPlansResponse = S.suspend(() =>
-  S.Struct({
-    SummaryItems: S.optional(RescoreExecutionPlanSummaryList),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRescoreExecutionPlansResponse",
-}) as any as S.Schema<ListRescoreExecutionPlansResponse>;
+export const ListRescoreExecutionPlansResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      SummaryItems: S.optional(RescoreExecutionPlanSummaryList),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListRescoreExecutionPlansResponse",
+  }) as any as S.Schema<ListRescoreExecutionPlansResponse>;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceARN: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(TagList) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export type TitleTokensList = string[];
-export const TitleTokensList = S.Array(S.String);
+export const TitleTokensList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type BodyTokensList = string[];
-export const BodyTokensList = S.Array(S.String);
+export const BodyTokensList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Document {
   Id: string;
   GroupId?: string;
@@ -308,7 +316,7 @@ export interface Document {
   TokenizedBody?: string[];
   OriginalScore: number;
 }
-export const Document = S.suspend(() =>
+export const Document = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Id: S.String,
     GroupId: S.optional(S.String),
@@ -320,13 +328,13 @@ export const Document = S.suspend(() =>
   }),
 ).annotate({ identifier: "Document" }) as any as S.Schema<Document>;
 export type DocumentList = Document[];
-export const DocumentList = S.Array(Document);
+export const DocumentList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Document);
 export interface RescoreRequest {
   RescoreExecutionPlanId: string;
   SearchQuery: string;
   Documents: Document[];
 }
-export const RescoreRequest = S.suspend(() =>
+export const RescoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RescoreExecutionPlanId: S.String.pipe(
       T.HttpLabel("RescoreExecutionPlanId"),
@@ -351,18 +359,19 @@ export interface RescoreResultItem {
   DocumentId?: string;
   Score?: number;
 }
-export const RescoreResultItem = S.suspend(() =>
+export const RescoreResultItem = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ DocumentId: S.optional(S.String), Score: S.optional(S.Number) }),
 ).annotate({
   identifier: "RescoreResultItem",
 }) as any as S.Schema<RescoreResultItem>;
 export type RescoreResultItemList = RescoreResultItem[];
-export const RescoreResultItemList = S.Array(RescoreResultItem);
+export const RescoreResultItemList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RescoreResultItem);
 export interface RescoreResult {
   RescoreId?: string;
   ResultItems?: RescoreResultItem[];
 }
-export const RescoreResult = S.suspend(() =>
+export const RescoreResult = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     RescoreId: S.optional(S.String),
     ResultItems: S.optional(RescoreResultItemList),
@@ -372,7 +381,7 @@ export interface TagResourceRequest {
   ResourceARN: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: TagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -380,16 +389,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceARN: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -397,7 +408,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateRescoreExecutionPlanRequest {
@@ -406,31 +419,31 @@ export interface UpdateRescoreExecutionPlanRequest {
   Description?: string;
   CapacityUnits?: CapacityUnitsConfiguration;
 }
-export const UpdateRescoreExecutionPlanRequest = S.suspend(() =>
-  S.Struct({
-    Id: S.String.pipe(T.HttpLabel("Id")),
-    Name: S.optional(S.String),
-    Description: S.optional(S.String),
-    CapacityUnits: S.optional(CapacityUnitsConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/rescore-execution-plans/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateRescoreExecutionPlanRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Id: S.String.pipe(T.HttpLabel("Id")),
+      Name: S.optional(S.String),
+      Description: S.optional(S.String),
+      CapacityUnits: S.optional(CapacityUnitsConfiguration),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PUT", uri: "/rescore-execution-plans/{Id}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateRescoreExecutionPlanRequest",
-}) as any as S.Schema<UpdateRescoreExecutionPlanRequest>;
+  ).annotate({
+    identifier: "UpdateRescoreExecutionPlanRequest",
+  }) as any as S.Schema<UpdateRescoreExecutionPlanRequest>;
 export interface UpdateRescoreExecutionPlanResponse {}
-export const UpdateRescoreExecutionPlanResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRescoreExecutionPlanResponse",
-}) as any as S.Schema<UpdateRescoreExecutionPlanResponse>;
+export const UpdateRescoreExecutionPlanResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "UpdateRescoreExecutionPlanResponse",
+  }) as any as S.Schema<UpdateRescoreExecutionPlanResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

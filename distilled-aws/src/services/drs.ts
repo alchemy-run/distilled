@@ -175,25 +175,29 @@ export type ReplicationConfigurationReplicatedDiskStagingDiskType = string;
 
 //# Schemas
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagsMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface CreateExtendedSourceServerRequest {
   sourceServerArn: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateExtendedSourceServerRequest = S.suspend(() =>
-  S.Struct({ sourceServerArn: S.String, tags: S.optional(TagsMap) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateExtendedSourceServer" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateExtendedSourceServerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceServerArn: S.String, tags: S.optional(TagsMap) }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateExtendedSourceServer" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateExtendedSourceServerRequest",
-}) as any as S.Schema<CreateExtendedSourceServerRequest>;
+  ).annotate({
+    identifier: "CreateExtendedSourceServerRequest",
+  }) as any as S.Schema<CreateExtendedSourceServerRequest>;
 export interface DataReplicationInfoReplicatedDisk {
   deviceName?: string;
   totalStorageBytes?: number;
@@ -202,47 +206,48 @@ export interface DataReplicationInfoReplicatedDisk {
   backloggedStorageBytes?: number;
   volumeStatus?: string;
 }
-export const DataReplicationInfoReplicatedDisk = S.suspend(() =>
-  S.Struct({
-    deviceName: S.optional(S.String),
-    totalStorageBytes: S.optional(S.Number),
-    replicatedStorageBytes: S.optional(S.Number),
-    rescannedStorageBytes: S.optional(S.Number),
-    backloggedStorageBytes: S.optional(S.Number),
-    volumeStatus: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DataReplicationInfoReplicatedDisk",
-}) as any as S.Schema<DataReplicationInfoReplicatedDisk>;
+export const DataReplicationInfoReplicatedDisk =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deviceName: S.optional(S.String),
+      totalStorageBytes: S.optional(S.Number),
+      replicatedStorageBytes: S.optional(S.Number),
+      rescannedStorageBytes: S.optional(S.Number),
+      backloggedStorageBytes: S.optional(S.Number),
+      volumeStatus: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DataReplicationInfoReplicatedDisk",
+  }) as any as S.Schema<DataReplicationInfoReplicatedDisk>;
 export type DataReplicationInfoReplicatedDisks =
   DataReplicationInfoReplicatedDisk[];
-export const DataReplicationInfoReplicatedDisks = S.Array(
-  DataReplicationInfoReplicatedDisk,
-);
+export const DataReplicationInfoReplicatedDisks =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataReplicationInfoReplicatedDisk);
 export interface DataReplicationInitiationStep {
   name?: string;
   status?: string;
 }
-export const DataReplicationInitiationStep = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), status: S.optional(S.String) }),
-).annotate({
-  identifier: "DataReplicationInitiationStep",
-}) as any as S.Schema<DataReplicationInitiationStep>;
+export const DataReplicationInitiationStep =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ name: S.optional(S.String), status: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DataReplicationInitiationStep",
+  }) as any as S.Schema<DataReplicationInitiationStep>;
 export type DataReplicationInitiationSteps = DataReplicationInitiationStep[];
-export const DataReplicationInitiationSteps = S.Array(
-  DataReplicationInitiationStep,
-);
+export const DataReplicationInitiationSteps =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DataReplicationInitiationStep);
 export interface DataReplicationInitiation {
   startDateTime?: string;
   nextAttemptDateTime?: string;
   steps?: DataReplicationInitiationStep[];
 }
-export const DataReplicationInitiation = S.suspend(() =>
-  S.Struct({
-    startDateTime: S.optional(S.String),
-    nextAttemptDateTime: S.optional(S.String),
-    steps: S.optional(DataReplicationInitiationSteps),
-  }),
+export const DataReplicationInitiation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      startDateTime: S.optional(S.String),
+      nextAttemptDateTime: S.optional(S.String),
+      steps: S.optional(DataReplicationInitiationSteps),
+    }),
 ).annotate({
   identifier: "DataReplicationInitiation",
 }) as any as S.Schema<DataReplicationInitiation>;
@@ -250,7 +255,7 @@ export interface DataReplicationError {
   error?: string;
   rawError?: string;
 }
-export const DataReplicationError = S.suspend(() =>
+export const DataReplicationError = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ error: S.optional(S.String), rawError: S.optional(S.String) }),
 ).annotate({
   identifier: "DataReplicationError",
@@ -265,7 +270,7 @@ export interface DataReplicationInfo {
   stagingAvailabilityZone?: string;
   stagingOutpostArn?: string;
 }
-export const DataReplicationInfo = S.suspend(() =>
+export const DataReplicationInfo = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     lagDuration: S.optional(S.String),
     etaDateTime: S.optional(S.String),
@@ -284,20 +289,21 @@ export interface LifeCycleLastLaunchInitiated {
   jobID?: string;
   type?: string;
 }
-export const LifeCycleLastLaunchInitiated = S.suspend(() =>
-  S.Struct({
-    apiCallDateTime: S.optional(S.String),
-    jobID: S.optional(S.String),
-    type: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "LifeCycleLastLaunchInitiated",
-}) as any as S.Schema<LifeCycleLastLaunchInitiated>;
+export const LifeCycleLastLaunchInitiated =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      apiCallDateTime: S.optional(S.String),
+      jobID: S.optional(S.String),
+      type: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "LifeCycleLastLaunchInitiated",
+  }) as any as S.Schema<LifeCycleLastLaunchInitiated>;
 export interface LifeCycleLastLaunch {
   initiated?: LifeCycleLastLaunchInitiated;
   status?: string;
 }
-export const LifeCycleLastLaunch = S.suspend(() =>
+export const LifeCycleLastLaunch = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     initiated: S.optional(LifeCycleLastLaunchInitiated),
     status: S.optional(S.String),
@@ -312,7 +318,7 @@ export interface LifeCycle {
   lastSeenByServiceDateTime?: string;
   lastLaunch?: LifeCycleLastLaunch;
 }
-export const LifeCycle = S.suspend(() =>
+export const LifeCycle = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     addedToServiceDateTime: S.optional(S.String),
     firstByteDateTime: S.optional(S.String),
@@ -327,7 +333,7 @@ export interface IdentificationHints {
   vmWareUuid?: string;
   awsInstanceID?: string;
 }
-export const IdentificationHints = S.suspend(() =>
+export const IdentificationHints = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     fqdn: S.optional(S.String),
     hostname: S.optional(S.String),
@@ -338,13 +344,13 @@ export const IdentificationHints = S.suspend(() =>
   identifier: "IdentificationHints",
 }) as any as S.Schema<IdentificationHints>;
 export type IPsList = string[];
-export const IPsList = S.Array(S.String);
+export const IPsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface NetworkInterface {
   macAddress?: string;
   ips?: string[];
   isPrimary?: boolean;
 }
-export const NetworkInterface = S.suspend(() =>
+export const NetworkInterface = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     macAddress: S.optional(S.String),
     ips: S.optional(IPsList),
@@ -354,29 +360,30 @@ export const NetworkInterface = S.suspend(() =>
   identifier: "NetworkInterface",
 }) as any as S.Schema<NetworkInterface>;
 export type NetworkInterfaces = NetworkInterface[];
-export const NetworkInterfaces = S.Array(NetworkInterface);
+export const NetworkInterfaces =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(NetworkInterface);
 export interface Disk {
   deviceName?: string;
   bytes?: number;
 }
-export const Disk = S.suspend(() =>
+export const Disk = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ deviceName: S.optional(S.String), bytes: S.optional(S.Number) }),
 ).annotate({ identifier: "Disk" }) as any as S.Schema<Disk>;
 export type Disks = Disk[];
-export const Disks = S.Array(Disk);
+export const Disks = /*@__PURE__*/ /*#__PURE__*/ S.Array(Disk);
 export interface CPU {
   cores?: number;
   modelName?: string;
 }
-export const CPU = S.suspend(() =>
+export const CPU = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ cores: S.optional(S.Number), modelName: S.optional(S.String) }),
 ).annotate({ identifier: "CPU" }) as any as S.Schema<CPU>;
 export type Cpus = CPU[];
-export const Cpus = S.Array(CPU);
+export const Cpus = /*@__PURE__*/ /*#__PURE__*/ S.Array(CPU);
 export interface OS {
   fullString?: string;
 }
-export const OS = S.suspend(() =>
+export const OS = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ fullString: S.optional(S.String) }),
 ).annotate({ identifier: "OS" }) as any as S.Schema<OS>;
 export interface SourceProperties {
@@ -390,7 +397,7 @@ export interface SourceProperties {
   os?: OS;
   supportsNitroInstances?: boolean;
 }
-export const SourceProperties = S.suspend(() =>
+export const SourceProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     lastUpdatedDateTime: S.optional(S.String),
     recommendedInstanceType: S.optional(S.String),
@@ -411,7 +418,7 @@ export interface StagingArea {
   stagingSourceServerArn?: string;
   errorMessage?: string;
 }
-export const StagingArea = S.suspend(() =>
+export const StagingArea = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(S.String),
     stagingAccountID: S.optional(S.String),
@@ -425,7 +432,7 @@ export interface SourceCloudProperties {
   originAvailabilityZone?: string;
   sourceOutpostArn?: string;
 }
-export const SourceCloudProperties = S.suspend(() =>
+export const SourceCloudProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     originAccountID: S.optional(S.String),
     originRegion: S.optional(S.String),
@@ -451,7 +458,7 @@ export interface SourceServer {
   sourceNetworkID?: string;
   agentVersion?: string;
 }
-export const SourceServer = S.suspend(() =>
+export const SourceServer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceServerID: S.optional(S.String),
     arn: S.optional(S.String),
@@ -472,94 +479,102 @@ export const SourceServer = S.suspend(() =>
 export interface CreateExtendedSourceServerResponse {
   sourceServer?: SourceServer;
 }
-export const CreateExtendedSourceServerResponse = S.suspend(() =>
-  S.Struct({ sourceServer: S.optional(SourceServer) }),
-).annotate({
-  identifier: "CreateExtendedSourceServerResponse",
-}) as any as S.Schema<CreateExtendedSourceServerResponse>;
+export const CreateExtendedSourceServerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceServer: S.optional(SourceServer) }),
+  ).annotate({
+    identifier: "CreateExtendedSourceServerResponse",
+  }) as any as S.Schema<CreateExtendedSourceServerResponse>;
 export interface ValidationExceptionField {
   name?: string;
   message?: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), message: S.optional(S.String) }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.optional(S.String), message: S.optional(S.String) }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 export interface DeleteLaunchActionRequest {
   resourceId: string;
   actionId: string;
 }
-export const DeleteLaunchActionRequest = S.suspend(() =>
-  S.Struct({ resourceId: S.String, actionId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteLaunchAction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteLaunchActionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceId: S.String, actionId: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteLaunchAction" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteLaunchActionRequest",
 }) as any as S.Schema<DeleteLaunchActionRequest>;
 export interface DeleteLaunchActionResponse {}
-export const DeleteLaunchActionResponse = S.suspend(() =>
-  S.Struct({}),
+export const DeleteLaunchActionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
 ).annotate({
   identifier: "DeleteLaunchActionResponse",
 }) as any as S.Schema<DeleteLaunchActionResponse>;
 export interface InitializeServiceRequest {}
-export const InitializeServiceRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/InitializeService" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const InitializeServiceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({}).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/InitializeService" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "InitializeServiceRequest",
 }) as any as S.Schema<InitializeServiceRequest>;
 export interface InitializeServiceResponse {}
-export const InitializeServiceResponse = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "InitializeServiceResponse" },
-) as any as S.Schema<InitializeServiceResponse>;
+export const InitializeServiceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "InitializeServiceResponse",
+}) as any as S.Schema<InitializeServiceResponse>;
 export interface ListExtensibleSourceServersRequest {
   stagingAccountID: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListExtensibleSourceServersRequest = S.suspend(() =>
-  S.Struct({
-    stagingAccountID: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListExtensibleSourceServers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListExtensibleSourceServersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      stagingAccountID: S.String,
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListExtensibleSourceServers" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListExtensibleSourceServersRequest",
-}) as any as S.Schema<ListExtensibleSourceServersRequest>;
+  ).annotate({
+    identifier: "ListExtensibleSourceServersRequest",
+  }) as any as S.Schema<ListExtensibleSourceServersRequest>;
 export interface StagingSourceServer {
   hostname?: string;
   arn?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const StagingSourceServer = S.suspend(() =>
+export const StagingSourceServer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     hostname: S.optional(S.String),
     arn: S.optional(S.String),
@@ -569,51 +584,55 @@ export const StagingSourceServer = S.suspend(() =>
   identifier: "StagingSourceServer",
 }) as any as S.Schema<StagingSourceServer>;
 export type StagingSourceServersList = StagingSourceServer[];
-export const StagingSourceServersList = S.Array(StagingSourceServer);
+export const StagingSourceServersList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(StagingSourceServer);
 export interface ListExtensibleSourceServersResponse {
   items?: StagingSourceServer[];
   nextToken?: string;
 }
-export const ListExtensibleSourceServersResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(StagingSourceServersList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListExtensibleSourceServersResponse",
-}) as any as S.Schema<ListExtensibleSourceServersResponse>;
+export const ListExtensibleSourceServersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(StagingSourceServersList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListExtensibleSourceServersResponse",
+  }) as any as S.Schema<ListExtensibleSourceServersResponse>;
 export type LaunchActionIds = string[];
-export const LaunchActionIds = S.Array(S.String);
+export const LaunchActionIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface LaunchActionsRequestFilters {
   actionIds?: string[];
 }
-export const LaunchActionsRequestFilters = S.suspend(() =>
-  S.Struct({ actionIds: S.optional(LaunchActionIds) }),
-).annotate({
-  identifier: "LaunchActionsRequestFilters",
-}) as any as S.Schema<LaunchActionsRequestFilters>;
+export const LaunchActionsRequestFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ actionIds: S.optional(LaunchActionIds) }),
+  ).annotate({
+    identifier: "LaunchActionsRequestFilters",
+  }) as any as S.Schema<LaunchActionsRequestFilters>;
 export interface ListLaunchActionsRequest {
   resourceId: string;
   filters?: LaunchActionsRequestFilters;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListLaunchActionsRequest = S.suspend(() =>
-  S.Struct({
-    resourceId: S.String,
-    filters: S.optional(LaunchActionsRequestFilters),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListLaunchActions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListLaunchActionsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceId: S.String,
+      filters: S.optional(LaunchActionsRequestFilters),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListLaunchActions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListLaunchActionsRequest",
 }) as any as S.Schema<ListLaunchActionsRequest>;
@@ -621,7 +640,7 @@ export interface LaunchActionParameter {
   value?: string;
   type?: string;
 }
-export const LaunchActionParameter = S.suspend(() =>
+export const LaunchActionParameter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ value: S.optional(S.String), type: S.optional(S.String) }),
 ).annotate({
   identifier: "LaunchActionParameter",
@@ -629,7 +648,7 @@ export const LaunchActionParameter = S.suspend(() =>
 export type LaunchActionParameters = {
   [key: string]: LaunchActionParameter | undefined;
 };
-export const LaunchActionParameters = S.Record(
+export const LaunchActionParameters = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   LaunchActionParameter.pipe(S.optional),
 );
@@ -646,7 +665,7 @@ export interface LaunchAction {
   description?: string;
   category?: string;
 }
-export const LaunchAction = S.suspend(() =>
+export const LaunchAction = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     actionId: S.optional(S.String),
     actionCode: S.optional(S.String),
@@ -662,16 +681,17 @@ export const LaunchAction = S.suspend(() =>
   }),
 ).annotate({ identifier: "LaunchAction" }) as any as S.Schema<LaunchAction>;
 export type LaunchActions = LaunchAction[];
-export const LaunchActions = S.Array(LaunchAction);
+export const LaunchActions = /*@__PURE__*/ /*#__PURE__*/ S.Array(LaunchAction);
 export interface ListLaunchActionsResponse {
   items?: LaunchAction[];
   nextToken?: string;
 }
-export const ListLaunchActionsResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(LaunchActions),
-    nextToken: S.optional(S.String),
-  }),
+export const ListLaunchActionsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      items: S.optional(LaunchActions),
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListLaunchActionsResponse",
 }) as any as S.Schema<ListLaunchActionsResponse>;
@@ -679,65 +699,72 @@ export interface ListStagingAccountsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListStagingAccountsRequest = S.suspend(() =>
-  S.Struct({
-    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ListStagingAccounts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListStagingAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/ListStagingAccounts" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListStagingAccountsRequest",
 }) as any as S.Schema<ListStagingAccountsRequest>;
 export interface Account {
   accountID?: string;
 }
-export const Account = S.suspend(() =>
+export const Account = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ accountID: S.optional(S.String) }),
 ).annotate({ identifier: "Account" }) as any as S.Schema<Account>;
 export type Accounts = Account[];
-export const Accounts = S.Array(Account);
+export const Accounts = /*@__PURE__*/ /*#__PURE__*/ S.Array(Account);
 export interface ListStagingAccountsResponse {
   accounts?: Account[];
   nextToken?: string;
 }
-export const ListStagingAccountsResponse = S.suspend(() =>
-  S.Struct({ accounts: S.optional(Accounts), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListStagingAccountsResponse",
-}) as any as S.Schema<ListStagingAccountsResponse>;
+export const ListStagingAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accounts: S.optional(Accounts),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListStagingAccountsResponse",
+  }) as any as S.Schema<ListStagingAccountsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: S.optional(TagsMap) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: S.optional(TagsMap) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface PutLaunchActionRequest {
   resourceId: string;
   actionCode: string;
@@ -751,29 +778,30 @@ export interface PutLaunchActionRequest {
   parameters?: { [key: string]: LaunchActionParameter | undefined };
   description: string;
 }
-export const PutLaunchActionRequest = S.suspend(() =>
-  S.Struct({
-    resourceId: S.String,
-    actionCode: S.String,
-    order: S.Number,
-    actionId: S.String,
-    optional: S.Boolean,
-    active: S.Boolean,
-    name: S.String,
-    actionVersion: S.String,
-    category: S.String,
-    parameters: S.optional(LaunchActionParameters),
-    description: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/PutLaunchAction" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutLaunchActionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceId: S.String,
+      actionCode: S.String,
+      order: S.Number,
+      actionId: S.String,
+      optional: S.Boolean,
+      active: S.Boolean,
+      name: S.String,
+      actionVersion: S.String,
+      category: S.String,
+      parameters: S.optional(LaunchActionParameters),
+      description: S.String,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/PutLaunchAction" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutLaunchActionRequest",
 }) as any as S.Schema<PutLaunchActionRequest>;
@@ -791,21 +819,22 @@ export interface PutLaunchActionResponse {
   description?: string;
   category?: string;
 }
-export const PutLaunchActionResponse = S.suspend(() =>
-  S.Struct({
-    resourceId: S.optional(S.String),
-    actionId: S.optional(S.String),
-    actionCode: S.optional(S.String),
-    type: S.optional(S.String),
-    name: S.optional(S.String),
-    active: S.optional(S.Boolean),
-    order: S.optional(S.Number),
-    actionVersion: S.optional(S.String),
-    optional: S.optional(S.Boolean),
-    parameters: S.optional(LaunchActionParameters),
-    description: S.optional(S.String),
-    category: S.optional(S.String),
-  }),
+export const PutLaunchActionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      resourceId: S.optional(S.String),
+      actionId: S.optional(S.String),
+      actionCode: S.optional(S.String),
+      type: S.optional(S.String),
+      name: S.optional(S.String),
+      active: S.optional(S.Boolean),
+      order: S.optional(S.Number),
+      actionVersion: S.optional(S.String),
+      optional: S.optional(S.Boolean),
+      parameters: S.optional(LaunchActionParameters),
+      description: S.optional(S.String),
+      category: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "PutLaunchActionResponse",
 }) as any as S.Schema<PutLaunchActionResponse>;
@@ -813,7 +842,7 @@ export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
@@ -831,16 +860,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
+export const TagKeys = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
@@ -858,13 +889,15 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface DeleteJobRequest {
   jobID: string;
 }
-export const DeleteJobRequest = S.suspend(() =>
+export const DeleteJobRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ jobID: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/DeleteJob" }),
@@ -879,22 +912,26 @@ export const DeleteJobRequest = S.suspend(() =>
   identifier: "DeleteJobRequest",
 }) as any as S.Schema<DeleteJobRequest>;
 export interface DeleteJobResponse {}
-export const DeleteJobResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteJobResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteJobResponse",
 }) as any as S.Schema<DeleteJobResponse>;
 export type DescribeJobsRequestFiltersJobIDs = string[];
-export const DescribeJobsRequestFiltersJobIDs = S.Array(S.String);
+export const DescribeJobsRequestFiltersJobIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeJobsRequestFilters {
   jobIDs?: string[];
   fromDate?: string;
   toDate?: string;
 }
-export const DescribeJobsRequestFilters = S.suspend(() =>
-  S.Struct({
-    jobIDs: S.optional(DescribeJobsRequestFiltersJobIDs),
-    fromDate: S.optional(S.String),
-    toDate: S.optional(S.String),
-  }),
+export const DescribeJobsRequestFilters = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      jobIDs: S.optional(DescribeJobsRequestFiltersJobIDs),
+      fromDate: S.optional(S.String),
+      toDate: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DescribeJobsRequestFilters",
 }) as any as S.Schema<DescribeJobsRequestFilters>;
@@ -903,7 +940,7 @@ export interface DescribeJobsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeJobsRequest = S.suspend(() =>
+export const DescribeJobsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     filters: S.optional(DescribeJobsRequestFilters),
     maxResults: S.optional(S.Number),
@@ -927,7 +964,7 @@ export interface LaunchActionRun {
   status?: string;
   failureReason?: string;
 }
-export const LaunchActionRun = S.suspend(() =>
+export const LaunchActionRun = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     action: S.optional(LaunchAction),
     runId: S.optional(S.String),
@@ -938,12 +975,13 @@ export const LaunchActionRun = S.suspend(() =>
   identifier: "LaunchActionRun",
 }) as any as S.Schema<LaunchActionRun>;
 export type LaunchActionRuns = LaunchActionRun[];
-export const LaunchActionRuns = S.Array(LaunchActionRun);
+export const LaunchActionRuns =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(LaunchActionRun);
 export interface LaunchActionsStatus {
   ssmAgentDiscoveryDatetime?: string;
   runs?: LaunchActionRun[];
 }
-export const LaunchActionsStatus = S.suspend(() =>
+export const LaunchActionsStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ssmAgentDiscoveryDatetime: S.optional(S.String),
     runs: S.optional(LaunchActionRuns),
@@ -957,7 +995,7 @@ export interface ParticipatingServer {
   launchStatus?: string;
   launchActionsStatus?: LaunchActionsStatus;
 }
-export const ParticipatingServer = S.suspend(() =>
+export const ParticipatingServer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceServerID: S.optional(S.String),
     recoveryInstanceID: S.optional(S.String),
@@ -968,16 +1006,17 @@ export const ParticipatingServer = S.suspend(() =>
   identifier: "ParticipatingServer",
 }) as any as S.Schema<ParticipatingServer>;
 export type ParticipatingServers = ParticipatingServer[];
-export const ParticipatingServers = S.Array(ParticipatingServer);
+export const ParticipatingServers =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParticipatingServer);
 export type ParticipatingResourceID = { sourceNetworkID: string };
-export const ParticipatingResourceID = S.Union([
+export const ParticipatingResourceID = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ sourceNetworkID: S.String }),
 ]);
 export interface ParticipatingResource {
   participatingResourceID?: ParticipatingResourceID;
   launchStatus?: string;
 }
-export const ParticipatingResource = S.suspend(() =>
+export const ParticipatingResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     participatingResourceID: S.optional(ParticipatingResourceID),
     launchStatus: S.optional(S.String),
@@ -986,7 +1025,9 @@ export const ParticipatingResource = S.suspend(() =>
   identifier: "ParticipatingResource",
 }) as any as S.Schema<ParticipatingResource>;
 export type ParticipatingResources = ParticipatingResource[];
-export const ParticipatingResources = S.Array(ParticipatingResource);
+export const ParticipatingResources = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ParticipatingResource,
+);
 export interface Job {
   jobID: string;
   arn?: string;
@@ -999,7 +1040,7 @@ export interface Job {
   tags?: { [key: string]: string | undefined };
   participatingResources?: ParticipatingResource[];
 }
-export const Job = S.suspend(() =>
+export const Job = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     jobID: S.String,
     arn: S.optional(S.String),
@@ -1014,12 +1055,12 @@ export const Job = S.suspend(() =>
   }),
 ).annotate({ identifier: "Job" }) as any as S.Schema<Job>;
 export type JobsList = Job[];
-export const JobsList = S.Array(Job);
+export const JobsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Job);
 export interface DescribeJobsResponse {
   items?: Job[];
   nextToken?: string;
 }
-export const DescribeJobsResponse = S.suspend(() =>
+export const DescribeJobsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ items: S.optional(JobsList), nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeJobsResponse",
@@ -1029,49 +1070,56 @@ export interface DescribeJobLogItemsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeJobLogItemsRequest = S.suspend(() =>
-  S.Struct({
-    jobID: S.String,
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeJobLogItems" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeJobLogItemsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      jobID: S.String,
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DescribeJobLogItems" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeJobLogItemsRequest",
 }) as any as S.Schema<DescribeJobLogItemsRequest>;
 export type ConversionMap = { [key: string]: string | undefined };
-export const ConversionMap = S.Record(S.String, S.String.pipe(S.optional));
+export const ConversionMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export type VolumeToConversionMap = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
-export const VolumeToConversionMap = S.Record(
+export const VolumeToConversionMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   ConversionMap.pipe(S.optional),
 );
 export type VolumeToSizeMap = { [key: string]: number | undefined };
-export const VolumeToSizeMap = S.Record(S.String, S.Number.pipe(S.optional));
+export const VolumeToSizeMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.Number.pipe(S.optional),
+);
 export interface ProductCode {
   productCodeId?: string;
   productCodeMode?: string;
 }
-export const ProductCode = S.suspend(() =>
+export const ProductCode = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     productCodeId: S.optional(S.String),
     productCodeMode: S.optional(S.String),
   }),
 ).annotate({ identifier: "ProductCode" }) as any as S.Schema<ProductCode>;
 export type ProductCodes = ProductCode[];
-export const ProductCodes = S.Array(ProductCode);
+export const ProductCodes = /*@__PURE__*/ /*#__PURE__*/ S.Array(ProductCode);
 export type VolumeToProductCodes = { [key: string]: ProductCode[] | undefined };
-export const VolumeToProductCodes = S.Record(
+export const VolumeToProductCodes = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   ProductCodes.pipe(S.optional),
 );
@@ -1085,7 +1133,7 @@ export interface ConversionProperties {
   volumeToVolumeSize?: { [key: string]: number | undefined };
   volumeToProductCodes?: { [key: string]: ProductCode[] | undefined };
 }
-export const ConversionProperties = S.suspend(() =>
+export const ConversionProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     volumeToConversionMap: S.optional(VolumeToConversionMap),
     rootVolumeName: S.optional(S.String),
@@ -1103,7 +1151,7 @@ export interface SourceNetworkData {
   targetVpc?: string;
   stackName?: string;
 }
-export const SourceNetworkData = S.suspend(() =>
+export const SourceNetworkData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceNetworkID: S.optional(S.String),
     sourceVpc: S.optional(S.String),
@@ -1114,7 +1162,7 @@ export const SourceNetworkData = S.suspend(() =>
   identifier: "SourceNetworkData",
 }) as any as S.Schema<SourceNetworkData>;
 export type EventResourceData = { sourceNetworkData: SourceNetworkData };
-export const EventResourceData = S.Union([
+export const EventResourceData = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ sourceNetworkData: SourceNetworkData }),
 ]);
 export interface JobLogEventData {
@@ -1125,7 +1173,7 @@ export interface JobLogEventData {
   conversionProperties?: ConversionProperties;
   eventResourceData?: EventResourceData;
 }
-export const JobLogEventData = S.suspend(() =>
+export const JobLogEventData = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceServerID: S.optional(S.String),
     conversionServerID: S.optional(S.String),
@@ -1142,7 +1190,7 @@ export interface JobLog {
   event?: string;
   eventData?: JobLogEventData;
 }
-export const JobLog = S.suspend(() =>
+export const JobLog = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     logDateTime: S.optional(S.String),
     event: S.optional(S.String),
@@ -1150,20 +1198,21 @@ export const JobLog = S.suspend(() =>
   }),
 ).annotate({ identifier: "JobLog" }) as any as S.Schema<JobLog>;
 export type JobLogs = JobLog[];
-export const JobLogs = S.Array(JobLog);
+export const JobLogs = /*@__PURE__*/ /*#__PURE__*/ S.Array(JobLog);
 export interface DescribeJobLogItemsResponse {
   items?: JobLog[];
   nextToken?: string;
 }
-export const DescribeJobLogItemsResponse = S.suspend(() =>
-  S.Struct({ items: S.optional(JobLogs), nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "DescribeJobLogItemsResponse",
-}) as any as S.Schema<DescribeJobLogItemsResponse>;
+export const DescribeJobLogItemsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ items: S.optional(JobLogs), nextToken: S.optional(S.String) }),
+  ).annotate({
+    identifier: "DescribeJobLogItemsResponse",
+  }) as any as S.Schema<DescribeJobLogItemsResponse>;
 export interface Licensing {
   osByol?: boolean;
 }
-export const Licensing = S.suspend(() =>
+export const Licensing = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ osByol: S.optional(S.Boolean) }),
 ).annotate({ identifier: "Licensing" }) as any as S.Schema<Licensing>;
 export interface CreateLaunchConfigurationTemplateRequest {
@@ -1177,30 +1226,31 @@ export interface CreateLaunchConfigurationTemplateRequest {
   postLaunchEnabled?: boolean;
   launchIntoSourceInstance?: boolean;
 }
-export const CreateLaunchConfigurationTemplateRequest = S.suspend(() =>
-  S.Struct({
-    tags: S.optional(TagsMap),
-    launchDisposition: S.optional(S.String),
-    targetInstanceTypeRightSizingMethod: S.optional(S.String),
-    copyPrivateIp: S.optional(S.Boolean),
-    copyTags: S.optional(S.Boolean),
-    licensing: S.optional(Licensing),
-    exportBucketArn: S.optional(S.String),
-    postLaunchEnabled: S.optional(S.Boolean),
-    launchIntoSourceInstance: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateLaunchConfigurationTemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateLaunchConfigurationTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      tags: S.optional(TagsMap),
+      launchDisposition: S.optional(S.String),
+      targetInstanceTypeRightSizingMethod: S.optional(S.String),
+      copyPrivateIp: S.optional(S.Boolean),
+      copyTags: S.optional(S.Boolean),
+      licensing: S.optional(Licensing),
+      exportBucketArn: S.optional(S.String),
+      postLaunchEnabled: S.optional(S.Boolean),
+      launchIntoSourceInstance: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateLaunchConfigurationTemplate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateLaunchConfigurationTemplateRequest",
-}) as any as S.Schema<CreateLaunchConfigurationTemplateRequest>;
+  ).annotate({
+    identifier: "CreateLaunchConfigurationTemplateRequest",
+  }) as any as S.Schema<CreateLaunchConfigurationTemplateRequest>;
 export interface LaunchConfigurationTemplate {
   launchConfigurationTemplateID?: string;
   arn?: string;
@@ -1214,33 +1264,35 @@ export interface LaunchConfigurationTemplate {
   postLaunchEnabled?: boolean;
   launchIntoSourceInstance?: boolean;
 }
-export const LaunchConfigurationTemplate = S.suspend(() =>
-  S.Struct({
-    launchConfigurationTemplateID: S.optional(S.String),
-    arn: S.optional(S.String),
-    tags: S.optional(TagsMap),
-    launchDisposition: S.optional(S.String),
-    targetInstanceTypeRightSizingMethod: S.optional(S.String),
-    copyPrivateIp: S.optional(S.Boolean),
-    copyTags: S.optional(S.Boolean),
-    licensing: S.optional(Licensing),
-    exportBucketArn: S.optional(S.String),
-    postLaunchEnabled: S.optional(S.Boolean),
-    launchIntoSourceInstance: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "LaunchConfigurationTemplate",
-}) as any as S.Schema<LaunchConfigurationTemplate>;
+export const LaunchConfigurationTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      launchConfigurationTemplateID: S.optional(S.String),
+      arn: S.optional(S.String),
+      tags: S.optional(TagsMap),
+      launchDisposition: S.optional(S.String),
+      targetInstanceTypeRightSizingMethod: S.optional(S.String),
+      copyPrivateIp: S.optional(S.Boolean),
+      copyTags: S.optional(S.Boolean),
+      licensing: S.optional(Licensing),
+      exportBucketArn: S.optional(S.String),
+      postLaunchEnabled: S.optional(S.Boolean),
+      launchIntoSourceInstance: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "LaunchConfigurationTemplate",
+  }) as any as S.Schema<LaunchConfigurationTemplate>;
 export interface CreateLaunchConfigurationTemplateResponse {
   launchConfigurationTemplate?: LaunchConfigurationTemplate;
 }
-export const CreateLaunchConfigurationTemplateResponse = S.suspend(() =>
-  S.Struct({
-    launchConfigurationTemplate: S.optional(LaunchConfigurationTemplate),
-  }),
-).annotate({
-  identifier: "CreateLaunchConfigurationTemplateResponse",
-}) as any as S.Schema<CreateLaunchConfigurationTemplateResponse>;
+export const CreateLaunchConfigurationTemplateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      launchConfigurationTemplate: S.optional(LaunchConfigurationTemplate),
+    }),
+  ).annotate({
+    identifier: "CreateLaunchConfigurationTemplateResponse",
+  }) as any as S.Schema<CreateLaunchConfigurationTemplateResponse>;
 export interface UpdateLaunchConfigurationTemplateRequest {
   launchConfigurationTemplateID: string;
   launchDisposition?: string;
@@ -1252,143 +1304,157 @@ export interface UpdateLaunchConfigurationTemplateRequest {
   postLaunchEnabled?: boolean;
   launchIntoSourceInstance?: boolean;
 }
-export const UpdateLaunchConfigurationTemplateRequest = S.suspend(() =>
-  S.Struct({
-    launchConfigurationTemplateID: S.String,
-    launchDisposition: S.optional(S.String),
-    targetInstanceTypeRightSizingMethod: S.optional(S.String),
-    copyPrivateIp: S.optional(S.Boolean),
-    copyTags: S.optional(S.Boolean),
-    licensing: S.optional(Licensing),
-    exportBucketArn: S.optional(S.String),
-    postLaunchEnabled: S.optional(S.Boolean),
-    launchIntoSourceInstance: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateLaunchConfigurationTemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateLaunchConfigurationTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      launchConfigurationTemplateID: S.String,
+      launchDisposition: S.optional(S.String),
+      targetInstanceTypeRightSizingMethod: S.optional(S.String),
+      copyPrivateIp: S.optional(S.Boolean),
+      copyTags: S.optional(S.Boolean),
+      licensing: S.optional(Licensing),
+      exportBucketArn: S.optional(S.String),
+      postLaunchEnabled: S.optional(S.Boolean),
+      launchIntoSourceInstance: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/UpdateLaunchConfigurationTemplate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateLaunchConfigurationTemplateRequest",
-}) as any as S.Schema<UpdateLaunchConfigurationTemplateRequest>;
+  ).annotate({
+    identifier: "UpdateLaunchConfigurationTemplateRequest",
+  }) as any as S.Schema<UpdateLaunchConfigurationTemplateRequest>;
 export interface UpdateLaunchConfigurationTemplateResponse {
   launchConfigurationTemplate?: LaunchConfigurationTemplate;
 }
-export const UpdateLaunchConfigurationTemplateResponse = S.suspend(() =>
-  S.Struct({
-    launchConfigurationTemplate: S.optional(LaunchConfigurationTemplate),
-  }),
-).annotate({
-  identifier: "UpdateLaunchConfigurationTemplateResponse",
-}) as any as S.Schema<UpdateLaunchConfigurationTemplateResponse>;
+export const UpdateLaunchConfigurationTemplateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      launchConfigurationTemplate: S.optional(LaunchConfigurationTemplate),
+    }),
+  ).annotate({
+    identifier: "UpdateLaunchConfigurationTemplateResponse",
+  }) as any as S.Schema<UpdateLaunchConfigurationTemplateResponse>;
 export interface DeleteLaunchConfigurationTemplateRequest {
   launchConfigurationTemplateID: string;
 }
-export const DeleteLaunchConfigurationTemplateRequest = S.suspend(() =>
-  S.Struct({ launchConfigurationTemplateID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteLaunchConfigurationTemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteLaunchConfigurationTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ launchConfigurationTemplateID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteLaunchConfigurationTemplate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteLaunchConfigurationTemplateRequest",
-}) as any as S.Schema<DeleteLaunchConfigurationTemplateRequest>;
+  ).annotate({
+    identifier: "DeleteLaunchConfigurationTemplateRequest",
+  }) as any as S.Schema<DeleteLaunchConfigurationTemplateRequest>;
 export interface DeleteLaunchConfigurationTemplateResponse {}
-export const DeleteLaunchConfigurationTemplateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLaunchConfigurationTemplateResponse",
-}) as any as S.Schema<DeleteLaunchConfigurationTemplateResponse>;
+export const DeleteLaunchConfigurationTemplateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteLaunchConfigurationTemplateResponse",
+  }) as any as S.Schema<DeleteLaunchConfigurationTemplateResponse>;
 export type LaunchConfigurationTemplateIDs = string[];
-export const LaunchConfigurationTemplateIDs = S.Array(S.String);
+export const LaunchConfigurationTemplateIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeLaunchConfigurationTemplatesRequest {
   launchConfigurationTemplateIDs?: string[];
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeLaunchConfigurationTemplatesRequest = S.suspend(() =>
-  S.Struct({
-    launchConfigurationTemplateIDs: S.optional(LaunchConfigurationTemplateIDs),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeLaunchConfigurationTemplates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeLaunchConfigurationTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      launchConfigurationTemplateIDs: S.optional(
+        LaunchConfigurationTemplateIDs,
+      ),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/DescribeLaunchConfigurationTemplates",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeLaunchConfigurationTemplatesRequest",
-}) as any as S.Schema<DescribeLaunchConfigurationTemplatesRequest>;
+  ).annotate({
+    identifier: "DescribeLaunchConfigurationTemplatesRequest",
+  }) as any as S.Schema<DescribeLaunchConfigurationTemplatesRequest>;
 export type LaunchConfigurationTemplates = LaunchConfigurationTemplate[];
-export const LaunchConfigurationTemplates = S.Array(
+export const LaunchConfigurationTemplates = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   LaunchConfigurationTemplate,
 );
 export interface DescribeLaunchConfigurationTemplatesResponse {
   items?: LaunchConfigurationTemplate[];
   nextToken?: string;
 }
-export const DescribeLaunchConfigurationTemplatesResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(LaunchConfigurationTemplates),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeLaunchConfigurationTemplatesResponse",
-}) as any as S.Schema<DescribeLaunchConfigurationTemplatesResponse>;
+export const DescribeLaunchConfigurationTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(LaunchConfigurationTemplates),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeLaunchConfigurationTemplatesResponse",
+  }) as any as S.Schema<DescribeLaunchConfigurationTemplatesResponse>;
 export type RecoveryInstanceIDs = string[];
-export const RecoveryInstanceIDs = S.Array(S.String);
+export const RecoveryInstanceIDs = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type SourceServerIDs = string[];
-export const SourceServerIDs = S.Array(S.String);
+export const SourceServerIDs = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeRecoveryInstancesRequestFilters {
   recoveryInstanceIDs?: string[];
   sourceServerIDs?: string[];
 }
-export const DescribeRecoveryInstancesRequestFilters = S.suspend(() =>
-  S.Struct({
-    recoveryInstanceIDs: S.optional(RecoveryInstanceIDs),
-    sourceServerIDs: S.optional(SourceServerIDs),
-  }),
-).annotate({
-  identifier: "DescribeRecoveryInstancesRequestFilters",
-}) as any as S.Schema<DescribeRecoveryInstancesRequestFilters>;
+export const DescribeRecoveryInstancesRequestFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      recoveryInstanceIDs: S.optional(RecoveryInstanceIDs),
+      sourceServerIDs: S.optional(SourceServerIDs),
+    }),
+  ).annotate({
+    identifier: "DescribeRecoveryInstancesRequestFilters",
+  }) as any as S.Schema<DescribeRecoveryInstancesRequestFilters>;
 export interface DescribeRecoveryInstancesRequest {
   filters?: DescribeRecoveryInstancesRequestFilters;
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeRecoveryInstancesRequest = S.suspend(() =>
-  S.Struct({
-    filters: S.optional(DescribeRecoveryInstancesRequestFilters),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeRecoveryInstances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeRecoveryInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      filters: S.optional(DescribeRecoveryInstancesRequestFilters),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DescribeRecoveryInstances" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeRecoveryInstancesRequest",
-}) as any as S.Schema<DescribeRecoveryInstancesRequest>;
+  ).annotate({
+    identifier: "DescribeRecoveryInstancesRequest",
+  }) as any as S.Schema<DescribeRecoveryInstancesRequest>;
 export interface RecoveryInstanceFailback {
   failbackClientID?: string;
   failbackJobID?: string;
@@ -1401,19 +1467,20 @@ export interface RecoveryInstanceFailback {
   elapsedReplicationDuration?: string;
   failbackLaunchType?: string;
 }
-export const RecoveryInstanceFailback = S.suspend(() =>
-  S.Struct({
-    failbackClientID: S.optional(S.String),
-    failbackJobID: S.optional(S.String),
-    failbackInitiationTime: S.optional(S.String),
-    state: S.optional(S.String),
-    agentLastSeenByServiceDateTime: S.optional(S.String),
-    failbackClientLastSeenByServiceDateTime: S.optional(S.String),
-    failbackToOriginalServer: S.optional(S.Boolean),
-    firstByteDateTime: S.optional(S.String),
-    elapsedReplicationDuration: S.optional(S.String),
-    failbackLaunchType: S.optional(S.String),
-  }),
+export const RecoveryInstanceFailback = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      failbackClientID: S.optional(S.String),
+      failbackJobID: S.optional(S.String),
+      failbackInitiationTime: S.optional(S.String),
+      state: S.optional(S.String),
+      agentLastSeenByServiceDateTime: S.optional(S.String),
+      failbackClientLastSeenByServiceDateTime: S.optional(S.String),
+      failbackToOriginalServer: S.optional(S.Boolean),
+      firstByteDateTime: S.optional(S.String),
+      elapsedReplicationDuration: S.optional(S.String),
+      failbackLaunchType: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "RecoveryInstanceFailback",
 }) as any as S.Schema<RecoveryInstanceFailback>;
@@ -1424,57 +1491,63 @@ export interface RecoveryInstanceDataReplicationInfoReplicatedDisk {
   rescannedStorageBytes?: number;
   backloggedStorageBytes?: number;
 }
-export const RecoveryInstanceDataReplicationInfoReplicatedDisk = S.suspend(() =>
-  S.Struct({
-    deviceName: S.optional(S.String),
-    totalStorageBytes: S.optional(S.Number),
-    replicatedStorageBytes: S.optional(S.Number),
-    rescannedStorageBytes: S.optional(S.Number),
-    backloggedStorageBytes: S.optional(S.Number),
-  }),
-).annotate({
-  identifier: "RecoveryInstanceDataReplicationInfoReplicatedDisk",
-}) as any as S.Schema<RecoveryInstanceDataReplicationInfoReplicatedDisk>;
+export const RecoveryInstanceDataReplicationInfoReplicatedDisk =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deviceName: S.optional(S.String),
+      totalStorageBytes: S.optional(S.Number),
+      replicatedStorageBytes: S.optional(S.Number),
+      rescannedStorageBytes: S.optional(S.Number),
+      backloggedStorageBytes: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "RecoveryInstanceDataReplicationInfoReplicatedDisk",
+  }) as any as S.Schema<RecoveryInstanceDataReplicationInfoReplicatedDisk>;
 export type RecoveryInstanceDataReplicationInfoReplicatedDisks =
   RecoveryInstanceDataReplicationInfoReplicatedDisk[];
-export const RecoveryInstanceDataReplicationInfoReplicatedDisks = S.Array(
-  RecoveryInstanceDataReplicationInfoReplicatedDisk,
-);
+export const RecoveryInstanceDataReplicationInfoReplicatedDisks =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(
+    RecoveryInstanceDataReplicationInfoReplicatedDisk,
+  );
 export interface RecoveryInstanceDataReplicationInitiationStep {
   name?: string;
   status?: string;
 }
-export const RecoveryInstanceDataReplicationInitiationStep = S.suspend(() =>
-  S.Struct({ name: S.optional(S.String), status: S.optional(S.String) }),
-).annotate({
-  identifier: "RecoveryInstanceDataReplicationInitiationStep",
-}) as any as S.Schema<RecoveryInstanceDataReplicationInitiationStep>;
+export const RecoveryInstanceDataReplicationInitiationStep =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ name: S.optional(S.String), status: S.optional(S.String) }),
+  ).annotate({
+    identifier: "RecoveryInstanceDataReplicationInitiationStep",
+  }) as any as S.Schema<RecoveryInstanceDataReplicationInitiationStep>;
 export type RecoveryInstanceDataReplicationInitiationSteps =
   RecoveryInstanceDataReplicationInitiationStep[];
-export const RecoveryInstanceDataReplicationInitiationSteps = S.Array(
-  RecoveryInstanceDataReplicationInitiationStep,
-);
+export const RecoveryInstanceDataReplicationInitiationSteps =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(
+    RecoveryInstanceDataReplicationInitiationStep,
+  );
 export interface RecoveryInstanceDataReplicationInitiation {
   startDateTime?: string;
   steps?: RecoveryInstanceDataReplicationInitiationStep[];
 }
-export const RecoveryInstanceDataReplicationInitiation = S.suspend(() =>
-  S.Struct({
-    startDateTime: S.optional(S.String),
-    steps: S.optional(RecoveryInstanceDataReplicationInitiationSteps),
-  }),
-).annotate({
-  identifier: "RecoveryInstanceDataReplicationInitiation",
-}) as any as S.Schema<RecoveryInstanceDataReplicationInitiation>;
+export const RecoveryInstanceDataReplicationInitiation =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      startDateTime: S.optional(S.String),
+      steps: S.optional(RecoveryInstanceDataReplicationInitiationSteps),
+    }),
+  ).annotate({
+    identifier: "RecoveryInstanceDataReplicationInitiation",
+  }) as any as S.Schema<RecoveryInstanceDataReplicationInitiation>;
 export interface RecoveryInstanceDataReplicationError {
   error?: string;
   rawError?: string;
 }
-export const RecoveryInstanceDataReplicationError = S.suspend(() =>
-  S.Struct({ error: S.optional(S.String), rawError: S.optional(S.String) }),
-).annotate({
-  identifier: "RecoveryInstanceDataReplicationError",
-}) as any as S.Schema<RecoveryInstanceDataReplicationError>;
+export const RecoveryInstanceDataReplicationError =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ error: S.optional(S.String), rawError: S.optional(S.String) }),
+  ).annotate({
+    identifier: "RecoveryInstanceDataReplicationError",
+  }) as any as S.Schema<RecoveryInstanceDataReplicationError>;
 export interface RecoveryInstanceDataReplicationInfo {
   lagDuration?: string;
   etaDateTime?: string;
@@ -1485,30 +1558,31 @@ export interface RecoveryInstanceDataReplicationInfo {
   stagingAvailabilityZone?: string;
   stagingOutpostArn?: string;
 }
-export const RecoveryInstanceDataReplicationInfo = S.suspend(() =>
-  S.Struct({
-    lagDuration: S.optional(S.String),
-    etaDateTime: S.optional(S.String),
-    replicatedDisks: S.optional(
-      RecoveryInstanceDataReplicationInfoReplicatedDisks,
-    ),
-    dataReplicationState: S.optional(S.String),
-    dataReplicationInitiation: S.optional(
-      RecoveryInstanceDataReplicationInitiation,
-    ),
-    dataReplicationError: S.optional(RecoveryInstanceDataReplicationError),
-    stagingAvailabilityZone: S.optional(S.String),
-    stagingOutpostArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "RecoveryInstanceDataReplicationInfo",
-}) as any as S.Schema<RecoveryInstanceDataReplicationInfo>;
+export const RecoveryInstanceDataReplicationInfo =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      lagDuration: S.optional(S.String),
+      etaDateTime: S.optional(S.String),
+      replicatedDisks: S.optional(
+        RecoveryInstanceDataReplicationInfoReplicatedDisks,
+      ),
+      dataReplicationState: S.optional(S.String),
+      dataReplicationInitiation: S.optional(
+        RecoveryInstanceDataReplicationInitiation,
+      ),
+      dataReplicationError: S.optional(RecoveryInstanceDataReplicationError),
+      stagingAvailabilityZone: S.optional(S.String),
+      stagingOutpostArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "RecoveryInstanceDataReplicationInfo",
+  }) as any as S.Schema<RecoveryInstanceDataReplicationInfo>;
 export interface RecoveryInstanceDisk {
   internalDeviceName?: string;
   bytes?: number;
   ebsVolumeID?: string;
 }
-export const RecoveryInstanceDisk = S.suspend(() =>
+export const RecoveryInstanceDisk = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     internalDeviceName: S.optional(S.String),
     bytes: S.optional(S.Number),
@@ -1518,7 +1592,8 @@ export const RecoveryInstanceDisk = S.suspend(() =>
   identifier: "RecoveryInstanceDisk",
 }) as any as S.Schema<RecoveryInstanceDisk>;
 export type RecoveryInstanceDisks = RecoveryInstanceDisk[];
-export const RecoveryInstanceDisks = S.Array(RecoveryInstanceDisk);
+export const RecoveryInstanceDisks =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecoveryInstanceDisk);
 export interface RecoveryInstanceProperties {
   lastUpdatedDateTime?: string;
   identificationHints?: IdentificationHints;
@@ -1528,16 +1603,17 @@ export interface RecoveryInstanceProperties {
   ramBytes?: number;
   os?: OS;
 }
-export const RecoveryInstanceProperties = S.suspend(() =>
-  S.Struct({
-    lastUpdatedDateTime: S.optional(S.String),
-    identificationHints: S.optional(IdentificationHints),
-    networkInterfaces: S.optional(NetworkInterfaces),
-    disks: S.optional(RecoveryInstanceDisks),
-    cpus: S.optional(Cpus),
-    ramBytes: S.optional(S.Number),
-    os: S.optional(OS),
-  }),
+export const RecoveryInstanceProperties = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      lastUpdatedDateTime: S.optional(S.String),
+      identificationHints: S.optional(IdentificationHints),
+      networkInterfaces: S.optional(NetworkInterfaces),
+      disks: S.optional(RecoveryInstanceDisks),
+      cpus: S.optional(Cpus),
+      ramBytes: S.optional(S.Number),
+      os: S.optional(OS),
+    }),
 ).annotate({
   identifier: "RecoveryInstanceProperties",
 }) as any as S.Schema<RecoveryInstanceProperties>;
@@ -1559,7 +1635,7 @@ export interface RecoveryInstance {
   agentVersion?: string;
   sourceOutpostArn?: string;
 }
-export const RecoveryInstance = S.suspend(() =>
+export const RecoveryInstance = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ec2InstanceID: S.optional(S.String),
     ec2InstanceState: S.optional(S.String),
@@ -1582,127 +1658,132 @@ export const RecoveryInstance = S.suspend(() =>
   identifier: "RecoveryInstance",
 }) as any as S.Schema<RecoveryInstance>;
 export type DescribeRecoveryInstancesItems = RecoveryInstance[];
-export const DescribeRecoveryInstancesItems = S.Array(RecoveryInstance);
+export const DescribeRecoveryInstancesItems =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecoveryInstance);
 export interface DescribeRecoveryInstancesResponse {
   nextToken?: string;
   items?: RecoveryInstance[];
 }
-export const DescribeRecoveryInstancesResponse = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    items: S.optional(DescribeRecoveryInstancesItems),
-  }),
-).annotate({
-  identifier: "DescribeRecoveryInstancesResponse",
-}) as any as S.Schema<DescribeRecoveryInstancesResponse>;
+export const DescribeRecoveryInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nextToken: S.optional(S.String),
+      items: S.optional(DescribeRecoveryInstancesItems),
+    }),
+  ).annotate({
+    identifier: "DescribeRecoveryInstancesResponse",
+  }) as any as S.Schema<DescribeRecoveryInstancesResponse>;
 export interface DeleteRecoveryInstanceRequest {
   recoveryInstanceID: string;
 }
-export const DeleteRecoveryInstanceRequest = S.suspend(() =>
-  S.Struct({ recoveryInstanceID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteRecoveryInstance" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteRecoveryInstanceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ recoveryInstanceID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteRecoveryInstance" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteRecoveryInstanceRequest",
-}) as any as S.Schema<DeleteRecoveryInstanceRequest>;
+  ).annotate({
+    identifier: "DeleteRecoveryInstanceRequest",
+  }) as any as S.Schema<DeleteRecoveryInstanceRequest>;
 export interface DeleteRecoveryInstanceResponse {}
-export const DeleteRecoveryInstanceResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRecoveryInstanceResponse",
-}) as any as S.Schema<DeleteRecoveryInstanceResponse>;
+export const DeleteRecoveryInstanceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteRecoveryInstanceResponse",
+  }) as any as S.Schema<DeleteRecoveryInstanceResponse>;
 export interface DisconnectRecoveryInstanceRequest {
   recoveryInstanceID: string;
 }
-export const DisconnectRecoveryInstanceRequest = S.suspend(() =>
-  S.Struct({ recoveryInstanceID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DisconnectRecoveryInstance" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisconnectRecoveryInstanceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ recoveryInstanceID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DisconnectRecoveryInstance" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DisconnectRecoveryInstanceRequest",
-}) as any as S.Schema<DisconnectRecoveryInstanceRequest>;
+  ).annotate({
+    identifier: "DisconnectRecoveryInstanceRequest",
+  }) as any as S.Schema<DisconnectRecoveryInstanceRequest>;
 export interface DisconnectRecoveryInstanceResponse {}
-export const DisconnectRecoveryInstanceResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisconnectRecoveryInstanceResponse",
-}) as any as S.Schema<DisconnectRecoveryInstanceResponse>;
+export const DisconnectRecoveryInstanceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DisconnectRecoveryInstanceResponse",
+  }) as any as S.Schema<DisconnectRecoveryInstanceResponse>;
 export interface GetFailbackReplicationConfigurationRequest {
   recoveryInstanceID: string;
 }
-export const GetFailbackReplicationConfigurationRequest = S.suspend(() =>
-  S.Struct({ recoveryInstanceID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetFailbackReplicationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetFailbackReplicationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ recoveryInstanceID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetFailbackReplicationConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetFailbackReplicationConfigurationRequest",
-}) as any as S.Schema<GetFailbackReplicationConfigurationRequest>;
+  ).annotate({
+    identifier: "GetFailbackReplicationConfigurationRequest",
+  }) as any as S.Schema<GetFailbackReplicationConfigurationRequest>;
 export interface GetFailbackReplicationConfigurationResponse {
   recoveryInstanceID: string;
   name?: string;
   bandwidthThrottling?: number;
   usePrivateIP?: boolean;
 }
-export const GetFailbackReplicationConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    recoveryInstanceID: S.String,
-    name: S.optional(S.String),
-    bandwidthThrottling: S.optional(S.Number),
-    usePrivateIP: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "GetFailbackReplicationConfigurationResponse",
-}) as any as S.Schema<GetFailbackReplicationConfigurationResponse>;
+export const GetFailbackReplicationConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      recoveryInstanceID: S.String,
+      name: S.optional(S.String),
+      bandwidthThrottling: S.optional(S.Number),
+      usePrivateIP: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "GetFailbackReplicationConfigurationResponse",
+  }) as any as S.Schema<GetFailbackReplicationConfigurationResponse>;
 export interface ReverseReplicationRequest {
   recoveryInstanceID: string;
 }
-export const ReverseReplicationRequest = S.suspend(() =>
-  S.Struct({ recoveryInstanceID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ReverseReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ReverseReplicationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ recoveryInstanceID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ReverseReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ReverseReplicationRequest",
 }) as any as S.Schema<ReverseReplicationRequest>;
 export interface ReverseReplicationResponse {
   reversedDirectionSourceServerArn?: string;
 }
-export const ReverseReplicationResponse = S.suspend(() =>
-  S.Struct({ reversedDirectionSourceServerArn: S.optional(S.String) }),
+export const ReverseReplicationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ reversedDirectionSourceServerArn: S.optional(S.String) }),
 ).annotate({
   identifier: "ReverseReplicationResponse",
 }) as any as S.Schema<ReverseReplicationResponse>;
 export interface StopFailbackRequest {
   recoveryInstanceID: string;
 }
-export const StopFailbackRequest = S.suspend(() =>
+export const StopFailbackRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ recoveryInstanceID: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/StopFailback" }),
@@ -1717,7 +1798,9 @@ export const StopFailbackRequest = S.suspend(() =>
   identifier: "StopFailbackRequest",
 }) as any as S.Schema<StopFailbackRequest>;
 export interface StopFailbackResponse {}
-export const StopFailbackResponse = S.suspend(() => S.Struct({})).annotate({
+export const StopFailbackResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "StopFailbackResponse",
 }) as any as S.Schema<StopFailbackResponse>;
 export interface UpdateFailbackReplicationConfigurationRequest {
@@ -1726,96 +1809,103 @@ export interface UpdateFailbackReplicationConfigurationRequest {
   bandwidthThrottling?: number;
   usePrivateIP?: boolean;
 }
-export const UpdateFailbackReplicationConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    recoveryInstanceID: S.String,
-    name: S.optional(S.String),
-    bandwidthThrottling: S.optional(S.Number),
-    usePrivateIP: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/UpdateFailbackReplicationConfiguration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateFailbackReplicationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      recoveryInstanceID: S.String,
+      name: S.optional(S.String),
+      bandwidthThrottling: S.optional(S.Number),
+      usePrivateIP: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/UpdateFailbackReplicationConfiguration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateFailbackReplicationConfigurationRequest",
-}) as any as S.Schema<UpdateFailbackReplicationConfigurationRequest>;
+  ).annotate({
+    identifier: "UpdateFailbackReplicationConfigurationRequest",
+  }) as any as S.Schema<UpdateFailbackReplicationConfigurationRequest>;
 export interface UpdateFailbackReplicationConfigurationResponse {}
-export const UpdateFailbackReplicationConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateFailbackReplicationConfigurationResponse",
-}) as any as S.Schema<UpdateFailbackReplicationConfigurationResponse>;
+export const UpdateFailbackReplicationConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "UpdateFailbackReplicationConfigurationResponse",
+  }) as any as S.Schema<UpdateFailbackReplicationConfigurationResponse>;
 export type StartFailbackRequestRecoveryInstanceIDs = string[];
-export const StartFailbackRequestRecoveryInstanceIDs = S.Array(S.String);
+export const StartFailbackRequestRecoveryInstanceIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface StartFailbackLaunchRequest {
   recoveryInstanceIDs: string[];
   tags?: { [key: string]: string | undefined };
 }
-export const StartFailbackLaunchRequest = S.suspend(() =>
-  S.Struct({
-    recoveryInstanceIDs: StartFailbackRequestRecoveryInstanceIDs,
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartFailbackLaunch" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartFailbackLaunchRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      recoveryInstanceIDs: StartFailbackRequestRecoveryInstanceIDs,
+      tags: S.optional(TagsMap),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StartFailbackLaunch" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartFailbackLaunchRequest",
 }) as any as S.Schema<StartFailbackLaunchRequest>;
 export interface StartFailbackLaunchResponse {
   job?: Job;
 }
-export const StartFailbackLaunchResponse = S.suspend(() =>
-  S.Struct({ job: S.optional(Job) }),
-).annotate({
-  identifier: "StartFailbackLaunchResponse",
-}) as any as S.Schema<StartFailbackLaunchResponse>;
+export const StartFailbackLaunchResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ job: S.optional(Job) }),
+  ).annotate({
+    identifier: "StartFailbackLaunchResponse",
+  }) as any as S.Schema<StartFailbackLaunchResponse>;
 export type RecoveryInstancesForTerminationRequest = string[];
-export const RecoveryInstancesForTerminationRequest = S.Array(S.String);
+export const RecoveryInstancesForTerminationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface TerminateRecoveryInstancesRequest {
   recoveryInstanceIDs: string[];
 }
-export const TerminateRecoveryInstancesRequest = S.suspend(() =>
-  S.Struct({
-    recoveryInstanceIDs: RecoveryInstancesForTerminationRequest,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/TerminateRecoveryInstances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const TerminateRecoveryInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      recoveryInstanceIDs: RecoveryInstancesForTerminationRequest,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/TerminateRecoveryInstances" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "TerminateRecoveryInstancesRequest",
-}) as any as S.Schema<TerminateRecoveryInstancesRequest>;
+  ).annotate({
+    identifier: "TerminateRecoveryInstancesRequest",
+  }) as any as S.Schema<TerminateRecoveryInstancesRequest>;
 export interface TerminateRecoveryInstancesResponse {
   job?: Job;
 }
-export const TerminateRecoveryInstancesResponse = S.suspend(() =>
-  S.Struct({ job: S.optional(Job) }),
-).annotate({
-  identifier: "TerminateRecoveryInstancesResponse",
-}) as any as S.Schema<TerminateRecoveryInstancesResponse>;
+export const TerminateRecoveryInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ job: S.optional(Job) }),
+  ).annotate({
+    identifier: "TerminateRecoveryInstancesResponse",
+  }) as any as S.Schema<TerminateRecoveryInstancesResponse>;
 export type ReplicationServersSecurityGroupsIDs = string[];
-export const ReplicationServersSecurityGroupsIDs = S.Array(S.String);
+export const ReplicationServersSecurityGroupsIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface PITPolicyRule {
   ruleID?: number;
   units: string;
@@ -1823,7 +1913,7 @@ export interface PITPolicyRule {
   retentionDuration: number;
   enabled?: boolean;
 }
-export const PITPolicyRule = S.suspend(() =>
+export const PITPolicyRule = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleID: S.optional(S.Number),
     units: S.String,
@@ -1833,7 +1923,7 @@ export const PITPolicyRule = S.suspend(() =>
   }),
 ).annotate({ identifier: "PITPolicyRule" }) as any as S.Schema<PITPolicyRule>;
 export type PITPolicy = PITPolicyRule[];
-export const PITPolicy = S.Array(PITPolicyRule);
+export const PITPolicy = /*@__PURE__*/ /*#__PURE__*/ S.Array(PITPolicyRule);
 export interface CreateReplicationConfigurationTemplateRequest {
   stagingAreaSubnetId: string;
   associateDefaultSecurityGroup: boolean;
@@ -1851,39 +1941,40 @@ export interface CreateReplicationConfigurationTemplateRequest {
   tags?: { [key: string]: string | undefined };
   autoReplicateNewDisks?: boolean;
 }
-export const CreateReplicationConfigurationTemplateRequest = S.suspend(() =>
-  S.Struct({
-    stagingAreaSubnetId: S.String,
-    associateDefaultSecurityGroup: S.Boolean,
-    replicationServersSecurityGroupsIDs: ReplicationServersSecurityGroupsIDs,
-    replicationServerInstanceType: S.String,
-    useDedicatedReplicationServer: S.Boolean,
-    defaultLargeStagingDiskType: S.String,
-    ebsEncryption: S.String,
-    ebsEncryptionKeyArn: S.optional(S.String),
-    bandwidthThrottling: S.Number,
-    dataPlaneRouting: S.String,
-    createPublicIP: S.Boolean,
-    stagingAreaTags: TagsMap,
-    pitPolicy: PITPolicy,
-    tags: S.optional(TagsMap),
-    autoReplicateNewDisks: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/CreateReplicationConfigurationTemplate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateReplicationConfigurationTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      stagingAreaSubnetId: S.String,
+      associateDefaultSecurityGroup: S.Boolean,
+      replicationServersSecurityGroupsIDs: ReplicationServersSecurityGroupsIDs,
+      replicationServerInstanceType: S.String,
+      useDedicatedReplicationServer: S.Boolean,
+      defaultLargeStagingDiskType: S.String,
+      ebsEncryption: S.String,
+      ebsEncryptionKeyArn: S.optional(S.String),
+      bandwidthThrottling: S.Number,
+      dataPlaneRouting: S.String,
+      createPublicIP: S.Boolean,
+      stagingAreaTags: TagsMap,
+      pitPolicy: PITPolicy,
+      tags: S.optional(TagsMap),
+      autoReplicateNewDisks: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/CreateReplicationConfigurationTemplate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateReplicationConfigurationTemplateRequest",
-}) as any as S.Schema<CreateReplicationConfigurationTemplateRequest>;
+  ).annotate({
+    identifier: "CreateReplicationConfigurationTemplateRequest",
+  }) as any as S.Schema<CreateReplicationConfigurationTemplateRequest>;
 export interface ReplicationConfigurationTemplate {
   replicationConfigurationTemplateID: string;
   arn?: string;
@@ -1903,31 +1994,32 @@ export interface ReplicationConfigurationTemplate {
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
-export const ReplicationConfigurationTemplate = S.suspend(() =>
-  S.Struct({
-    replicationConfigurationTemplateID: S.String,
-    arn: S.optional(S.String),
-    stagingAreaSubnetId: S.optional(S.String),
-    associateDefaultSecurityGroup: S.optional(S.Boolean),
-    replicationServersSecurityGroupsIDs: S.optional(
-      ReplicationServersSecurityGroupsIDs,
-    ),
-    replicationServerInstanceType: S.optional(S.String),
-    useDedicatedReplicationServer: S.optional(S.Boolean),
-    defaultLargeStagingDiskType: S.optional(S.String),
-    ebsEncryption: S.optional(S.String),
-    ebsEncryptionKeyArn: S.optional(S.String),
-    bandwidthThrottling: S.optional(S.Number),
-    dataPlaneRouting: S.optional(S.String),
-    createPublicIP: S.optional(S.Boolean),
-    stagingAreaTags: S.optional(TagsMap),
-    tags: S.optional(TagsMap),
-    pitPolicy: S.optional(PITPolicy),
-    autoReplicateNewDisks: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "ReplicationConfigurationTemplate",
-}) as any as S.Schema<ReplicationConfigurationTemplate>;
+export const ReplicationConfigurationTemplate =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      replicationConfigurationTemplateID: S.String,
+      arn: S.optional(S.String),
+      stagingAreaSubnetId: S.optional(S.String),
+      associateDefaultSecurityGroup: S.optional(S.Boolean),
+      replicationServersSecurityGroupsIDs: S.optional(
+        ReplicationServersSecurityGroupsIDs,
+      ),
+      replicationServerInstanceType: S.optional(S.String),
+      useDedicatedReplicationServer: S.optional(S.Boolean),
+      defaultLargeStagingDiskType: S.optional(S.String),
+      ebsEncryption: S.optional(S.String),
+      ebsEncryptionKeyArn: S.optional(S.String),
+      bandwidthThrottling: S.optional(S.Number),
+      dataPlaneRouting: S.optional(S.String),
+      createPublicIP: S.optional(S.Boolean),
+      stagingAreaTags: S.optional(TagsMap),
+      tags: S.optional(TagsMap),
+      pitPolicy: S.optional(PITPolicy),
+      autoReplicateNewDisks: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "ReplicationConfigurationTemplate",
+  }) as any as S.Schema<ReplicationConfigurationTemplate>;
 export interface UpdateReplicationConfigurationTemplateRequest {
   replicationConfigurationTemplateID: string;
   arn?: string;
@@ -1946,216 +2038,224 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
-export const UpdateReplicationConfigurationTemplateRequest = S.suspend(() =>
-  S.Struct({
-    replicationConfigurationTemplateID: S.String,
-    arn: S.optional(S.String),
-    stagingAreaSubnetId: S.optional(S.String),
-    associateDefaultSecurityGroup: S.optional(S.Boolean),
-    replicationServersSecurityGroupsIDs: S.optional(
-      ReplicationServersSecurityGroupsIDs,
+export const UpdateReplicationConfigurationTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      replicationConfigurationTemplateID: S.String,
+      arn: S.optional(S.String),
+      stagingAreaSubnetId: S.optional(S.String),
+      associateDefaultSecurityGroup: S.optional(S.Boolean),
+      replicationServersSecurityGroupsIDs: S.optional(
+        ReplicationServersSecurityGroupsIDs,
+      ),
+      replicationServerInstanceType: S.optional(S.String),
+      useDedicatedReplicationServer: S.optional(S.Boolean),
+      defaultLargeStagingDiskType: S.optional(S.String),
+      ebsEncryption: S.optional(S.String),
+      ebsEncryptionKeyArn: S.optional(S.String),
+      bandwidthThrottling: S.optional(S.Number),
+      dataPlaneRouting: S.optional(S.String),
+      createPublicIP: S.optional(S.Boolean),
+      stagingAreaTags: S.optional(TagsMap),
+      pitPolicy: S.optional(PITPolicy),
+      autoReplicateNewDisks: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/UpdateReplicationConfigurationTemplate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    replicationServerInstanceType: S.optional(S.String),
-    useDedicatedReplicationServer: S.optional(S.Boolean),
-    defaultLargeStagingDiskType: S.optional(S.String),
-    ebsEncryption: S.optional(S.String),
-    ebsEncryptionKeyArn: S.optional(S.String),
-    bandwidthThrottling: S.optional(S.Number),
-    dataPlaneRouting: S.optional(S.String),
-    createPublicIP: S.optional(S.Boolean),
-    stagingAreaTags: S.optional(TagsMap),
-    pitPolicy: S.optional(PITPolicy),
-    autoReplicateNewDisks: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/UpdateReplicationConfigurationTemplate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateReplicationConfigurationTemplateRequest",
-}) as any as S.Schema<UpdateReplicationConfigurationTemplateRequest>;
+  ).annotate({
+    identifier: "UpdateReplicationConfigurationTemplateRequest",
+  }) as any as S.Schema<UpdateReplicationConfigurationTemplateRequest>;
 export interface DeleteReplicationConfigurationTemplateRequest {
   replicationConfigurationTemplateID: string;
 }
-export const DeleteReplicationConfigurationTemplateRequest = S.suspend(() =>
-  S.Struct({ replicationConfigurationTemplateID: S.String }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/DeleteReplicationConfigurationTemplate",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteReplicationConfigurationTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ replicationConfigurationTemplateID: S.String }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/DeleteReplicationConfigurationTemplate",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteReplicationConfigurationTemplateRequest",
-}) as any as S.Schema<DeleteReplicationConfigurationTemplateRequest>;
+  ).annotate({
+    identifier: "DeleteReplicationConfigurationTemplateRequest",
+  }) as any as S.Schema<DeleteReplicationConfigurationTemplateRequest>;
 export interface DeleteReplicationConfigurationTemplateResponse {}
-export const DeleteReplicationConfigurationTemplateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteReplicationConfigurationTemplateResponse",
-}) as any as S.Schema<DeleteReplicationConfigurationTemplateResponse>;
+export const DeleteReplicationConfigurationTemplateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteReplicationConfigurationTemplateResponse",
+  }) as any as S.Schema<DeleteReplicationConfigurationTemplateResponse>;
 export type ReplicationConfigurationTemplateIDs = string[];
-export const ReplicationConfigurationTemplateIDs = S.Array(S.String);
+export const ReplicationConfigurationTemplateIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeReplicationConfigurationTemplatesRequest {
   replicationConfigurationTemplateIDs?: string[];
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeReplicationConfigurationTemplatesRequest = S.suspend(() =>
-  S.Struct({
-    replicationConfigurationTemplateIDs: S.optional(
-      ReplicationConfigurationTemplateIDs,
+export const DescribeReplicationConfigurationTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      replicationConfigurationTemplateIDs: S.optional(
+        ReplicationConfigurationTemplateIDs,
+      ),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/DescribeReplicationConfigurationTemplates",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/DescribeReplicationConfigurationTemplates",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DescribeReplicationConfigurationTemplatesRequest",
-}) as any as S.Schema<DescribeReplicationConfigurationTemplatesRequest>;
+  ).annotate({
+    identifier: "DescribeReplicationConfigurationTemplatesRequest",
+  }) as any as S.Schema<DescribeReplicationConfigurationTemplatesRequest>;
 export type ReplicationConfigurationTemplates =
   ReplicationConfigurationTemplate[];
-export const ReplicationConfigurationTemplates = S.Array(
-  ReplicationConfigurationTemplate,
-);
+export const ReplicationConfigurationTemplates =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ReplicationConfigurationTemplate);
 export interface DescribeReplicationConfigurationTemplatesResponse {
   items?: ReplicationConfigurationTemplate[];
   nextToken?: string;
 }
-export const DescribeReplicationConfigurationTemplatesResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(ReplicationConfigurationTemplates),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeReplicationConfigurationTemplatesResponse",
-}) as any as S.Schema<DescribeReplicationConfigurationTemplatesResponse>;
+export const DescribeReplicationConfigurationTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(ReplicationConfigurationTemplates),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeReplicationConfigurationTemplatesResponse",
+  }) as any as S.Schema<DescribeReplicationConfigurationTemplatesResponse>;
 export interface CreateSourceNetworkRequest {
   vpcID: string;
   originAccountID: string;
   originRegion: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateSourceNetworkRequest = S.suspend(() =>
-  S.Struct({
-    vpcID: S.String,
-    originAccountID: S.String,
-    originRegion: S.String,
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateSourceNetwork" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateSourceNetworkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      vpcID: S.String,
+      originAccountID: S.String,
+      originRegion: S.String,
+      tags: S.optional(TagsMap),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateSourceNetwork" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateSourceNetworkRequest",
 }) as any as S.Schema<CreateSourceNetworkRequest>;
 export interface CreateSourceNetworkResponse {
   sourceNetworkID?: string;
 }
-export const CreateSourceNetworkResponse = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.optional(S.String) }),
-).annotate({
-  identifier: "CreateSourceNetworkResponse",
-}) as any as S.Schema<CreateSourceNetworkResponse>;
+export const CreateSourceNetworkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetworkID: S.optional(S.String) }),
+  ).annotate({
+    identifier: "CreateSourceNetworkResponse",
+  }) as any as S.Schema<CreateSourceNetworkResponse>;
 export interface DeleteSourceNetworkRequest {
   sourceNetworkID: string;
 }
-export const DeleteSourceNetworkRequest = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteSourceNetwork" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteSourceNetworkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ sourceNetworkID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteSourceNetwork" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteSourceNetworkRequest",
 }) as any as S.Schema<DeleteSourceNetworkRequest>;
 export interface DeleteSourceNetworkResponse {}
-export const DeleteSourceNetworkResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSourceNetworkResponse",
-}) as any as S.Schema<DeleteSourceNetworkResponse>;
+export const DeleteSourceNetworkResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteSourceNetworkResponse",
+  }) as any as S.Schema<DeleteSourceNetworkResponse>;
 export type DescribeSourceNetworksRequestFiltersIDs = string[];
-export const DescribeSourceNetworksRequestFiltersIDs = S.Array(S.String);
+export const DescribeSourceNetworksRequestFiltersIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeSourceNetworksRequestFilters {
   sourceNetworkIDs?: string[];
   originAccountID?: string;
   originRegion?: string;
 }
-export const DescribeSourceNetworksRequestFilters = S.suspend(() =>
-  S.Struct({
-    sourceNetworkIDs: S.optional(DescribeSourceNetworksRequestFiltersIDs),
-    originAccountID: S.optional(S.String),
-    originRegion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeSourceNetworksRequestFilters",
-}) as any as S.Schema<DescribeSourceNetworksRequestFilters>;
+export const DescribeSourceNetworksRequestFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceNetworkIDs: S.optional(DescribeSourceNetworksRequestFiltersIDs),
+      originAccountID: S.optional(S.String),
+      originRegion: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeSourceNetworksRequestFilters",
+  }) as any as S.Schema<DescribeSourceNetworksRequestFilters>;
 export interface DescribeSourceNetworksRequest {
   filters?: DescribeSourceNetworksRequestFilters;
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeSourceNetworksRequest = S.suspend(() =>
-  S.Struct({
-    filters: S.optional(DescribeSourceNetworksRequestFilters),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeSourceNetworks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeSourceNetworksRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      filters: S.optional(DescribeSourceNetworksRequestFilters),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DescribeSourceNetworks" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeSourceNetworksRequest",
-}) as any as S.Schema<DescribeSourceNetworksRequest>;
+  ).annotate({
+    identifier: "DescribeSourceNetworksRequest",
+  }) as any as S.Schema<DescribeSourceNetworksRequest>;
 export interface RecoveryLifeCycle {
   apiCallDateTime?: Date;
   jobID?: string;
   lastRecoveryResult?: string;
 }
-export const RecoveryLifeCycle = S.suspend(() =>
+export const RecoveryLifeCycle = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     apiCallDateTime: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -2179,7 +2279,7 @@ export interface SourceNetwork {
   lastRecovery?: RecoveryLifeCycle;
   launchedVpcID?: string;
 }
-export const SourceNetwork = S.suspend(() =>
+export const SourceNetwork = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceNetworkID: S.optional(S.String),
     sourceVpcID: S.optional(S.String),
@@ -2195,258 +2295,279 @@ export const SourceNetwork = S.suspend(() =>
   }),
 ).annotate({ identifier: "SourceNetwork" }) as any as S.Schema<SourceNetwork>;
 export type SourceNetworksList = SourceNetwork[];
-export const SourceNetworksList = S.Array(SourceNetwork);
+export const SourceNetworksList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SourceNetwork);
 export interface DescribeSourceNetworksResponse {
   items?: SourceNetwork[];
   nextToken?: string;
 }
-export const DescribeSourceNetworksResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(SourceNetworksList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeSourceNetworksResponse",
-}) as any as S.Schema<DescribeSourceNetworksResponse>;
+export const DescribeSourceNetworksResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(SourceNetworksList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeSourceNetworksResponse",
+  }) as any as S.Schema<DescribeSourceNetworksResponse>;
 export interface AssociateSourceNetworkStackRequest {
   sourceNetworkID: string;
   cfnStackName: string | redacted.Redacted<string>;
 }
-export const AssociateSourceNetworkStackRequest = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String, cfnStackName: SensitiveString }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/AssociateSourceNetworkStack" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssociateSourceNetworkStackRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetworkID: S.String, cfnStackName: SensitiveString }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/AssociateSourceNetworkStack" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AssociateSourceNetworkStackRequest",
-}) as any as S.Schema<AssociateSourceNetworkStackRequest>;
+  ).annotate({
+    identifier: "AssociateSourceNetworkStackRequest",
+  }) as any as S.Schema<AssociateSourceNetworkStackRequest>;
 export interface AssociateSourceNetworkStackResponse {
   job?: Job;
 }
-export const AssociateSourceNetworkStackResponse = S.suspend(() =>
-  S.Struct({ job: S.optional(Job) }),
-).annotate({
-  identifier: "AssociateSourceNetworkStackResponse",
-}) as any as S.Schema<AssociateSourceNetworkStackResponse>;
+export const AssociateSourceNetworkStackResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ job: S.optional(Job) }),
+  ).annotate({
+    identifier: "AssociateSourceNetworkStackResponse",
+  }) as any as S.Schema<AssociateSourceNetworkStackResponse>;
 export interface ExportSourceNetworkCfnTemplateRequest {
   sourceNetworkID: string;
 }
-export const ExportSourceNetworkCfnTemplateRequest = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ExportSourceNetworkCfnTemplate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ExportSourceNetworkCfnTemplateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetworkID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ExportSourceNetworkCfnTemplate" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ExportSourceNetworkCfnTemplateRequest",
-}) as any as S.Schema<ExportSourceNetworkCfnTemplateRequest>;
+  ).annotate({
+    identifier: "ExportSourceNetworkCfnTemplateRequest",
+  }) as any as S.Schema<ExportSourceNetworkCfnTemplateRequest>;
 export interface ExportSourceNetworkCfnTemplateResponse {
   s3DestinationUrl?: string;
 }
-export const ExportSourceNetworkCfnTemplateResponse = S.suspend(() =>
-  S.Struct({ s3DestinationUrl: S.optional(S.String) }),
-).annotate({
-  identifier: "ExportSourceNetworkCfnTemplateResponse",
-}) as any as S.Schema<ExportSourceNetworkCfnTemplateResponse>;
+export const ExportSourceNetworkCfnTemplateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ s3DestinationUrl: S.optional(S.String) }),
+  ).annotate({
+    identifier: "ExportSourceNetworkCfnTemplateResponse",
+  }) as any as S.Schema<ExportSourceNetworkCfnTemplateResponse>;
 export interface StartSourceNetworkReplicationRequest {
   sourceNetworkID: string;
 }
-export const StartSourceNetworkReplicationRequest = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartSourceNetworkReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartSourceNetworkReplicationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetworkID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StartSourceNetworkReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StartSourceNetworkReplicationRequest",
-}) as any as S.Schema<StartSourceNetworkReplicationRequest>;
+  ).annotate({
+    identifier: "StartSourceNetworkReplicationRequest",
+  }) as any as S.Schema<StartSourceNetworkReplicationRequest>;
 export interface StartSourceNetworkReplicationResponse {
   sourceNetwork?: SourceNetwork;
 }
-export const StartSourceNetworkReplicationResponse = S.suspend(() =>
-  S.Struct({ sourceNetwork: S.optional(SourceNetwork) }),
-).annotate({
-  identifier: "StartSourceNetworkReplicationResponse",
-}) as any as S.Schema<StartSourceNetworkReplicationResponse>;
+export const StartSourceNetworkReplicationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetwork: S.optional(SourceNetwork) }),
+  ).annotate({
+    identifier: "StartSourceNetworkReplicationResponse",
+  }) as any as S.Schema<StartSourceNetworkReplicationResponse>;
 export interface StopSourceNetworkReplicationRequest {
   sourceNetworkID: string;
 }
-export const StopSourceNetworkReplicationRequest = S.suspend(() =>
-  S.Struct({ sourceNetworkID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopSourceNetworkReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StopSourceNetworkReplicationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetworkID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StopSourceNetworkReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StopSourceNetworkReplicationRequest",
-}) as any as S.Schema<StopSourceNetworkReplicationRequest>;
+  ).annotate({
+    identifier: "StopSourceNetworkReplicationRequest",
+  }) as any as S.Schema<StopSourceNetworkReplicationRequest>;
 export interface StopSourceNetworkReplicationResponse {
   sourceNetwork?: SourceNetwork;
 }
-export const StopSourceNetworkReplicationResponse = S.suspend(() =>
-  S.Struct({ sourceNetwork: S.optional(SourceNetwork) }),
-).annotate({
-  identifier: "StopSourceNetworkReplicationResponse",
-}) as any as S.Schema<StopSourceNetworkReplicationResponse>;
+export const StopSourceNetworkReplicationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceNetwork: S.optional(SourceNetwork) }),
+  ).annotate({
+    identifier: "StopSourceNetworkReplicationResponse",
+  }) as any as S.Schema<StopSourceNetworkReplicationResponse>;
 export interface StartSourceNetworkRecoveryRequestNetworkEntry {
   sourceNetworkID: string;
   cfnStackName?: string | redacted.Redacted<string>;
 }
-export const StartSourceNetworkRecoveryRequestNetworkEntry = S.suspend(() =>
-  S.Struct({
-    sourceNetworkID: S.String,
-    cfnStackName: S.optional(SensitiveString),
-  }),
-).annotate({
-  identifier: "StartSourceNetworkRecoveryRequestNetworkEntry",
-}) as any as S.Schema<StartSourceNetworkRecoveryRequestNetworkEntry>;
+export const StartSourceNetworkRecoveryRequestNetworkEntry =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceNetworkID: S.String,
+      cfnStackName: S.optional(SensitiveString),
+    }),
+  ).annotate({
+    identifier: "StartSourceNetworkRecoveryRequestNetworkEntry",
+  }) as any as S.Schema<StartSourceNetworkRecoveryRequestNetworkEntry>;
 export type StartSourceNetworkRecoveryRequestNetworkEntries =
   StartSourceNetworkRecoveryRequestNetworkEntry[];
-export const StartSourceNetworkRecoveryRequestNetworkEntries = S.Array(
-  StartSourceNetworkRecoveryRequestNetworkEntry,
-);
+export const StartSourceNetworkRecoveryRequestNetworkEntries =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(
+    StartSourceNetworkRecoveryRequestNetworkEntry,
+  );
 export interface StartSourceNetworkRecoveryRequest {
   sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntry[];
   deployAsNew?: boolean;
   tags?: { [key: string]: string | undefined };
 }
-export const StartSourceNetworkRecoveryRequest = S.suspend(() =>
-  S.Struct({
-    sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntries,
-    deployAsNew: S.optional(S.Boolean),
-    tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartSourceNetworkRecovery" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartSourceNetworkRecoveryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceNetworks: StartSourceNetworkRecoveryRequestNetworkEntries,
+      deployAsNew: S.optional(S.Boolean),
+      tags: S.optional(TagsMap),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StartSourceNetworkRecovery" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StartSourceNetworkRecoveryRequest",
-}) as any as S.Schema<StartSourceNetworkRecoveryRequest>;
+  ).annotate({
+    identifier: "StartSourceNetworkRecoveryRequest",
+  }) as any as S.Schema<StartSourceNetworkRecoveryRequest>;
 export interface StartSourceNetworkRecoveryResponse {
   job?: Job;
 }
-export const StartSourceNetworkRecoveryResponse = S.suspend(() =>
-  S.Struct({ job: S.optional(Job) }),
-).annotate({
-  identifier: "StartSourceNetworkRecoveryResponse",
-}) as any as S.Schema<StartSourceNetworkRecoveryResponse>;
+export const StartSourceNetworkRecoveryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ job: S.optional(Job) }),
+  ).annotate({
+    identifier: "StartSourceNetworkRecoveryResponse",
+  }) as any as S.Schema<StartSourceNetworkRecoveryResponse>;
 export interface DeleteSourceServerRequest {
   sourceServerID: string;
 }
-export const DeleteSourceServerRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteSourceServer" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteSourceServerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteSourceServer" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteSourceServerRequest",
 }) as any as S.Schema<DeleteSourceServerRequest>;
 export interface DeleteSourceServerResponse {}
-export const DeleteSourceServerResponse = S.suspend(() =>
-  S.Struct({}),
+export const DeleteSourceServerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
 ).annotate({
   identifier: "DeleteSourceServerResponse",
 }) as any as S.Schema<DeleteSourceServerResponse>;
 export type DescribeSourceServersRequestFiltersIDs = string[];
-export const DescribeSourceServersRequestFiltersIDs = S.Array(S.String);
+export const DescribeSourceServersRequestFiltersIDs =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type AccountIDs = string[];
-export const AccountIDs = S.Array(S.String);
+export const AccountIDs = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeSourceServersRequestFilters {
   sourceServerIDs?: string[];
   hardwareId?: string;
   stagingAccountIDs?: string[];
 }
-export const DescribeSourceServersRequestFilters = S.suspend(() =>
-  S.Struct({
-    sourceServerIDs: S.optional(DescribeSourceServersRequestFiltersIDs),
-    hardwareId: S.optional(S.String),
-    stagingAccountIDs: S.optional(AccountIDs),
-  }),
-).annotate({
-  identifier: "DescribeSourceServersRequestFilters",
-}) as any as S.Schema<DescribeSourceServersRequestFilters>;
+export const DescribeSourceServersRequestFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceServerIDs: S.optional(DescribeSourceServersRequestFiltersIDs),
+      hardwareId: S.optional(S.String),
+      stagingAccountIDs: S.optional(AccountIDs),
+    }),
+  ).annotate({
+    identifier: "DescribeSourceServersRequestFilters",
+  }) as any as S.Schema<DescribeSourceServersRequestFilters>;
 export interface DescribeSourceServersRequest {
   filters?: DescribeSourceServersRequestFilters;
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeSourceServersRequest = S.suspend(() =>
-  S.Struct({
-    filters: S.optional(DescribeSourceServersRequestFilters),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeSourceServers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeSourceServersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      filters: S.optional(DescribeSourceServersRequestFilters),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DescribeSourceServers" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeSourceServersRequest",
-}) as any as S.Schema<DescribeSourceServersRequest>;
+  ).annotate({
+    identifier: "DescribeSourceServersRequest",
+  }) as any as S.Schema<DescribeSourceServersRequest>;
 export type SourceServersList = SourceServer[];
-export const SourceServersList = S.Array(SourceServer);
+export const SourceServersList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SourceServer);
 export interface DescribeSourceServersResponse {
   items?: SourceServer[];
   nextToken?: string;
 }
-export const DescribeSourceServersResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(SourceServersList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeSourceServersResponse",
-}) as any as S.Schema<DescribeSourceServersResponse>;
+export const DescribeSourceServersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(SourceServersList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeSourceServersResponse",
+  }) as any as S.Schema<DescribeSourceServersResponse>;
 export interface DescribeRecoverySnapshotsRequestFilters {
   fromDateTime?: string;
   toDateTime?: string;
 }
-export const DescribeRecoverySnapshotsRequestFilters = S.suspend(() =>
-  S.Struct({
-    fromDateTime: S.optional(S.String),
-    toDateTime: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeRecoverySnapshotsRequestFilters",
-}) as any as S.Schema<DescribeRecoverySnapshotsRequestFilters>;
+export const DescribeRecoverySnapshotsRequestFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      fromDateTime: S.optional(S.String),
+      toDateTime: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeRecoverySnapshotsRequestFilters",
+  }) as any as S.Schema<DescribeRecoverySnapshotsRequestFilters>;
 export interface DescribeRecoverySnapshotsRequest {
   sourceServerID: string;
   filters?: DescribeRecoverySnapshotsRequestFilters;
@@ -2454,28 +2575,29 @@ export interface DescribeRecoverySnapshotsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const DescribeRecoverySnapshotsRequest = S.suspend(() =>
-  S.Struct({
-    sourceServerID: S.String,
-    filters: S.optional(DescribeRecoverySnapshotsRequestFilters),
-    order: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DescribeRecoverySnapshots" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeRecoverySnapshotsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceServerID: S.String,
+      filters: S.optional(DescribeRecoverySnapshotsRequestFilters),
+      order: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+      nextToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DescribeRecoverySnapshots" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DescribeRecoverySnapshotsRequest",
-}) as any as S.Schema<DescribeRecoverySnapshotsRequest>;
+  ).annotate({
+    identifier: "DescribeRecoverySnapshotsRequest",
+  }) as any as S.Schema<DescribeRecoverySnapshotsRequest>;
 export type EbsSnapshotsList = string[];
-export const EbsSnapshotsList = S.Array(S.String);
+export const EbsSnapshotsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface RecoverySnapshot {
   snapshotID: string;
   sourceServerID: string;
@@ -2483,7 +2605,7 @@ export interface RecoverySnapshot {
   timestamp?: string;
   ebsSnapshots?: string[];
 }
-export const RecoverySnapshot = S.suspend(() =>
+export const RecoverySnapshot = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     snapshotID: S.String,
     sourceServerID: S.String,
@@ -2495,61 +2617,66 @@ export const RecoverySnapshot = S.suspend(() =>
   identifier: "RecoverySnapshot",
 }) as any as S.Schema<RecoverySnapshot>;
 export type RecoverySnapshotsList = RecoverySnapshot[];
-export const RecoverySnapshotsList = S.Array(RecoverySnapshot);
+export const RecoverySnapshotsList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecoverySnapshot);
 export interface DescribeRecoverySnapshotsResponse {
   items?: RecoverySnapshot[];
   nextToken?: string;
 }
-export const DescribeRecoverySnapshotsResponse = S.suspend(() =>
-  S.Struct({
-    items: S.optional(RecoverySnapshotsList),
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "DescribeRecoverySnapshotsResponse",
-}) as any as S.Schema<DescribeRecoverySnapshotsResponse>;
+export const DescribeRecoverySnapshotsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(RecoverySnapshotsList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeRecoverySnapshotsResponse",
+  }) as any as S.Schema<DescribeRecoverySnapshotsResponse>;
 export interface DisconnectSourceServerRequest {
   sourceServerID: string;
 }
-export const DisconnectSourceServerRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DisconnectSourceServer" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisconnectSourceServerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DisconnectSourceServer" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DisconnectSourceServerRequest",
-}) as any as S.Schema<DisconnectSourceServerRequest>;
+  ).annotate({
+    identifier: "DisconnectSourceServerRequest",
+  }) as any as S.Schema<DisconnectSourceServerRequest>;
 export interface GetLaunchConfigurationRequest {
   sourceServerID: string;
 }
-export const GetLaunchConfigurationRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetLaunchConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetLaunchConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetLaunchConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetLaunchConfigurationRequest",
-}) as any as S.Schema<GetLaunchConfigurationRequest>;
+  ).annotate({
+    identifier: "GetLaunchConfigurationRequest",
+  }) as any as S.Schema<GetLaunchConfigurationRequest>;
 export interface LaunchIntoInstanceProperties {
   launchIntoEC2InstanceID?: string;
 }
-export const LaunchIntoInstanceProperties = S.suspend(() =>
-  S.Struct({ launchIntoEC2InstanceID: S.optional(S.String) }),
-).annotate({
-  identifier: "LaunchIntoInstanceProperties",
-}) as any as S.Schema<LaunchIntoInstanceProperties>;
+export const LaunchIntoInstanceProperties =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ launchIntoEC2InstanceID: S.optional(S.String) }),
+  ).annotate({
+    identifier: "LaunchIntoInstanceProperties",
+  }) as any as S.Schema<LaunchIntoInstanceProperties>;
 export interface LaunchConfiguration {
   sourceServerID?: string;
   name?: string;
@@ -2562,7 +2689,7 @@ export interface LaunchConfiguration {
   postLaunchEnabled?: boolean;
   launchIntoInstanceProperties?: LaunchIntoInstanceProperties;
 }
-export const LaunchConfiguration = S.suspend(() =>
+export const LaunchConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceServerID: S.optional(S.String),
     name: S.optional(S.String),
@@ -2581,20 +2708,21 @@ export const LaunchConfiguration = S.suspend(() =>
 export interface GetReplicationConfigurationRequest {
   sourceServerID: string;
 }
-export const GetReplicationConfigurationRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetReplicationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetReplicationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetReplicationConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetReplicationConfigurationRequest",
-}) as any as S.Schema<GetReplicationConfigurationRequest>;
+  ).annotate({
+    identifier: "GetReplicationConfigurationRequest",
+  }) as any as S.Schema<GetReplicationConfigurationRequest>;
 export interface ReplicationConfigurationReplicatedDisk {
   deviceName?: string;
   isBootDisk?: boolean;
@@ -2603,23 +2731,23 @@ export interface ReplicationConfigurationReplicatedDisk {
   throughput?: number;
   optimizedStagingDiskType?: string;
 }
-export const ReplicationConfigurationReplicatedDisk = S.suspend(() =>
-  S.Struct({
-    deviceName: S.optional(S.String),
-    isBootDisk: S.optional(S.Boolean),
-    stagingDiskType: S.optional(S.String),
-    iops: S.optional(S.Number),
-    throughput: S.optional(S.Number),
-    optimizedStagingDiskType: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ReplicationConfigurationReplicatedDisk",
-}) as any as S.Schema<ReplicationConfigurationReplicatedDisk>;
+export const ReplicationConfigurationReplicatedDisk =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      deviceName: S.optional(S.String),
+      isBootDisk: S.optional(S.Boolean),
+      stagingDiskType: S.optional(S.String),
+      iops: S.optional(S.Number),
+      throughput: S.optional(S.Number),
+      optimizedStagingDiskType: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ReplicationConfigurationReplicatedDisk",
+  }) as any as S.Schema<ReplicationConfigurationReplicatedDisk>;
 export type ReplicationConfigurationReplicatedDisks =
   ReplicationConfigurationReplicatedDisk[];
-export const ReplicationConfigurationReplicatedDisks = S.Array(
-  ReplicationConfigurationReplicatedDisk,
-);
+export const ReplicationConfigurationReplicatedDisks =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ReplicationConfigurationReplicatedDisk);
 export interface ReplicationConfiguration {
   sourceServerID?: string;
   name?: string;
@@ -2639,95 +2767,99 @@ export interface ReplicationConfiguration {
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
-export const ReplicationConfiguration = S.suspend(() =>
-  S.Struct({
-    sourceServerID: S.optional(S.String),
-    name: S.optional(S.String),
-    stagingAreaSubnetId: S.optional(S.String),
-    associateDefaultSecurityGroup: S.optional(S.Boolean),
-    replicationServersSecurityGroupsIDs: S.optional(
-      ReplicationServersSecurityGroupsIDs,
-    ),
-    replicationServerInstanceType: S.optional(S.String),
-    useDedicatedReplicationServer: S.optional(S.Boolean),
-    defaultLargeStagingDiskType: S.optional(S.String),
-    replicatedDisks: S.optional(ReplicationConfigurationReplicatedDisks),
-    ebsEncryption: S.optional(S.String),
-    ebsEncryptionKeyArn: S.optional(S.String),
-    bandwidthThrottling: S.optional(S.Number),
-    dataPlaneRouting: S.optional(S.String),
-    createPublicIP: S.optional(S.Boolean),
-    stagingAreaTags: S.optional(TagsMap),
-    pitPolicy: S.optional(PITPolicy),
-    autoReplicateNewDisks: S.optional(S.Boolean),
-  }),
+export const ReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      sourceServerID: S.optional(S.String),
+      name: S.optional(S.String),
+      stagingAreaSubnetId: S.optional(S.String),
+      associateDefaultSecurityGroup: S.optional(S.Boolean),
+      replicationServersSecurityGroupsIDs: S.optional(
+        ReplicationServersSecurityGroupsIDs,
+      ),
+      replicationServerInstanceType: S.optional(S.String),
+      useDedicatedReplicationServer: S.optional(S.Boolean),
+      defaultLargeStagingDiskType: S.optional(S.String),
+      replicatedDisks: S.optional(ReplicationConfigurationReplicatedDisks),
+      ebsEncryption: S.optional(S.String),
+      ebsEncryptionKeyArn: S.optional(S.String),
+      bandwidthThrottling: S.optional(S.Number),
+      dataPlaneRouting: S.optional(S.String),
+      createPublicIP: S.optional(S.Boolean),
+      stagingAreaTags: S.optional(TagsMap),
+      pitPolicy: S.optional(PITPolicy),
+      autoReplicateNewDisks: S.optional(S.Boolean),
+    }),
 ).annotate({
   identifier: "ReplicationConfiguration",
 }) as any as S.Schema<ReplicationConfiguration>;
 export interface RetryDataReplicationRequest {
   sourceServerID: string;
 }
-export const RetryDataReplicationRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/RetryDataReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RetryDataReplicationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/RetryDataReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "RetryDataReplicationRequest",
-}) as any as S.Schema<RetryDataReplicationRequest>;
+  ).annotate({
+    identifier: "RetryDataReplicationRequest",
+  }) as any as S.Schema<RetryDataReplicationRequest>;
 export interface StartReplicationRequest {
   sourceServerID: string;
 }
-export const StartReplicationRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartReplicationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StartReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartReplicationRequest",
 }) as any as S.Schema<StartReplicationRequest>;
 export interface StartReplicationResponse {
   sourceServer?: SourceServer;
 }
-export const StartReplicationResponse = S.suspend(() =>
-  S.Struct({ sourceServer: S.optional(SourceServer) }),
+export const StartReplicationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ sourceServer: S.optional(SourceServer) }),
 ).annotate({
   identifier: "StartReplicationResponse",
 }) as any as S.Schema<StartReplicationResponse>;
 export interface StopReplicationRequest {
   sourceServerID: string;
 }
-export const StopReplicationRequest = S.suspend(() =>
-  S.Struct({ sourceServerID: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StopReplicationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ sourceServerID: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StopReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StopReplicationRequest",
 }) as any as S.Schema<StopReplicationRequest>;
 export interface StopReplicationResponse {
   sourceServer?: SourceServer;
 }
-export const StopReplicationResponse = S.suspend(() =>
-  S.Struct({ sourceServer: S.optional(SourceServer) }),
+export const StopReplicationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ sourceServer: S.optional(SourceServer) }),
 ).annotate({
   identifier: "StopReplicationResponse",
 }) as any as S.Schema<StopReplicationResponse>;
@@ -2742,30 +2874,31 @@ export interface UpdateLaunchConfigurationRequest {
   postLaunchEnabled?: boolean;
   launchIntoInstanceProperties?: LaunchIntoInstanceProperties;
 }
-export const UpdateLaunchConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    sourceServerID: S.String,
-    name: S.optional(S.String),
-    launchDisposition: S.optional(S.String),
-    targetInstanceTypeRightSizingMethod: S.optional(S.String),
-    copyPrivateIp: S.optional(S.Boolean),
-    copyTags: S.optional(S.Boolean),
-    licensing: S.optional(Licensing),
-    postLaunchEnabled: S.optional(S.Boolean),
-    launchIntoInstanceProperties: S.optional(LaunchIntoInstanceProperties),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateLaunchConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateLaunchConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceServerID: S.String,
+      name: S.optional(S.String),
+      launchDisposition: S.optional(S.String),
+      targetInstanceTypeRightSizingMethod: S.optional(S.String),
+      copyPrivateIp: S.optional(S.Boolean),
+      copyTags: S.optional(S.Boolean),
+      licensing: S.optional(Licensing),
+      postLaunchEnabled: S.optional(S.Boolean),
+      launchIntoInstanceProperties: S.optional(LaunchIntoInstanceProperties),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/UpdateLaunchConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateLaunchConfigurationRequest",
-}) as any as S.Schema<UpdateLaunchConfigurationRequest>;
+  ).annotate({
+    identifier: "UpdateLaunchConfigurationRequest",
+  }) as any as S.Schema<UpdateLaunchConfigurationRequest>;
 export interface UpdateReplicationConfigurationRequest {
   sourceServerID: string;
   name?: string;
@@ -2785,63 +2918,64 @@ export interface UpdateReplicationConfigurationRequest {
   pitPolicy?: PITPolicyRule[];
   autoReplicateNewDisks?: boolean;
 }
-export const UpdateReplicationConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    sourceServerID: S.String,
-    name: S.optional(S.String),
-    stagingAreaSubnetId: S.optional(S.String),
-    associateDefaultSecurityGroup: S.optional(S.Boolean),
-    replicationServersSecurityGroupsIDs: S.optional(
-      ReplicationServersSecurityGroupsIDs,
+export const UpdateReplicationConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceServerID: S.String,
+      name: S.optional(S.String),
+      stagingAreaSubnetId: S.optional(S.String),
+      associateDefaultSecurityGroup: S.optional(S.Boolean),
+      replicationServersSecurityGroupsIDs: S.optional(
+        ReplicationServersSecurityGroupsIDs,
+      ),
+      replicationServerInstanceType: S.optional(S.String),
+      useDedicatedReplicationServer: S.optional(S.Boolean),
+      defaultLargeStagingDiskType: S.optional(S.String),
+      replicatedDisks: S.optional(ReplicationConfigurationReplicatedDisks),
+      ebsEncryption: S.optional(S.String),
+      ebsEncryptionKeyArn: S.optional(S.String),
+      bandwidthThrottling: S.optional(S.Number),
+      dataPlaneRouting: S.optional(S.String),
+      createPublicIP: S.optional(S.Boolean),
+      stagingAreaTags: S.optional(TagsMap),
+      pitPolicy: S.optional(PITPolicy),
+      autoReplicateNewDisks: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/UpdateReplicationConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    replicationServerInstanceType: S.optional(S.String),
-    useDedicatedReplicationServer: S.optional(S.Boolean),
-    defaultLargeStagingDiskType: S.optional(S.String),
-    replicatedDisks: S.optional(ReplicationConfigurationReplicatedDisks),
-    ebsEncryption: S.optional(S.String),
-    ebsEncryptionKeyArn: S.optional(S.String),
-    bandwidthThrottling: S.optional(S.Number),
-    dataPlaneRouting: S.optional(S.String),
-    createPublicIP: S.optional(S.Boolean),
-    stagingAreaTags: S.optional(TagsMap),
-    pitPolicy: S.optional(PITPolicy),
-    autoReplicateNewDisks: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateReplicationConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "UpdateReplicationConfigurationRequest",
-}) as any as S.Schema<UpdateReplicationConfigurationRequest>;
+  ).annotate({
+    identifier: "UpdateReplicationConfigurationRequest",
+  }) as any as S.Schema<UpdateReplicationConfigurationRequest>;
 export interface StartRecoveryRequestSourceServer {
   sourceServerID: string;
   recoverySnapshotID?: string;
 }
-export const StartRecoveryRequestSourceServer = S.suspend(() =>
-  S.Struct({
-    sourceServerID: S.String,
-    recoverySnapshotID: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "StartRecoveryRequestSourceServer",
-}) as any as S.Schema<StartRecoveryRequestSourceServer>;
+export const StartRecoveryRequestSourceServer =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceServerID: S.String,
+      recoverySnapshotID: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "StartRecoveryRequestSourceServer",
+  }) as any as S.Schema<StartRecoveryRequestSourceServer>;
 export type StartRecoveryRequestSourceServers =
   StartRecoveryRequestSourceServer[];
-export const StartRecoveryRequestSourceServers = S.Array(
-  StartRecoveryRequestSourceServer,
-);
+export const StartRecoveryRequestSourceServers =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(StartRecoveryRequestSourceServer);
 export interface StartRecoveryRequest {
   sourceServers: StartRecoveryRequestSourceServer[];
   isDrill?: boolean;
   tags?: { [key: string]: string | undefined };
 }
-export const StartRecoveryRequest = S.suspend(() =>
+export const StartRecoveryRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceServers: StartRecoveryRequestSourceServers,
     isDrill: S.optional(S.Boolean),
@@ -2862,7 +2996,7 @@ export const StartRecoveryRequest = S.suspend(() =>
 export interface StartRecoveryResponse {
   job?: Job;
 }
-export const StartRecoveryResponse = S.suspend(() =>
+export const StartRecoveryResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ job: S.optional(Job) }),
 ).annotate({
   identifier: "StartRecoveryResponse",

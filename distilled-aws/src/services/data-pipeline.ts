@@ -107,17 +107,18 @@ export interface ParameterValue {
   id: string;
   stringValue: string;
 }
-export const ParameterValue = S.suspend(() =>
+export const ParameterValue = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, stringValue: S.String }),
 ).annotate({ identifier: "ParameterValue" }) as any as S.Schema<ParameterValue>;
 export type ParameterValueList = ParameterValue[];
-export const ParameterValueList = S.Array(ParameterValue);
+export const ParameterValueList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParameterValue);
 export interface ActivatePipelineInput {
   pipelineId: string;
   parameterValues?: ParameterValue[];
   startTimestamp?: Date;
 }
-export const ActivatePipelineInput = S.suspend(() =>
+export const ActivatePipelineInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     pipelineId: S.String,
     parameterValues: S.optional(ParameterValueList),
@@ -137,8 +138,8 @@ export const ActivatePipelineInput = S.suspend(() =>
   identifier: "ActivatePipelineInput",
 }) as any as S.Schema<ActivatePipelineInput>;
 export interface ActivatePipelineOutput {}
-export const ActivatePipelineOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const ActivatePipelineOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "ActivatePipelineOutput",
 }) as any as S.Schema<ActivatePipelineOutput>;
@@ -146,16 +147,16 @@ export interface Tag {
   key: string;
   value: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.String }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
-export const TagList = S.Array(Tag);
+export const TagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface AddTagsInput {
   pipelineId: string;
   tags: Tag[];
 }
-export const AddTagsInput = S.suspend(() =>
+export const AddTagsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ pipelineId: S.String, tags: TagList }).pipe(
     T.all(
       ns,
@@ -169,16 +170,16 @@ export const AddTagsInput = S.suspend(() =>
   ),
 ).annotate({ identifier: "AddTagsInput" }) as any as S.Schema<AddTagsInput>;
 export interface AddTagsOutput {}
-export const AddTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-  identifier: "AddTagsOutput",
-}) as any as S.Schema<AddTagsOutput>;
+export const AddTagsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({ identifier: "AddTagsOutput" }) as any as S.Schema<AddTagsOutput>;
 export interface CreatePipelineInput {
   name: string;
   uniqueId: string;
   description?: string;
   tags?: Tag[];
 }
-export const CreatePipelineInput = S.suspend(() =>
+export const CreatePipelineInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     uniqueId: S.String,
@@ -201,7 +202,7 @@ export const CreatePipelineInput = S.suspend(() =>
 export interface CreatePipelineOutput {
   pipelineId: string;
 }
-export const CreatePipelineOutput = S.suspend(() =>
+export const CreatePipelineOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ pipelineId: S.String }).pipe(ns),
 ).annotate({
   identifier: "CreatePipelineOutput",
@@ -210,31 +211,35 @@ export interface DeactivatePipelineInput {
   pipelineId: string;
   cancelActive?: boolean;
 }
-export const DeactivatePipelineInput = S.suspend(() =>
-  S.Struct({ pipelineId: S.String, cancelActive: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeactivatePipelineInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pipelineId: S.String,
+      cancelActive: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeactivatePipelineInput",
 }) as any as S.Schema<DeactivatePipelineInput>;
 export interface DeactivatePipelineOutput {}
-export const DeactivatePipelineOutput = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const DeactivatePipelineOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeactivatePipelineOutput",
 }) as any as S.Schema<DeactivatePipelineOutput>;
 export interface DeletePipelineInput {
   pipelineId: string;
 }
-export const DeletePipelineInput = S.suspend(() =>
+export const DeletePipelineInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ pipelineId: S.String }).pipe(
     T.all(
       ns,
@@ -250,20 +255,20 @@ export const DeletePipelineInput = S.suspend(() =>
   identifier: "DeletePipelineInput",
 }) as any as S.Schema<DeletePipelineInput>;
 export interface DeletePipelineResponse {}
-export const DeletePipelineResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const DeletePipelineResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeletePipelineResponse",
 }) as any as S.Schema<DeletePipelineResponse>;
 export type IdList = string[];
-export const IdList = S.Array(S.String);
+export const IdList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface DescribeObjectsInput {
   pipelineId: string;
   objectIds: string[];
   evaluateExpressions?: boolean;
   marker?: string;
 }
-export const DescribeObjectsInput = S.suspend(() =>
+export const DescribeObjectsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     pipelineId: S.String,
     objectIds: IdList,
@@ -288,7 +293,7 @@ export interface Field {
   stringValue?: string;
   refValue?: string;
 }
-export const Field = S.suspend(() =>
+export const Field = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.String,
     stringValue: S.optional(S.String),
@@ -296,23 +301,24 @@ export const Field = S.suspend(() =>
   }),
 ).annotate({ identifier: "Field" }) as any as S.Schema<Field>;
 export type FieldList = Field[];
-export const FieldList = S.Array(Field);
+export const FieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Field);
 export interface PipelineObject {
   id: string;
   name: string;
   fields: Field[];
 }
-export const PipelineObject = S.suspend(() =>
+export const PipelineObject = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, name: S.String, fields: FieldList }),
 ).annotate({ identifier: "PipelineObject" }) as any as S.Schema<PipelineObject>;
 export type PipelineObjectList = PipelineObject[];
-export const PipelineObjectList = S.Array(PipelineObject);
+export const PipelineObjectList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PipelineObject);
 export interface DescribeObjectsOutput {
   pipelineObjects: PipelineObject[];
   marker?: string;
   hasMoreResults?: boolean;
 }
-export const DescribeObjectsOutput = S.suspend(() =>
+export const DescribeObjectsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     pipelineObjects: PipelineObjectList,
     marker: S.optional(S.String),
@@ -324,18 +330,19 @@ export const DescribeObjectsOutput = S.suspend(() =>
 export interface DescribePipelinesInput {
   pipelineIds: string[];
 }
-export const DescribePipelinesInput = S.suspend(() =>
-  S.Struct({ pipelineIds: IdList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribePipelinesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ pipelineIds: IdList }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribePipelinesInput",
 }) as any as S.Schema<DescribePipelinesInput>;
@@ -346,7 +353,7 @@ export interface PipelineDescription {
   description?: string;
   tags?: Tag[];
 }
-export const PipelineDescription = S.suspend(() =>
+export const PipelineDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     pipelineId: S.String,
     name: S.String,
@@ -358,12 +365,13 @@ export const PipelineDescription = S.suspend(() =>
   identifier: "PipelineDescription",
 }) as any as S.Schema<PipelineDescription>;
 export type PipelineDescriptionList = PipelineDescription[];
-export const PipelineDescriptionList = S.Array(PipelineDescription);
+export const PipelineDescriptionList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PipelineDescription);
 export interface DescribePipelinesOutput {
   pipelineDescriptionList: PipelineDescription[];
 }
-export const DescribePipelinesOutput = S.suspend(() =>
-  S.Struct({ pipelineDescriptionList: PipelineDescriptionList }).pipe(ns),
+export const DescribePipelinesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ pipelineDescriptionList: PipelineDescriptionList }).pipe(ns),
 ).annotate({
   identifier: "DescribePipelinesOutput",
 }) as any as S.Schema<DescribePipelinesOutput>;
@@ -372,30 +380,31 @@ export interface EvaluateExpressionInput {
   objectId: string;
   expression: string;
 }
-export const EvaluateExpressionInput = S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    objectId: S.String,
-    expression: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const EvaluateExpressionInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pipelineId: S.String,
+      objectId: S.String,
+      expression: S.String,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "EvaluateExpressionInput",
 }) as any as S.Schema<EvaluateExpressionInput>;
 export interface EvaluateExpressionOutput {
   evaluatedExpression: string;
 }
-export const EvaluateExpressionOutput = S.suspend(() =>
-  S.Struct({ evaluatedExpression: S.String }).pipe(ns),
+export const EvaluateExpressionOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ evaluatedExpression: S.String }).pipe(ns),
 ).annotate({
   identifier: "EvaluateExpressionOutput",
 }) as any as S.Schema<EvaluateExpressionOutput>;
@@ -403,18 +412,19 @@ export interface GetPipelineDefinitionInput {
   pipelineId: string;
   version?: string;
 }
-export const GetPipelineDefinitionInput = S.suspend(() =>
-  S.Struct({ pipelineId: S.String, version: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetPipelineDefinitionInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ pipelineId: S.String, version: S.optional(S.String) }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetPipelineDefinitionInput",
 }) as any as S.Schema<GetPipelineDefinitionInput>;
@@ -422,42 +432,45 @@ export interface ParameterAttribute {
   key: string;
   stringValue: string;
 }
-export const ParameterAttribute = S.suspend(() =>
+export const ParameterAttribute = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, stringValue: S.String }),
 ).annotate({
   identifier: "ParameterAttribute",
 }) as any as S.Schema<ParameterAttribute>;
 export type ParameterAttributeList = ParameterAttribute[];
-export const ParameterAttributeList = S.Array(ParameterAttribute);
+export const ParameterAttributeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParameterAttribute);
 export interface ParameterObject {
   id: string;
   attributes: ParameterAttribute[];
 }
-export const ParameterObject = S.suspend(() =>
+export const ParameterObject = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String, attributes: ParameterAttributeList }),
 ).annotate({
   identifier: "ParameterObject",
 }) as any as S.Schema<ParameterObject>;
 export type ParameterObjectList = ParameterObject[];
-export const ParameterObjectList = S.Array(ParameterObject);
+export const ParameterObjectList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParameterObject);
 export interface GetPipelineDefinitionOutput {
   pipelineObjects?: PipelineObject[];
   parameterObjects?: ParameterObject[];
   parameterValues?: ParameterValue[];
 }
-export const GetPipelineDefinitionOutput = S.suspend(() =>
-  S.Struct({
-    pipelineObjects: S.optional(PipelineObjectList),
-    parameterObjects: S.optional(ParameterObjectList),
-    parameterValues: S.optional(ParameterValueList),
-  }).pipe(ns),
-).annotate({
-  identifier: "GetPipelineDefinitionOutput",
-}) as any as S.Schema<GetPipelineDefinitionOutput>;
+export const GetPipelineDefinitionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pipelineObjects: S.optional(PipelineObjectList),
+      parameterObjects: S.optional(ParameterObjectList),
+      parameterValues: S.optional(ParameterValueList),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "GetPipelineDefinitionOutput",
+  }) as any as S.Schema<GetPipelineDefinitionOutput>;
 export interface ListPipelinesInput {
   marker?: string;
 }
-export const ListPipelinesInput = S.suspend(() =>
+export const ListPipelinesInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ marker: S.optional(S.String) }).pipe(
     T.all(
       ns,
@@ -476,17 +489,17 @@ export interface PipelineIdName {
   id?: string;
   name?: string;
 }
-export const PipelineIdName = S.suspend(() =>
+export const PipelineIdName = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.optional(S.String), name: S.optional(S.String) }),
 ).annotate({ identifier: "PipelineIdName" }) as any as S.Schema<PipelineIdName>;
 export type PipelineList = PipelineIdName[];
-export const PipelineList = S.Array(PipelineIdName);
+export const PipelineList = /*@__PURE__*/ /*#__PURE__*/ S.Array(PipelineIdName);
 export interface ListPipelinesOutput {
   pipelineIdList: PipelineIdName[];
   marker?: string;
   hasMoreResults?: boolean;
 }
-export const ListPipelinesOutput = S.suspend(() =>
+export const ListPipelinesOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     pipelineIdList: PipelineList,
     marker: S.optional(S.String),
@@ -499,7 +512,7 @@ export interface InstanceIdentity {
   document?: string;
   signature?: string;
 }
-export const InstanceIdentity = S.suspend(() =>
+export const InstanceIdentity = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ document: S.optional(S.String), signature: S.optional(S.String) }),
 ).annotate({
   identifier: "InstanceIdentity",
@@ -509,7 +522,7 @@ export interface PollForTaskInput {
   hostname?: string;
   instanceIdentity?: InstanceIdentity;
 }
-export const PollForTaskInput = S.suspend(() =>
+export const PollForTaskInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     workerGroup: S.String,
     hostname: S.optional(S.String),
@@ -529,7 +542,7 @@ export const PollForTaskInput = S.suspend(() =>
   identifier: "PollForTaskInput",
 }) as any as S.Schema<PollForTaskInput>;
 export type PipelineObjectMap = { [key: string]: PipelineObject | undefined };
-export const PipelineObjectMap = S.Record(
+export const PipelineObjectMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   PipelineObject.pipe(S.optional),
 );
@@ -539,7 +552,7 @@ export interface TaskObject {
   attemptId?: string;
   objects?: { [key: string]: PipelineObject | undefined };
 }
-export const TaskObject = S.suspend(() =>
+export const TaskObject = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     taskId: S.optional(S.String),
     pipelineId: S.optional(S.String),
@@ -550,7 +563,7 @@ export const TaskObject = S.suspend(() =>
 export interface PollForTaskOutput {
   taskObject?: TaskObject;
 }
-export const PollForTaskOutput = S.suspend(() =>
+export const PollForTaskOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ taskObject: S.optional(TaskObject) }).pipe(ns),
 ).annotate({
   identifier: "PollForTaskOutput",
@@ -561,33 +574,34 @@ export interface PutPipelineDefinitionInput {
   parameterObjects?: ParameterObject[];
   parameterValues?: ParameterValue[];
 }
-export const PutPipelineDefinitionInput = S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    pipelineObjects: PipelineObjectList,
-    parameterObjects: S.optional(ParameterObjectList),
-    parameterValues: S.optional(ParameterValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutPipelineDefinitionInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      pipelineId: S.String,
+      pipelineObjects: PipelineObjectList,
+      parameterObjects: S.optional(ParameterObjectList),
+      parameterValues: S.optional(ParameterValueList),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutPipelineDefinitionInput",
 }) as any as S.Schema<PutPipelineDefinitionInput>;
 export type ValidationMessages = string[];
-export const ValidationMessages = S.Array(S.String);
+export const ValidationMessages = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ValidationError {
   id?: string;
   errors?: string[];
 }
-export const ValidationError = S.suspend(() =>
+export const ValidationError = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     errors: S.optional(ValidationMessages),
@@ -596,12 +610,13 @@ export const ValidationError = S.suspend(() =>
   identifier: "ValidationError",
 }) as any as S.Schema<ValidationError>;
 export type ValidationErrors = ValidationError[];
-export const ValidationErrors = S.Array(ValidationError);
+export const ValidationErrors =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ValidationError);
 export interface ValidationWarning {
   id?: string;
   warnings?: string[];
 }
-export const ValidationWarning = S.suspend(() =>
+export const ValidationWarning = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     warnings: S.optional(ValidationMessages),
@@ -610,21 +625,23 @@ export const ValidationWarning = S.suspend(() =>
   identifier: "ValidationWarning",
 }) as any as S.Schema<ValidationWarning>;
 export type ValidationWarnings = ValidationWarning[];
-export const ValidationWarnings = S.Array(ValidationWarning);
+export const ValidationWarnings =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ValidationWarning);
 export interface PutPipelineDefinitionOutput {
   validationErrors?: ValidationError[];
   validationWarnings?: ValidationWarning[];
   errored: boolean;
 }
-export const PutPipelineDefinitionOutput = S.suspend(() =>
-  S.Struct({
-    validationErrors: S.optional(ValidationErrors),
-    validationWarnings: S.optional(ValidationWarnings),
-    errored: S.Boolean,
-  }).pipe(ns),
-).annotate({
-  identifier: "PutPipelineDefinitionOutput",
-}) as any as S.Schema<PutPipelineDefinitionOutput>;
+export const PutPipelineDefinitionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      validationErrors: S.optional(ValidationErrors),
+      validationWarnings: S.optional(ValidationWarnings),
+      errored: S.Boolean,
+    }).pipe(ns),
+  ).annotate({
+    identifier: "PutPipelineDefinitionOutput",
+  }) as any as S.Schema<PutPipelineDefinitionOutput>;
 export type OperatorType =
   | "EQ"
   | "REF_EQ"
@@ -632,29 +649,29 @@ export type OperatorType =
   | "GE"
   | "BETWEEN"
   | (string & {});
-export const OperatorType = S.String;
+export const OperatorType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type StringList = string[];
-export const StringList = S.Array(S.String);
+export const StringList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Operator {
   type?: OperatorType;
   values?: string[];
 }
-export const Operator = S.suspend(() =>
+export const Operator = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: S.optional(OperatorType), values: S.optional(StringList) }),
 ).annotate({ identifier: "Operator" }) as any as S.Schema<Operator>;
 export interface Selector {
   fieldName?: string;
   operator?: Operator;
 }
-export const Selector = S.suspend(() =>
+export const Selector = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ fieldName: S.optional(S.String), operator: S.optional(Operator) }),
 ).annotate({ identifier: "Selector" }) as any as S.Schema<Selector>;
 export type SelectorList = Selector[];
-export const SelectorList = S.Array(Selector);
+export const SelectorList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Selector);
 export interface Query {
   selectors?: Selector[];
 }
-export const Query = S.suspend(() =>
+export const Query = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ selectors: S.optional(SelectorList) }),
 ).annotate({ identifier: "Query" }) as any as S.Schema<Query>;
 export interface QueryObjectsInput {
@@ -664,7 +681,7 @@ export interface QueryObjectsInput {
   marker?: string;
   limit?: number;
 }
-export const QueryObjectsInput = S.suspend(() =>
+export const QueryObjectsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     pipelineId: S.String,
     query: S.optional(Query),
@@ -690,7 +707,7 @@ export interface QueryObjectsOutput {
   marker?: string;
   hasMoreResults?: boolean;
 }
-export const QueryObjectsOutput = S.suspend(() =>
+export const QueryObjectsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.optional(IdList),
     marker: S.optional(S.String),
@@ -703,7 +720,7 @@ export interface RemoveTagsInput {
   pipelineId: string;
   tagKeys: string[];
 }
-export const RemoveTagsInput = S.suspend(() =>
+export const RemoveTagsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ pipelineId: S.String, tagKeys: StringList }).pipe(
     T.all(
       ns,
@@ -719,33 +736,36 @@ export const RemoveTagsInput = S.suspend(() =>
   identifier: "RemoveTagsInput",
 }) as any as S.Schema<RemoveTagsInput>;
 export interface RemoveTagsOutput {}
-export const RemoveTagsOutput = S.suspend(() => S.Struct({}).pipe(ns)).annotate(
-  { identifier: "RemoveTagsOutput" },
-) as any as S.Schema<RemoveTagsOutput>;
+export const RemoveTagsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RemoveTagsOutput",
+}) as any as S.Schema<RemoveTagsOutput>;
 export interface ReportTaskProgressInput {
   taskId: string;
   fields?: Field[];
 }
-export const ReportTaskProgressInput = S.suspend(() =>
-  S.Struct({ taskId: S.String, fields: S.optional(FieldList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ReportTaskProgressInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ taskId: S.String, fields: S.optional(FieldList) }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ReportTaskProgressInput",
 }) as any as S.Schema<ReportTaskProgressInput>;
 export interface ReportTaskProgressOutput {
   canceled: boolean;
 }
-export const ReportTaskProgressOutput = S.suspend(() =>
-  S.Struct({ canceled: S.Boolean }).pipe(ns),
+export const ReportTaskProgressOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ canceled: S.Boolean }).pipe(ns),
 ).annotate({
   identifier: "ReportTaskProgressOutput",
 }) as any as S.Schema<ReportTaskProgressOutput>;
@@ -754,39 +774,41 @@ export interface ReportTaskRunnerHeartbeatInput {
   workerGroup?: string;
   hostname?: string;
 }
-export const ReportTaskRunnerHeartbeatInput = S.suspend(() =>
-  S.Struct({
-    taskrunnerId: S.String,
-    workerGroup: S.optional(S.String),
-    hostname: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ReportTaskRunnerHeartbeatInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      taskrunnerId: S.String,
+      workerGroup: S.optional(S.String),
+      hostname: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ReportTaskRunnerHeartbeatInput",
-}) as any as S.Schema<ReportTaskRunnerHeartbeatInput>;
+  ).annotate({
+    identifier: "ReportTaskRunnerHeartbeatInput",
+  }) as any as S.Schema<ReportTaskRunnerHeartbeatInput>;
 export interface ReportTaskRunnerHeartbeatOutput {
   terminate: boolean;
 }
-export const ReportTaskRunnerHeartbeatOutput = S.suspend(() =>
-  S.Struct({ terminate: S.Boolean }).pipe(ns),
-).annotate({
-  identifier: "ReportTaskRunnerHeartbeatOutput",
-}) as any as S.Schema<ReportTaskRunnerHeartbeatOutput>;
+export const ReportTaskRunnerHeartbeatOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ terminate: S.Boolean }).pipe(ns),
+  ).annotate({
+    identifier: "ReportTaskRunnerHeartbeatOutput",
+  }) as any as S.Schema<ReportTaskRunnerHeartbeatOutput>;
 export interface SetStatusInput {
   pipelineId: string;
   objectIds: string[];
   status: string;
 }
-export const SetStatusInput = S.suspend(() =>
+export const SetStatusInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ pipelineId: S.String, objectIds: IdList, status: S.String }).pipe(
     T.all(
       ns,
@@ -800,13 +822,13 @@ export const SetStatusInput = S.suspend(() =>
   ),
 ).annotate({ identifier: "SetStatusInput" }) as any as S.Schema<SetStatusInput>;
 export interface SetStatusResponse {}
-export const SetStatusResponse = S.suspend(() =>
+export const SetStatusResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SetStatusResponse",
 }) as any as S.Schema<SetStatusResponse>;
 export type TaskStatus = "FINISHED" | "FAILED" | "FALSE" | (string & {});
-export const TaskStatus = S.String;
+export const TaskStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface SetTaskStatusInput {
   taskId: string;
   taskStatus: TaskStatus;
@@ -814,7 +836,7 @@ export interface SetTaskStatusInput {
   errorMessage?: string;
   errorStackTrace?: string;
 }
-export const SetTaskStatusInput = S.suspend(() =>
+export const SetTaskStatusInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     taskId: S.String,
     taskStatus: TaskStatus,
@@ -836,7 +858,7 @@ export const SetTaskStatusInput = S.suspend(() =>
   identifier: "SetTaskStatusInput",
 }) as any as S.Schema<SetTaskStatusInput>;
 export interface SetTaskStatusOutput {}
-export const SetTaskStatusOutput = S.suspend(() =>
+export const SetTaskStatusOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SetTaskStatusOutput",
@@ -847,40 +869,42 @@ export interface ValidatePipelineDefinitionInput {
   parameterObjects?: ParameterObject[];
   parameterValues?: ParameterValue[];
 }
-export const ValidatePipelineDefinitionInput = S.suspend(() =>
-  S.Struct({
-    pipelineId: S.String,
-    pipelineObjects: PipelineObjectList,
-    parameterObjects: S.optional(ParameterObjectList),
-    parameterValues: S.optional(ParameterValueList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ValidatePipelineDefinitionInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      pipelineId: S.String,
+      pipelineObjects: PipelineObjectList,
+      parameterObjects: S.optional(ParameterObjectList),
+      parameterValues: S.optional(ParameterValueList),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ValidatePipelineDefinitionInput",
-}) as any as S.Schema<ValidatePipelineDefinitionInput>;
+  ).annotate({
+    identifier: "ValidatePipelineDefinitionInput",
+  }) as any as S.Schema<ValidatePipelineDefinitionInput>;
 export interface ValidatePipelineDefinitionOutput {
   validationErrors?: ValidationError[];
   validationWarnings?: ValidationWarning[];
   errored: boolean;
 }
-export const ValidatePipelineDefinitionOutput = S.suspend(() =>
-  S.Struct({
-    validationErrors: S.optional(ValidationErrors),
-    validationWarnings: S.optional(ValidationWarnings),
-    errored: S.Boolean,
-  }).pipe(ns),
-).annotate({
-  identifier: "ValidatePipelineDefinitionOutput",
-}) as any as S.Schema<ValidatePipelineDefinitionOutput>;
+export const ValidatePipelineDefinitionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      validationErrors: S.optional(ValidationErrors),
+      validationWarnings: S.optional(ValidationWarnings),
+      errored: S.Boolean,
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ValidatePipelineDefinitionOutput",
+  }) as any as S.Schema<ValidatePipelineDefinitionOutput>;
 
 //# Errors
 export class InternalServiceError extends S.TaggedErrorClass<InternalServiceError>()(

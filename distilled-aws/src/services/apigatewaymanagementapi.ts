@@ -93,28 +93,31 @@ export type __timestampIso8601 = Date;
 export interface DeleteConnectionRequest {
   ConnectionId: string;
 }
-export const DeleteConnectionRequest = S.suspend(() =>
-  S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/@connections/{ConnectionId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteConnectionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/@connections/{ConnectionId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
-export const DeleteConnectionResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteConnectionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
 export interface GetConnectionRequest {
   ConnectionId: string;
 }
-export const GetConnectionRequest = S.suspend(() =>
+export const GetConnectionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/@connections/{ConnectionId}" }),
@@ -132,7 +135,7 @@ export interface Identity {
   SourceIp?: string;
   UserAgent?: string;
 }
-export const Identity = S.suspend(() =>
+export const Identity = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     SourceIp: S.optional(S.String),
     UserAgent: S.optional(S.String),
@@ -143,7 +146,7 @@ export interface GetConnectionResponse {
   Identity?: Identity & { SourceIp: string; UserAgent: string };
   LastActiveAt?: Date;
 }
-export const GetConnectionResponse = S.suspend(() =>
+export const GetConnectionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ConnectedAt: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -166,25 +169,28 @@ export interface PostToConnectionRequest {
   Data?: T.StreamingInputBody;
   ConnectionId: string;
 }
-export const PostToConnectionRequest = S.suspend(() =>
-  S.Struct({
-    Data: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/@connections/{ConnectionId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PostToConnectionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Data: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
+      ConnectionId: S.String.pipe(T.HttpLabel("ConnectionId")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/@connections/{ConnectionId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PostToConnectionRequest",
 }) as any as S.Schema<PostToConnectionRequest>;
 export interface PostToConnectionResponse {}
-export const PostToConnectionResponse = S.suspend(() => S.Struct({})).annotate({
+export const PostToConnectionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "PostToConnectionResponse",
 }) as any as S.Schema<PostToConnectionResponse>;
 

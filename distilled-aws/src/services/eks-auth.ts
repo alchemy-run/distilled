@@ -82,39 +82,40 @@ export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
   token: string | redacted.Redacted<string>;
 }
-export const AssumeRoleForPodIdentityRequest = S.suspend(() =>
-  S.Struct({
-    clusterName: S.String.pipe(T.HttpLabel("clusterName")),
-    token: SensitiveString,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssumeRoleForPodIdentityRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clusterName: S.String.pipe(T.HttpLabel("clusterName")),
+      token: SensitiveString,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/clusters/{clusterName}/assume-role-for-pod-identity",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AssumeRoleForPodIdentityRequest",
-}) as any as S.Schema<AssumeRoleForPodIdentityRequest>;
+  ).annotate({
+    identifier: "AssumeRoleForPodIdentityRequest",
+  }) as any as S.Schema<AssumeRoleForPodIdentityRequest>;
 export interface Subject {
   namespace: string;
   serviceAccount: string;
 }
-export const Subject = S.suspend(() =>
+export const Subject = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ namespace: S.String, serviceAccount: S.String }),
 ).annotate({ identifier: "Subject" }) as any as S.Schema<Subject>;
 export interface PodIdentityAssociation {
   associationArn: string;
   associationId: string;
 }
-export const PodIdentityAssociation = S.suspend(() =>
-  S.Struct({ associationArn: S.String, associationId: S.String }),
+export const PodIdentityAssociation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ associationArn: S.String, associationId: S.String }),
 ).annotate({
   identifier: "PodIdentityAssociation",
 }) as any as S.Schema<PodIdentityAssociation>;
@@ -122,7 +123,7 @@ export interface AssumedRoleUser {
   arn: string;
   assumeRoleId: string;
 }
-export const AssumedRoleUser = S.suspend(() =>
+export const AssumedRoleUser = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String, assumeRoleId: S.String }),
 ).annotate({
   identifier: "AssumedRoleUser",
@@ -133,7 +134,7 @@ export interface Credentials {
   accessKeyId: string;
   expiration: Date;
 }
-export const Credentials = S.suspend(() =>
+export const Credentials = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionToken: S.String,
     secretAccessKey: S.String,
@@ -148,17 +149,18 @@ export interface AssumeRoleForPodIdentityResponse {
   assumedRoleUser: AssumedRoleUser;
   credentials: Credentials;
 }
-export const AssumeRoleForPodIdentityResponse = S.suspend(() =>
-  S.Struct({
-    subject: Subject,
-    audience: S.String,
-    podIdentityAssociation: PodIdentityAssociation,
-    assumedRoleUser: AssumedRoleUser,
-    credentials: Credentials,
-  }),
-).annotate({
-  identifier: "AssumeRoleForPodIdentityResponse",
-}) as any as S.Schema<AssumeRoleForPodIdentityResponse>;
+export const AssumeRoleForPodIdentityResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      subject: Subject,
+      audience: S.String,
+      podIdentityAssociation: PodIdentityAssociation,
+      assumedRoleUser: AssumedRoleUser,
+      credentials: Credentials,
+    }),
+  ).annotate({
+    identifier: "AssumeRoleForPodIdentityResponse",
+  }) as any as S.Schema<AssumeRoleForPodIdentityResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

@@ -117,27 +117,31 @@ export type PortNumber = number;
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
-export const ListTagsForResourceInput = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = S.Record(S.String, S.String.pipe(S.optional));
+export const TagMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceOutput = S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagMap) }),
+export const ListTagsForResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Tags: S.optional(TagMap) }),
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
@@ -145,7 +149,7 @@ export interface TagResourceInput {
   ResourceArn: string;
   Tags: { [key: string]: string | undefined };
 }
-export const TagResourceInput = S.suspend(() =>
+export const TagResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
@@ -163,16 +167,18 @@ export const TagResourceInput = S.suspend(() =>
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceInput {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceInput = S.suspend(() =>
+export const UntagResourceInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -190,14 +196,16 @@ export const UntagResourceInput = S.suspend(() =>
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface S3Location {
   BucketName: string;
   ObjectKey: string;
 }
-export const S3Location = S.suspend(() =>
+export const S3Location = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ BucketName: S.String, ObjectKey: S.String }),
 ).annotate({ identifier: "S3Location" }) as any as S.Schema<S3Location>;
 export interface StartSimulationInput {
@@ -210,7 +218,7 @@ export interface StartSimulationInput {
   Tags?: { [key: string]: string | undefined };
   SnapshotS3Location?: S3Location;
 }
-export const StartSimulationInput = S.suspend(() =>
+export const StartSimulationInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
     Name: S.String,
@@ -238,7 +246,7 @@ export interface StartSimulationOutput {
   ExecutionId?: string;
   CreationTime?: Date;
 }
-export const StartSimulationOutput = S.suspend(() =>
+export const StartSimulationOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     ExecutionId: S.optional(S.String),
@@ -250,40 +258,42 @@ export const StartSimulationOutput = S.suspend(() =>
 export interface DescribeSimulationInput {
   Simulation: string;
 }
-export const DescribeSimulationInput = S.suspend(() =>
-  S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/describesimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DescribeSimulationInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/describesimulation" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DescribeSimulationInput",
 }) as any as S.Schema<DescribeSimulationInput>;
 export interface CloudWatchLogsLogGroup {
   LogGroupArn?: string;
 }
-export const CloudWatchLogsLogGroup = S.suspend(() =>
-  S.Struct({ LogGroupArn: S.optional(S.String) }),
+export const CloudWatchLogsLogGroup = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ LogGroupArn: S.optional(S.String) }),
 ).annotate({
   identifier: "CloudWatchLogsLogGroup",
 }) as any as S.Schema<CloudWatchLogsLogGroup>;
 export interface LogDestination {
   CloudWatchLogsLogGroup?: CloudWatchLogsLogGroup;
 }
-export const LogDestination = S.suspend(() =>
+export const LogDestination = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ CloudWatchLogsLogGroup: S.optional(CloudWatchLogsLogGroup) }),
 ).annotate({ identifier: "LogDestination" }) as any as S.Schema<LogDestination>;
 export type LogDestinations = LogDestination[];
-export const LogDestinations = S.Array(LogDestination);
+export const LogDestinations =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(LogDestination);
 export interface LoggingConfiguration {
   Destinations?: LogDestination[];
 }
-export const LoggingConfiguration = S.suspend(() =>
+export const LoggingConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Destinations: S.optional(LogDestinations) }),
 ).annotate({
   identifier: "LoggingConfiguration",
@@ -292,16 +302,16 @@ export interface Domain {
   Name?: string;
   Lifecycle?: string;
 }
-export const Domain = S.suspend(() =>
+export const Domain = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.optional(S.String), Lifecycle: S.optional(S.String) }),
 ).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
 export type DomainList = Domain[];
-export const DomainList = S.Array(Domain);
+export const DomainList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Domain);
 export interface SimulationClock {
   Status?: string;
   TargetStatus?: string;
 }
-export const SimulationClock = S.suspend(() =>
+export const SimulationClock = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(S.String),
     TargetStatus: S.optional(S.String),
@@ -310,12 +320,13 @@ export const SimulationClock = S.suspend(() =>
   identifier: "SimulationClock",
 }) as any as S.Schema<SimulationClock>;
 export type SimulationClockList = SimulationClock[];
-export const SimulationClockList = S.Array(SimulationClock);
+export const SimulationClockList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SimulationClock);
 export interface LiveSimulationState {
   Domains?: Domain[];
   Clocks?: SimulationClock[];
 }
-export const LiveSimulationState = S.suspend(() =>
+export const LiveSimulationState = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Domains: S.optional(DomainList),
     Clocks: S.optional(SimulationClockList),
@@ -340,31 +351,32 @@ export interface DescribeSimulationOutput {
   SnapshotS3Location?: S3Location;
   StartError?: string;
 }
-export const DescribeSimulationOutput = S.suspend(() =>
-  S.Struct({
-    Name: S.optional(S.String),
-    ExecutionId: S.optional(S.String),
-    Arn: S.optional(S.String),
-    Description: S.optional(S.String),
-    RoleArn: S.optional(S.String),
-    CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    TargetStatus: S.optional(S.String),
-    SchemaS3Location: S.optional(S3Location),
-    SchemaError: S.optional(S.String),
-    LoggingConfiguration: S.optional(LoggingConfiguration),
-    LiveSimulationState: S.optional(LiveSimulationState),
-    MaximumDuration: S.optional(S.String),
-    SnapshotS3Location: S.optional(S3Location),
-    StartError: S.optional(S.String),
-  }),
+export const DescribeSimulationOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.optional(S.String),
+      ExecutionId: S.optional(S.String),
+      Arn: S.optional(S.String),
+      Description: S.optional(S.String),
+      RoleArn: S.optional(S.String),
+      CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      Status: S.optional(S.String),
+      TargetStatus: S.optional(S.String),
+      SchemaS3Location: S.optional(S3Location),
+      SchemaError: S.optional(S.String),
+      LoggingConfiguration: S.optional(LoggingConfiguration),
+      LiveSimulationState: S.optional(LiveSimulationState),
+      MaximumDuration: S.optional(S.String),
+      SnapshotS3Location: S.optional(S3Location),
+      StartError: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DescribeSimulationOutput",
 }) as any as S.Schema<DescribeSimulationOutput>;
 export interface StopSimulationInput {
   Simulation: string;
 }
-export const StopSimulationInput = S.suspend(() =>
+export const StopSimulationInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/stopsimulation" }),
@@ -379,13 +391,15 @@ export const StopSimulationInput = S.suspend(() =>
   identifier: "StopSimulationInput",
 }) as any as S.Schema<StopSimulationInput>;
 export interface StopSimulationOutput {}
-export const StopSimulationOutput = S.suspend(() => S.Struct({})).annotate({
+export const StopSimulationOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "StopSimulationOutput",
 }) as any as S.Schema<StopSimulationOutput>;
 export interface DeleteSimulationInput {
   Simulation: string;
 }
-export const DeleteSimulationInput = S.suspend(() =>
+export const DeleteSimulationInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/deletesimulation" }),
@@ -400,14 +414,16 @@ export const DeleteSimulationInput = S.suspend(() =>
   identifier: "DeleteSimulationInput",
 }) as any as S.Schema<DeleteSimulationInput>;
 export interface DeleteSimulationOutput {}
-export const DeleteSimulationOutput = S.suspend(() => S.Struct({})).annotate({
+export const DeleteSimulationOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteSimulationOutput",
 }) as any as S.Schema<DeleteSimulationOutput>;
 export interface ListSimulationsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListSimulationsInput = S.suspend(() =>
+export const ListSimulationsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
@@ -431,7 +447,7 @@ export interface SimulationMetadata {
   Status?: string;
   TargetStatus?: string;
 }
-export const SimulationMetadata = S.suspend(() =>
+export const SimulationMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Arn: S.optional(S.String),
@@ -443,12 +459,13 @@ export const SimulationMetadata = S.suspend(() =>
   identifier: "SimulationMetadata",
 }) as any as S.Schema<SimulationMetadata>;
 export type SimulationList = SimulationMetadata[];
-export const SimulationList = S.Array(SimulationMetadata);
+export const SimulationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SimulationMetadata);
 export interface ListSimulationsOutput {
   Simulations?: SimulationMetadata[];
   NextToken?: string;
 }
-export const ListSimulationsOutput = S.suspend(() =>
+export const ListSimulationsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Simulations: S.optional(SimulationList),
     NextToken: S.optional(S.String),
@@ -460,14 +477,14 @@ export interface S3Destination {
   BucketName: string;
   ObjectKeyPrefix?: string;
 }
-export const S3Destination = S.suspend(() =>
+export const S3Destination = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ BucketName: S.String, ObjectKeyPrefix: S.optional(S.String) }),
 ).annotate({ identifier: "S3Destination" }) as any as S.Schema<S3Destination>;
 export interface CreateSnapshotInput {
   Simulation: string;
   Destination: S3Destination;
 }
-export const CreateSnapshotInput = S.suspend(() =>
+export const CreateSnapshotInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String, Destination: S3Destination }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/createsnapshot" }),
@@ -482,7 +499,9 @@ export const CreateSnapshotInput = S.suspend(() =>
   identifier: "CreateSnapshotInput",
 }) as any as S.Schema<CreateSnapshotInput>;
 export interface CreateSnapshotOutput {}
-export const CreateSnapshotOutput = S.suspend(() => S.Struct({})).annotate({
+export const CreateSnapshotOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "CreateSnapshotOutput",
 }) as any as S.Schema<CreateSnapshotOutput>;
 export interface DeleteAppInput {
@@ -490,7 +509,7 @@ export interface DeleteAppInput {
   Domain: string;
   App: string;
 }
-export const DeleteAppInput = S.suspend(() =>
+export const DeleteAppInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.String.pipe(T.HttpQuery("domain")),
@@ -507,7 +526,9 @@ export const DeleteAppInput = S.suspend(() =>
   ),
 ).annotate({ identifier: "DeleteAppInput" }) as any as S.Schema<DeleteAppInput>;
 export interface DeleteAppOutput {}
-export const DeleteAppOutput = S.suspend(() => S.Struct({})).annotate({
+export const DeleteAppOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteAppOutput",
 }) as any as S.Schema<DeleteAppOutput>;
 export interface DescribeAppInput {
@@ -515,7 +536,7 @@ export interface DescribeAppInput {
   Domain: string;
   App: string;
 }
-export const DescribeAppInput = S.suspend(() =>
+export const DescribeAppInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.String.pipe(T.HttpQuery("domain")),
@@ -534,11 +555,11 @@ export const DescribeAppInput = S.suspend(() =>
   identifier: "DescribeAppInput",
 }) as any as S.Schema<DescribeAppInput>;
 export type LaunchCommandList = string[];
-export const LaunchCommandList = S.Array(S.String);
+export const LaunchCommandList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface LaunchOverrides {
   LaunchCommands?: string[];
 }
-export const LaunchOverrides = S.suspend(() =>
+export const LaunchOverrides = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ LaunchCommands: S.optional(LaunchCommandList) }),
 ).annotate({
   identifier: "LaunchOverrides",
@@ -547,22 +568,26 @@ export interface SimulationAppPortMapping {
   Declared?: number;
   Actual?: number;
 }
-export const SimulationAppPortMapping = S.suspend(() =>
-  S.Struct({ Declared: S.optional(S.Number), Actual: S.optional(S.Number) }),
+export const SimulationAppPortMapping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Declared: S.optional(S.Number), Actual: S.optional(S.Number) }),
 ).annotate({
   identifier: "SimulationAppPortMapping",
 }) as any as S.Schema<SimulationAppPortMapping>;
 export type AppPortMappings = SimulationAppPortMapping[];
-export const AppPortMappings = S.Array(SimulationAppPortMapping);
+export const AppPortMappings = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  SimulationAppPortMapping,
+);
 export interface SimulationAppEndpointInfo {
   Address?: string;
   IngressPortMappings?: SimulationAppPortMapping[];
 }
-export const SimulationAppEndpointInfo = S.suspend(() =>
-  S.Struct({
-    Address: S.optional(S.String),
-    IngressPortMappings: S.optional(AppPortMappings),
-  }),
+export const SimulationAppEndpointInfo = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Address: S.optional(S.String),
+      IngressPortMappings: S.optional(AppPortMappings),
+    }),
 ).annotate({
   identifier: "SimulationAppEndpointInfo",
 }) as any as S.Schema<SimulationAppEndpointInfo>;
@@ -576,7 +601,7 @@ export interface DescribeAppOutput {
   Description?: string;
   EndpointInfo?: SimulationAppEndpointInfo;
 }
-export const DescribeAppOutput = S.suspend(() =>
+export const DescribeAppOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Simulation: S.optional(S.String),
@@ -596,7 +621,7 @@ export interface ListAppsInput {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListAppsInput = S.suspend(() =>
+export const ListAppsInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.optional(S.String).pipe(T.HttpQuery("domain")),
@@ -620,7 +645,7 @@ export interface SimulationAppMetadata {
   Status?: string;
   TargetStatus?: string;
 }
-export const SimulationAppMetadata = S.suspend(() =>
+export const SimulationAppMetadata = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Simulation: S.optional(S.String),
@@ -632,12 +657,14 @@ export const SimulationAppMetadata = S.suspend(() =>
   identifier: "SimulationAppMetadata",
 }) as any as S.Schema<SimulationAppMetadata>;
 export type SimulationAppList = SimulationAppMetadata[];
-export const SimulationAppList = S.Array(SimulationAppMetadata);
+export const SimulationAppList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  SimulationAppMetadata,
+);
 export interface ListAppsOutput {
   Apps?: SimulationAppMetadata[];
   NextToken?: string;
 }
-export const ListAppsOutput = S.suspend(() =>
+export const ListAppsOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Apps: S.optional(SimulationAppList),
     NextToken: S.optional(S.String),
@@ -651,7 +678,7 @@ export interface StartAppInput {
   Description?: string;
   LaunchOverrides?: LaunchOverrides;
 }
-export const StartAppInput = S.suspend(() =>
+export const StartAppInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(SensitiveString).pipe(T.IdempotencyToken()),
     Simulation: S.String,
@@ -675,7 +702,7 @@ export interface StartAppOutput {
   Domain?: string;
   Simulation?: string;
 }
-export const StartAppOutput = S.suspend(() =>
+export const StartAppOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.optional(S.String),
     Domain: S.optional(S.String),
@@ -685,7 +712,7 @@ export const StartAppOutput = S.suspend(() =>
 export interface StartClockInput {
   Simulation: string;
 }
-export const StartClockInput = S.suspend(() =>
+export const StartClockInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/startclock" }),
@@ -700,7 +727,9 @@ export const StartClockInput = S.suspend(() =>
   identifier: "StartClockInput",
 }) as any as S.Schema<StartClockInput>;
 export interface StartClockOutput {}
-export const StartClockOutput = S.suspend(() => S.Struct({})).annotate({
+export const StartClockOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "StartClockOutput",
 }) as any as S.Schema<StartClockOutput>;
 export interface StopAppInput {
@@ -708,7 +737,7 @@ export interface StopAppInput {
   Domain: string;
   App: string;
 }
-export const StopAppInput = S.suspend(() =>
+export const StopAppInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String, Domain: S.String, App: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/stopapp" }),
@@ -721,13 +750,13 @@ export const StopAppInput = S.suspend(() =>
   ),
 ).annotate({ identifier: "StopAppInput" }) as any as S.Schema<StopAppInput>;
 export interface StopAppOutput {}
-export const StopAppOutput = S.suspend(() => S.Struct({})).annotate({
-  identifier: "StopAppOutput",
-}) as any as S.Schema<StopAppOutput>;
+export const StopAppOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({ identifier: "StopAppOutput" }) as any as S.Schema<StopAppOutput>;
 export interface StopClockInput {
   Simulation: string;
 }
-export const StopClockInput = S.suspend(() =>
+export const StopClockInput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/stopclock" }),
@@ -740,7 +769,9 @@ export const StopClockInput = S.suspend(() =>
   ),
 ).annotate({ identifier: "StopClockInput" }) as any as S.Schema<StopClockInput>;
 export interface StopClockOutput {}
-export const StopClockOutput = S.suspend(() => S.Struct({})).annotate({
+export const StopClockOutput = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "StopClockOutput",
 }) as any as S.Schema<StopClockOutput>;
 

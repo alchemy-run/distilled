@@ -111,65 +111,67 @@ export interface CustomRoutingEndpointConfiguration {
   EndpointId?: string;
   AttachmentArn?: string;
 }
-export const CustomRoutingEndpointConfiguration = S.suspend(() =>
-  S.Struct({
-    EndpointId: S.optional(S.String),
-    AttachmentArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomRoutingEndpointConfiguration",
-}) as any as S.Schema<CustomRoutingEndpointConfiguration>;
+export const CustomRoutingEndpointConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointId: S.optional(S.String),
+      AttachmentArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CustomRoutingEndpointConfiguration",
+  }) as any as S.Schema<CustomRoutingEndpointConfiguration>;
 export type CustomRoutingEndpointConfigurations =
   CustomRoutingEndpointConfiguration[];
-export const CustomRoutingEndpointConfigurations = S.Array(
-  CustomRoutingEndpointConfiguration,
-);
+export const CustomRoutingEndpointConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CustomRoutingEndpointConfiguration);
 export interface AddCustomRoutingEndpointsRequest {
   EndpointConfigurations: CustomRoutingEndpointConfiguration[];
   EndpointGroupArn: string;
 }
-export const AddCustomRoutingEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    EndpointConfigurations: CustomRoutingEndpointConfigurations,
-    EndpointGroupArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AddCustomRoutingEndpointsRequest",
-}) as any as S.Schema<AddCustomRoutingEndpointsRequest>;
+export const AddCustomRoutingEndpointsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointConfigurations: CustomRoutingEndpointConfigurations,
+      EndpointGroupArn: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AddCustomRoutingEndpointsRequest",
+  }) as any as S.Schema<AddCustomRoutingEndpointsRequest>;
 export interface CustomRoutingEndpointDescription {
   EndpointId?: string;
 }
-export const CustomRoutingEndpointDescription = S.suspend(() =>
-  S.Struct({ EndpointId: S.optional(S.String) }),
-).annotate({
-  identifier: "CustomRoutingEndpointDescription",
-}) as any as S.Schema<CustomRoutingEndpointDescription>;
+export const CustomRoutingEndpointDescription =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointId: S.optional(S.String) }),
+  ).annotate({
+    identifier: "CustomRoutingEndpointDescription",
+  }) as any as S.Schema<CustomRoutingEndpointDescription>;
 export type CustomRoutingEndpointDescriptions =
   CustomRoutingEndpointDescription[];
-export const CustomRoutingEndpointDescriptions = S.Array(
-  CustomRoutingEndpointDescription,
-);
+export const CustomRoutingEndpointDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CustomRoutingEndpointDescription);
 export interface AddCustomRoutingEndpointsResponse {
   EndpointDescriptions?: CustomRoutingEndpointDescription[];
   EndpointGroupArn?: string;
 }
-export const AddCustomRoutingEndpointsResponse = S.suspend(() =>
-  S.Struct({
-    EndpointDescriptions: S.optional(CustomRoutingEndpointDescriptions),
-    EndpointGroupArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "AddCustomRoutingEndpointsResponse",
-}) as any as S.Schema<AddCustomRoutingEndpointsResponse>;
+export const AddCustomRoutingEndpointsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointDescriptions: S.optional(CustomRoutingEndpointDescriptions),
+      EndpointGroupArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "AddCustomRoutingEndpointsResponse",
+  }) as any as S.Schema<AddCustomRoutingEndpointsResponse>;
 export interface EndpointConfiguration {
   EndpointId?: string;
   Weight?: number;
   ClientIPPreservationEnabled?: boolean;
   AttachmentArn?: string;
 }
-export const EndpointConfiguration = S.suspend(() =>
+export const EndpointConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointId: S.optional(S.String),
     Weight: S.optional(S.Number),
@@ -180,12 +182,14 @@ export const EndpointConfiguration = S.suspend(() =>
   identifier: "EndpointConfiguration",
 }) as any as S.Schema<EndpointConfiguration>;
 export type EndpointConfigurations = EndpointConfiguration[];
-export const EndpointConfigurations = S.Array(EndpointConfiguration);
+export const EndpointConfigurations = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  EndpointConfiguration,
+);
 export interface AddEndpointsRequest {
   EndpointConfigurations: EndpointConfiguration[];
   EndpointGroupArn: string;
 }
-export const AddEndpointsRequest = S.suspend(() =>
+export const AddEndpointsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointConfigurations: EndpointConfigurations,
     EndpointGroupArn: S.String,
@@ -196,7 +200,7 @@ export const AddEndpointsRequest = S.suspend(() =>
   identifier: "AddEndpointsRequest",
 }) as any as S.Schema<AddEndpointsRequest>;
 export type HealthState = "INITIAL" | "HEALTHY" | "UNHEALTHY" | (string & {});
-export const HealthState = S.String;
+export const HealthState = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EndpointDescription {
   EndpointId?: string;
   Weight?: number;
@@ -204,7 +208,7 @@ export interface EndpointDescription {
   HealthReason?: string;
   ClientIPPreservationEnabled?: boolean;
 }
-export const EndpointDescription = S.suspend(() =>
+export const EndpointDescription = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointId: S.optional(S.String),
     Weight: S.optional(S.Number),
@@ -216,12 +220,13 @@ export const EndpointDescription = S.suspend(() =>
   identifier: "EndpointDescription",
 }) as any as S.Schema<EndpointDescription>;
 export type EndpointDescriptions = EndpointDescription[];
-export const EndpointDescriptions = S.Array(EndpointDescription);
+export const EndpointDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(EndpointDescription);
 export interface AddEndpointsResponse {
   EndpointDescriptions?: EndpointDescription[];
   EndpointGroupArn?: string;
 }
-export const AddEndpointsResponse = S.suspend(() =>
+export const AddEndpointsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointDescriptions: S.optional(EndpointDescriptions),
     EndpointGroupArn: S.optional(S.String),
@@ -232,10 +237,11 @@ export const AddEndpointsResponse = S.suspend(() =>
 export interface AdvertiseByoipCidrRequest {
   Cidr: string;
 }
-export const AdvertiseByoipCidrRequest = S.suspend(() =>
-  S.Struct({ Cidr: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const AdvertiseByoipCidrRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Cidr: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "AdvertiseByoipCidrRequest",
 }) as any as S.Schema<AdvertiseByoipCidrRequest>;
@@ -252,25 +258,26 @@ export type ByoipCidrState =
   | "FAILED_WITHDRAW"
   | "FAILED_DEPROVISION"
   | (string & {});
-export const ByoipCidrState = S.String;
+export const ByoipCidrState = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ByoipCidrEvent {
   Message?: string;
   Timestamp?: Date;
 }
-export const ByoipCidrEvent = S.suspend(() =>
+export const ByoipCidrEvent = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Message: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ByoipCidrEvent" }) as any as S.Schema<ByoipCidrEvent>;
 export type ByoipCidrEvents = ByoipCidrEvent[];
-export const ByoipCidrEvents = S.Array(ByoipCidrEvent);
+export const ByoipCidrEvents =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ByoipCidrEvent);
 export interface ByoipCidr {
   Cidr?: string;
   State?: ByoipCidrState;
   Events?: ByoipCidrEvent[];
 }
-export const ByoipCidr = S.suspend(() =>
+export const ByoipCidr = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Cidr: S.optional(S.String),
     State: S.optional(ByoipCidrState),
@@ -280,15 +287,17 @@ export const ByoipCidr = S.suspend(() =>
 export interface AdvertiseByoipCidrResponse {
   ByoipCidr?: ByoipCidr;
 }
-export const AdvertiseByoipCidrResponse = S.suspend(() =>
-  S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
+export const AdvertiseByoipCidrResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
 ).annotate({
   identifier: "AdvertiseByoipCidrResponse",
 }) as any as S.Schema<AdvertiseByoipCidrResponse>;
 export type DestinationAddresses = string[];
-export const DestinationAddresses = S.Array(S.String);
+export const DestinationAddresses = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type DestinationPorts = number[];
-export const DestinationPorts = S.Array(S.Number);
+export const DestinationPorts = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.Number);
 export interface AllowCustomRoutingTrafficRequest {
   EndpointGroupArn: string;
   EndpointId: string;
@@ -296,38 +305,38 @@ export interface AllowCustomRoutingTrafficRequest {
   DestinationPorts?: number[];
   AllowAllTrafficToEndpoint?: boolean;
 }
-export const AllowCustomRoutingTrafficRequest = S.suspend(() =>
-  S.Struct({
-    EndpointGroupArn: S.String,
-    EndpointId: S.String,
-    DestinationAddresses: S.optional(DestinationAddresses),
-    DestinationPorts: S.optional(DestinationPorts),
-    AllowAllTrafficToEndpoint: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "AllowCustomRoutingTrafficRequest",
-}) as any as S.Schema<AllowCustomRoutingTrafficRequest>;
+export const AllowCustomRoutingTrafficRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointGroupArn: S.String,
+      EndpointId: S.String,
+      DestinationAddresses: S.optional(DestinationAddresses),
+      DestinationPorts: S.optional(DestinationPorts),
+      AllowAllTrafficToEndpoint: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "AllowCustomRoutingTrafficRequest",
+  }) as any as S.Schema<AllowCustomRoutingTrafficRequest>;
 export interface AllowCustomRoutingTrafficResponse {}
-export const AllowCustomRoutingTrafficResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "AllowCustomRoutingTrafficResponse",
-}) as any as S.Schema<AllowCustomRoutingTrafficResponse>;
+export const AllowCustomRoutingTrafficResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "AllowCustomRoutingTrafficResponse",
+  }) as any as S.Schema<AllowCustomRoutingTrafficResponse>;
 export type IpAddressType = "IPV4" | "DUAL_STACK" | (string & {});
-export const IpAddressType = S.String;
+export const IpAddressType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type IpAddresses = string[];
-export const IpAddresses = S.Array(S.String);
+export const IpAddresses = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Tag {
   Key: string;
   Value: string;
 }
-export const Tag = S.suspend(() =>
+export const Tag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.String, Value: S.String }),
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type Tags = Tag[];
-export const Tags = S.Array(Tag);
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.Array(Tag);
 export interface CreateAcceleratorRequest {
   Name: string;
   IpAddressType?: IpAddressType;
@@ -336,28 +345,29 @@ export interface CreateAcceleratorRequest {
   IdempotencyToken: string;
   Tags?: Tag[];
 }
-export const CreateAcceleratorRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    IpAddressType: S.optional(IpAddressType),
-    IpAddresses: S.optional(IpAddresses),
-    Enabled: S.optional(S.Boolean),
-    IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const CreateAcceleratorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Name: S.String,
+      IpAddressType: S.optional(IpAddressType),
+      IpAddresses: S.optional(IpAddresses),
+      Enabled: S.optional(S.Boolean),
+      IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "CreateAcceleratorRequest",
 }) as any as S.Schema<CreateAcceleratorRequest>;
 export type IpAddressFamily = "IPv4" | "IPv6" | (string & {});
-export const IpAddressFamily = S.String;
+export const IpAddressFamily = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface IpSet {
   IpFamily?: string;
   IpAddresses?: string[];
   IpAddressFamily?: IpAddressFamily;
 }
-export const IpSet = S.suspend(() =>
+export const IpSet = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     IpFamily: S.optional(S.String),
     IpAddresses: S.optional(IpAddresses),
@@ -365,14 +375,14 @@ export const IpSet = S.suspend(() =>
   }),
 ).annotate({ identifier: "IpSet" }) as any as S.Schema<IpSet>;
 export type IpSets = IpSet[];
-export const IpSets = S.Array(IpSet);
+export const IpSets = /*@__PURE__*/ /*#__PURE__*/ S.Array(IpSet);
 export type AcceleratorStatus = "DEPLOYED" | "IN_PROGRESS" | (string & {});
-export const AcceleratorStatus = S.String;
+export const AcceleratorStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface AcceleratorEvent {
   Message?: string;
   Timestamp?: Date;
 }
-export const AcceleratorEvent = S.suspend(() =>
+export const AcceleratorEvent = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Message: S.optional(S.String),
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -381,7 +391,8 @@ export const AcceleratorEvent = S.suspend(() =>
   identifier: "AcceleratorEvent",
 }) as any as S.Schema<AcceleratorEvent>;
 export type AcceleratorEvents = AcceleratorEvent[];
-export const AcceleratorEvents = S.Array(AcceleratorEvent);
+export const AcceleratorEvents =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AcceleratorEvent);
 export interface Accelerator {
   AcceleratorArn?: string;
   Name?: string;
@@ -395,7 +406,7 @@ export interface Accelerator {
   DualStackDnsName?: string;
   Events?: AcceleratorEvent[];
 }
-export const Accelerator = S.suspend(() =>
+export const Accelerator = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.optional(S.String),
     Name: S.optional(S.String),
@@ -415,19 +426,19 @@ export const Accelerator = S.suspend(() =>
 export interface CreateAcceleratorResponse {
   Accelerator?: Accelerator;
 }
-export const CreateAcceleratorResponse = S.suspend(() =>
-  S.Struct({ Accelerator: S.optional(Accelerator) }),
+export const CreateAcceleratorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Accelerator: S.optional(Accelerator) }),
 ).annotate({
   identifier: "CreateAcceleratorResponse",
 }) as any as S.Schema<CreateAcceleratorResponse>;
 export type Principals = string[];
-export const Principals = S.Array(S.String);
+export const Principals = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface Resource {
   EndpointId?: string;
   Cidr?: string;
   Region?: string;
 }
-export const Resource = S.suspend(() =>
+export const Resource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointId: S.optional(S.String),
     Cidr: S.optional(S.String),
@@ -435,7 +446,7 @@ export const Resource = S.suspend(() =>
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type Resources = Resource[];
-export const Resources = S.Array(Resource);
+export const Resources = /*@__PURE__*/ /*#__PURE__*/ S.Array(Resource);
 export interface CreateCrossAccountAttachmentRequest {
   Name: string;
   Principals?: string[];
@@ -443,19 +454,20 @@ export interface CreateCrossAccountAttachmentRequest {
   IdempotencyToken: string;
   Tags?: Tag[];
 }
-export const CreateCrossAccountAttachmentRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Principals: S.optional(Principals),
-    Resources: S.optional(Resources),
-    IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCrossAccountAttachmentRequest",
-}) as any as S.Schema<CreateCrossAccountAttachmentRequest>;
+export const CreateCrossAccountAttachmentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.String,
+      Principals: S.optional(Principals),
+      Resources: S.optional(Resources),
+      IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateCrossAccountAttachmentRequest",
+  }) as any as S.Schema<CreateCrossAccountAttachmentRequest>;
 export interface Attachment {
   AttachmentArn?: string;
   Name?: string;
@@ -464,7 +476,7 @@ export interface Attachment {
   LastModifiedTime?: Date;
   CreatedTime?: Date;
 }
-export const Attachment = S.suspend(() =>
+export const Attachment = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AttachmentArn: S.optional(S.String),
     Name: S.optional(S.String),
@@ -479,11 +491,12 @@ export const Attachment = S.suspend(() =>
 export interface CreateCrossAccountAttachmentResponse {
   CrossAccountAttachment?: Attachment;
 }
-export const CreateCrossAccountAttachmentResponse = S.suspend(() =>
-  S.Struct({ CrossAccountAttachment: S.optional(Attachment) }),
-).annotate({
-  identifier: "CreateCrossAccountAttachmentResponse",
-}) as any as S.Schema<CreateCrossAccountAttachmentResponse>;
+export const CreateCrossAccountAttachmentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CrossAccountAttachment: S.optional(Attachment) }),
+  ).annotate({
+    identifier: "CreateCrossAccountAttachmentResponse",
+  }) as any as S.Schema<CreateCrossAccountAttachmentResponse>;
 export interface CreateCustomRoutingAcceleratorRequest {
   Name: string;
   IpAddressType?: IpAddressType;
@@ -492,25 +505,27 @@ export interface CreateCustomRoutingAcceleratorRequest {
   IdempotencyToken: string;
   Tags?: Tag[];
 }
-export const CreateCustomRoutingAcceleratorRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    IpAddressType: S.optional(IpAddressType),
-    IpAddresses: S.optional(IpAddresses),
-    Enabled: S.optional(S.Boolean),
-    IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
-    Tags: S.optional(Tags),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCustomRoutingAcceleratorRequest",
-}) as any as S.Schema<CreateCustomRoutingAcceleratorRequest>;
+export const CreateCustomRoutingAcceleratorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.String,
+      IpAddressType: S.optional(IpAddressType),
+      IpAddresses: S.optional(IpAddresses),
+      Enabled: S.optional(S.Boolean),
+      IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+      Tags: S.optional(Tags),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateCustomRoutingAcceleratorRequest",
+  }) as any as S.Schema<CreateCustomRoutingAcceleratorRequest>;
 export type CustomRoutingAcceleratorStatus =
   | "DEPLOYED"
   | "IN_PROGRESS"
   | (string & {});
-export const CustomRoutingAcceleratorStatus = S.String;
+export const CustomRoutingAcceleratorStatus =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CustomRoutingAccelerator {
   AcceleratorArn?: string;
   Name?: string;
@@ -522,149 +537,157 @@ export interface CustomRoutingAccelerator {
   CreatedTime?: Date;
   LastModifiedTime?: Date;
 }
-export const CustomRoutingAccelerator = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.optional(S.String),
-    Name: S.optional(S.String),
-    IpAddressType: S.optional(IpAddressType),
-    Enabled: S.optional(S.Boolean),
-    IpSets: S.optional(IpSets),
-    DnsName: S.optional(S.String),
-    Status: S.optional(CustomRoutingAcceleratorStatus),
-    CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-  }),
+export const CustomRoutingAccelerator = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AcceleratorArn: S.optional(S.String),
+      Name: S.optional(S.String),
+      IpAddressType: S.optional(IpAddressType),
+      Enabled: S.optional(S.Boolean),
+      IpSets: S.optional(IpSets),
+      DnsName: S.optional(S.String),
+      Status: S.optional(CustomRoutingAcceleratorStatus),
+      CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      LastModifiedTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
 ).annotate({
   identifier: "CustomRoutingAccelerator",
 }) as any as S.Schema<CustomRoutingAccelerator>;
 export interface CreateCustomRoutingAcceleratorResponse {
   Accelerator?: CustomRoutingAccelerator;
 }
-export const CreateCustomRoutingAcceleratorResponse = S.suspend(() =>
-  S.Struct({ Accelerator: S.optional(CustomRoutingAccelerator) }),
-).annotate({
-  identifier: "CreateCustomRoutingAcceleratorResponse",
-}) as any as S.Schema<CreateCustomRoutingAcceleratorResponse>;
+export const CreateCustomRoutingAcceleratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Accelerator: S.optional(CustomRoutingAccelerator) }),
+  ).annotate({
+    identifier: "CreateCustomRoutingAcceleratorResponse",
+  }) as any as S.Schema<CreateCustomRoutingAcceleratorResponse>;
 export type CustomRoutingProtocol = "TCP" | "UDP" | (string & {});
-export const CustomRoutingProtocol = S.String;
+export const CustomRoutingProtocol = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type CustomRoutingProtocols = CustomRoutingProtocol[];
-export const CustomRoutingProtocols = S.Array(CustomRoutingProtocol);
+export const CustomRoutingProtocols = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  CustomRoutingProtocol,
+);
 export interface CustomRoutingDestinationConfiguration {
   FromPort: number;
   ToPort: number;
   Protocols: CustomRoutingProtocol[];
 }
-export const CustomRoutingDestinationConfiguration = S.suspend(() =>
-  S.Struct({
-    FromPort: S.Number,
-    ToPort: S.Number,
-    Protocols: CustomRoutingProtocols,
-  }),
-).annotate({
-  identifier: "CustomRoutingDestinationConfiguration",
-}) as any as S.Schema<CustomRoutingDestinationConfiguration>;
+export const CustomRoutingDestinationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FromPort: S.Number,
+      ToPort: S.Number,
+      Protocols: CustomRoutingProtocols,
+    }),
+  ).annotate({
+    identifier: "CustomRoutingDestinationConfiguration",
+  }) as any as S.Schema<CustomRoutingDestinationConfiguration>;
 export type CustomRoutingDestinationConfigurations =
   CustomRoutingDestinationConfiguration[];
-export const CustomRoutingDestinationConfigurations = S.Array(
-  CustomRoutingDestinationConfiguration,
-);
+export const CustomRoutingDestinationConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CustomRoutingDestinationConfiguration);
 export interface CreateCustomRoutingEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
   DestinationConfigurations: CustomRoutingDestinationConfiguration[];
   IdempotencyToken: string;
 }
-export const CreateCustomRoutingEndpointGroupRequest = S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.String,
-    EndpointGroupRegion: S.String,
-    DestinationConfigurations: CustomRoutingDestinationConfigurations,
-    IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCustomRoutingEndpointGroupRequest",
-}) as any as S.Schema<CreateCustomRoutingEndpointGroupRequest>;
+export const CreateCustomRoutingEndpointGroupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ListenerArn: S.String,
+      EndpointGroupRegion: S.String,
+      DestinationConfigurations: CustomRoutingDestinationConfigurations,
+      IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateCustomRoutingEndpointGroupRequest",
+  }) as any as S.Schema<CreateCustomRoutingEndpointGroupRequest>;
 export type Protocol = "TCP" | "UDP" | (string & {});
-export const Protocol = S.String;
+export const Protocol = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type Protocols = Protocol[];
-export const Protocols = S.Array(Protocol);
+export const Protocols = /*@__PURE__*/ /*#__PURE__*/ S.Array(Protocol);
 export interface CustomRoutingDestinationDescription {
   FromPort?: number;
   ToPort?: number;
   Protocols?: Protocol[];
 }
-export const CustomRoutingDestinationDescription = S.suspend(() =>
-  S.Struct({
-    FromPort: S.optional(S.Number),
-    ToPort: S.optional(S.Number),
-    Protocols: S.optional(Protocols),
-  }),
-).annotate({
-  identifier: "CustomRoutingDestinationDescription",
-}) as any as S.Schema<CustomRoutingDestinationDescription>;
+export const CustomRoutingDestinationDescription =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FromPort: S.optional(S.Number),
+      ToPort: S.optional(S.Number),
+      Protocols: S.optional(Protocols),
+    }),
+  ).annotate({
+    identifier: "CustomRoutingDestinationDescription",
+  }) as any as S.Schema<CustomRoutingDestinationDescription>;
 export type CustomRoutingDestinationDescriptions =
   CustomRoutingDestinationDescription[];
-export const CustomRoutingDestinationDescriptions = S.Array(
-  CustomRoutingDestinationDescription,
-);
+export const CustomRoutingDestinationDescriptions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CustomRoutingDestinationDescription);
 export interface CustomRoutingEndpointGroup {
   EndpointGroupArn?: string;
   EndpointGroupRegion?: string;
   DestinationDescriptions?: CustomRoutingDestinationDescription[];
   EndpointDescriptions?: CustomRoutingEndpointDescription[];
 }
-export const CustomRoutingEndpointGroup = S.suspend(() =>
-  S.Struct({
-    EndpointGroupArn: S.optional(S.String),
-    EndpointGroupRegion: S.optional(S.String),
-    DestinationDescriptions: S.optional(CustomRoutingDestinationDescriptions),
-    EndpointDescriptions: S.optional(CustomRoutingEndpointDescriptions),
-  }),
+export const CustomRoutingEndpointGroup = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      EndpointGroupArn: S.optional(S.String),
+      EndpointGroupRegion: S.optional(S.String),
+      DestinationDescriptions: S.optional(CustomRoutingDestinationDescriptions),
+      EndpointDescriptions: S.optional(CustomRoutingEndpointDescriptions),
+    }),
 ).annotate({
   identifier: "CustomRoutingEndpointGroup",
 }) as any as S.Schema<CustomRoutingEndpointGroup>;
 export interface CreateCustomRoutingEndpointGroupResponse {
   EndpointGroup?: CustomRoutingEndpointGroup;
 }
-export const CreateCustomRoutingEndpointGroupResponse = S.suspend(() =>
-  S.Struct({ EndpointGroup: S.optional(CustomRoutingEndpointGroup) }),
-).annotate({
-  identifier: "CreateCustomRoutingEndpointGroupResponse",
-}) as any as S.Schema<CreateCustomRoutingEndpointGroupResponse>;
+export const CreateCustomRoutingEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroup: S.optional(CustomRoutingEndpointGroup) }),
+  ).annotate({
+    identifier: "CreateCustomRoutingEndpointGroupResponse",
+  }) as any as S.Schema<CreateCustomRoutingEndpointGroupResponse>;
 export interface PortRange {
   FromPort?: number;
   ToPort?: number;
 }
-export const PortRange = S.suspend(() =>
+export const PortRange = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ FromPort: S.optional(S.Number), ToPort: S.optional(S.Number) }),
 ).annotate({ identifier: "PortRange" }) as any as S.Schema<PortRange>;
 export type PortRanges = PortRange[];
-export const PortRanges = S.Array(PortRange);
+export const PortRanges = /*@__PURE__*/ /*#__PURE__*/ S.Array(PortRange);
 export interface CreateCustomRoutingListenerRequest {
   AcceleratorArn: string;
   PortRanges: PortRange[];
   IdempotencyToken: string;
 }
-export const CreateCustomRoutingListenerRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    PortRanges: PortRanges,
-    IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "CreateCustomRoutingListenerRequest",
-}) as any as S.Schema<CreateCustomRoutingListenerRequest>;
+export const CreateCustomRoutingListenerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      PortRanges: PortRanges,
+      IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "CreateCustomRoutingListenerRequest",
+  }) as any as S.Schema<CreateCustomRoutingListenerRequest>;
 export interface CustomRoutingListener {
   ListenerArn?: string;
   PortRanges?: PortRange[];
 }
-export const CustomRoutingListener = S.suspend(() =>
+export const CustomRoutingListener = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ListenerArn: S.optional(S.String),
     PortRanges: S.optional(PortRanges),
@@ -675,25 +698,26 @@ export const CustomRoutingListener = S.suspend(() =>
 export interface CreateCustomRoutingListenerResponse {
   Listener?: CustomRoutingListener;
 }
-export const CreateCustomRoutingListenerResponse = S.suspend(() =>
-  S.Struct({ Listener: S.optional(CustomRoutingListener) }),
-).annotate({
-  identifier: "CreateCustomRoutingListenerResponse",
-}) as any as S.Schema<CreateCustomRoutingListenerResponse>;
+export const CreateCustomRoutingListenerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Listener: S.optional(CustomRoutingListener) }),
+  ).annotate({
+    identifier: "CreateCustomRoutingListenerResponse",
+  }) as any as S.Schema<CreateCustomRoutingListenerResponse>;
 export type HealthCheckProtocol = "TCP" | "HTTP" | "HTTPS" | (string & {});
-export const HealthCheckProtocol = S.String;
+export const HealthCheckProtocol = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PortOverride {
   ListenerPort?: number;
   EndpointPort?: number;
 }
-export const PortOverride = S.suspend(() =>
+export const PortOverride = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ListenerPort: S.optional(S.Number),
     EndpointPort: S.optional(S.Number),
   }),
 ).annotate({ identifier: "PortOverride" }) as any as S.Schema<PortOverride>;
 export type PortOverrides = PortOverride[];
-export const PortOverrides = S.Array(PortOverride);
+export const PortOverrides = /*@__PURE__*/ /*#__PURE__*/ S.Array(PortOverride);
 export interface CreateEndpointGroupRequest {
   ListenerArn: string;
   EndpointGroupRegion: string;
@@ -707,22 +731,23 @@ export interface CreateEndpointGroupRequest {
   IdempotencyToken: string;
   PortOverrides?: PortOverride[];
 }
-export const CreateEndpointGroupRequest = S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.String,
-    EndpointGroupRegion: S.String,
-    EndpointConfigurations: S.optional(EndpointConfigurations),
-    TrafficDialPercentage: S.optional(S.Number),
-    HealthCheckPort: S.optional(S.Number),
-    HealthCheckProtocol: S.optional(HealthCheckProtocol),
-    HealthCheckPath: S.optional(S.String),
-    HealthCheckIntervalSeconds: S.optional(S.Number),
-    ThresholdCount: S.optional(S.Number),
-    IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
-    PortOverrides: S.optional(PortOverrides),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const CreateEndpointGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ListenerArn: S.String,
+      EndpointGroupRegion: S.String,
+      EndpointConfigurations: S.optional(EndpointConfigurations),
+      TrafficDialPercentage: S.optional(S.Number),
+      HealthCheckPort: S.optional(S.Number),
+      HealthCheckProtocol: S.optional(HealthCheckProtocol),
+      HealthCheckPath: S.optional(S.String),
+      HealthCheckIntervalSeconds: S.optional(S.Number),
+      ThresholdCount: S.optional(S.Number),
+      IdempotencyToken: S.String.pipe(T.IdempotencyToken()),
+      PortOverrides: S.optional(PortOverrides),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "CreateEndpointGroupRequest",
 }) as any as S.Schema<CreateEndpointGroupRequest>;
@@ -738,7 +763,7 @@ export interface EndpointGroup {
   ThresholdCount?: number;
   PortOverrides?: PortOverride[];
 }
-export const EndpointGroup = S.suspend(() =>
+export const EndpointGroup = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointGroupArn: S.optional(S.String),
     EndpointGroupRegion: S.optional(S.String),
@@ -755,13 +780,14 @@ export const EndpointGroup = S.suspend(() =>
 export interface CreateEndpointGroupResponse {
   EndpointGroup?: EndpointGroup;
 }
-export const CreateEndpointGroupResponse = S.suspend(() =>
-  S.Struct({ EndpointGroup: S.optional(EndpointGroup) }),
-).annotate({
-  identifier: "CreateEndpointGroupResponse",
-}) as any as S.Schema<CreateEndpointGroupResponse>;
+export const CreateEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroup: S.optional(EndpointGroup) }),
+  ).annotate({
+    identifier: "CreateEndpointGroupResponse",
+  }) as any as S.Schema<CreateEndpointGroupResponse>;
 export type ClientAffinity = "NONE" | "SOURCE_IP" | (string & {});
-export const ClientAffinity = S.String;
+export const ClientAffinity = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateListenerRequest {
   AcceleratorArn: string;
   PortRanges: PortRange[];
@@ -769,7 +795,7 @@ export interface CreateListenerRequest {
   ClientAffinity?: ClientAffinity;
   IdempotencyToken: string;
 }
-export const CreateListenerRequest = S.suspend(() =>
+export const CreateListenerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.String,
     PortRanges: PortRanges,
@@ -788,7 +814,7 @@ export interface Listener {
   Protocol?: Protocol;
   ClientAffinity?: ClientAffinity;
 }
-export const Listener = S.suspend(() =>
+export const Listener = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ListenerArn: S.optional(S.String),
     PortRanges: S.optional(PortRanges),
@@ -799,109 +825,112 @@ export const Listener = S.suspend(() =>
 export interface CreateListenerResponse {
   Listener?: Listener;
 }
-export const CreateListenerResponse = S.suspend(() =>
-  S.Struct({ Listener: S.optional(Listener) }),
+export const CreateListenerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Listener: S.optional(Listener) }),
 ).annotate({
   identifier: "CreateListenerResponse",
 }) as any as S.Schema<CreateListenerResponse>;
 export interface DeleteAcceleratorRequest {
   AcceleratorArn: string;
 }
-export const DeleteAcceleratorRequest = S.suspend(() =>
-  S.Struct({ AcceleratorArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteAcceleratorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ AcceleratorArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteAcceleratorRequest",
 }) as any as S.Schema<DeleteAcceleratorRequest>;
 export interface DeleteAcceleratorResponse {}
-export const DeleteAcceleratorResponse = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "DeleteAcceleratorResponse" },
-) as any as S.Schema<DeleteAcceleratorResponse>;
+export const DeleteAcceleratorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteAcceleratorResponse",
+}) as any as S.Schema<DeleteAcceleratorResponse>;
 export interface DeleteCrossAccountAttachmentRequest {
   AttachmentArn: string;
 }
-export const DeleteCrossAccountAttachmentRequest = S.suspend(() =>
-  S.Struct({ AttachmentArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCrossAccountAttachmentRequest",
-}) as any as S.Schema<DeleteCrossAccountAttachmentRequest>;
+export const DeleteCrossAccountAttachmentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AttachmentArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteCrossAccountAttachmentRequest",
+  }) as any as S.Schema<DeleteCrossAccountAttachmentRequest>;
 export interface DeleteCrossAccountAttachmentResponse {}
-export const DeleteCrossAccountAttachmentResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCrossAccountAttachmentResponse",
-}) as any as S.Schema<DeleteCrossAccountAttachmentResponse>;
+export const DeleteCrossAccountAttachmentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteCrossAccountAttachmentResponse",
+  }) as any as S.Schema<DeleteCrossAccountAttachmentResponse>;
 export interface DeleteCustomRoutingAcceleratorRequest {
   AcceleratorArn: string;
 }
-export const DeleteCustomRoutingAcceleratorRequest = S.suspend(() =>
-  S.Struct({ AcceleratorArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCustomRoutingAcceleratorRequest",
-}) as any as S.Schema<DeleteCustomRoutingAcceleratorRequest>;
+export const DeleteCustomRoutingAcceleratorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AcceleratorArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteCustomRoutingAcceleratorRequest",
+  }) as any as S.Schema<DeleteCustomRoutingAcceleratorRequest>;
 export interface DeleteCustomRoutingAcceleratorResponse {}
-export const DeleteCustomRoutingAcceleratorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCustomRoutingAcceleratorResponse",
-}) as any as S.Schema<DeleteCustomRoutingAcceleratorResponse>;
+export const DeleteCustomRoutingAcceleratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteCustomRoutingAcceleratorResponse",
+  }) as any as S.Schema<DeleteCustomRoutingAcceleratorResponse>;
 export interface DeleteCustomRoutingEndpointGroupRequest {
   EndpointGroupArn: string;
 }
-export const DeleteCustomRoutingEndpointGroupRequest = S.suspend(() =>
-  S.Struct({ EndpointGroupArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCustomRoutingEndpointGroupRequest",
-}) as any as S.Schema<DeleteCustomRoutingEndpointGroupRequest>;
+export const DeleteCustomRoutingEndpointGroupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroupArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteCustomRoutingEndpointGroupRequest",
+  }) as any as S.Schema<DeleteCustomRoutingEndpointGroupRequest>;
 export interface DeleteCustomRoutingEndpointGroupResponse {}
-export const DeleteCustomRoutingEndpointGroupResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCustomRoutingEndpointGroupResponse",
-}) as any as S.Schema<DeleteCustomRoutingEndpointGroupResponse>;
+export const DeleteCustomRoutingEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteCustomRoutingEndpointGroupResponse",
+  }) as any as S.Schema<DeleteCustomRoutingEndpointGroupResponse>;
 export interface DeleteCustomRoutingListenerRequest {
   ListenerArn: string;
 }
-export const DeleteCustomRoutingListenerRequest = S.suspend(() =>
-  S.Struct({ ListenerArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeleteCustomRoutingListenerRequest",
-}) as any as S.Schema<DeleteCustomRoutingListenerRequest>;
+export const DeleteCustomRoutingListenerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ListenerArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeleteCustomRoutingListenerRequest",
+  }) as any as S.Schema<DeleteCustomRoutingListenerRequest>;
 export interface DeleteCustomRoutingListenerResponse {}
-export const DeleteCustomRoutingListenerResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCustomRoutingListenerResponse",
-}) as any as S.Schema<DeleteCustomRoutingListenerResponse>;
+export const DeleteCustomRoutingListenerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteCustomRoutingListenerResponse",
+  }) as any as S.Schema<DeleteCustomRoutingListenerResponse>;
 export interface DeleteEndpointGroupRequest {
   EndpointGroupArn: string;
 }
-export const DeleteEndpointGroupRequest = S.suspend(() =>
-  S.Struct({ EndpointGroupArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteEndpointGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ EndpointGroupArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteEndpointGroupRequest",
 }) as any as S.Schema<DeleteEndpointGroupRequest>;
 export interface DeleteEndpointGroupResponse {}
-export const DeleteEndpointGroupResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEndpointGroupResponse",
-}) as any as S.Schema<DeleteEndpointGroupResponse>;
+export const DeleteEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteEndpointGroupResponse",
+  }) as any as S.Schema<DeleteEndpointGroupResponse>;
 export interface DeleteListenerRequest {
   ListenerArn: string;
 }
-export const DeleteListenerRequest = S.suspend(() =>
+export const DeleteListenerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ListenerArn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -909,7 +938,9 @@ export const DeleteListenerRequest = S.suspend(() =>
   identifier: "DeleteListenerRequest",
 }) as any as S.Schema<DeleteListenerRequest>;
 export interface DeleteListenerResponse {}
-export const DeleteListenerResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteListenerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteListenerResponse",
 }) as any as S.Schema<DeleteListenerResponse>;
 export interface DenyCustomRoutingTrafficRequest {
@@ -919,77 +950,82 @@ export interface DenyCustomRoutingTrafficRequest {
   DestinationPorts?: number[];
   DenyAllTrafficToEndpoint?: boolean;
 }
-export const DenyCustomRoutingTrafficRequest = S.suspend(() =>
-  S.Struct({
-    EndpointGroupArn: S.String,
-    EndpointId: S.String,
-    DestinationAddresses: S.optional(DestinationAddresses),
-    DestinationPorts: S.optional(DestinationPorts),
-    DenyAllTrafficToEndpoint: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DenyCustomRoutingTrafficRequest",
-}) as any as S.Schema<DenyCustomRoutingTrafficRequest>;
+export const DenyCustomRoutingTrafficRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointGroupArn: S.String,
+      EndpointId: S.String,
+      DestinationAddresses: S.optional(DestinationAddresses),
+      DestinationPorts: S.optional(DestinationPorts),
+      DenyAllTrafficToEndpoint: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DenyCustomRoutingTrafficRequest",
+  }) as any as S.Schema<DenyCustomRoutingTrafficRequest>;
 export interface DenyCustomRoutingTrafficResponse {}
-export const DenyCustomRoutingTrafficResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DenyCustomRoutingTrafficResponse",
-}) as any as S.Schema<DenyCustomRoutingTrafficResponse>;
+export const DenyCustomRoutingTrafficResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DenyCustomRoutingTrafficResponse",
+  }) as any as S.Schema<DenyCustomRoutingTrafficResponse>;
 export interface DeprovisionByoipCidrRequest {
   Cidr: string;
 }
-export const DeprovisionByoipCidrRequest = S.suspend(() =>
-  S.Struct({ Cidr: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DeprovisionByoipCidrRequest",
-}) as any as S.Schema<DeprovisionByoipCidrRequest>;
+export const DeprovisionByoipCidrRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Cidr: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DeprovisionByoipCidrRequest",
+  }) as any as S.Schema<DeprovisionByoipCidrRequest>;
 export interface DeprovisionByoipCidrResponse {
   ByoipCidr?: ByoipCidr;
 }
-export const DeprovisionByoipCidrResponse = S.suspend(() =>
-  S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
-).annotate({
-  identifier: "DeprovisionByoipCidrResponse",
-}) as any as S.Schema<DeprovisionByoipCidrResponse>;
+export const DeprovisionByoipCidrResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
+  ).annotate({
+    identifier: "DeprovisionByoipCidrResponse",
+  }) as any as S.Schema<DeprovisionByoipCidrResponse>;
 export interface DescribeAcceleratorRequest {
   AcceleratorArn: string;
 }
-export const DescribeAcceleratorRequest = S.suspend(() =>
-  S.Struct({ AcceleratorArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeAcceleratorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ AcceleratorArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeAcceleratorRequest",
 }) as any as S.Schema<DescribeAcceleratorRequest>;
 export interface DescribeAcceleratorResponse {
   Accelerator?: Accelerator;
 }
-export const DescribeAcceleratorResponse = S.suspend(() =>
-  S.Struct({ Accelerator: S.optional(Accelerator) }),
-).annotate({
-  identifier: "DescribeAcceleratorResponse",
-}) as any as S.Schema<DescribeAcceleratorResponse>;
+export const DescribeAcceleratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Accelerator: S.optional(Accelerator) }),
+  ).annotate({
+    identifier: "DescribeAcceleratorResponse",
+  }) as any as S.Schema<DescribeAcceleratorResponse>;
 export interface DescribeAcceleratorAttributesRequest {
   AcceleratorArn: string;
 }
-export const DescribeAcceleratorAttributesRequest = S.suspend(() =>
-  S.Struct({ AcceleratorArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeAcceleratorAttributesRequest",
-}) as any as S.Schema<DescribeAcceleratorAttributesRequest>;
+export const DescribeAcceleratorAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AcceleratorArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeAcceleratorAttributesRequest",
+  }) as any as S.Schema<DescribeAcceleratorAttributesRequest>;
 export interface AcceleratorAttributes {
   FlowLogsEnabled?: boolean;
   FlowLogsS3Bucket?: string;
   FlowLogsS3Prefix?: string;
 }
-export const AcceleratorAttributes = S.suspend(() =>
+export const AcceleratorAttributes = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     FlowLogsEnabled: S.optional(S.Boolean),
     FlowLogsS3Bucket: S.optional(S.String),
@@ -1001,151 +1037,165 @@ export const AcceleratorAttributes = S.suspend(() =>
 export interface DescribeAcceleratorAttributesResponse {
   AcceleratorAttributes?: AcceleratorAttributes;
 }
-export const DescribeAcceleratorAttributesResponse = S.suspend(() =>
-  S.Struct({ AcceleratorAttributes: S.optional(AcceleratorAttributes) }),
-).annotate({
-  identifier: "DescribeAcceleratorAttributesResponse",
-}) as any as S.Schema<DescribeAcceleratorAttributesResponse>;
+export const DescribeAcceleratorAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AcceleratorAttributes: S.optional(AcceleratorAttributes) }),
+  ).annotate({
+    identifier: "DescribeAcceleratorAttributesResponse",
+  }) as any as S.Schema<DescribeAcceleratorAttributesResponse>;
 export interface DescribeCrossAccountAttachmentRequest {
   AttachmentArn: string;
 }
-export const DescribeCrossAccountAttachmentRequest = S.suspend(() =>
-  S.Struct({ AttachmentArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCrossAccountAttachmentRequest",
-}) as any as S.Schema<DescribeCrossAccountAttachmentRequest>;
+export const DescribeCrossAccountAttachmentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AttachmentArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeCrossAccountAttachmentRequest",
+  }) as any as S.Schema<DescribeCrossAccountAttachmentRequest>;
 export interface DescribeCrossAccountAttachmentResponse {
   CrossAccountAttachment?: Attachment;
 }
-export const DescribeCrossAccountAttachmentResponse = S.suspend(() =>
-  S.Struct({ CrossAccountAttachment: S.optional(Attachment) }),
-).annotate({
-  identifier: "DescribeCrossAccountAttachmentResponse",
-}) as any as S.Schema<DescribeCrossAccountAttachmentResponse>;
+export const DescribeCrossAccountAttachmentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CrossAccountAttachment: S.optional(Attachment) }),
+  ).annotate({
+    identifier: "DescribeCrossAccountAttachmentResponse",
+  }) as any as S.Schema<DescribeCrossAccountAttachmentResponse>;
 export interface DescribeCustomRoutingAcceleratorRequest {
   AcceleratorArn: string;
 }
-export const DescribeCustomRoutingAcceleratorRequest = S.suspend(() =>
-  S.Struct({ AcceleratorArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCustomRoutingAcceleratorRequest",
-}) as any as S.Schema<DescribeCustomRoutingAcceleratorRequest>;
+export const DescribeCustomRoutingAcceleratorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AcceleratorArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeCustomRoutingAcceleratorRequest",
+  }) as any as S.Schema<DescribeCustomRoutingAcceleratorRequest>;
 export interface DescribeCustomRoutingAcceleratorResponse {
   Accelerator?: CustomRoutingAccelerator;
 }
-export const DescribeCustomRoutingAcceleratorResponse = S.suspend(() =>
-  S.Struct({ Accelerator: S.optional(CustomRoutingAccelerator) }),
-).annotate({
-  identifier: "DescribeCustomRoutingAcceleratorResponse",
-}) as any as S.Schema<DescribeCustomRoutingAcceleratorResponse>;
+export const DescribeCustomRoutingAcceleratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Accelerator: S.optional(CustomRoutingAccelerator) }),
+  ).annotate({
+    identifier: "DescribeCustomRoutingAcceleratorResponse",
+  }) as any as S.Schema<DescribeCustomRoutingAcceleratorResponse>;
 export interface DescribeCustomRoutingAcceleratorAttributesRequest {
   AcceleratorArn: string;
 }
-export const DescribeCustomRoutingAcceleratorAttributesRequest = S.suspend(() =>
-  S.Struct({ AcceleratorArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCustomRoutingAcceleratorAttributesRequest",
-}) as any as S.Schema<DescribeCustomRoutingAcceleratorAttributesRequest>;
+export const DescribeCustomRoutingAcceleratorAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AcceleratorArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeCustomRoutingAcceleratorAttributesRequest",
+  }) as any as S.Schema<DescribeCustomRoutingAcceleratorAttributesRequest>;
 export interface CustomRoutingAcceleratorAttributes {
   FlowLogsEnabled?: boolean;
   FlowLogsS3Bucket?: string;
   FlowLogsS3Prefix?: string;
 }
-export const CustomRoutingAcceleratorAttributes = S.suspend(() =>
-  S.Struct({
-    FlowLogsEnabled: S.optional(S.Boolean),
-    FlowLogsS3Bucket: S.optional(S.String),
-    FlowLogsS3Prefix: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "CustomRoutingAcceleratorAttributes",
-}) as any as S.Schema<CustomRoutingAcceleratorAttributes>;
+export const CustomRoutingAcceleratorAttributes =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      FlowLogsEnabled: S.optional(S.Boolean),
+      FlowLogsS3Bucket: S.optional(S.String),
+      FlowLogsS3Prefix: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "CustomRoutingAcceleratorAttributes",
+  }) as any as S.Schema<CustomRoutingAcceleratorAttributes>;
 export interface DescribeCustomRoutingAcceleratorAttributesResponse {
   AcceleratorAttributes?: CustomRoutingAcceleratorAttributes;
 }
-export const DescribeCustomRoutingAcceleratorAttributesResponse = S.suspend(
-  () =>
+export const DescribeCustomRoutingAcceleratorAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     S.Struct({
       AcceleratorAttributes: S.optional(CustomRoutingAcceleratorAttributes),
     }),
-).annotate({
-  identifier: "DescribeCustomRoutingAcceleratorAttributesResponse",
-}) as any as S.Schema<DescribeCustomRoutingAcceleratorAttributesResponse>;
+  ).annotate({
+    identifier: "DescribeCustomRoutingAcceleratorAttributesResponse",
+  }) as any as S.Schema<DescribeCustomRoutingAcceleratorAttributesResponse>;
 export interface DescribeCustomRoutingEndpointGroupRequest {
   EndpointGroupArn: string;
 }
-export const DescribeCustomRoutingEndpointGroupRequest = S.suspend(() =>
-  S.Struct({ EndpointGroupArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCustomRoutingEndpointGroupRequest",
-}) as any as S.Schema<DescribeCustomRoutingEndpointGroupRequest>;
+export const DescribeCustomRoutingEndpointGroupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroupArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeCustomRoutingEndpointGroupRequest",
+  }) as any as S.Schema<DescribeCustomRoutingEndpointGroupRequest>;
 export interface DescribeCustomRoutingEndpointGroupResponse {
   EndpointGroup?: CustomRoutingEndpointGroup;
 }
-export const DescribeCustomRoutingEndpointGroupResponse = S.suspend(() =>
-  S.Struct({ EndpointGroup: S.optional(CustomRoutingEndpointGroup) }),
-).annotate({
-  identifier: "DescribeCustomRoutingEndpointGroupResponse",
-}) as any as S.Schema<DescribeCustomRoutingEndpointGroupResponse>;
+export const DescribeCustomRoutingEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroup: S.optional(CustomRoutingEndpointGroup) }),
+  ).annotate({
+    identifier: "DescribeCustomRoutingEndpointGroupResponse",
+  }) as any as S.Schema<DescribeCustomRoutingEndpointGroupResponse>;
 export interface DescribeCustomRoutingListenerRequest {
   ListenerArn: string;
 }
-export const DescribeCustomRoutingListenerRequest = S.suspend(() =>
-  S.Struct({ ListenerArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeCustomRoutingListenerRequest",
-}) as any as S.Schema<DescribeCustomRoutingListenerRequest>;
+export const DescribeCustomRoutingListenerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ListenerArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeCustomRoutingListenerRequest",
+  }) as any as S.Schema<DescribeCustomRoutingListenerRequest>;
 export interface DescribeCustomRoutingListenerResponse {
   Listener?: CustomRoutingListener;
 }
-export const DescribeCustomRoutingListenerResponse = S.suspend(() =>
-  S.Struct({ Listener: S.optional(CustomRoutingListener) }),
-).annotate({
-  identifier: "DescribeCustomRoutingListenerResponse",
-}) as any as S.Schema<DescribeCustomRoutingListenerResponse>;
+export const DescribeCustomRoutingListenerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Listener: S.optional(CustomRoutingListener) }),
+  ).annotate({
+    identifier: "DescribeCustomRoutingListenerResponse",
+  }) as any as S.Schema<DescribeCustomRoutingListenerResponse>;
 export interface DescribeEndpointGroupRequest {
   EndpointGroupArn: string;
 }
-export const DescribeEndpointGroupRequest = S.suspend(() =>
-  S.Struct({ EndpointGroupArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "DescribeEndpointGroupRequest",
-}) as any as S.Schema<DescribeEndpointGroupRequest>;
+export const DescribeEndpointGroupRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroupArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "DescribeEndpointGroupRequest",
+  }) as any as S.Schema<DescribeEndpointGroupRequest>;
 export interface DescribeEndpointGroupResponse {
   EndpointGroup?: EndpointGroup;
 }
-export const DescribeEndpointGroupResponse = S.suspend(() =>
-  S.Struct({ EndpointGroup: S.optional(EndpointGroup) }),
-).annotate({
-  identifier: "DescribeEndpointGroupResponse",
-}) as any as S.Schema<DescribeEndpointGroupResponse>;
+export const DescribeEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroup: S.optional(EndpointGroup) }),
+  ).annotate({
+    identifier: "DescribeEndpointGroupResponse",
+  }) as any as S.Schema<DescribeEndpointGroupResponse>;
 export interface DescribeListenerRequest {
   ListenerArn: string;
 }
-export const DescribeListenerRequest = S.suspend(() =>
-  S.Struct({ ListenerArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DescribeListenerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ListenerArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DescribeListenerRequest",
 }) as any as S.Schema<DescribeListenerRequest>;
 export interface DescribeListenerResponse {
   Listener?: Listener;
 }
-export const DescribeListenerResponse = S.suspend(() =>
-  S.Struct({ Listener: S.optional(Listener) }),
+export const DescribeListenerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Listener: S.optional(Listener) }),
 ).annotate({
   identifier: "DescribeListenerResponse",
 }) as any as S.Schema<DescribeListenerResponse>;
@@ -1153,27 +1203,29 @@ export interface ListAcceleratorsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListAcceleratorsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListAcceleratorsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListAcceleratorsRequest",
 }) as any as S.Schema<ListAcceleratorsRequest>;
 export type Accelerators = Accelerator[];
-export const Accelerators = S.Array(Accelerator);
+export const Accelerators = /*@__PURE__*/ /*#__PURE__*/ S.Array(Accelerator);
 export interface ListAcceleratorsResponse {
   Accelerators?: Accelerator[];
   NextToken?: string;
 }
-export const ListAcceleratorsResponse = S.suspend(() =>
-  S.Struct({
-    Accelerators: S.optional(Accelerators),
-    NextToken: S.optional(S.String),
-  }),
+export const ListAcceleratorsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Accelerators: S.optional(Accelerators),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListAcceleratorsResponse",
 }) as any as S.Schema<ListAcceleratorsResponse>;
@@ -1181,7 +1233,7 @@ export interface ListByoipCidrsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListByoipCidrsRequest = S.suspend(() =>
+export const ListByoipCidrsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
@@ -1192,16 +1244,17 @@ export const ListByoipCidrsRequest = S.suspend(() =>
   identifier: "ListByoipCidrsRequest",
 }) as any as S.Schema<ListByoipCidrsRequest>;
 export type ByoipCidrs = ByoipCidr[];
-export const ByoipCidrs = S.Array(ByoipCidr);
+export const ByoipCidrs = /*@__PURE__*/ /*#__PURE__*/ S.Array(ByoipCidr);
 export interface ListByoipCidrsResponse {
   ByoipCidrs?: ByoipCidr[];
   NextToken?: string;
 }
-export const ListByoipCidrsResponse = S.suspend(() =>
-  S.Struct({
-    ByoipCidrs: S.optional(ByoipCidrs),
-    NextToken: S.optional(S.String),
-  }),
+export const ListByoipCidrsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ByoipCidrs: S.optional(ByoipCidrs),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListByoipCidrsResponse",
 }) as any as S.Schema<ListByoipCidrsResponse>;
@@ -1209,72 +1262,77 @@ export interface ListCrossAccountAttachmentsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCrossAccountAttachmentsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCrossAccountAttachmentsRequest",
-}) as any as S.Schema<ListCrossAccountAttachmentsRequest>;
+export const ListCrossAccountAttachmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCrossAccountAttachmentsRequest",
+  }) as any as S.Schema<ListCrossAccountAttachmentsRequest>;
 export type Attachments = Attachment[];
-export const Attachments = S.Array(Attachment);
+export const Attachments = /*@__PURE__*/ /*#__PURE__*/ S.Array(Attachment);
 export interface ListCrossAccountAttachmentsResponse {
   CrossAccountAttachments?: Attachment[];
   NextToken?: string;
 }
-export const ListCrossAccountAttachmentsResponse = S.suspend(() =>
-  S.Struct({
-    CrossAccountAttachments: S.optional(Attachments),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCrossAccountAttachmentsResponse",
-}) as any as S.Schema<ListCrossAccountAttachmentsResponse>;
+export const ListCrossAccountAttachmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      CrossAccountAttachments: S.optional(Attachments),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCrossAccountAttachmentsResponse",
+  }) as any as S.Schema<ListCrossAccountAttachmentsResponse>;
 export interface ListCrossAccountResourceAccountsRequest {}
-export const ListCrossAccountResourceAccountsRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCrossAccountResourceAccountsRequest",
-}) as any as S.Schema<ListCrossAccountResourceAccountsRequest>;
+export const ListCrossAccountResourceAccountsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({}).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCrossAccountResourceAccountsRequest",
+  }) as any as S.Schema<ListCrossAccountResourceAccountsRequest>;
 export type AwsAccountIds = string[];
-export const AwsAccountIds = S.Array(S.String);
+export const AwsAccountIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ListCrossAccountResourceAccountsResponse {
   ResourceOwnerAwsAccountIds?: string[];
 }
-export const ListCrossAccountResourceAccountsResponse = S.suspend(() =>
-  S.Struct({ ResourceOwnerAwsAccountIds: S.optional(AwsAccountIds) }),
-).annotate({
-  identifier: "ListCrossAccountResourceAccountsResponse",
-}) as any as S.Schema<ListCrossAccountResourceAccountsResponse>;
+export const ListCrossAccountResourceAccountsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ResourceOwnerAwsAccountIds: S.optional(AwsAccountIds) }),
+  ).annotate({
+    identifier: "ListCrossAccountResourceAccountsResponse",
+  }) as any as S.Schema<ListCrossAccountResourceAccountsResponse>;
 export interface ListCrossAccountResourcesRequest {
   AcceleratorArn?: string;
   ResourceOwnerAwsAccountId: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCrossAccountResourcesRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.optional(S.String),
-    ResourceOwnerAwsAccountId: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCrossAccountResourcesRequest",
-}) as any as S.Schema<ListCrossAccountResourcesRequest>;
+export const ListCrossAccountResourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.optional(S.String),
+      ResourceOwnerAwsAccountId: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCrossAccountResourcesRequest",
+  }) as any as S.Schema<ListCrossAccountResourcesRequest>;
 export interface CrossAccountResource {
   EndpointId?: string;
   Cidr?: string;
   AttachmentArn?: string;
 }
-export const CrossAccountResource = S.suspend(() =>
+export const CrossAccountResource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointId: S.optional(S.String),
     Cidr: S.optional(S.String),
@@ -1284,137 +1342,153 @@ export const CrossAccountResource = S.suspend(() =>
   identifier: "CrossAccountResource",
 }) as any as S.Schema<CrossAccountResource>;
 export type CrossAccountResources = CrossAccountResource[];
-export const CrossAccountResources = S.Array(CrossAccountResource);
+export const CrossAccountResources =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CrossAccountResource);
 export interface ListCrossAccountResourcesResponse {
   CrossAccountResources?: CrossAccountResource[];
   NextToken?: string;
 }
-export const ListCrossAccountResourcesResponse = S.suspend(() =>
-  S.Struct({
-    CrossAccountResources: S.optional(CrossAccountResources),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCrossAccountResourcesResponse",
-}) as any as S.Schema<ListCrossAccountResourcesResponse>;
+export const ListCrossAccountResourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      CrossAccountResources: S.optional(CrossAccountResources),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCrossAccountResourcesResponse",
+  }) as any as S.Schema<ListCrossAccountResourcesResponse>;
 export interface ListCustomRoutingAcceleratorsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCustomRoutingAcceleratorsRequest = S.suspend(() =>
-  S.Struct({
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCustomRoutingAcceleratorsRequest",
-}) as any as S.Schema<ListCustomRoutingAcceleratorsRequest>;
+export const ListCustomRoutingAcceleratorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCustomRoutingAcceleratorsRequest",
+  }) as any as S.Schema<ListCustomRoutingAcceleratorsRequest>;
 export type CustomRoutingAccelerators = CustomRoutingAccelerator[];
-export const CustomRoutingAccelerators = S.Array(CustomRoutingAccelerator);
+export const CustomRoutingAccelerators = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  CustomRoutingAccelerator,
+);
 export interface ListCustomRoutingAcceleratorsResponse {
   Accelerators?: CustomRoutingAccelerator[];
   NextToken?: string;
 }
-export const ListCustomRoutingAcceleratorsResponse = S.suspend(() =>
-  S.Struct({
-    Accelerators: S.optional(CustomRoutingAccelerators),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCustomRoutingAcceleratorsResponse",
-}) as any as S.Schema<ListCustomRoutingAcceleratorsResponse>;
+export const ListCustomRoutingAcceleratorsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Accelerators: S.optional(CustomRoutingAccelerators),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomRoutingAcceleratorsResponse",
+  }) as any as S.Schema<ListCustomRoutingAcceleratorsResponse>;
 export interface ListCustomRoutingEndpointGroupsRequest {
   ListenerArn: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCustomRoutingEndpointGroupsRequest = S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCustomRoutingEndpointGroupsRequest",
-}) as any as S.Schema<ListCustomRoutingEndpointGroupsRequest>;
+export const ListCustomRoutingEndpointGroupsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ListenerArn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCustomRoutingEndpointGroupsRequest",
+  }) as any as S.Schema<ListCustomRoutingEndpointGroupsRequest>;
 export type CustomRoutingEndpointGroups = CustomRoutingEndpointGroup[];
-export const CustomRoutingEndpointGroups = S.Array(CustomRoutingEndpointGroup);
+export const CustomRoutingEndpointGroups = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  CustomRoutingEndpointGroup,
+);
 export interface ListCustomRoutingEndpointGroupsResponse {
   EndpointGroups?: CustomRoutingEndpointGroup[];
   NextToken?: string;
 }
-export const ListCustomRoutingEndpointGroupsResponse = S.suspend(() =>
-  S.Struct({
-    EndpointGroups: S.optional(CustomRoutingEndpointGroups),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCustomRoutingEndpointGroupsResponse",
-}) as any as S.Schema<ListCustomRoutingEndpointGroupsResponse>;
+export const ListCustomRoutingEndpointGroupsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointGroups: S.optional(CustomRoutingEndpointGroups),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomRoutingEndpointGroupsResponse",
+  }) as any as S.Schema<ListCustomRoutingEndpointGroupsResponse>;
 export interface ListCustomRoutingListenersRequest {
   AcceleratorArn: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCustomRoutingListenersRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCustomRoutingListenersRequest",
-}) as any as S.Schema<ListCustomRoutingListenersRequest>;
+export const ListCustomRoutingListenersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCustomRoutingListenersRequest",
+  }) as any as S.Schema<ListCustomRoutingListenersRequest>;
 export type CustomRoutingListeners = CustomRoutingListener[];
-export const CustomRoutingListeners = S.Array(CustomRoutingListener);
+export const CustomRoutingListeners = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  CustomRoutingListener,
+);
 export interface ListCustomRoutingListenersResponse {
   Listeners?: CustomRoutingListener[];
   NextToken?: string;
 }
-export const ListCustomRoutingListenersResponse = S.suspend(() =>
-  S.Struct({
-    Listeners: S.optional(CustomRoutingListeners),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCustomRoutingListenersResponse",
-}) as any as S.Schema<ListCustomRoutingListenersResponse>;
+export const ListCustomRoutingListenersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Listeners: S.optional(CustomRoutingListeners),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomRoutingListenersResponse",
+  }) as any as S.Schema<ListCustomRoutingListenersResponse>;
 export interface ListCustomRoutingPortMappingsRequest {
   AcceleratorArn: string;
   EndpointGroupArn?: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCustomRoutingPortMappingsRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    EndpointGroupArn: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCustomRoutingPortMappingsRequest",
-}) as any as S.Schema<ListCustomRoutingPortMappingsRequest>;
+export const ListCustomRoutingPortMappingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      EndpointGroupArn: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCustomRoutingPortMappingsRequest",
+  }) as any as S.Schema<ListCustomRoutingPortMappingsRequest>;
 export interface SocketAddress {
   IpAddress?: string;
   Port?: number;
 }
-export const SocketAddress = S.suspend(() =>
+export const SocketAddress = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ IpAddress: S.optional(S.String), Port: S.optional(S.Number) }),
 ).annotate({ identifier: "SocketAddress" }) as any as S.Schema<SocketAddress>;
 export type CustomRoutingDestinationTrafficState =
   | "ALLOW"
   | "DENY"
   | (string & {});
-export const CustomRoutingDestinationTrafficState = S.String;
+export const CustomRoutingDestinationTrafficState =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PortMapping {
   AcceleratorPort?: number;
   EndpointGroupArn?: string;
@@ -1423,7 +1497,7 @@ export interface PortMapping {
   Protocols?: CustomRoutingProtocol[];
   DestinationTrafficState?: CustomRoutingDestinationTrafficState;
 }
-export const PortMapping = S.suspend(() =>
+export const PortMapping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AcceleratorPort: S.optional(S.Number),
     EndpointGroupArn: S.optional(S.String),
@@ -1434,39 +1508,42 @@ export const PortMapping = S.suspend(() =>
   }),
 ).annotate({ identifier: "PortMapping" }) as any as S.Schema<PortMapping>;
 export type PortMappings = PortMapping[];
-export const PortMappings = S.Array(PortMapping);
+export const PortMappings = /*@__PURE__*/ /*#__PURE__*/ S.Array(PortMapping);
 export interface ListCustomRoutingPortMappingsResponse {
   PortMappings?: PortMapping[];
   NextToken?: string;
 }
-export const ListCustomRoutingPortMappingsResponse = S.suspend(() =>
-  S.Struct({
-    PortMappings: S.optional(PortMappings),
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListCustomRoutingPortMappingsResponse",
-}) as any as S.Schema<ListCustomRoutingPortMappingsResponse>;
+export const ListCustomRoutingPortMappingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      PortMappings: S.optional(PortMappings),
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListCustomRoutingPortMappingsResponse",
+  }) as any as S.Schema<ListCustomRoutingPortMappingsResponse>;
 export interface ListCustomRoutingPortMappingsByDestinationRequest {
   EndpointId: string;
   DestinationAddress: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListCustomRoutingPortMappingsByDestinationRequest = S.suspend(() =>
-  S.Struct({
-    EndpointId: S.String,
-    DestinationAddress: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "ListCustomRoutingPortMappingsByDestinationRequest",
-}) as any as S.Schema<ListCustomRoutingPortMappingsByDestinationRequest>;
+export const ListCustomRoutingPortMappingsByDestinationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      EndpointId: S.String,
+      DestinationAddress: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "ListCustomRoutingPortMappingsByDestinationRequest",
+  }) as any as S.Schema<ListCustomRoutingPortMappingsByDestinationRequest>;
 export type SocketAddresses = SocketAddress[];
-export const SocketAddresses = S.Array(SocketAddress);
+export const SocketAddresses =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SocketAddress);
 export interface DestinationPortMapping {
   AcceleratorArn?: string;
   AcceleratorSocketAddresses?: SocketAddress[];
@@ -1477,62 +1554,68 @@ export interface DestinationPortMapping {
   IpAddressType?: IpAddressType;
   DestinationTrafficState?: CustomRoutingDestinationTrafficState;
 }
-export const DestinationPortMapping = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.optional(S.String),
-    AcceleratorSocketAddresses: S.optional(SocketAddresses),
-    EndpointGroupArn: S.optional(S.String),
-    EndpointId: S.optional(S.String),
-    EndpointGroupRegion: S.optional(S.String),
-    DestinationSocketAddress: S.optional(SocketAddress),
-    IpAddressType: S.optional(IpAddressType),
-    DestinationTrafficState: S.optional(CustomRoutingDestinationTrafficState),
-  }),
+export const DestinationPortMapping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AcceleratorArn: S.optional(S.String),
+      AcceleratorSocketAddresses: S.optional(SocketAddresses),
+      EndpointGroupArn: S.optional(S.String),
+      EndpointId: S.optional(S.String),
+      EndpointGroupRegion: S.optional(S.String),
+      DestinationSocketAddress: S.optional(SocketAddress),
+      IpAddressType: S.optional(IpAddressType),
+      DestinationTrafficState: S.optional(CustomRoutingDestinationTrafficState),
+    }),
 ).annotate({
   identifier: "DestinationPortMapping",
 }) as any as S.Schema<DestinationPortMapping>;
 export type DestinationPortMappings = DestinationPortMapping[];
-export const DestinationPortMappings = S.Array(DestinationPortMapping);
+export const DestinationPortMappings = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DestinationPortMapping,
+);
 export interface ListCustomRoutingPortMappingsByDestinationResponse {
   DestinationPortMappings?: DestinationPortMapping[];
   NextToken?: string;
 }
-export const ListCustomRoutingPortMappingsByDestinationResponse = S.suspend(
-  () =>
+export const ListCustomRoutingPortMappingsByDestinationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     S.Struct({
       DestinationPortMappings: S.optional(DestinationPortMappings),
       NextToken: S.optional(S.String),
     }),
-).annotate({
-  identifier: "ListCustomRoutingPortMappingsByDestinationResponse",
-}) as any as S.Schema<ListCustomRoutingPortMappingsByDestinationResponse>;
+  ).annotate({
+    identifier: "ListCustomRoutingPortMappingsByDestinationResponse",
+  }) as any as S.Schema<ListCustomRoutingPortMappingsByDestinationResponse>;
 export interface ListEndpointGroupsRequest {
   ListenerArn: string;
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListEndpointGroupsRequest = S.suspend(() =>
-  S.Struct({
-    ListenerArn: S.String,
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListEndpointGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ListenerArn: S.String,
+      MaxResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListEndpointGroupsRequest",
 }) as any as S.Schema<ListEndpointGroupsRequest>;
 export type EndpointGroups = EndpointGroup[];
-export const EndpointGroups = S.Array(EndpointGroup);
+export const EndpointGroups =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(EndpointGroup);
 export interface ListEndpointGroupsResponse {
   EndpointGroups?: EndpointGroup[];
   NextToken?: string;
 }
-export const ListEndpointGroupsResponse = S.suspend(() =>
-  S.Struct({
-    EndpointGroups: S.optional(EndpointGroups),
-    NextToken: S.optional(S.String),
-  }),
+export const ListEndpointGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      EndpointGroups: S.optional(EndpointGroups),
+      NextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListEndpointGroupsResponse",
 }) as any as S.Schema<ListEndpointGroupsResponse>;
@@ -1541,7 +1624,7 @@ export interface ListListenersRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListListenersRequest = S.suspend(() =>
+export const ListListenersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AcceleratorArn: S.String,
     MaxResults: S.optional(S.Number),
@@ -1553,12 +1636,12 @@ export const ListListenersRequest = S.suspend(() =>
   identifier: "ListListenersRequest",
 }) as any as S.Schema<ListListenersRequest>;
 export type Listeners = Listener[];
-export const Listeners = S.Array(Listener);
+export const Listeners = /*@__PURE__*/ /*#__PURE__*/ S.Array(Listener);
 export interface ListListenersResponse {
   Listeners?: Listener[];
   NextToken?: string;
 }
-export const ListListenersResponse = S.suspend(() =>
+export const ListListenersResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Listeners: S.optional(Listeners),
     NextToken: S.optional(S.String),
@@ -1569,27 +1652,29 @@ export const ListListenersResponse = S.suspend(() =>
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ ResourceArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   Tags?: Tag[];
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ Tags: S.optional(Tags) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Tags: S.optional(Tags) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface CidrAuthorizationContext {
   Message: string;
   Signature: string;
 }
-export const CidrAuthorizationContext = S.suspend(() =>
-  S.Struct({ Message: S.String, Signature: S.String }),
+export const CidrAuthorizationContext = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Message: S.String, Signature: S.String }),
 ).annotate({
   identifier: "CidrAuthorizationContext",
 }) as any as S.Schema<CidrAuthorizationContext>;
@@ -1597,48 +1682,49 @@ export interface ProvisionByoipCidrRequest {
   Cidr: string;
   CidrAuthorizationContext: CidrAuthorizationContext;
 }
-export const ProvisionByoipCidrRequest = S.suspend(() =>
-  S.Struct({
-    Cidr: S.String,
-    CidrAuthorizationContext: CidrAuthorizationContext,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ProvisionByoipCidrRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Cidr: S.String,
+      CidrAuthorizationContext: CidrAuthorizationContext,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ProvisionByoipCidrRequest",
 }) as any as S.Schema<ProvisionByoipCidrRequest>;
 export interface ProvisionByoipCidrResponse {
   ByoipCidr?: ByoipCidr;
 }
-export const ProvisionByoipCidrResponse = S.suspend(() =>
-  S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
+export const ProvisionByoipCidrResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
 ).annotate({
   identifier: "ProvisionByoipCidrResponse",
 }) as any as S.Schema<ProvisionByoipCidrResponse>;
 export type EndpointIds = string[];
-export const EndpointIds = S.Array(S.String);
+export const EndpointIds = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface RemoveCustomRoutingEndpointsRequest {
   EndpointIds: string[];
   EndpointGroupArn: string;
 }
-export const RemoveCustomRoutingEndpointsRequest = S.suspend(() =>
-  S.Struct({ EndpointIds: EndpointIds, EndpointGroupArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "RemoveCustomRoutingEndpointsRequest",
-}) as any as S.Schema<RemoveCustomRoutingEndpointsRequest>;
+export const RemoveCustomRoutingEndpointsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointIds: EndpointIds, EndpointGroupArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "RemoveCustomRoutingEndpointsRequest",
+  }) as any as S.Schema<RemoveCustomRoutingEndpointsRequest>;
 export interface RemoveCustomRoutingEndpointsResponse {}
-export const RemoveCustomRoutingEndpointsResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RemoveCustomRoutingEndpointsResponse",
-}) as any as S.Schema<RemoveCustomRoutingEndpointsResponse>;
+export const RemoveCustomRoutingEndpointsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "RemoveCustomRoutingEndpointsResponse",
+  }) as any as S.Schema<RemoveCustomRoutingEndpointsResponse>;
 export interface EndpointIdentifier {
   EndpointId: string;
   ClientIPPreservationEnabled?: boolean;
 }
-export const EndpointIdentifier = S.suspend(() =>
+export const EndpointIdentifier = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     EndpointId: S.String,
     ClientIPPreservationEnabled: S.optional(S.Boolean),
@@ -1647,30 +1733,34 @@ export const EndpointIdentifier = S.suspend(() =>
   identifier: "EndpointIdentifier",
 }) as any as S.Schema<EndpointIdentifier>;
 export type EndpointIdentifiers = EndpointIdentifier[];
-export const EndpointIdentifiers = S.Array(EndpointIdentifier);
+export const EndpointIdentifiers =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(EndpointIdentifier);
 export interface RemoveEndpointsRequest {
   EndpointIdentifiers: EndpointIdentifier[];
   EndpointGroupArn: string;
 }
-export const RemoveEndpointsRequest = S.suspend(() =>
-  S.Struct({
-    EndpointIdentifiers: EndpointIdentifiers,
-    EndpointGroupArn: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const RemoveEndpointsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      EndpointIdentifiers: EndpointIdentifiers,
+      EndpointGroupArn: S.String,
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "RemoveEndpointsRequest",
 }) as any as S.Schema<RemoveEndpointsRequest>;
 export interface RemoveEndpointsResponse {}
-export const RemoveEndpointsResponse = S.suspend(() => S.Struct({})).annotate({
+export const RemoveEndpointsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "RemoveEndpointsResponse",
 }) as any as S.Schema<RemoveEndpointsResponse>;
 export interface TagResourceRequest {
   ResourceArn: string;
   Tags: Tag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: Tags }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1678,16 +1768,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
-export const TagKeys = S.Array(S.String);
+export const TagKeys = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   ResourceArn: string;
   TagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeys }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -1695,7 +1787,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAcceleratorRequest {
@@ -1705,24 +1799,25 @@ export interface UpdateAcceleratorRequest {
   IpAddresses?: string[];
   Enabled?: boolean;
 }
-export const UpdateAcceleratorRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    Name: S.optional(S.String),
-    IpAddressType: S.optional(IpAddressType),
-    IpAddresses: S.optional(IpAddresses),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const UpdateAcceleratorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      Name: S.optional(S.String),
+      IpAddressType: S.optional(IpAddressType),
+      IpAddresses: S.optional(IpAddresses),
+      Enabled: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "UpdateAcceleratorRequest",
 }) as any as S.Schema<UpdateAcceleratorRequest>;
 export interface UpdateAcceleratorResponse {
   Accelerator?: Accelerator;
 }
-export const UpdateAcceleratorResponse = S.suspend(() =>
-  S.Struct({ Accelerator: S.optional(Accelerator) }),
+export const UpdateAcceleratorResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Accelerator: S.optional(Accelerator) }),
 ).annotate({
   identifier: "UpdateAcceleratorResponse",
 }) as any as S.Schema<UpdateAcceleratorResponse>;
@@ -1732,26 +1827,28 @@ export interface UpdateAcceleratorAttributesRequest {
   FlowLogsS3Bucket?: string;
   FlowLogsS3Prefix?: string;
 }
-export const UpdateAcceleratorAttributesRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    FlowLogsEnabled: S.optional(S.Boolean),
-    FlowLogsS3Bucket: S.optional(S.String),
-    FlowLogsS3Prefix: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateAcceleratorAttributesRequest",
-}) as any as S.Schema<UpdateAcceleratorAttributesRequest>;
+export const UpdateAcceleratorAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      FlowLogsEnabled: S.optional(S.Boolean),
+      FlowLogsS3Bucket: S.optional(S.String),
+      FlowLogsS3Prefix: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateAcceleratorAttributesRequest",
+  }) as any as S.Schema<UpdateAcceleratorAttributesRequest>;
 export interface UpdateAcceleratorAttributesResponse {
   AcceleratorAttributes?: AcceleratorAttributes;
 }
-export const UpdateAcceleratorAttributesResponse = S.suspend(() =>
-  S.Struct({ AcceleratorAttributes: S.optional(AcceleratorAttributes) }),
-).annotate({
-  identifier: "UpdateAcceleratorAttributesResponse",
-}) as any as S.Schema<UpdateAcceleratorAttributesResponse>;
+export const UpdateAcceleratorAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ AcceleratorAttributes: S.optional(AcceleratorAttributes) }),
+  ).annotate({
+    identifier: "UpdateAcceleratorAttributesResponse",
+  }) as any as S.Schema<UpdateAcceleratorAttributesResponse>;
 export interface UpdateCrossAccountAttachmentRequest {
   AttachmentArn: string;
   Name?: string;
@@ -1760,28 +1857,30 @@ export interface UpdateCrossAccountAttachmentRequest {
   AddResources?: Resource[];
   RemoveResources?: Resource[];
 }
-export const UpdateCrossAccountAttachmentRequest = S.suspend(() =>
-  S.Struct({
-    AttachmentArn: S.String,
-    Name: S.optional(S.String),
-    AddPrincipals: S.optional(Principals),
-    RemovePrincipals: S.optional(Principals),
-    AddResources: S.optional(Resources),
-    RemoveResources: S.optional(Resources),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCrossAccountAttachmentRequest",
-}) as any as S.Schema<UpdateCrossAccountAttachmentRequest>;
+export const UpdateCrossAccountAttachmentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AttachmentArn: S.String,
+      Name: S.optional(S.String),
+      AddPrincipals: S.optional(Principals),
+      RemovePrincipals: S.optional(Principals),
+      AddResources: S.optional(Resources),
+      RemoveResources: S.optional(Resources),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateCrossAccountAttachmentRequest",
+  }) as any as S.Schema<UpdateCrossAccountAttachmentRequest>;
 export interface UpdateCrossAccountAttachmentResponse {
   CrossAccountAttachment?: Attachment;
 }
-export const UpdateCrossAccountAttachmentResponse = S.suspend(() =>
-  S.Struct({ CrossAccountAttachment: S.optional(Attachment) }),
-).annotate({
-  identifier: "UpdateCrossAccountAttachmentResponse",
-}) as any as S.Schema<UpdateCrossAccountAttachmentResponse>;
+export const UpdateCrossAccountAttachmentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ CrossAccountAttachment: S.optional(Attachment) }),
+  ).annotate({
+    identifier: "UpdateCrossAccountAttachmentResponse",
+  }) as any as S.Schema<UpdateCrossAccountAttachmentResponse>;
 export interface UpdateCustomRoutingAcceleratorRequest {
   AcceleratorArn: string;
   Name?: string;
@@ -1789,74 +1888,80 @@ export interface UpdateCustomRoutingAcceleratorRequest {
   IpAddresses?: string[];
   Enabled?: boolean;
 }
-export const UpdateCustomRoutingAcceleratorRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    Name: S.optional(S.String),
-    IpAddressType: S.optional(IpAddressType),
-    IpAddresses: S.optional(IpAddresses),
-    Enabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCustomRoutingAcceleratorRequest",
-}) as any as S.Schema<UpdateCustomRoutingAcceleratorRequest>;
+export const UpdateCustomRoutingAcceleratorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      Name: S.optional(S.String),
+      IpAddressType: S.optional(IpAddressType),
+      IpAddresses: S.optional(IpAddresses),
+      Enabled: S.optional(S.Boolean),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateCustomRoutingAcceleratorRequest",
+  }) as any as S.Schema<UpdateCustomRoutingAcceleratorRequest>;
 export interface UpdateCustomRoutingAcceleratorResponse {
   Accelerator?: CustomRoutingAccelerator;
 }
-export const UpdateCustomRoutingAcceleratorResponse = S.suspend(() =>
-  S.Struct({ Accelerator: S.optional(CustomRoutingAccelerator) }),
-).annotate({
-  identifier: "UpdateCustomRoutingAcceleratorResponse",
-}) as any as S.Schema<UpdateCustomRoutingAcceleratorResponse>;
+export const UpdateCustomRoutingAcceleratorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Accelerator: S.optional(CustomRoutingAccelerator) }),
+  ).annotate({
+    identifier: "UpdateCustomRoutingAcceleratorResponse",
+  }) as any as S.Schema<UpdateCustomRoutingAcceleratorResponse>;
 export interface UpdateCustomRoutingAcceleratorAttributesRequest {
   AcceleratorArn: string;
   FlowLogsEnabled?: boolean;
   FlowLogsS3Bucket?: string;
   FlowLogsS3Prefix?: string;
 }
-export const UpdateCustomRoutingAcceleratorAttributesRequest = S.suspend(() =>
-  S.Struct({
-    AcceleratorArn: S.String,
-    FlowLogsEnabled: S.optional(S.Boolean),
-    FlowLogsS3Bucket: S.optional(S.String),
-    FlowLogsS3Prefix: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCustomRoutingAcceleratorAttributesRequest",
-}) as any as S.Schema<UpdateCustomRoutingAcceleratorAttributesRequest>;
+export const UpdateCustomRoutingAcceleratorAttributesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorArn: S.String,
+      FlowLogsEnabled: S.optional(S.Boolean),
+      FlowLogsS3Bucket: S.optional(S.String),
+      FlowLogsS3Prefix: S.optional(S.String),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateCustomRoutingAcceleratorAttributesRequest",
+  }) as any as S.Schema<UpdateCustomRoutingAcceleratorAttributesRequest>;
 export interface UpdateCustomRoutingAcceleratorAttributesResponse {
   AcceleratorAttributes?: CustomRoutingAcceleratorAttributes;
 }
-export const UpdateCustomRoutingAcceleratorAttributesResponse = S.suspend(() =>
-  S.Struct({
-    AcceleratorAttributes: S.optional(CustomRoutingAcceleratorAttributes),
-  }),
-).annotate({
-  identifier: "UpdateCustomRoutingAcceleratorAttributesResponse",
-}) as any as S.Schema<UpdateCustomRoutingAcceleratorAttributesResponse>;
+export const UpdateCustomRoutingAcceleratorAttributesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      AcceleratorAttributes: S.optional(CustomRoutingAcceleratorAttributes),
+    }),
+  ).annotate({
+    identifier: "UpdateCustomRoutingAcceleratorAttributesResponse",
+  }) as any as S.Schema<UpdateCustomRoutingAcceleratorAttributesResponse>;
 export interface UpdateCustomRoutingListenerRequest {
   ListenerArn: string;
   PortRanges: PortRange[];
 }
-export const UpdateCustomRoutingListenerRequest = S.suspend(() =>
-  S.Struct({ ListenerArn: S.String, PortRanges: PortRanges }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateCustomRoutingListenerRequest",
-}) as any as S.Schema<UpdateCustomRoutingListenerRequest>;
+export const UpdateCustomRoutingListenerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ListenerArn: S.String, PortRanges: PortRanges }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateCustomRoutingListenerRequest",
+  }) as any as S.Schema<UpdateCustomRoutingListenerRequest>;
 export interface UpdateCustomRoutingListenerResponse {
   Listener?: CustomRoutingListener;
 }
-export const UpdateCustomRoutingListenerResponse = S.suspend(() =>
-  S.Struct({ Listener: S.optional(CustomRoutingListener) }),
-).annotate({
-  identifier: "UpdateCustomRoutingListenerResponse",
-}) as any as S.Schema<UpdateCustomRoutingListenerResponse>;
+export const UpdateCustomRoutingListenerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Listener: S.optional(CustomRoutingListener) }),
+  ).annotate({
+    identifier: "UpdateCustomRoutingListenerResponse",
+  }) as any as S.Schema<UpdateCustomRoutingListenerResponse>;
 export interface UpdateEndpointGroupRequest {
   EndpointGroupArn: string;
   EndpointConfigurations?: EndpointConfiguration[];
@@ -1868,38 +1973,40 @@ export interface UpdateEndpointGroupRequest {
   ThresholdCount?: number;
   PortOverrides?: PortOverride[];
 }
-export const UpdateEndpointGroupRequest = S.suspend(() =>
-  S.Struct({
-    EndpointGroupArn: S.String,
-    EndpointConfigurations: S.optional(EndpointConfigurations),
-    TrafficDialPercentage: S.optional(S.Number),
-    HealthCheckPort: S.optional(S.Number),
-    HealthCheckProtocol: S.optional(HealthCheckProtocol),
-    HealthCheckPath: S.optional(S.String),
-    HealthCheckIntervalSeconds: S.optional(S.Number),
-    ThresholdCount: S.optional(S.Number),
-    PortOverrides: S.optional(PortOverrides),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const UpdateEndpointGroupRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      EndpointGroupArn: S.String,
+      EndpointConfigurations: S.optional(EndpointConfigurations),
+      TrafficDialPercentage: S.optional(S.Number),
+      HealthCheckPort: S.optional(S.Number),
+      HealthCheckProtocol: S.optional(HealthCheckProtocol),
+      HealthCheckPath: S.optional(S.String),
+      HealthCheckIntervalSeconds: S.optional(S.Number),
+      ThresholdCount: S.optional(S.Number),
+      PortOverrides: S.optional(PortOverrides),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "UpdateEndpointGroupRequest",
 }) as any as S.Schema<UpdateEndpointGroupRequest>;
 export interface UpdateEndpointGroupResponse {
   EndpointGroup?: EndpointGroup;
 }
-export const UpdateEndpointGroupResponse = S.suspend(() =>
-  S.Struct({ EndpointGroup: S.optional(EndpointGroup) }),
-).annotate({
-  identifier: "UpdateEndpointGroupResponse",
-}) as any as S.Schema<UpdateEndpointGroupResponse>;
+export const UpdateEndpointGroupResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ EndpointGroup: S.optional(EndpointGroup) }),
+  ).annotate({
+    identifier: "UpdateEndpointGroupResponse",
+  }) as any as S.Schema<UpdateEndpointGroupResponse>;
 export interface UpdateListenerRequest {
   ListenerArn: string;
   PortRanges?: PortRange[];
   Protocol?: Protocol;
   ClientAffinity?: ClientAffinity;
 }
-export const UpdateListenerRequest = S.suspend(() =>
+export const UpdateListenerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ListenerArn: S.String,
     PortRanges: S.optional(PortRanges),
@@ -1914,26 +2021,27 @@ export const UpdateListenerRequest = S.suspend(() =>
 export interface UpdateListenerResponse {
   Listener?: Listener;
 }
-export const UpdateListenerResponse = S.suspend(() =>
-  S.Struct({ Listener: S.optional(Listener) }),
+export const UpdateListenerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ Listener: S.optional(Listener) }),
 ).annotate({
   identifier: "UpdateListenerResponse",
 }) as any as S.Schema<UpdateListenerResponse>;
 export interface WithdrawByoipCidrRequest {
   Cidr: string;
 }
-export const WithdrawByoipCidrRequest = S.suspend(() =>
-  S.Struct({ Cidr: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const WithdrawByoipCidrRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ Cidr: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "WithdrawByoipCidrRequest",
 }) as any as S.Schema<WithdrawByoipCidrRequest>;
 export interface WithdrawByoipCidrResponse {
   ByoipCidr?: ByoipCidr;
 }
-export const WithdrawByoipCidrResponse = S.suspend(() =>
-  S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
+export const WithdrawByoipCidrResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ ByoipCidr: S.optional(ByoipCidr) }),
 ).annotate({
   identifier: "WithdrawByoipCidrResponse",
 }) as any as S.Schema<WithdrawByoipCidrResponse>;

@@ -95,12 +95,12 @@ export type OutputFormat =
   | "INSPECTOR"
   | "INSPECTOR_ALT"
   | (string & {});
-export const OutputFormat = S.String;
+export const OutputFormat = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ScanSbomRequest {
   sbom: any;
   outputFormat?: OutputFormat;
 }
-export const ScanSbomRequest = S.suspend(() =>
+export const ScanSbomRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ sbom: S.Any, outputFormat: S.optional(OutputFormat) }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/scan/sbom" }),
@@ -117,7 +117,7 @@ export const ScanSbomRequest = S.suspend(() =>
 export interface ScanSbomResponse {
   sbom?: any;
 }
-export const ScanSbomResponse = S.suspend(() =>
+export const ScanSbomResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ sbom: S.optional(S.Any) }),
 ).annotate({
   identifier: "ScanSbomResponse",
@@ -126,7 +126,8 @@ export type InternalServerExceptionReason =
   | "FAILED_TO_GENERATE_SBOM"
   | "OTHER"
   | (string & {});
-export const InternalServerExceptionReason = S.String;
+export const InternalServerExceptionReason =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ValidationExceptionReason =
   | "UNKNOWN_OPERATION"
   | "CANNOT_PARSE"
@@ -134,18 +135,20 @@ export type ValidationExceptionReason =
   | "UNSUPPORTED_SBOM_TYPE"
   | "OTHER"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ValidationExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.String, message: S.String }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFields = ValidationExceptionField[];
-export const ValidationExceptionFields = S.Array(ValidationExceptionField);
+export const ValidationExceptionFields = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(

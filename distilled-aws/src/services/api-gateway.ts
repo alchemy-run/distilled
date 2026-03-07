@@ -96,16 +96,16 @@ export interface StageKey {
   restApiId?: string;
   stageName?: string;
 }
-export const StageKey = S.suspend(() =>
+export const StageKey = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.optional(S.String),
     stageName: S.optional(S.String),
   }),
 ).annotate({ identifier: "StageKey" }) as any as S.Schema<StageKey>;
 export type ListOfStageKeys = StageKey[];
-export const ListOfStageKeys = S.Array(StageKey);
+export const ListOfStageKeys = /*@__PURE__*/ /*#__PURE__*/ S.Array(StageKey);
 export type MapOfStringToString = { [key: string]: string | undefined };
-export const MapOfStringToString = S.Record(
+export const MapOfStringToString = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
@@ -119,7 +119,7 @@ export interface CreateApiKeyRequest {
   customerId?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateApiKeyRequest = S.suspend(() =>
+export const CreateApiKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     description: S.optional(S.String),
@@ -143,7 +143,7 @@ export const CreateApiKeyRequest = S.suspend(() =>
   identifier: "CreateApiKeyRequest",
 }) as any as S.Schema<CreateApiKeyRequest>;
 export type ListOfString = string[];
-export const ListOfString = S.Array(S.String);
+export const ListOfString = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ApiKey {
   id?: string;
   value?: string;
@@ -156,7 +156,7 @@ export interface ApiKey {
   stageKeys?: string[];
   tags?: { [key: string]: string | undefined };
 }
-export const ApiKey = S.suspend(() =>
+export const ApiKey = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     value: S.optional(S.String),
@@ -177,9 +177,9 @@ export type AuthorizerType =
   | "REQUEST"
   | "COGNITO_USER_POOLS"
   | (string & {});
-export const AuthorizerType = S.String;
+export const AuthorizerType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ListOfARNs = string[];
-export const ListOfARNs = S.Array(S.String);
+export const ListOfARNs = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface CreateAuthorizerRequest {
   restApiId: string;
   name: string;
@@ -192,28 +192,29 @@ export interface CreateAuthorizerRequest {
   identityValidationExpression?: string;
   authorizerResultTtlInSeconds?: number;
 }
-export const CreateAuthorizerRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    name: S.String,
-    type: AuthorizerType,
-    providerARNs: S.optional(ListOfARNs),
-    authType: S.optional(S.String),
-    authorizerUri: S.optional(S.String),
-    authorizerCredentials: S.optional(S.String),
-    identitySource: S.optional(S.String),
-    identityValidationExpression: S.optional(S.String),
-    authorizerResultTtlInSeconds: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/restapis/{restApiId}/authorizers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAuthorizerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      name: S.String,
+      type: AuthorizerType,
+      providerARNs: S.optional(ListOfARNs),
+      authType: S.optional(S.String),
+      authorizerUri: S.optional(S.String),
+      authorizerCredentials: S.optional(S.String),
+      identitySource: S.optional(S.String),
+      identityValidationExpression: S.optional(S.String),
+      authorizerResultTtlInSeconds: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/restapis/{restApiId}/authorizers" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateAuthorizerRequest",
 }) as any as S.Schema<CreateAuthorizerRequest>;
@@ -229,7 +230,7 @@ export interface Authorizer {
   identityValidationExpression?: string;
   authorizerResultTtlInSeconds?: number;
 }
-export const Authorizer = S.suspend(() =>
+export const Authorizer = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -250,35 +251,36 @@ export interface CreateBasePathMappingRequest {
   restApiId: string;
   stage?: string;
 }
-export const CreateBasePathMappingRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    basePath: S.optional(S.String),
-    restApiId: S.String,
-    stage: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/domainnames/{domainName}/basepathmappings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateBasePathMappingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+      basePath: S.optional(S.String),
+      restApiId: S.String,
+      stage: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/domainnames/{domainName}/basepathmappings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateBasePathMappingRequest",
-}) as any as S.Schema<CreateBasePathMappingRequest>;
+  ).annotate({
+    identifier: "CreateBasePathMappingRequest",
+  }) as any as S.Schema<CreateBasePathMappingRequest>;
 export interface BasePathMapping {
   basePath?: string;
   restApiId?: string;
   stage?: string;
 }
-export const BasePathMapping = S.suspend(() =>
+export const BasePathMapping = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     basePath: S.optional(S.String),
     restApiId: S.optional(S.String),
@@ -297,18 +299,19 @@ export type CacheClusterSize =
   | "118"
   | "237"
   | (string & {});
-export const CacheClusterSize = S.String;
+export const CacheClusterSize = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DeploymentCanarySettings {
   percentTraffic?: number;
   stageVariableOverrides?: { [key: string]: string | undefined };
   useStageCache?: boolean;
 }
-export const DeploymentCanarySettings = S.suspend(() =>
-  S.Struct({
-    percentTraffic: S.optional(S.Number),
-    stageVariableOverrides: S.optional(MapOfStringToString),
-    useStageCache: S.optional(S.Boolean),
-  }),
+export const DeploymentCanarySettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      percentTraffic: S.optional(S.Number),
+      stageVariableOverrides: S.optional(MapOfStringToString),
+      useStageCache: S.optional(S.Boolean),
+    }),
 ).annotate({
   identifier: "DeploymentCanarySettings",
 }) as any as S.Schema<DeploymentCanarySettings>;
@@ -323,27 +326,28 @@ export interface CreateDeploymentRequest {
   canarySettings?: DeploymentCanarySettings;
   tracingEnabled?: boolean;
 }
-export const CreateDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    stageName: S.optional(S.String),
-    stageDescription: S.optional(S.String),
-    description: S.optional(S.String),
-    cacheClusterEnabled: S.optional(S.Boolean),
-    cacheClusterSize: S.optional(CacheClusterSize),
-    variables: S.optional(MapOfStringToString),
-    canarySettings: S.optional(DeploymentCanarySettings),
-    tracingEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/restapis/{restApiId}/deployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDeploymentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      stageName: S.optional(S.String),
+      stageDescription: S.optional(S.String),
+      description: S.optional(S.String),
+      cacheClusterEnabled: S.optional(S.Boolean),
+      cacheClusterSize: S.optional(CacheClusterSize),
+      variables: S.optional(MapOfStringToString),
+      canarySettings: S.optional(DeploymentCanarySettings),
+      tracingEnabled: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/restapis/{restApiId}/deployments" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateDeploymentRequest",
 }) as any as S.Schema<CreateDeploymentRequest>;
@@ -351,21 +355,21 @@ export interface MethodSnapshot {
   authorizationType?: string;
   apiKeyRequired?: boolean;
 }
-export const MethodSnapshot = S.suspend(() =>
+export const MethodSnapshot = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     authorizationType: S.optional(S.String),
     apiKeyRequired: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "MethodSnapshot" }) as any as S.Schema<MethodSnapshot>;
 export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot | undefined };
-export const MapOfMethodSnapshot = S.Record(
+export const MapOfMethodSnapshot = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   MethodSnapshot.pipe(S.optional),
 );
 export type PathToMapOfMethodSnapshot = {
   [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
 };
-export const PathToMapOfMethodSnapshot = S.Record(
+export const PathToMapOfMethodSnapshot = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   MapOfMethodSnapshot.pipe(S.optional),
 );
@@ -377,7 +381,7 @@ export interface Deployment {
     [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
   };
 }
-export const Deployment = S.suspend(() =>
+export const Deployment = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     description: S.optional(S.String),
@@ -399,7 +403,7 @@ export type DocumentationPartType =
   | "RESPONSE_HEADER"
   | "RESPONSE_BODY"
   | (string & {});
-export const DocumentationPartType = S.String;
+export const DocumentationPartType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DocumentationPartLocation {
   type: DocumentationPartType;
   path?: string;
@@ -407,14 +411,15 @@ export interface DocumentationPartLocation {
   statusCode?: string;
   name?: string;
 }
-export const DocumentationPartLocation = S.suspend(() =>
-  S.Struct({
-    type: DocumentationPartType,
-    path: S.optional(S.String),
-    method: S.optional(S.String),
-    statusCode: S.optional(S.String),
-    name: S.optional(S.String),
-  }),
+export const DocumentationPartLocation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      type: DocumentationPartType,
+      path: S.optional(S.String),
+      method: S.optional(S.String),
+      statusCode: S.optional(S.String),
+      name: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "DocumentationPartLocation",
 }) as any as S.Schema<DocumentationPartLocation>;
@@ -423,33 +428,34 @@ export interface CreateDocumentationPartRequest {
   location: DocumentationPartLocation;
   properties: string;
 }
-export const CreateDocumentationPartRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    location: DocumentationPartLocation,
-    properties: S.String,
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/documentation/parts",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDocumentationPartRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      location: DocumentationPartLocation,
+      properties: S.String,
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/restapis/{restApiId}/documentation/parts",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateDocumentationPartRequest",
-}) as any as S.Schema<CreateDocumentationPartRequest>;
+  ).annotate({
+    identifier: "CreateDocumentationPartRequest",
+  }) as any as S.Schema<CreateDocumentationPartRequest>;
 export interface DocumentationPart {
   id?: string;
   location?: DocumentationPartLocation;
   properties?: string;
 }
-export const DocumentationPart = S.suspend(() =>
+export const DocumentationPart = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     location: S.optional(DocumentationPartLocation),
@@ -464,34 +470,35 @@ export interface CreateDocumentationVersionRequest {
   stageName?: string;
   description?: string;
 }
-export const CreateDocumentationVersionRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationVersion: S.String,
-    stageName: S.optional(S.String),
-    description: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/documentation/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDocumentationVersionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationVersion: S.String,
+      stageName: S.optional(S.String),
+      description: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/restapis/{restApiId}/documentation/versions",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateDocumentationVersionRequest",
-}) as any as S.Schema<CreateDocumentationVersionRequest>;
+  ).annotate({
+    identifier: "CreateDocumentationVersionRequest",
+  }) as any as S.Schema<CreateDocumentationVersionRequest>;
 export interface DocumentationVersion {
   version?: string;
   createdDate?: Date;
   description?: string;
 }
-export const DocumentationVersion = S.suspend(() =>
+export const DocumentationVersion = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     createdDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -501,17 +508,18 @@ export const DocumentationVersion = S.suspend(() =>
   identifier: "DocumentationVersion",
 }) as any as S.Schema<DocumentationVersion>;
 export type EndpointType = "REGIONAL" | "EDGE" | "PRIVATE" | (string & {});
-export const EndpointType = S.String;
+export const EndpointType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ListOfEndpointType = EndpointType[];
-export const ListOfEndpointType = S.Array(EndpointType);
+export const ListOfEndpointType =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(EndpointType);
 export type IpAddressType = "ipv4" | "dualstack" | (string & {});
-export const IpAddressType = S.String;
+export const IpAddressType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EndpointConfiguration {
   types?: EndpointType[];
   ipAddressType?: IpAddressType;
   vpcEndpointIds?: string[];
 }
-export const EndpointConfiguration = S.suspend(() =>
+export const EndpointConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     types: S.optional(ListOfEndpointType),
     ipAddressType: S.optional(IpAddressType),
@@ -533,27 +541,28 @@ export type SecurityPolicy =
   | "SecurityPolicy_TLS12_PFS_2025_EDGE"
   | "SecurityPolicy_TLS12_2018_EDGE"
   | (string & {});
-export const SecurityPolicy = S.String;
+export const SecurityPolicy = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EndpointAccessMode = "BASIC" | "STRICT" | (string & {});
-export const EndpointAccessMode = S.String;
+export const EndpointAccessMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MutualTlsAuthenticationInput {
   truststoreUri?: string;
   truststoreVersion?: string;
 }
-export const MutualTlsAuthenticationInput = S.suspend(() =>
-  S.Struct({
-    truststoreUri: S.optional(S.String),
-    truststoreVersion: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "MutualTlsAuthenticationInput",
-}) as any as S.Schema<MutualTlsAuthenticationInput>;
+export const MutualTlsAuthenticationInput =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      truststoreUri: S.optional(S.String),
+      truststoreVersion: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "MutualTlsAuthenticationInput",
+  }) as any as S.Schema<MutualTlsAuthenticationInput>;
 export type RoutingMode =
   | "BASE_PATH_MAPPING_ONLY"
   | "ROUTING_RULE_ONLY"
   | "ROUTING_RULE_THEN_BASE_PATH_MAPPING"
   | (string & {});
-export const RoutingMode = S.String;
+export const RoutingMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateDomainNameRequest {
   domainName: string;
   certificateName?: string;
@@ -572,34 +581,35 @@ export interface CreateDomainNameRequest {
   policy?: string;
   routingMode?: RoutingMode;
 }
-export const CreateDomainNameRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String,
-    certificateName: S.optional(S.String),
-    certificateBody: S.optional(S.String),
-    certificatePrivateKey: S.optional(S.String),
-    certificateChain: S.optional(S.String),
-    certificateArn: S.optional(S.String),
-    regionalCertificateName: S.optional(S.String),
-    regionalCertificateArn: S.optional(S.String),
-    endpointConfiguration: S.optional(EndpointConfiguration),
-    tags: S.optional(MapOfStringToString),
-    securityPolicy: S.optional(SecurityPolicy),
-    endpointAccessMode: S.optional(EndpointAccessMode),
-    mutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput),
-    ownershipVerificationCertificateArn: S.optional(S.String),
-    policy: S.optional(S.String),
-    routingMode: S.optional(RoutingMode),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domainnames" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDomainNameRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainName: S.String,
+      certificateName: S.optional(S.String),
+      certificateBody: S.optional(S.String),
+      certificatePrivateKey: S.optional(S.String),
+      certificateChain: S.optional(S.String),
+      certificateArn: S.optional(S.String),
+      regionalCertificateName: S.optional(S.String),
+      regionalCertificateArn: S.optional(S.String),
+      endpointConfiguration: S.optional(EndpointConfiguration),
+      tags: S.optional(MapOfStringToString),
+      securityPolicy: S.optional(SecurityPolicy),
+      endpointAccessMode: S.optional(EndpointAccessMode),
+      mutualTlsAuthentication: S.optional(MutualTlsAuthenticationInput),
+      ownershipVerificationCertificateArn: S.optional(S.String),
+      policy: S.optional(S.String),
+      routingMode: S.optional(RoutingMode),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/domainnames" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateDomainNameRequest",
 }) as any as S.Schema<CreateDomainNameRequest>;
@@ -611,18 +621,19 @@ export type DomainNameStatus =
   | "PENDING_OWNERSHIP_VERIFICATION"
   | "FAILED"
   | (string & {});
-export const DomainNameStatus = S.String;
+export const DomainNameStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MutualTlsAuthentication {
   truststoreUri?: string;
   truststoreVersion?: string;
   truststoreWarnings?: string[];
 }
-export const MutualTlsAuthentication = S.suspend(() =>
-  S.Struct({
-    truststoreUri: S.optional(S.String),
-    truststoreVersion: S.optional(S.String),
-    truststoreWarnings: S.optional(ListOfString),
-  }),
+export const MutualTlsAuthentication = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      truststoreUri: S.optional(S.String),
+      truststoreVersion: S.optional(S.String),
+      truststoreWarnings: S.optional(ListOfString),
+    }),
 ).annotate({
   identifier: "MutualTlsAuthentication",
 }) as any as S.Schema<MutualTlsAuthentication>;
@@ -651,7 +662,7 @@ export interface DomainName {
   policy?: string;
   routingMode?: RoutingMode;
 }
-export const DomainName = S.suspend(() =>
+export const DomainName = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     domainName: S.optional(S.String),
     domainNameId: S.optional(S.String),
@@ -681,32 +692,33 @@ export const DomainName = S.suspend(() =>
   }),
 ).annotate({ identifier: "DomainName" }) as any as S.Schema<DomainName>;
 export type AccessAssociationSourceType = "VPCE" | (string & {});
-export const AccessAssociationSourceType = S.String;
+export const AccessAssociationSourceType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateDomainNameAccessAssociationRequest {
   domainNameArn: string;
   accessAssociationSourceType: AccessAssociationSourceType;
   accessAssociationSource: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateDomainNameAccessAssociationRequest = S.suspend(() =>
-  S.Struct({
-    domainNameArn: S.String,
-    accessAssociationSourceType: AccessAssociationSourceType,
-    accessAssociationSource: S.String,
-    tags: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/domainnameaccessassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateDomainNameAccessAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainNameArn: S.String,
+      accessAssociationSourceType: AccessAssociationSourceType,
+      accessAssociationSource: S.String,
+      tags: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/domainnameaccessassociations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateDomainNameAccessAssociationRequest",
-}) as any as S.Schema<CreateDomainNameAccessAssociationRequest>;
+  ).annotate({
+    identifier: "CreateDomainNameAccessAssociationRequest",
+  }) as any as S.Schema<CreateDomainNameAccessAssociationRequest>;
 export interface DomainNameAccessAssociation {
   domainNameAccessAssociationArn?: string;
   domainNameArn?: string;
@@ -714,17 +726,18 @@ export interface DomainNameAccessAssociation {
   accessAssociationSource?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const DomainNameAccessAssociation = S.suspend(() =>
-  S.Struct({
-    domainNameAccessAssociationArn: S.optional(S.String),
-    domainNameArn: S.optional(S.String),
-    accessAssociationSourceType: S.optional(AccessAssociationSourceType),
-    accessAssociationSource: S.optional(S.String),
-    tags: S.optional(MapOfStringToString),
-  }),
-).annotate({
-  identifier: "DomainNameAccessAssociation",
-}) as any as S.Schema<DomainNameAccessAssociation>;
+export const DomainNameAccessAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainNameAccessAssociationArn: S.optional(S.String),
+      domainNameArn: S.optional(S.String),
+      accessAssociationSourceType: S.optional(AccessAssociationSourceType),
+      accessAssociationSource: S.optional(S.String),
+      tags: S.optional(MapOfStringToString),
+    }),
+  ).annotate({
+    identifier: "DomainNameAccessAssociation",
+  }) as any as S.Schema<DomainNameAccessAssociation>;
 export interface CreateModelRequest {
   restApiId: string;
   name: string;
@@ -732,7 +745,7 @@ export interface CreateModelRequest {
   schema?: string;
   contentType: string;
 }
-export const CreateModelRequest = S.suspend(() =>
+export const CreateModelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     name: S.String,
@@ -759,7 +772,7 @@ export interface Model {
   schema?: string;
   contentType?: string;
 }
-export const Model = S.suspend(() =>
+export const Model = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -774,35 +787,36 @@ export interface CreateRequestValidatorRequest {
   validateRequestBody?: boolean;
   validateRequestParameters?: boolean;
 }
-export const CreateRequestValidatorRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    name: S.optional(S.String),
-    validateRequestBody: S.optional(S.Boolean),
-    validateRequestParameters: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/requestvalidators",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateRequestValidatorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      name: S.optional(S.String),
+      validateRequestBody: S.optional(S.Boolean),
+      validateRequestParameters: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/restapis/{restApiId}/requestvalidators",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateRequestValidatorRequest",
-}) as any as S.Schema<CreateRequestValidatorRequest>;
+  ).annotate({
+    identifier: "CreateRequestValidatorRequest",
+  }) as any as S.Schema<CreateRequestValidatorRequest>;
 export interface RequestValidator {
   id?: string;
   name?: string;
   validateRequestBody?: boolean;
   validateRequestParameters?: boolean;
 }
-export const RequestValidator = S.suspend(() =>
+export const RequestValidator = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -817,7 +831,7 @@ export interface CreateResourceRequest {
   parentId: string;
   pathPart: string;
 }
-export const CreateResourceRequest = S.suspend(() =>
+export const CreateResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     parentId: S.String.pipe(T.HttpLabel("parentId")),
@@ -839,7 +853,7 @@ export const CreateResourceRequest = S.suspend(() =>
   identifier: "CreateResourceRequest",
 }) as any as S.Schema<CreateResourceRequest>;
 export type MapOfStringToBoolean = { [key: string]: boolean | undefined };
-export const MapOfStringToBoolean = S.Record(
+export const MapOfStringToBoolean = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.Boolean.pipe(S.optional),
 );
@@ -848,7 +862,7 @@ export interface MethodResponse {
   responseParameters?: { [key: string]: boolean | undefined };
   responseModels?: { [key: string]: string | undefined };
 }
-export const MethodResponse = S.suspend(() =>
+export const MethodResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     statusCode: S.optional(S.String),
     responseParameters: S.optional(MapOfStringToBoolean),
@@ -856,7 +870,7 @@ export const MethodResponse = S.suspend(() =>
   }),
 ).annotate({ identifier: "MethodResponse" }) as any as S.Schema<MethodResponse>;
 export type MapOfMethodResponse = { [key: string]: MethodResponse | undefined };
-export const MapOfMethodResponse = S.Record(
+export const MapOfMethodResponse = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   MethodResponse.pipe(S.optional),
 );
@@ -867,14 +881,14 @@ export type IntegrationType =
   | "HTTP_PROXY"
   | "AWS_PROXY"
   | (string & {});
-export const IntegrationType = S.String;
+export const IntegrationType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ConnectionType = "INTERNET" | "VPC_LINK" | (string & {});
-export const ConnectionType = S.String;
+export const ConnectionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ContentHandlingStrategy =
   | "CONVERT_TO_BINARY"
   | "CONVERT_TO_TEXT"
   | (string & {});
-export const ContentHandlingStrategy = S.String;
+export const ContentHandlingStrategy = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface IntegrationResponse {
   statusCode?: string;
   selectionPattern?: string;
@@ -882,7 +896,7 @@ export interface IntegrationResponse {
   responseTemplates?: { [key: string]: string | undefined };
   contentHandling?: ContentHandlingStrategy;
 }
-export const IntegrationResponse = S.suspend(() =>
+export const IntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     statusCode: S.optional(S.String),
     selectionPattern: S.optional(S.String),
@@ -896,18 +910,18 @@ export const IntegrationResponse = S.suspend(() =>
 export type MapOfIntegrationResponse = {
   [key: string]: IntegrationResponse | undefined;
 };
-export const MapOfIntegrationResponse = S.Record(
+export const MapOfIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   IntegrationResponse.pipe(S.optional),
 );
 export interface TlsConfig {
   insecureSkipVerification?: boolean;
 }
-export const TlsConfig = S.suspend(() =>
+export const TlsConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ insecureSkipVerification: S.optional(S.Boolean) }),
 ).annotate({ identifier: "TlsConfig" }) as any as S.Schema<TlsConfig>;
 export type ResponseTransferMode = "BUFFERED" | "STREAM" | (string & {});
-export const ResponseTransferMode = S.String;
+export const ResponseTransferMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Integration {
   type?: IntegrationType;
   httpMethod?: string;
@@ -927,7 +941,7 @@ export interface Integration {
   responseTransferMode?: ResponseTransferMode;
   integrationTarget?: string;
 }
-export const Integration = S.suspend(() =>
+export const Integration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(IntegrationType),
     httpMethod: S.optional(S.String),
@@ -961,7 +975,7 @@ export interface Method {
   methodIntegration?: Integration;
   authorizationScopes?: string[];
 }
-export const Method = S.suspend(() =>
+export const Method = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     httpMethod: S.optional(S.String),
     authorizationType: S.optional(S.String),
@@ -977,7 +991,10 @@ export const Method = S.suspend(() =>
   }),
 ).annotate({ identifier: "Method" }) as any as S.Schema<Method>;
 export type MapOfMethod = { [key: string]: Method | undefined };
-export const MapOfMethod = S.Record(S.String, Method.pipe(S.optional));
+export const MapOfMethod = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  Method.pipe(S.optional),
+);
 export interface Resource {
   id?: string;
   parentId?: string;
@@ -985,7 +1002,7 @@ export interface Resource {
   path?: string;
   resourceMethods?: { [key: string]: Method | undefined };
 }
-export const Resource = S.suspend(() =>
+export const Resource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     parentId: S.optional(S.String),
@@ -995,7 +1012,7 @@ export const Resource = S.suspend(() =>
   }),
 ).annotate({ identifier: "Resource" }) as any as S.Schema<Resource>;
 export type ApiKeySourceType = "HEADER" | "AUTHORIZER" | (string & {});
-export const ApiKeySourceType = S.String;
+export const ApiKeySourceType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateRestApiRequest {
   name: string;
   description?: string;
@@ -1011,7 +1028,7 @@ export interface CreateRestApiRequest {
   securityPolicy?: SecurityPolicy;
   endpointAccessMode?: EndpointAccessMode;
 }
-export const CreateRestApiRequest = S.suspend(() =>
+export const CreateRestApiRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
@@ -1045,7 +1062,7 @@ export type ApiStatus =
   | "PENDING"
   | "FAILED"
   | (string & {});
-export const ApiStatus = S.String;
+export const ApiStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface RestApi {
   id?: string;
   name?: string;
@@ -1066,7 +1083,7 @@ export interface RestApi {
   apiStatus?: ApiStatus;
   apiStatusMessage?: string;
 }
-export const RestApi = S.suspend(() =>
+export const RestApi = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -1094,7 +1111,7 @@ export interface CanarySettings {
   stageVariableOverrides?: { [key: string]: string | undefined };
   useStageCache?: boolean;
 }
-export const CanarySettings = S.suspend(() =>
+export const CanarySettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     percentTraffic: S.optional(S.Number),
     deploymentId: S.optional(S.String),
@@ -1115,7 +1132,7 @@ export interface CreateStageRequest {
   tracingEnabled?: boolean;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateStageRequest = S.suspend(() =>
+export const CreateStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     stageName: S.String,
@@ -1148,13 +1165,14 @@ export type CacheClusterStatus =
   | "NOT_AVAILABLE"
   | "FLUSH_IN_PROGRESS"
   | (string & {});
-export const CacheClusterStatus = S.String;
+export const CacheClusterStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type UnauthorizedCacheControlHeaderStrategy =
   | "FAIL_WITH_403"
   | "SUCCEED_WITH_RESPONSE_HEADER"
   | "SUCCEED_WITHOUT_RESPONSE_HEADER"
   | (string & {});
-export const UnauthorizedCacheControlHeaderStrategy = S.String;
+export const UnauthorizedCacheControlHeaderStrategy =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface MethodSetting {
   metricsEnabled?: boolean;
   loggingLevel?: string;
@@ -1167,7 +1185,7 @@ export interface MethodSetting {
   requireAuthorizationForCacheControl?: boolean;
   unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy;
 }
-export const MethodSetting = S.suspend(() =>
+export const MethodSetting = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     metricsEnabled: S.optional(S.Boolean),
     loggingLevel: S.optional(S.String),
@@ -1184,7 +1202,7 @@ export const MethodSetting = S.suspend(() =>
   }),
 ).annotate({ identifier: "MethodSetting" }) as any as S.Schema<MethodSetting>;
 export type MapOfMethodSettings = { [key: string]: MethodSetting | undefined };
-export const MapOfMethodSettings = S.Record(
+export const MapOfMethodSettings = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   MethodSetting.pipe(S.optional),
 );
@@ -1192,7 +1210,7 @@ export interface AccessLogSettings {
   format?: string;
   destinationArn?: string;
 }
-export const AccessLogSettings = S.suspend(() =>
+export const AccessLogSettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     format: S.optional(S.String),
     destinationArn: S.optional(S.String),
@@ -1219,7 +1237,7 @@ export interface Stage {
   createdDate?: Date;
   lastUpdatedDate?: Date;
 }
-export const Stage = S.suspend(() =>
+export const Stage = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
     clientCertificateId: S.optional(S.String),
@@ -1246,7 +1264,7 @@ export interface ThrottleSettings {
   burstLimit?: number;
   rateLimit?: number;
 }
-export const ThrottleSettings = S.suspend(() =>
+export const ThrottleSettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     burstLimit: S.optional(S.Number),
     rateLimit: S.optional(S.Number),
@@ -1257,16 +1275,17 @@ export const ThrottleSettings = S.suspend(() =>
 export type MapOfApiStageThrottleSettings = {
   [key: string]: ThrottleSettings | undefined;
 };
-export const MapOfApiStageThrottleSettings = S.Record(
-  S.String,
-  ThrottleSettings.pipe(S.optional),
-);
+export const MapOfApiStageThrottleSettings =
+  /*@__PURE__*/ /*#__PURE__*/ S.Record(
+    S.String,
+    ThrottleSettings.pipe(S.optional),
+  );
 export interface ApiStage {
   apiId?: string;
   stage?: string;
   throttle?: { [key: string]: ThrottleSettings | undefined };
 }
-export const ApiStage = S.suspend(() =>
+export const ApiStage = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     apiId: S.optional(S.String),
     stage: S.optional(S.String),
@@ -1274,15 +1293,15 @@ export const ApiStage = S.suspend(() =>
   }),
 ).annotate({ identifier: "ApiStage" }) as any as S.Schema<ApiStage>;
 export type ListOfApiStage = ApiStage[];
-export const ListOfApiStage = S.Array(ApiStage);
+export const ListOfApiStage = /*@__PURE__*/ /*#__PURE__*/ S.Array(ApiStage);
 export type QuotaPeriodType = "DAY" | "WEEK" | "MONTH" | (string & {});
-export const QuotaPeriodType = S.String;
+export const QuotaPeriodType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface QuotaSettings {
   limit?: number;
   offset?: number;
   period?: QuotaPeriodType;
 }
-export const QuotaSettings = S.suspend(() =>
+export const QuotaSettings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     limit: S.optional(S.Number),
     offset: S.optional(S.Number),
@@ -1297,24 +1316,25 @@ export interface CreateUsagePlanRequest {
   quota?: QuotaSettings;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateUsagePlanRequest = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    apiStages: S.optional(ListOfApiStage),
-    throttle: S.optional(ThrottleSettings),
-    quota: S.optional(QuotaSettings),
-    tags: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/usageplans" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateUsagePlanRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      description: S.optional(S.String),
+      apiStages: S.optional(ListOfApiStage),
+      throttle: S.optional(ThrottleSettings),
+      quota: S.optional(QuotaSettings),
+      tags: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/usageplans" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateUsagePlanRequest",
 }) as any as S.Schema<CreateUsagePlanRequest>;
@@ -1328,7 +1348,7 @@ export interface UsagePlan {
   productCode?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const UsagePlan = S.suspend(() =>
+export const UsagePlan = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -1345,21 +1365,22 @@ export interface CreateUsagePlanKeyRequest {
   keyId: string;
   keyType: string;
 }
-export const CreateUsagePlanKeyRequest = S.suspend(() =>
-  S.Struct({
-    usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
-    keyId: S.String,
-    keyType: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/usageplans/{usagePlanId}/keys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateUsagePlanKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
+      keyId: S.String,
+      keyType: S.String,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/usageplans/{usagePlanId}/keys" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateUsagePlanKeyRequest",
 }) as any as S.Schema<CreateUsagePlanKeyRequest>;
@@ -1369,7 +1390,7 @@ export interface UsagePlanKey {
   value?: string;
   name?: string;
 }
-export const UsagePlanKey = S.suspend(() =>
+export const UsagePlanKey = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     type: S.optional(S.String),
@@ -1383,7 +1404,7 @@ export interface CreateVpcLinkRequest {
   targetArns: string[];
   tags?: { [key: string]: string | undefined };
 }
-export const CreateVpcLinkRequest = S.suspend(() =>
+export const CreateVpcLinkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     description: S.optional(S.String),
@@ -1408,7 +1429,7 @@ export type VpcLinkStatus =
   | "DELETING"
   | "FAILED"
   | (string & {});
-export const VpcLinkStatus = S.String;
+export const VpcLinkStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface VpcLink {
   id?: string;
   name?: string;
@@ -1418,7 +1439,7 @@ export interface VpcLink {
   statusMessage?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const VpcLink = S.suspend(() =>
+export const VpcLink = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     name: S.optional(S.String),
@@ -1432,7 +1453,7 @@ export const VpcLink = S.suspend(() =>
 export interface DeleteApiKeyRequest {
   apiKey: string;
 }
-export const DeleteApiKeyRequest = S.suspend(() =>
+export const DeleteApiKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ apiKey: S.String.pipe(T.HttpLabel("apiKey")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/apikeys/{apiKey}" }),
@@ -1447,35 +1468,40 @@ export const DeleteApiKeyRequest = S.suspend(() =>
   identifier: "DeleteApiKeyRequest",
 }) as any as S.Schema<DeleteApiKeyRequest>;
 export interface DeleteApiKeyResponse {}
-export const DeleteApiKeyResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteApiKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteApiKeyResponse",
 }) as any as S.Schema<DeleteApiKeyResponse>;
 export interface DeleteAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
 }
-export const DeleteAuthorizerRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteAuthorizerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteAuthorizerRequest",
 }) as any as S.Schema<DeleteAuthorizerRequest>;
 export interface DeleteAuthorizerResponse {}
-export const DeleteAuthorizerResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteAuthorizerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteAuthorizerResponse",
 }) as any as S.Schema<DeleteAuthorizerResponse>;
 export interface DeleteBasePathMappingRequest {
@@ -1483,204 +1509,210 @@ export interface DeleteBasePathMappingRequest {
   domainNameId?: string;
   basePath: string;
 }
-export const DeleteBasePathMappingRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    basePath: S.String.pipe(T.HttpLabel("basePath")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteBasePathMappingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+      basePath: S.String.pipe(T.HttpLabel("basePath")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteBasePathMappingRequest",
-}) as any as S.Schema<DeleteBasePathMappingRequest>;
+  ).annotate({
+    identifier: "DeleteBasePathMappingRequest",
+  }) as any as S.Schema<DeleteBasePathMappingRequest>;
 export interface DeleteBasePathMappingResponse {}
-export const DeleteBasePathMappingResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteBasePathMappingResponse",
-}) as any as S.Schema<DeleteBasePathMappingResponse>;
+export const DeleteBasePathMappingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteBasePathMappingResponse",
+  }) as any as S.Schema<DeleteBasePathMappingResponse>;
 export interface DeleteClientCertificateRequest {
   clientCertificateId: string;
 }
-export const DeleteClientCertificateRequest = S.suspend(() =>
-  S.Struct({
-    clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/clientcertificates/{clientCertificateId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/clientcertificates/{clientCertificateId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteClientCertificateRequest",
-}) as any as S.Schema<DeleteClientCertificateRequest>;
+  ).annotate({
+    identifier: "DeleteClientCertificateRequest",
+  }) as any as S.Schema<DeleteClientCertificateRequest>;
 export interface DeleteClientCertificateResponse {}
-export const DeleteClientCertificateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteClientCertificateResponse",
-}) as any as S.Schema<DeleteClientCertificateResponse>;
+export const DeleteClientCertificateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteClientCertificateResponse",
+  }) as any as S.Schema<DeleteClientCertificateResponse>;
 export interface DeleteDeploymentRequest {
   restApiId: string;
   deploymentId: string;
 }
-export const DeleteDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/deployments/{deploymentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteDeploymentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/deployments/{deploymentId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteDeploymentRequest",
 }) as any as S.Schema<DeleteDeploymentRequest>;
 export interface DeleteDeploymentResponse {}
-export const DeleteDeploymentResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteDeploymentResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteDeploymentResponse",
 }) as any as S.Schema<DeleteDeploymentResponse>;
 export interface DeleteDocumentationPartRequest {
   restApiId: string;
   documentationPartId: string;
 }
-export const DeleteDocumentationPartRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationPartId: S.String.pipe(T.HttpLabel("documentationPartId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/documentation/parts/{documentationPartId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteDocumentationPartRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationPartId: S.String.pipe(T.HttpLabel("documentationPartId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/documentation/parts/{documentationPartId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteDocumentationPartRequest",
-}) as any as S.Schema<DeleteDocumentationPartRequest>;
+  ).annotate({
+    identifier: "DeleteDocumentationPartRequest",
+  }) as any as S.Schema<DeleteDocumentationPartRequest>;
 export interface DeleteDocumentationPartResponse {}
-export const DeleteDocumentationPartResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDocumentationPartResponse",
-}) as any as S.Schema<DeleteDocumentationPartResponse>;
+export const DeleteDocumentationPartResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteDocumentationPartResponse",
+  }) as any as S.Schema<DeleteDocumentationPartResponse>;
 export interface DeleteDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
 }
-export const DeleteDocumentationVersionRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationVersion: S.String.pipe(T.HttpLabel("documentationVersion")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/documentation/versions/{documentationVersion}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteDocumentationVersionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationVersion: S.String.pipe(T.HttpLabel("documentationVersion")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/documentation/versions/{documentationVersion}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteDocumentationVersionRequest",
-}) as any as S.Schema<DeleteDocumentationVersionRequest>;
+  ).annotate({
+    identifier: "DeleteDocumentationVersionRequest",
+  }) as any as S.Schema<DeleteDocumentationVersionRequest>;
 export interface DeleteDocumentationVersionResponse {}
-export const DeleteDocumentationVersionResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDocumentationVersionResponse",
-}) as any as S.Schema<DeleteDocumentationVersionResponse>;
+export const DeleteDocumentationVersionResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteDocumentationVersionResponse",
+  }) as any as S.Schema<DeleteDocumentationVersionResponse>;
 export interface DeleteDomainNameRequest {
   domainName: string;
   domainNameId?: string;
 }
-export const DeleteDomainNameRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/domainnames/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteDomainNameRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/domainnames/{domainName}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteDomainNameRequest",
 }) as any as S.Schema<DeleteDomainNameRequest>;
 export interface DeleteDomainNameResponse {}
-export const DeleteDomainNameResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteDomainNameResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteDomainNameResponse",
 }) as any as S.Schema<DeleteDomainNameResponse>;
 export interface DeleteDomainNameAccessAssociationRequest {
   domainNameAccessAssociationArn: string;
 }
-export const DeleteDomainNameAccessAssociationRequest = S.suspend(() =>
-  S.Struct({
-    domainNameAccessAssociationArn: S.String.pipe(
-      T.HttpLabel("domainNameAccessAssociationArn"),
+export const DeleteDomainNameAccessAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainNameAccessAssociationArn: S.String.pipe(
+        T.HttpLabel("domainNameAccessAssociationArn"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/domainnameaccessassociations/{domainNameAccessAssociationArn}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/domainnameaccessassociations/{domainNameAccessAssociationArn}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "DeleteDomainNameAccessAssociationRequest",
-}) as any as S.Schema<DeleteDomainNameAccessAssociationRequest>;
+  ).annotate({
+    identifier: "DeleteDomainNameAccessAssociationRequest",
+  }) as any as S.Schema<DeleteDomainNameAccessAssociationRequest>;
 export interface DeleteDomainNameAccessAssociationResponse {}
-export const DeleteDomainNameAccessAssociationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteDomainNameAccessAssociationResponse",
-}) as any as S.Schema<DeleteDomainNameAccessAssociationResponse>;
+export const DeleteDomainNameAccessAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteDomainNameAccessAssociationResponse",
+  }) as any as S.Schema<DeleteDomainNameAccessAssociationResponse>;
 export type GatewayResponseType =
   | "DEFAULT_4XX"
   | "DEFAULT_5XX"
@@ -1704,107 +1736,110 @@ export type GatewayResponseType =
   | "QUOTA_EXCEEDED"
   | "WAF_FILTERED"
   | (string & {});
-export const GatewayResponseType = S.String;
+export const GatewayResponseType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DeleteGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
 }
-export const DeleteGatewayResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteGatewayResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteGatewayResponseRequest",
-}) as any as S.Schema<DeleteGatewayResponseRequest>;
+  ).annotate({
+    identifier: "DeleteGatewayResponseRequest",
+  }) as any as S.Schema<DeleteGatewayResponseRequest>;
 export interface DeleteGatewayResponseResponse {}
-export const DeleteGatewayResponseResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteGatewayResponseResponse",
-}) as any as S.Schema<DeleteGatewayResponseResponse>;
+export const DeleteGatewayResponseResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteGatewayResponseResponse",
+  }) as any as S.Schema<DeleteGatewayResponseResponse>;
 export interface DeleteIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
 }
-export const DeleteIntegrationRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteIntegrationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteIntegrationRequest",
 }) as any as S.Schema<DeleteIntegrationRequest>;
 export interface DeleteIntegrationResponse {}
-export const DeleteIntegrationResponse = S.suspend(() => S.Struct({})).annotate(
-  { identifier: "DeleteIntegrationResponse" },
-) as any as S.Schema<DeleteIntegrationResponse>;
+export const DeleteIntegrationResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "DeleteIntegrationResponse",
+}) as any as S.Schema<DeleteIntegrationResponse>;
 export interface DeleteIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
 }
-export const DeleteIntegrationResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteIntegrationResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteIntegrationResponseRequest",
-}) as any as S.Schema<DeleteIntegrationResponseRequest>;
+  ).annotate({
+    identifier: "DeleteIntegrationResponseRequest",
+  }) as any as S.Schema<DeleteIntegrationResponseRequest>;
 export interface DeleteIntegrationResponseResponse {}
-export const DeleteIntegrationResponseResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIntegrationResponseResponse",
-}) as any as S.Schema<DeleteIntegrationResponseResponse>;
+export const DeleteIntegrationResponseResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteIntegrationResponseResponse",
+  }) as any as S.Schema<DeleteIntegrationResponseResponse>;
 export interface DeleteMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
 }
-export const DeleteMethodRequest = S.suspend(() =>
+export const DeleteMethodRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -1826,7 +1861,9 @@ export const DeleteMethodRequest = S.suspend(() =>
   identifier: "DeleteMethodRequest",
 }) as any as S.Schema<DeleteMethodRequest>;
 export interface DeleteMethodResponse {}
-export const DeleteMethodResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteMethodResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteMethodResponse",
 }) as any as S.Schema<DeleteMethodResponse>;
 export interface DeleteMethodResponseRequest {
@@ -1835,39 +1872,39 @@ export interface DeleteMethodResponseRequest {
   httpMethod: string;
   statusCode: string;
 }
-export const DeleteMethodResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteMethodResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteMethodResponseRequest",
-}) as any as S.Schema<DeleteMethodResponseRequest>;
+  ).annotate({
+    identifier: "DeleteMethodResponseRequest",
+  }) as any as S.Schema<DeleteMethodResponseRequest>;
 export interface DeleteMethodResponseResponse {}
-export const DeleteMethodResponseResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteMethodResponseResponse",
-}) as any as S.Schema<DeleteMethodResponseResponse>;
+export const DeleteMethodResponseResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteMethodResponseResponse",
+  }) as any as S.Schema<DeleteMethodResponseResponse>;
 export interface DeleteModelRequest {
   restApiId: string;
   modelName: string;
 }
-export const DeleteModelRequest = S.suspend(() =>
+export const DeleteModelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     modelName: S.String.pipe(T.HttpLabel("modelName")),
@@ -1888,44 +1925,46 @@ export const DeleteModelRequest = S.suspend(() =>
   identifier: "DeleteModelRequest",
 }) as any as S.Schema<DeleteModelRequest>;
 export interface DeleteModelResponse {}
-export const DeleteModelResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteModelResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteModelResponse",
 }) as any as S.Schema<DeleteModelResponse>;
 export interface DeleteRequestValidatorRequest {
   restApiId: string;
   requestValidatorId: string;
 }
-export const DeleteRequestValidatorRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    requestValidatorId: S.String.pipe(T.HttpLabel("requestValidatorId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteRequestValidatorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      requestValidatorId: S.String.pipe(T.HttpLabel("requestValidatorId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteRequestValidatorRequest",
-}) as any as S.Schema<DeleteRequestValidatorRequest>;
+  ).annotate({
+    identifier: "DeleteRequestValidatorRequest",
+  }) as any as S.Schema<DeleteRequestValidatorRequest>;
 export interface DeleteRequestValidatorResponse {}
-export const DeleteRequestValidatorResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteRequestValidatorResponse",
-}) as any as S.Schema<DeleteRequestValidatorResponse>;
+export const DeleteRequestValidatorResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteRequestValidatorResponse",
+  }) as any as S.Schema<DeleteRequestValidatorResponse>;
 export interface DeleteResourceRequest {
   restApiId: string;
   resourceId: string;
 }
-export const DeleteResourceRequest = S.suspend(() =>
+export const DeleteResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -1946,13 +1985,15 @@ export const DeleteResourceRequest = S.suspend(() =>
   identifier: "DeleteResourceRequest",
 }) as any as S.Schema<DeleteResourceRequest>;
 export interface DeleteResourceResponse {}
-export const DeleteResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteResourceResponse",
 }) as any as S.Schema<DeleteResourceResponse>;
 export interface DeleteRestApiRequest {
   restApiId: string;
 }
-export const DeleteRestApiRequest = S.suspend(() =>
+export const DeleteRestApiRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ restApiId: S.String.pipe(T.HttpLabel("restApiId")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/restapis/{restApiId}" }),
@@ -1967,14 +2008,16 @@ export const DeleteRestApiRequest = S.suspend(() =>
   identifier: "DeleteRestApiRequest",
 }) as any as S.Schema<DeleteRestApiRequest>;
 export interface DeleteRestApiResponse {}
-export const DeleteRestApiResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteRestApiResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteRestApiResponse",
 }) as any as S.Schema<DeleteRestApiResponse>;
 export interface DeleteStageRequest {
   restApiId: string;
   stageName: string;
 }
-export const DeleteStageRequest = S.suspend(() =>
+export const DeleteStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     stageName: S.String.pipe(T.HttpLabel("stageName")),
@@ -1995,64 +2038,70 @@ export const DeleteStageRequest = S.suspend(() =>
   identifier: "DeleteStageRequest",
 }) as any as S.Schema<DeleteStageRequest>;
 export interface DeleteStageResponse {}
-export const DeleteStageResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteStageResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteStageResponse",
 }) as any as S.Schema<DeleteStageResponse>;
 export interface DeleteUsagePlanRequest {
   usagePlanId: string;
 }
-export const DeleteUsagePlanRequest = S.suspend(() =>
-  S.Struct({ usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/usageplans/{usagePlanId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteUsagePlanRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")) }).pipe(
+      T.all(
+        T.Http({ method: "DELETE", uri: "/usageplans/{usagePlanId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteUsagePlanRequest",
 }) as any as S.Schema<DeleteUsagePlanRequest>;
 export interface DeleteUsagePlanResponse {}
-export const DeleteUsagePlanResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteUsagePlanResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeleteUsagePlanResponse",
 }) as any as S.Schema<DeleteUsagePlanResponse>;
 export interface DeleteUsagePlanKeyRequest {
   usagePlanId: string;
   keyId: string;
 }
-export const DeleteUsagePlanKeyRequest = S.suspend(() =>
-  S.Struct({
-    usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
-    keyId: S.String.pipe(T.HttpLabel("keyId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/usageplans/{usagePlanId}/keys/{keyId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteUsagePlanKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
+      keyId: S.String.pipe(T.HttpLabel("keyId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/usageplans/{usagePlanId}/keys/{keyId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteUsagePlanKeyRequest",
 }) as any as S.Schema<DeleteUsagePlanKeyRequest>;
 export interface DeleteUsagePlanKeyResponse {}
-export const DeleteUsagePlanKeyResponse = S.suspend(() =>
-  S.Struct({}),
+export const DeleteUsagePlanKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
 ).annotate({
   identifier: "DeleteUsagePlanKeyResponse",
 }) as any as S.Schema<DeleteUsagePlanKeyResponse>;
 export interface DeleteVpcLinkRequest {
   vpcLinkId: string;
 }
-export const DeleteVpcLinkRequest = S.suspend(() =>
+export const DeleteVpcLinkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ vpcLinkId: S.String.pipe(T.HttpLabel("vpcLinkId")) }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/vpclinks/{vpcLinkId}" }),
@@ -2067,88 +2116,94 @@ export const DeleteVpcLinkRequest = S.suspend(() =>
   identifier: "DeleteVpcLinkRequest",
 }) as any as S.Schema<DeleteVpcLinkRequest>;
 export interface DeleteVpcLinkResponse {}
-export const DeleteVpcLinkResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteVpcLinkResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteVpcLinkResponse",
 }) as any as S.Schema<DeleteVpcLinkResponse>;
 export interface FlushStageAuthorizersCacheRequest {
   restApiId: string;
   stageName: string;
 }
-export const FlushStageAuthorizersCacheRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    stageName: S.String.pipe(T.HttpLabel("stageName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/stages/{stageName}/cache/authorizers",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const FlushStageAuthorizersCacheRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      stageName: S.String.pipe(T.HttpLabel("stageName")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/stages/{stageName}/cache/authorizers",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "FlushStageAuthorizersCacheRequest",
-}) as any as S.Schema<FlushStageAuthorizersCacheRequest>;
+  ).annotate({
+    identifier: "FlushStageAuthorizersCacheRequest",
+  }) as any as S.Schema<FlushStageAuthorizersCacheRequest>;
 export interface FlushStageAuthorizersCacheResponse {}
-export const FlushStageAuthorizersCacheResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "FlushStageAuthorizersCacheResponse",
-}) as any as S.Schema<FlushStageAuthorizersCacheResponse>;
+export const FlushStageAuthorizersCacheResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "FlushStageAuthorizersCacheResponse",
+  }) as any as S.Schema<FlushStageAuthorizersCacheResponse>;
 export interface FlushStageCacheRequest {
   restApiId: string;
   stageName: string;
 }
-export const FlushStageCacheRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    stageName: S.String.pipe(T.HttpLabel("stageName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "DELETE",
-        uri: "/restapis/{restApiId}/stages/{stageName}/cache/data",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const FlushStageCacheRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      stageName: S.String.pipe(T.HttpLabel("stageName")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/restapis/{restApiId}/stages/{stageName}/cache/data",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "FlushStageCacheRequest",
 }) as any as S.Schema<FlushStageCacheRequest>;
 export interface FlushStageCacheResponse {}
-export const FlushStageCacheResponse = S.suspend(() => S.Struct({})).annotate({
+export const FlushStageCacheResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "FlushStageCacheResponse",
 }) as any as S.Schema<FlushStageCacheResponse>;
 export interface GenerateClientCertificateRequest {
   description?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GenerateClientCertificateRequest = S.suspend(() =>
-  S.Struct({
-    description: S.optional(S.String),
-    tags: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/clientcertificates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GenerateClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      description: S.optional(S.String),
+      tags: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/clientcertificates" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GenerateClientCertificateRequest",
-}) as any as S.Schema<GenerateClientCertificateRequest>;
+  ).annotate({
+    identifier: "GenerateClientCertificateRequest",
+  }) as any as S.Schema<GenerateClientCertificateRequest>;
 export interface ClientCertificate {
   clientCertificateId?: string;
   description?: string;
@@ -2157,7 +2212,7 @@ export interface ClientCertificate {
   expirationDate?: Date;
   tags?: { [key: string]: string | undefined };
 }
-export const ClientCertificate = S.suspend(() =>
+export const ClientCertificate = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     clientCertificateId: S.optional(S.String),
     description: S.optional(S.String),
@@ -2170,7 +2225,7 @@ export const ClientCertificate = S.suspend(() =>
   identifier: "ClientCertificate",
 }) as any as S.Schema<ClientCertificate>;
 export interface GetAccountRequest {}
-export const GetAccountRequest = S.suspend(() =>
+export const GetAccountRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/account" }),
@@ -2190,7 +2245,7 @@ export interface Account {
   features?: string[];
   apiKeyVersion?: string;
 }
-export const Account = S.suspend(() =>
+export const Account = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     cloudwatchRoleArn: S.optional(S.String),
     throttleSettings: S.optional(ThrottleSettings),
@@ -2202,7 +2257,7 @@ export interface GetApiKeyRequest {
   apiKey: string;
   includeValue?: boolean;
 }
-export const GetApiKeyRequest = S.suspend(() =>
+export const GetApiKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     apiKey: S.String.pipe(T.HttpLabel("apiKey")),
     includeValue: S.optional(S.Boolean).pipe(T.HttpQuery("includeValue")),
@@ -2226,7 +2281,7 @@ export interface GetApiKeysRequest {
   customerId?: string;
   includeValues?: boolean;
 }
-export const GetApiKeysRequest = S.suspend(() =>
+export const GetApiKeysRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
@@ -2247,13 +2302,13 @@ export const GetApiKeysRequest = S.suspend(() =>
   identifier: "GetApiKeysRequest",
 }) as any as S.Schema<GetApiKeysRequest>;
 export type ListOfApiKey = ApiKey[];
-export const ListOfApiKey = S.Array(ApiKey);
+export const ListOfApiKey = /*@__PURE__*/ /*#__PURE__*/ S.Array(ApiKey);
 export interface ApiKeys {
   warnings?: string[];
   items?: ApiKey[];
   position?: string;
 }
-export const ApiKeys = S.suspend(() =>
+export const ApiKeys = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     warnings: S.optional(ListOfString),
     items: S.optional(ListOfApiKey),
@@ -2264,7 +2319,7 @@ export interface GetAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
 }
-export const GetAuthorizerRequest = S.suspend(() =>
+export const GetAuthorizerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
@@ -2289,7 +2344,7 @@ export interface GetAuthorizersRequest {
   position?: string;
   limit?: number;
 }
-export const GetAuthorizersRequest = S.suspend(() =>
+export const GetAuthorizersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2308,12 +2363,12 @@ export const GetAuthorizersRequest = S.suspend(() =>
   identifier: "GetAuthorizersRequest",
 }) as any as S.Schema<GetAuthorizersRequest>;
 export type ListOfAuthorizer = Authorizer[];
-export const ListOfAuthorizer = S.Array(Authorizer);
+export const ListOfAuthorizer = /*@__PURE__*/ /*#__PURE__*/ S.Array(Authorizer);
 export interface Authorizers {
   items?: Authorizer[];
   position?: string;
 }
-export const Authorizers = S.suspend(() =>
+export const Authorizers = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfAuthorizer),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2324,24 +2379,25 @@ export interface GetBasePathMappingRequest {
   domainNameId?: string;
   basePath: string;
 }
-export const GetBasePathMappingRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    basePath: S.String.pipe(T.HttpLabel("basePath")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetBasePathMappingRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+      basePath: S.String.pipe(T.HttpLabel("basePath")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetBasePathMappingRequest",
 }) as any as S.Schema<GetBasePathMappingRequest>;
@@ -2351,35 +2407,37 @@ export interface GetBasePathMappingsRequest {
   position?: string;
   limit?: number;
 }
-export const GetBasePathMappingsRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/domainnames/{domainName}/basepathmappings",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetBasePathMappingsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/domainnames/{domainName}/basepathmappings",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetBasePathMappingsRequest",
 }) as any as S.Schema<GetBasePathMappingsRequest>;
 export type ListOfBasePathMapping = BasePathMapping[];
-export const ListOfBasePathMapping = S.Array(BasePathMapping);
+export const ListOfBasePathMapping =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(BasePathMapping);
 export interface BasePathMappings {
   items?: BasePathMapping[];
   position?: string;
 }
-export const BasePathMappings = S.suspend(() =>
+export const BasePathMappings = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfBasePathMapping),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2390,53 +2448,56 @@ export const BasePathMappings = S.suspend(() =>
 export interface GetClientCertificateRequest {
   clientCertificateId: string;
 }
-export const GetClientCertificateRequest = S.suspend(() =>
-  S.Struct({
-    clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/clientcertificates/{clientCertificateId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/clientcertificates/{clientCertificateId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetClientCertificateRequest",
-}) as any as S.Schema<GetClientCertificateRequest>;
+  ).annotate({
+    identifier: "GetClientCertificateRequest",
+  }) as any as S.Schema<GetClientCertificateRequest>;
 export interface GetClientCertificatesRequest {
   position?: string;
   limit?: number;
 }
-export const GetClientCertificatesRequest = S.suspend(() =>
-  S.Struct({
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/clientcertificates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetClientCertificatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/clientcertificates" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetClientCertificatesRequest",
-}) as any as S.Schema<GetClientCertificatesRequest>;
+  ).annotate({
+    identifier: "GetClientCertificatesRequest",
+  }) as any as S.Schema<GetClientCertificatesRequest>;
 export type ListOfClientCertificate = ClientCertificate[];
-export const ListOfClientCertificate = S.Array(ClientCertificate);
+export const ListOfClientCertificate =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ClientCertificate);
 export interface ClientCertificates {
   items?: ClientCertificate[];
   position?: string;
 }
-export const ClientCertificates = S.suspend(() =>
+export const ClientCertificates = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfClientCertificate),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2449,7 +2510,7 @@ export interface GetDeploymentRequest {
   deploymentId: string;
   embed?: string[];
 }
-export const GetDeploymentRequest = S.suspend(() =>
+export const GetDeploymentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
@@ -2475,7 +2536,7 @@ export interface GetDeploymentsRequest {
   position?: string;
   limit?: number;
 }
-export const GetDeploymentsRequest = S.suspend(() =>
+export const GetDeploymentsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2494,12 +2555,12 @@ export const GetDeploymentsRequest = S.suspend(() =>
   identifier: "GetDeploymentsRequest",
 }) as any as S.Schema<GetDeploymentsRequest>;
 export type ListOfDeployment = Deployment[];
-export const ListOfDeployment = S.Array(Deployment);
+export const ListOfDeployment = /*@__PURE__*/ /*#__PURE__*/ S.Array(Deployment);
 export interface Deployments {
   items?: Deployment[];
   position?: string;
 }
-export const Deployments = S.suspend(() =>
+export const Deployments = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfDeployment),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2509,28 +2570,29 @@ export interface GetDocumentationPartRequest {
   restApiId: string;
   documentationPartId: string;
 }
-export const GetDocumentationPartRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationPartId: S.String.pipe(T.HttpLabel("documentationPartId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/documentation/parts/{documentationPartId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDocumentationPartRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationPartId: S.String.pipe(T.HttpLabel("documentationPartId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/documentation/parts/{documentationPartId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDocumentationPartRequest",
-}) as any as S.Schema<GetDocumentationPartRequest>;
+  ).annotate({
+    identifier: "GetDocumentationPartRequest",
+  }) as any as S.Schema<GetDocumentationPartRequest>;
 export type LocationStatusType = "DOCUMENTED" | "UNDOCUMENTED" | (string & {});
-export const LocationStatusType = S.String;
+export const LocationStatusType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GetDocumentationPartsRequest {
   restApiId: string;
   type?: DocumentationPartType;
@@ -2540,40 +2602,42 @@ export interface GetDocumentationPartsRequest {
   limit?: number;
   locationStatus?: LocationStatusType;
 }
-export const GetDocumentationPartsRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    type: S.optional(DocumentationPartType).pipe(T.HttpQuery("type")),
-    nameQuery: S.optional(S.String).pipe(T.HttpQuery("name")),
-    path: S.optional(S.String).pipe(T.HttpQuery("path")),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    locationStatus: S.optional(LocationStatusType).pipe(
-      T.HttpQuery("locationStatus"),
+export const GetDocumentationPartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      type: S.optional(DocumentationPartType).pipe(T.HttpQuery("type")),
+      nameQuery: S.optional(S.String).pipe(T.HttpQuery("name")),
+      path: S.optional(S.String).pipe(T.HttpQuery("path")),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      locationStatus: S.optional(LocationStatusType).pipe(
+        T.HttpQuery("locationStatus"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/documentation/parts",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/documentation/parts",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "GetDocumentationPartsRequest",
-}) as any as S.Schema<GetDocumentationPartsRequest>;
+  ).annotate({
+    identifier: "GetDocumentationPartsRequest",
+  }) as any as S.Schema<GetDocumentationPartsRequest>;
 export type ListOfDocumentationPart = DocumentationPart[];
-export const ListOfDocumentationPart = S.Array(DocumentationPart);
+export const ListOfDocumentationPart =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DocumentationPart);
 export interface DocumentationParts {
   items?: DocumentationPart[];
   position?: string;
 }
-export const DocumentationParts = S.suspend(() =>
+export const DocumentationParts = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfDocumentationPart),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2585,59 +2649,62 @@ export interface GetDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
 }
-export const GetDocumentationVersionRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationVersion: S.String.pipe(T.HttpLabel("documentationVersion")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/documentation/versions/{documentationVersion}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDocumentationVersionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationVersion: S.String.pipe(T.HttpLabel("documentationVersion")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/documentation/versions/{documentationVersion}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDocumentationVersionRequest",
-}) as any as S.Schema<GetDocumentationVersionRequest>;
+  ).annotate({
+    identifier: "GetDocumentationVersionRequest",
+  }) as any as S.Schema<GetDocumentationVersionRequest>;
 export interface GetDocumentationVersionsRequest {
   restApiId: string;
   position?: string;
   limit?: number;
 }
-export const GetDocumentationVersionsRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/documentation/versions",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDocumentationVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/documentation/versions",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDocumentationVersionsRequest",
-}) as any as S.Schema<GetDocumentationVersionsRequest>;
+  ).annotate({
+    identifier: "GetDocumentationVersionsRequest",
+  }) as any as S.Schema<GetDocumentationVersionsRequest>;
 export type ListOfDocumentationVersion = DocumentationVersion[];
-export const ListOfDocumentationVersion = S.Array(DocumentationVersion);
+export const ListOfDocumentationVersion =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DocumentationVersion);
 export interface DocumentationVersions {
   items?: DocumentationVersion[];
   position?: string;
 }
-export const DocumentationVersions = S.suspend(() =>
+export const DocumentationVersions = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfDocumentationVersion),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2649,7 +2716,7 @@ export interface GetDomainNameRequest {
   domainName: string;
   domainNameId?: string;
 }
-export const GetDomainNameRequest = S.suspend(() =>
+export const GetDomainNameRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     domainName: S.String.pipe(T.HttpLabel("domainName")),
     domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
@@ -2667,52 +2734,55 @@ export const GetDomainNameRequest = S.suspend(() =>
   identifier: "GetDomainNameRequest",
 }) as any as S.Schema<GetDomainNameRequest>;
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
-export const ResourceOwner = S.String;
+export const ResourceOwner = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GetDomainNameAccessAssociationsRequest {
   position?: string;
   limit?: number;
   resourceOwner?: ResourceOwner;
 }
-export const GetDomainNameAccessAssociationsRequest = S.suspend(() =>
-  S.Struct({
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    resourceOwner: S.optional(ResourceOwner).pipe(T.HttpQuery("resourceOwner")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/domainnameaccessassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetDomainNameAccessAssociationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      resourceOwner: S.optional(ResourceOwner).pipe(
+        T.HttpQuery("resourceOwner"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/domainnameaccessassociations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetDomainNameAccessAssociationsRequest",
-}) as any as S.Schema<GetDomainNameAccessAssociationsRequest>;
+  ).annotate({
+    identifier: "GetDomainNameAccessAssociationsRequest",
+  }) as any as S.Schema<GetDomainNameAccessAssociationsRequest>;
 export type ListOfDomainNameAccessAssociation = DomainNameAccessAssociation[];
-export const ListOfDomainNameAccessAssociation = S.Array(
-  DomainNameAccessAssociation,
-);
+export const ListOfDomainNameAccessAssociation =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DomainNameAccessAssociation);
 export interface DomainNameAccessAssociations {
   items?: DomainNameAccessAssociation[];
   position?: string;
 }
-export const DomainNameAccessAssociations = S.suspend(() =>
-  S.Struct({
-    items: S.optional(ListOfDomainNameAccessAssociation),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-  }).pipe(S.encodeKeys({ items: "item" })),
-).annotate({
-  identifier: "DomainNameAccessAssociations",
-}) as any as S.Schema<DomainNameAccessAssociations>;
+export const DomainNameAccessAssociations =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      items: S.optional(ListOfDomainNameAccessAssociation),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+    }).pipe(S.encodeKeys({ items: "item" })),
+  ).annotate({
+    identifier: "DomainNameAccessAssociations",
+  }) as any as S.Schema<DomainNameAccessAssociations>;
 export interface GetDomainNamesRequest {
   position?: string;
   limit?: number;
   resourceOwner?: ResourceOwner;
 }
-export const GetDomainNamesRequest = S.suspend(() =>
+export const GetDomainNamesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
@@ -2731,12 +2801,12 @@ export const GetDomainNamesRequest = S.suspend(() =>
   identifier: "GetDomainNamesRequest",
 }) as any as S.Schema<GetDomainNamesRequest>;
 export type ListOfDomainName = DomainName[];
-export const ListOfDomainName = S.Array(DomainName);
+export const ListOfDomainName = /*@__PURE__*/ /*#__PURE__*/ S.Array(DomainName);
 export interface DomainNames {
   items?: DomainName[];
   position?: string;
 }
-export const DomainNames = S.suspend(() =>
+export const DomainNames = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfDomainName),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2749,7 +2819,7 @@ export interface GetExportRequest {
   parameters?: { [key: string]: string | undefined };
   accepts?: string;
 }
-export const GetExportRequest = S.suspend(() =>
+export const GetExportRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     stageName: S.String.pipe(T.HttpLabel("stageName")),
@@ -2777,7 +2847,7 @@ export interface ExportResponse {
   contentDisposition?: string;
   body?: T.StreamingOutputBody;
 }
-export const ExportResponse = S.suspend(() =>
+export const ExportResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     contentDisposition: S.optional(S.String).pipe(
@@ -2790,23 +2860,24 @@ export interface GetGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
 }
-export const GetGatewayResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetGatewayResponseRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetGatewayResponseRequest",
 }) as any as S.Schema<GetGatewayResponseRequest>;
@@ -2817,7 +2888,7 @@ export interface GatewayResponse {
   responseTemplates?: { [key: string]: string | undefined };
   defaultResponse?: boolean;
 }
-export const GatewayResponse = S.suspend(() =>
+export const GatewayResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     responseType: S.optional(GatewayResponseType),
     statusCode: S.optional(S.String),
@@ -2833,31 +2904,36 @@ export interface GetGatewayResponsesRequest {
   position?: string;
   limit?: number;
 }
-export const GetGatewayResponsesRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/restapis/{restApiId}/gatewayresponses" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetGatewayResponsesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/gatewayresponses",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetGatewayResponsesRequest",
 }) as any as S.Schema<GetGatewayResponsesRequest>;
 export type ListOfGatewayResponse = GatewayResponse[];
-export const ListOfGatewayResponse = S.Array(GatewayResponse);
+export const ListOfGatewayResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(GatewayResponse);
 export interface GatewayResponses {
   items?: GatewayResponse[];
   position?: string;
 }
-export const GatewayResponses = S.suspend(() =>
+export const GatewayResponses = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfGatewayResponse),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -2870,7 +2946,7 @@ export interface GetIntegrationRequest {
   resourceId: string;
   httpMethod: string;
 }
-export const GetIntegrationRequest = S.suspend(() =>
+export const GetIntegrationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -2897,34 +2973,35 @@ export interface GetIntegrationResponseRequest {
   httpMethod: string;
   statusCode: string;
 }
-export const GetIntegrationResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetIntegrationResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetIntegrationResponseRequest",
-}) as any as S.Schema<GetIntegrationResponseRequest>;
+  ).annotate({
+    identifier: "GetIntegrationResponseRequest",
+  }) as any as S.Schema<GetIntegrationResponseRequest>;
 export interface GetMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
 }
-export const GetMethodRequest = S.suspend(() =>
+export const GetMethodRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -2951,25 +3028,26 @@ export interface GetMethodResponseRequest {
   httpMethod: string;
   statusCode: string;
 }
-export const GetMethodResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetMethodResponseRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetMethodResponseRequest",
 }) as any as S.Schema<GetMethodResponseRequest>;
@@ -2978,7 +3056,7 @@ export interface GetModelRequest {
   modelName: string;
   flatten?: boolean;
 }
-export const GetModelRequest = S.suspend(() =>
+export const GetModelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     modelName: S.String.pipe(T.HttpLabel("modelName")),
@@ -3004,7 +3082,7 @@ export interface GetModelsRequest {
   position?: string;
   limit?: number;
 }
-export const GetModelsRequest = S.suspend(() =>
+export const GetModelsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3023,12 +3101,12 @@ export const GetModelsRequest = S.suspend(() =>
   identifier: "GetModelsRequest",
 }) as any as S.Schema<GetModelsRequest>;
 export type ListOfModel = Model[];
-export const ListOfModel = S.Array(Model);
+export const ListOfModel = /*@__PURE__*/ /*#__PURE__*/ S.Array(Model);
 export interface Models {
   items?: Model[];
   position?: string;
 }
-export const Models = S.suspend(() =>
+export const Models = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfModel),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3038,53 +3116,55 @@ export interface GetModelTemplateRequest {
   restApiId: string;
   modelName: string;
 }
-export const GetModelTemplateRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    modelName: S.String.pipe(T.HttpLabel("modelName")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/models/{modelName}/default_template",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetModelTemplateRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      modelName: S.String.pipe(T.HttpLabel("modelName")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/models/{modelName}/default_template",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetModelTemplateRequest",
 }) as any as S.Schema<GetModelTemplateRequest>;
 export interface Template {
   value?: string;
 }
-export const Template = S.suspend(() =>
+export const Template = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ value: S.optional(S.String) }),
 ).annotate({ identifier: "Template" }) as any as S.Schema<Template>;
 export interface GetRequestValidatorRequest {
   restApiId: string;
   requestValidatorId: string;
 }
-export const GetRequestValidatorRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    requestValidatorId: S.String.pipe(T.HttpLabel("requestValidatorId")),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "GET",
-        uri: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetRequestValidatorRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      requestValidatorId: S.String.pipe(T.HttpLabel("requestValidatorId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetRequestValidatorRequest",
 }) as any as S.Schema<GetRequestValidatorRequest>;
@@ -3093,31 +3173,36 @@ export interface GetRequestValidatorsRequest {
   position?: string;
   limit?: number;
 }
-export const GetRequestValidatorsRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/restapis/{restApiId}/requestvalidators" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetRequestValidatorsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/restapis/{restApiId}/requestvalidators",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetRequestValidatorsRequest",
-}) as any as S.Schema<GetRequestValidatorsRequest>;
+  ).annotate({
+    identifier: "GetRequestValidatorsRequest",
+  }) as any as S.Schema<GetRequestValidatorsRequest>;
 export type ListOfRequestValidator = RequestValidator[];
-export const ListOfRequestValidator = S.Array(RequestValidator);
+export const ListOfRequestValidator =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RequestValidator);
 export interface RequestValidators {
   items?: RequestValidator[];
   position?: string;
 }
-export const RequestValidators = S.suspend(() =>
+export const RequestValidators = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfRequestValidator),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3130,7 +3215,7 @@ export interface GetResourceRequest {
   resourceId: string;
   embed?: string[];
 }
-export const GetResourceRequest = S.suspend(() =>
+export const GetResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -3157,7 +3242,7 @@ export interface GetResourcesRequest {
   limit?: number;
   embed?: string[];
 }
-export const GetResourcesRequest = S.suspend(() =>
+export const GetResourcesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3177,12 +3262,12 @@ export const GetResourcesRequest = S.suspend(() =>
   identifier: "GetResourcesRequest",
 }) as any as S.Schema<GetResourcesRequest>;
 export type ListOfResource = Resource[];
-export const ListOfResource = S.Array(Resource);
+export const ListOfResource = /*@__PURE__*/ /*#__PURE__*/ S.Array(Resource);
 export interface Resources {
   items?: Resource[];
   position?: string;
 }
-export const Resources = S.suspend(() =>
+export const Resources = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfResource),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3191,7 +3276,7 @@ export const Resources = S.suspend(() =>
 export interface GetRestApiRequest {
   restApiId: string;
 }
-export const GetRestApiRequest = S.suspend(() =>
+export const GetRestApiRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ restApiId: S.String.pipe(T.HttpLabel("restApiId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/restapis/{restApiId}" }),
@@ -3209,7 +3294,7 @@ export interface GetRestApisRequest {
   position?: string;
   limit?: number;
 }
-export const GetRestApisRequest = S.suspend(() =>
+export const GetRestApisRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
@@ -3227,12 +3312,12 @@ export const GetRestApisRequest = S.suspend(() =>
   identifier: "GetRestApisRequest",
 }) as any as S.Schema<GetRestApisRequest>;
 export type ListOfRestApi = RestApi[];
-export const ListOfRestApi = S.Array(RestApi);
+export const ListOfRestApi = /*@__PURE__*/ /*#__PURE__*/ S.Array(RestApi);
 export interface RestApis {
   items?: RestApi[];
   position?: string;
 }
-export const RestApis = S.suspend(() =>
+export const RestApis = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfRestApi),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3244,7 +3329,7 @@ export interface GetSdkRequest {
   sdkType: string;
   parameters?: { [key: string]: string | undefined };
 }
-export const GetSdkRequest = S.suspend(() =>
+export const GetSdkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     stageName: S.String.pipe(T.HttpLabel("stageName")),
@@ -3269,7 +3354,7 @@ export interface SdkResponse {
   contentDisposition?: string;
   body?: T.StreamingOutputBody;
 }
-export const SdkResponse = S.suspend(() =>
+export const SdkResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
     contentDisposition: S.optional(S.String).pipe(
@@ -3281,7 +3366,7 @@ export const SdkResponse = S.suspend(() =>
 export interface GetSdkTypeRequest {
   id: string;
 }
-export const GetSdkTypeRequest = S.suspend(() =>
+export const GetSdkTypeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/sdktypes/{id}" }),
@@ -3302,26 +3387,28 @@ export interface SdkConfigurationProperty {
   required?: boolean;
   defaultValue?: string;
 }
-export const SdkConfigurationProperty = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    friendlyName: S.optional(S.String),
-    description: S.optional(S.String),
-    required: S.optional(S.Boolean),
-    defaultValue: S.optional(S.String),
-  }),
+export const SdkConfigurationProperty = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.optional(S.String),
+      friendlyName: S.optional(S.String),
+      description: S.optional(S.String),
+      required: S.optional(S.Boolean),
+      defaultValue: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "SdkConfigurationProperty",
 }) as any as S.Schema<SdkConfigurationProperty>;
 export type ListOfSdkConfigurationProperty = SdkConfigurationProperty[];
-export const ListOfSdkConfigurationProperty = S.Array(SdkConfigurationProperty);
+export const ListOfSdkConfigurationProperty =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(SdkConfigurationProperty);
 export interface SdkType {
   id?: string;
   friendlyName?: string;
   description?: string;
   configurationProperties?: SdkConfigurationProperty[];
 }
-export const SdkType = S.suspend(() =>
+export const SdkType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     friendlyName: S.optional(S.String),
@@ -3333,7 +3420,7 @@ export interface GetSdkTypesRequest {
   position?: string;
   limit?: number;
 }
-export const GetSdkTypesRequest = S.suspend(() =>
+export const GetSdkTypesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
@@ -3351,11 +3438,11 @@ export const GetSdkTypesRequest = S.suspend(() =>
   identifier: "GetSdkTypesRequest",
 }) as any as S.Schema<GetSdkTypesRequest>;
 export type ListOfSdkType = SdkType[];
-export const ListOfSdkType = S.Array(SdkType);
+export const ListOfSdkType = /*@__PURE__*/ /*#__PURE__*/ S.Array(SdkType);
 export interface SdkTypes {
   items?: SdkType[];
 }
-export const SdkTypes = S.suspend(() =>
+export const SdkTypes = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ items: S.optional(ListOfSdkType) }).pipe(
     S.encodeKeys({ items: "item" }),
   ),
@@ -3364,7 +3451,7 @@ export interface GetStageRequest {
   restApiId: string;
   stageName: string;
 }
-export const GetStageRequest = S.suspend(() =>
+export const GetStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     stageName: S.String.pipe(T.HttpLabel("stageName")),
@@ -3388,7 +3475,7 @@ export interface GetStagesRequest {
   restApiId: string;
   deploymentId?: string;
 }
-export const GetStagesRequest = S.suspend(() =>
+export const GetStagesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     deploymentId: S.optional(S.String).pipe(T.HttpQuery("deploymentId")),
@@ -3406,11 +3493,11 @@ export const GetStagesRequest = S.suspend(() =>
   identifier: "GetStagesRequest",
 }) as any as S.Schema<GetStagesRequest>;
 export type ListOfStage = Stage[];
-export const ListOfStage = S.Array(Stage);
+export const ListOfStage = /*@__PURE__*/ /*#__PURE__*/ S.Array(Stage);
 export interface Stages {
   item?: Stage[];
 }
-export const Stages = S.suspend(() =>
+export const Stages = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ item: S.optional(ListOfStage) }),
 ).annotate({ identifier: "Stages" }) as any as S.Schema<Stages>;
 export interface GetTagsRequest {
@@ -3418,7 +3505,7 @@ export interface GetTagsRequest {
   position?: string;
   limit?: number;
 }
-export const GetTagsRequest = S.suspend(() =>
+export const GetTagsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3437,7 +3524,7 @@ export const GetTagsRequest = S.suspend(() =>
 export interface Tags {
   tags?: { [key: string]: string | undefined };
 }
-export const Tags = S.suspend(() =>
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ tags: S.optional(MapOfStringToString) }),
 ).annotate({ identifier: "Tags" }) as any as S.Schema<Tags>;
 export interface GetUsageRequest {
@@ -3448,7 +3535,7 @@ export interface GetUsageRequest {
   position?: string;
   limit?: number;
 }
-export const GetUsageRequest = S.suspend(() =>
+export const GetUsageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
     keyId: S.optional(S.String).pipe(T.HttpQuery("keyId")),
@@ -3470,11 +3557,14 @@ export const GetUsageRequest = S.suspend(() =>
   identifier: "GetUsageRequest",
 }) as any as S.Schema<GetUsageRequest>;
 export type ListOfLong = number[];
-export const ListOfLong = S.Array(S.Number);
+export const ListOfLong = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.Number);
 export type ListOfUsage = number[][];
-export const ListOfUsage = S.Array(ListOfLong);
+export const ListOfUsage = /*@__PURE__*/ /*#__PURE__*/ S.Array(ListOfLong);
 export type MapOfKeyUsages = { [key: string]: number[][] | undefined };
-export const MapOfKeyUsages = S.Record(S.String, ListOfUsage.pipe(S.optional));
+export const MapOfKeyUsages = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  ListOfUsage.pipe(S.optional),
+);
 export interface Usage {
   usagePlanId?: string;
   startDate?: string;
@@ -3482,7 +3572,7 @@ export interface Usage {
   items?: { [key: string]: number[][] | undefined };
   position?: string;
 }
-export const Usage = S.suspend(() =>
+export const Usage = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     usagePlanId: S.optional(S.String),
     startDate: S.optional(S.String),
@@ -3494,7 +3584,7 @@ export const Usage = S.suspend(() =>
 export interface GetUsagePlanRequest {
   usagePlanId: string;
 }
-export const GetUsagePlanRequest = S.suspend(() =>
+export const GetUsagePlanRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/usageplans/{usagePlanId}" }),
@@ -3512,20 +3602,24 @@ export interface GetUsagePlanKeyRequest {
   usagePlanId: string;
   keyId: string;
 }
-export const GetUsagePlanKeyRequest = S.suspend(() =>
-  S.Struct({
-    usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
-    keyId: S.String.pipe(T.HttpLabel("keyId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/usageplans/{usagePlanId}/keys/{keyId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetUsagePlanKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
+      keyId: S.String.pipe(T.HttpLabel("keyId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/usageplans/{usagePlanId}/keys/{keyId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetUsagePlanKeyRequest",
 }) as any as S.Schema<GetUsagePlanKeyRequest>;
@@ -3535,32 +3629,34 @@ export interface GetUsagePlanKeysRequest {
   limit?: number;
   nameQuery?: string;
 }
-export const GetUsagePlanKeysRequest = S.suspend(() =>
-  S.Struct({
-    usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
-    position: S.optional(S.String).pipe(T.HttpQuery("position")),
-    limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
-    nameQuery: S.optional(S.String).pipe(T.HttpQuery("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/usageplans/{usagePlanId}/keys" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetUsagePlanKeysRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
+      position: S.optional(S.String).pipe(T.HttpQuery("position")),
+      limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
+      nameQuery: S.optional(S.String).pipe(T.HttpQuery("name")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/usageplans/{usagePlanId}/keys" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetUsagePlanKeysRequest",
 }) as any as S.Schema<GetUsagePlanKeysRequest>;
 export type ListOfUsagePlanKey = UsagePlanKey[];
-export const ListOfUsagePlanKey = S.Array(UsagePlanKey);
+export const ListOfUsagePlanKey =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(UsagePlanKey);
 export interface UsagePlanKeys {
   items?: UsagePlanKey[];
   position?: string;
 }
-export const UsagePlanKeys = S.suspend(() =>
+export const UsagePlanKeys = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfUsagePlanKey),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3571,7 +3667,7 @@ export interface GetUsagePlansRequest {
   keyId?: string;
   limit?: number;
 }
-export const GetUsagePlansRequest = S.suspend(() =>
+export const GetUsagePlansRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     keyId: S.optional(S.String).pipe(T.HttpQuery("keyId")),
@@ -3590,12 +3686,12 @@ export const GetUsagePlansRequest = S.suspend(() =>
   identifier: "GetUsagePlansRequest",
 }) as any as S.Schema<GetUsagePlansRequest>;
 export type ListOfUsagePlan = UsagePlan[];
-export const ListOfUsagePlan = S.Array(UsagePlan);
+export const ListOfUsagePlan = /*@__PURE__*/ /*#__PURE__*/ S.Array(UsagePlan);
 export interface UsagePlans {
   items?: UsagePlan[];
   position?: string;
 }
-export const UsagePlans = S.suspend(() =>
+export const UsagePlans = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfUsagePlan),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
@@ -3604,7 +3700,7 @@ export const UsagePlans = S.suspend(() =>
 export interface GetVpcLinkRequest {
   vpcLinkId: string;
 }
-export const GetVpcLinkRequest = S.suspend(() =>
+export const GetVpcLinkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ vpcLinkId: S.String.pipe(T.HttpLabel("vpcLinkId")) }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/vpclinks/{vpcLinkId}" }),
@@ -3622,7 +3718,7 @@ export interface GetVpcLinksRequest {
   position?: string;
   limit?: number;
 }
-export const GetVpcLinksRequest = S.suspend(() =>
+export const GetVpcLinksRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
@@ -3640,25 +3736,25 @@ export const GetVpcLinksRequest = S.suspend(() =>
   identifier: "GetVpcLinksRequest",
 }) as any as S.Schema<GetVpcLinksRequest>;
 export type ListOfVpcLink = VpcLink[];
-export const ListOfVpcLink = S.Array(VpcLink);
+export const ListOfVpcLink = /*@__PURE__*/ /*#__PURE__*/ S.Array(VpcLink);
 export interface VpcLinks {
   items?: VpcLink[];
   position?: string;
 }
-export const VpcLinks = S.suspend(() =>
+export const VpcLinks = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     items: S.optional(ListOfVpcLink),
     position: S.optional(S.String).pipe(T.HttpQuery("position")),
   }).pipe(S.encodeKeys({ items: "item" })),
 ).annotate({ identifier: "VpcLinks" }) as any as S.Schema<VpcLinks>;
 export type ApiKeysFormat = "csv" | (string & {});
-export const ApiKeysFormat = S.String;
+export const ApiKeysFormat = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ImportApiKeysRequest {
   body: T.StreamingInputBody;
   format: ApiKeysFormat;
   failOnWarnings?: boolean;
 }
-export const ImportApiKeysRequest = S.suspend(() =>
+export const ImportApiKeysRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     body: T.StreamingInput.pipe(T.HttpPayload()),
     format: ApiKeysFormat.pipe(T.HttpQuery("format")),
@@ -3680,47 +3776,48 @@ export interface ApiKeyIds {
   ids?: string[];
   warnings?: string[];
 }
-export const ApiKeyIds = S.suspend(() =>
+export const ApiKeyIds = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.optional(ListOfString),
     warnings: S.optional(ListOfString),
   }),
 ).annotate({ identifier: "ApiKeyIds" }) as any as S.Schema<ApiKeyIds>;
 export type PutMode = "merge" | "overwrite" | (string & {});
-export const PutMode = S.String;
+export const PutMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ImportDocumentationPartsRequest {
   restApiId: string;
   mode?: PutMode;
   failOnWarnings?: boolean;
   body: T.StreamingInputBody;
 }
-export const ImportDocumentationPartsRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    mode: S.optional(PutMode).pipe(T.HttpQuery("mode")),
-    failOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failonwarnings")),
-    body: T.StreamingInput.pipe(T.HttpPayload()),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/documentation/parts",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ImportDocumentationPartsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      mode: S.optional(PutMode).pipe(T.HttpQuery("mode")),
+      failOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failonwarnings")),
+      body: T.StreamingInput.pipe(T.HttpPayload()),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/restapis/{restApiId}/documentation/parts",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ImportDocumentationPartsRequest",
-}) as any as S.Schema<ImportDocumentationPartsRequest>;
+  ).annotate({
+    identifier: "ImportDocumentationPartsRequest",
+  }) as any as S.Schema<ImportDocumentationPartsRequest>;
 export interface DocumentationPartIds {
   ids?: string[];
   warnings?: string[];
 }
-export const DocumentationPartIds = S.suspend(() =>
+export const DocumentationPartIds = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ids: S.optional(ListOfString),
     warnings: S.optional(ListOfString),
@@ -3733,7 +3830,7 @@ export interface ImportRestApiRequest {
   parameters?: { [key: string]: string | undefined };
   body: T.StreamingInputBody;
 }
-export const ImportRestApiRequest = S.suspend(() =>
+export const ImportRestApiRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     failOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failonwarnings")),
     parameters: S.optional(MapOfStringToString).pipe(T.HttpQueryParams()),
@@ -3758,26 +3855,27 @@ export interface PutGatewayResponseRequest {
   responseParameters?: { [key: string]: string | undefined };
   responseTemplates?: { [key: string]: string | undefined };
 }
-export const PutGatewayResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
-    statusCode: S.optional(S.String),
-    responseParameters: S.optional(MapOfStringToString),
-    responseTemplates: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutGatewayResponseRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
+      statusCode: S.optional(S.String),
+      responseParameters: S.optional(MapOfStringToString),
+      responseTemplates: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutGatewayResponseRequest",
 }) as any as S.Schema<PutGatewayResponseRequest>;
@@ -3802,7 +3900,7 @@ export interface PutIntegrationRequest {
   responseTransferMode?: ResponseTransferMode;
   integrationTarget?: string;
 }
-export const PutIntegrationRequest = S.suspend(() =>
+export const PutIntegrationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -3856,32 +3954,33 @@ export interface PutIntegrationResponseRequest {
   responseTemplates?: { [key: string]: string | undefined };
   contentHandling?: ContentHandlingStrategy;
 }
-export const PutIntegrationResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-    selectionPattern: S.optional(S.String),
-    responseParameters: S.optional(MapOfStringToString),
-    responseTemplates: S.optional(MapOfStringToString),
-    contentHandling: S.optional(ContentHandlingStrategy),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutIntegrationResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+      selectionPattern: S.optional(S.String),
+      responseParameters: S.optional(MapOfStringToString),
+      responseTemplates: S.optional(MapOfStringToString),
+      contentHandling: S.optional(ContentHandlingStrategy),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "PutIntegrationResponseRequest",
-}) as any as S.Schema<PutIntegrationResponseRequest>;
+  ).annotate({
+    identifier: "PutIntegrationResponseRequest",
+  }) as any as S.Schema<PutIntegrationResponseRequest>;
 export interface PutMethodRequest {
   restApiId: string;
   resourceId: string;
@@ -3895,7 +3994,7 @@ export interface PutMethodRequest {
   requestValidatorId?: string;
   authorizationScopes?: string[];
 }
-export const PutMethodRequest = S.suspend(() =>
+export const PutMethodRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -3932,27 +4031,28 @@ export interface PutMethodResponseRequest {
   responseParameters?: { [key: string]: boolean | undefined };
   responseModels?: { [key: string]: string | undefined };
 }
-export const PutMethodResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-    responseParameters: S.optional(MapOfStringToBoolean),
-    responseModels: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PUT",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const PutMethodResponseRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+      responseParameters: S.optional(MapOfStringToBoolean),
+      responseModels: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "PutMethodResponseRequest",
 }) as any as S.Schema<PutMethodResponseRequest>;
@@ -3963,7 +4063,7 @@ export interface PutRestApiRequest {
   parameters?: { [key: string]: string | undefined };
   body: T.StreamingInputBody;
 }
-export const PutRestApiRequest = S.suspend(() =>
+export const PutRestApiRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     mode: S.optional(PutMode).pipe(T.HttpQuery("mode")),
@@ -3987,36 +4087,36 @@ export interface RejectDomainNameAccessAssociationRequest {
   domainNameAccessAssociationArn: string;
   domainNameArn: string;
 }
-export const RejectDomainNameAccessAssociationRequest = S.suspend(() =>
-  S.Struct({
-    domainNameAccessAssociationArn: S.String.pipe(
-      T.HttpQuery("domainNameAccessAssociationArn"),
+export const RejectDomainNameAccessAssociationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainNameAccessAssociationArn: S.String.pipe(
+        T.HttpQuery("domainNameAccessAssociationArn"),
+      ),
+      domainNameArn: S.String.pipe(T.HttpQuery("domainNameArn")),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/rejectdomainnameaccessassociations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-    domainNameArn: S.String.pipe(T.HttpQuery("domainNameArn")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/rejectdomainnameaccessassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
-).annotate({
-  identifier: "RejectDomainNameAccessAssociationRequest",
-}) as any as S.Schema<RejectDomainNameAccessAssociationRequest>;
+  ).annotate({
+    identifier: "RejectDomainNameAccessAssociationRequest",
+  }) as any as S.Schema<RejectDomainNameAccessAssociationRequest>;
 export interface RejectDomainNameAccessAssociationResponse {}
-export const RejectDomainNameAccessAssociationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "RejectDomainNameAccessAssociationResponse",
-}) as any as S.Schema<RejectDomainNameAccessAssociationResponse>;
+export const RejectDomainNameAccessAssociationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "RejectDomainNameAccessAssociationResponse",
+  }) as any as S.Schema<RejectDomainNameAccessAssociationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: MapOfStringToString,
@@ -4034,11 +4134,13 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type MapOfStringToList = { [key: string]: string[] | undefined };
-export const MapOfStringToList = S.Record(
+export const MapOfStringToList = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   ListOfString.pipe(S.optional),
 );
@@ -4052,32 +4154,33 @@ export interface TestInvokeAuthorizerRequest {
   stageVariables?: { [key: string]: string | undefined };
   additionalContext?: { [key: string]: string | undefined };
 }
-export const TestInvokeAuthorizerRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
-    headers: S.optional(MapOfStringToString),
-    multiValueHeaders: S.optional(MapOfStringToList),
-    pathWithQueryString: S.optional(S.String),
-    body: S.optional(S.String),
-    stageVariables: S.optional(MapOfStringToString),
-    additionalContext: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const TestInvokeAuthorizerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
+      headers: S.optional(MapOfStringToString),
+      multiValueHeaders: S.optional(MapOfStringToList),
+      pathWithQueryString: S.optional(S.String),
+      body: S.optional(S.String),
+      stageVariables: S.optional(MapOfStringToString),
+      additionalContext: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "TestInvokeAuthorizerRequest",
-}) as any as S.Schema<TestInvokeAuthorizerRequest>;
+  ).annotate({
+    identifier: "TestInvokeAuthorizerRequest",
+  }) as any as S.Schema<TestInvokeAuthorizerRequest>;
 export interface TestInvokeAuthorizerResponse {
   clientStatus?: number;
   log?: string;
@@ -4087,19 +4190,20 @@ export interface TestInvokeAuthorizerResponse {
   authorization?: { [key: string]: string[] | undefined };
   claims?: { [key: string]: string | undefined };
 }
-export const TestInvokeAuthorizerResponse = S.suspend(() =>
-  S.Struct({
-    clientStatus: S.optional(S.Number),
-    log: S.optional(S.String),
-    latency: S.optional(S.Number),
-    principalId: S.optional(S.String),
-    policy: S.optional(S.String),
-    authorization: S.optional(MapOfStringToList),
-    claims: S.optional(MapOfStringToString),
-  }),
-).annotate({
-  identifier: "TestInvokeAuthorizerResponse",
-}) as any as S.Schema<TestInvokeAuthorizerResponse>;
+export const TestInvokeAuthorizerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientStatus: S.optional(S.Number),
+      log: S.optional(S.String),
+      latency: S.optional(S.Number),
+      principalId: S.optional(S.String),
+      policy: S.optional(S.String),
+      authorization: S.optional(MapOfStringToList),
+      claims: S.optional(MapOfStringToString),
+    }),
+  ).annotate({
+    identifier: "TestInvokeAuthorizerResponse",
+  }) as any as S.Schema<TestInvokeAuthorizerResponse>;
 export interface TestInvokeMethodRequest {
   restApiId: string;
   resourceId: string;
@@ -4111,30 +4215,31 @@ export interface TestInvokeMethodRequest {
   clientCertificateId?: string;
   stageVariables?: { [key: string]: string | undefined };
 }
-export const TestInvokeMethodRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    pathWithQueryString: S.optional(S.String),
-    body: S.optional(S.String),
-    headers: S.optional(MapOfStringToString),
-    multiValueHeaders: S.optional(MapOfStringToList),
-    clientCertificateId: S.optional(S.String),
-    stageVariables: S.optional(MapOfStringToString),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "POST",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const TestInvokeMethodRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      pathWithQueryString: S.optional(S.String),
+      body: S.optional(S.String),
+      headers: S.optional(MapOfStringToString),
+      multiValueHeaders: S.optional(MapOfStringToList),
+      clientCertificateId: S.optional(S.String),
+      stageVariables: S.optional(MapOfStringToString),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "TestInvokeMethodRequest",
 }) as any as S.Schema<TestInvokeMethodRequest>;
@@ -4146,15 +4251,16 @@ export interface TestInvokeMethodResponse {
   log?: string;
   latency?: number;
 }
-export const TestInvokeMethodResponse = S.suspend(() =>
-  S.Struct({
-    status: S.optional(S.Number),
-    body: S.optional(S.String),
-    headers: S.optional(MapOfStringToString),
-    multiValueHeaders: S.optional(MapOfStringToList),
-    log: S.optional(S.String),
-    latency: S.optional(S.Number),
-  }),
+export const TestInvokeMethodResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      status: S.optional(S.Number),
+      body: S.optional(S.String),
+      headers: S.optional(MapOfStringToString),
+      multiValueHeaders: S.optional(MapOfStringToList),
+      log: S.optional(S.String),
+      latency: S.optional(S.Number),
+    }),
 ).annotate({
   identifier: "TestInvokeMethodResponse",
 }) as any as S.Schema<TestInvokeMethodResponse>;
@@ -4162,7 +4268,7 @@ export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: ListOfString.pipe(T.HttpQuery("tagKeys")),
@@ -4180,7 +4286,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type Op =
@@ -4191,14 +4299,14 @@ export type Op =
   | "copy"
   | "test"
   | (string & {});
-export const Op = S.String;
+export const Op = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PatchOperation {
   op?: Op;
   path?: string;
   value?: string;
   from?: string;
 }
-export const PatchOperation = S.suspend(() =>
+export const PatchOperation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     op: S.optional(Op),
     path: S.optional(S.String),
@@ -4207,11 +4315,12 @@ export const PatchOperation = S.suspend(() =>
   }),
 ).annotate({ identifier: "PatchOperation" }) as any as S.Schema<PatchOperation>;
 export type ListOfPatchOperation = PatchOperation[];
-export const ListOfPatchOperation = S.Array(PatchOperation);
+export const ListOfPatchOperation =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PatchOperation);
 export interface UpdateAccountRequest {
   patchOperations?: PatchOperation[];
 }
-export const UpdateAccountRequest = S.suspend(() =>
+export const UpdateAccountRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ patchOperations: S.optional(ListOfPatchOperation) }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/account" }),
@@ -4229,7 +4338,7 @@ export interface UpdateApiKeyRequest {
   apiKey: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateApiKeyRequest = S.suspend(() =>
+export const UpdateApiKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     apiKey: S.String.pipe(T.HttpLabel("apiKey")),
     patchOperations: S.optional(ListOfPatchOperation),
@@ -4251,24 +4360,25 @@ export interface UpdateAuthorizerRequest {
   authorizerId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateAuthorizerRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateAuthorizerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      authorizerId: S.String.pipe(T.HttpLabel("authorizerId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/authorizers/{authorizerId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateAuthorizerRequest",
 }) as any as S.Schema<UpdateAuthorizerRequest>;
@@ -4278,75 +4388,78 @@ export interface UpdateBasePathMappingRequest {
   basePath: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateBasePathMappingRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    basePath: S.String.pipe(T.HttpLabel("basePath")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateBasePathMappingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+      basePath: S.String.pipe(T.HttpLabel("basePath")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/domainnames/{domainName}/basepathmappings/{basePath}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateBasePathMappingRequest",
-}) as any as S.Schema<UpdateBasePathMappingRequest>;
+  ).annotate({
+    identifier: "UpdateBasePathMappingRequest",
+  }) as any as S.Schema<UpdateBasePathMappingRequest>;
 export interface UpdateClientCertificateRequest {
   clientCertificateId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateClientCertificateRequest = S.suspend(() =>
-  S.Struct({
-    clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/clientcertificates/{clientCertificateId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateClientCertificateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      clientCertificateId: S.String.pipe(T.HttpLabel("clientCertificateId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/clientcertificates/{clientCertificateId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateClientCertificateRequest",
-}) as any as S.Schema<UpdateClientCertificateRequest>;
+  ).annotate({
+    identifier: "UpdateClientCertificateRequest",
+  }) as any as S.Schema<UpdateClientCertificateRequest>;
 export interface UpdateDeploymentRequest {
   restApiId: string;
   deploymentId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateDeploymentRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/deployments/{deploymentId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateDeploymentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      deploymentId: S.String.pipe(T.HttpLabel("deploymentId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/deployments/{deploymentId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateDeploymentRequest",
 }) as any as S.Schema<UpdateDeploymentRequest>;
@@ -4355,73 +4468,76 @@ export interface UpdateDocumentationPartRequest {
   documentationPartId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateDocumentationPartRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationPartId: S.String.pipe(T.HttpLabel("documentationPartId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/documentation/parts/{documentationPartId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateDocumentationPartRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationPartId: S.String.pipe(T.HttpLabel("documentationPartId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/documentation/parts/{documentationPartId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateDocumentationPartRequest",
-}) as any as S.Schema<UpdateDocumentationPartRequest>;
+  ).annotate({
+    identifier: "UpdateDocumentationPartRequest",
+  }) as any as S.Schema<UpdateDocumentationPartRequest>;
 export interface UpdateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateDocumentationVersionRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    documentationVersion: S.String.pipe(T.HttpLabel("documentationVersion")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/documentation/versions/{documentationVersion}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateDocumentationVersionRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      documentationVersion: S.String.pipe(T.HttpLabel("documentationVersion")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/documentation/versions/{documentationVersion}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateDocumentationVersionRequest",
-}) as any as S.Schema<UpdateDocumentationVersionRequest>;
+  ).annotate({
+    identifier: "UpdateDocumentationVersionRequest",
+  }) as any as S.Schema<UpdateDocumentationVersionRequest>;
 export interface UpdateDomainNameRequest {
   domainName: string;
   domainNameId?: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateDomainNameRequest = S.suspend(() =>
-  S.Struct({
-    domainName: S.String.pipe(T.HttpLabel("domainName")),
-    domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/domainnames/{domainName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateDomainNameRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domainName: S.String.pipe(T.HttpLabel("domainName")),
+      domainNameId: S.optional(S.String).pipe(T.HttpQuery("domainNameId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/domainnames/{domainName}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateDomainNameRequest",
 }) as any as S.Schema<UpdateDomainNameRequest>;
@@ -4430,52 +4546,54 @@ export interface UpdateGatewayResponseRequest {
   responseType: GatewayResponseType;
   patchOperations?: PatchOperation[];
 }
-export const UpdateGatewayResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateGatewayResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      responseType: GatewayResponseType.pipe(T.HttpLabel("responseType")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/gatewayresponses/{responseType}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateGatewayResponseRequest",
-}) as any as S.Schema<UpdateGatewayResponseRequest>;
+  ).annotate({
+    identifier: "UpdateGatewayResponseRequest",
+  }) as any as S.Schema<UpdateGatewayResponseRequest>;
 export interface UpdateIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateIntegrationRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateIntegrationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateIntegrationRequest",
 }) as any as S.Schema<UpdateIntegrationRequest>;
@@ -4486,36 +4604,37 @@ export interface UpdateIntegrationResponseRequest {
   statusCode: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateIntegrationResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateIntegrationResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/integration/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateIntegrationResponseRequest",
-}) as any as S.Schema<UpdateIntegrationResponseRequest>;
+  ).annotate({
+    identifier: "UpdateIntegrationResponseRequest",
+  }) as any as S.Schema<UpdateIntegrationResponseRequest>;
 export interface UpdateMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateMethodRequest = S.suspend(() =>
+export const UpdateMethodRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -4544,35 +4663,36 @@ export interface UpdateMethodResponseRequest {
   statusCode: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateMethodResponseRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    resourceId: S.String.pipe(T.HttpLabel("resourceId")),
-    httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
-    statusCode: S.String.pipe(T.HttpLabel("statusCode")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateMethodResponseRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      resourceId: S.String.pipe(T.HttpLabel("resourceId")),
+      httpMethod: S.String.pipe(T.HttpLabel("httpMethod")),
+      statusCode: S.String.pipe(T.HttpLabel("statusCode")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/resources/{resourceId}/methods/{httpMethod}/responses/{statusCode}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateMethodResponseRequest",
-}) as any as S.Schema<UpdateMethodResponseRequest>;
+  ).annotate({
+    identifier: "UpdateMethodResponseRequest",
+  }) as any as S.Schema<UpdateMethodResponseRequest>;
 export interface UpdateModelRequest {
   restApiId: string;
   modelName: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateModelRequest = S.suspend(() =>
+export const UpdateModelRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     modelName: S.String.pipe(T.HttpLabel("modelName")),
@@ -4598,33 +4718,34 @@ export interface UpdateRequestValidatorRequest {
   requestValidatorId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateRequestValidatorRequest = S.suspend(() =>
-  S.Struct({
-    restApiId: S.String.pipe(T.HttpLabel("restApiId")),
-    requestValidatorId: S.String.pipe(T.HttpLabel("requestValidatorId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({
-        method: "PATCH",
-        uri: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}",
-      }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateRequestValidatorRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      restApiId: S.String.pipe(T.HttpLabel("restApiId")),
+      requestValidatorId: S.String.pipe(T.HttpLabel("requestValidatorId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/restapis/{restApiId}/requestvalidators/{requestValidatorId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateRequestValidatorRequest",
-}) as any as S.Schema<UpdateRequestValidatorRequest>;
+  ).annotate({
+    identifier: "UpdateRequestValidatorRequest",
+  }) as any as S.Schema<UpdateRequestValidatorRequest>;
 export interface UpdateResourceRequest {
   restApiId: string;
   resourceId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateResourceRequest = S.suspend(() =>
+export const UpdateResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     resourceId: S.String.pipe(T.HttpLabel("resourceId")),
@@ -4649,7 +4770,7 @@ export interface UpdateRestApiRequest {
   restApiId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateRestApiRequest = S.suspend(() =>
+export const UpdateRestApiRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     patchOperations: S.optional(ListOfPatchOperation),
@@ -4671,7 +4792,7 @@ export interface UpdateStageRequest {
   stageName: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateStageRequest = S.suspend(() =>
+export const UpdateStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     restApiId: S.String.pipe(T.HttpLabel("restApiId")),
     stageName: S.String.pipe(T.HttpLabel("stageName")),
@@ -4697,7 +4818,7 @@ export interface UpdateUsageRequest {
   keyId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateUsageRequest = S.suspend(() =>
+export const UpdateUsageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
     keyId: S.String.pipe(T.HttpLabel("keyId")),
@@ -4722,20 +4843,21 @@ export interface UpdateUsagePlanRequest {
   usagePlanId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateUsagePlanRequest = S.suspend(() =>
-  S.Struct({
-    usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
-    patchOperations: S.optional(ListOfPatchOperation),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/usageplans/{usagePlanId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateUsagePlanRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      usagePlanId: S.String.pipe(T.HttpLabel("usagePlanId")),
+      patchOperations: S.optional(ListOfPatchOperation),
+    }).pipe(
+      T.all(
+        T.Http({ method: "PATCH", uri: "/usageplans/{usagePlanId}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateUsagePlanRequest",
 }) as any as S.Schema<UpdateUsagePlanRequest>;
@@ -4743,7 +4865,7 @@ export interface UpdateVpcLinkRequest {
   vpcLinkId: string;
   patchOperations?: PatchOperation[];
 }
-export const UpdateVpcLinkRequest = S.suspend(() =>
+export const UpdateVpcLinkRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     vpcLinkId: S.String.pipe(T.HttpLabel("vpcLinkId")),
     patchOperations: S.optional(ListOfPatchOperation),

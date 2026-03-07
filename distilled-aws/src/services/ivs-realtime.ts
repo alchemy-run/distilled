@@ -173,7 +173,7 @@ export interface Video {
   framerate?: number;
   bitrate?: number;
 }
-export const Video = S.suspend(() =>
+export const Video = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     width: S.optional(S.Number),
     height: S.optional(S.Number),
@@ -182,37 +182,41 @@ export const Video = S.suspend(() =>
   }),
 ).annotate({ identifier: "Video" }) as any as S.Schema<Video>;
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface CreateEncoderConfigurationRequest {
   name?: string;
   video?: Video;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateEncoderConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    video: S.optional(Video),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateEncoderConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateEncoderConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      video: S.optional(Video),
+      tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateEncoderConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateEncoderConfigurationRequest",
-}) as any as S.Schema<CreateEncoderConfigurationRequest>;
+  ).annotate({
+    identifier: "CreateEncoderConfigurationRequest",
+  }) as any as S.Schema<CreateEncoderConfigurationRequest>;
 export interface EncoderConfiguration {
   arn: string;
   name?: string;
   video?: Video;
   tags?: { [key: string]: string | undefined };
 }
-export const EncoderConfiguration = S.suspend(() =>
+export const EncoderConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.optional(S.String),
@@ -225,18 +229,19 @@ export const EncoderConfiguration = S.suspend(() =>
 export interface CreateEncoderConfigurationResponse {
   encoderConfiguration?: EncoderConfiguration;
 }
-export const CreateEncoderConfigurationResponse = S.suspend(() =>
-  S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
-).annotate({
-  identifier: "CreateEncoderConfigurationResponse",
-}) as any as S.Schema<CreateEncoderConfigurationResponse>;
+export const CreateEncoderConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
+  ).annotate({
+    identifier: "CreateEncoderConfigurationResponse",
+  }) as any as S.Schema<CreateEncoderConfigurationResponse>;
 export type ParticipantAttributes = { [key: string]: string | undefined };
-export const ParticipantAttributes = S.Record(
+export const ParticipantAttributes = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
 export type IngestProtocol = "RTMP" | "RTMPS" | (string & {});
-export const IngestProtocol = S.String;
+export const IngestProtocol = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateIngestConfigurationRequest {
   name?: string;
   stageArn?: string;
@@ -246,28 +251,29 @@ export interface CreateIngestConfigurationRequest {
   insecureIngest?: boolean;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateIngestConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    stageArn: S.optional(S.String),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantAttributes),
-    ingestProtocol: IngestProtocol,
-    insecureIngest: S.optional(S.Boolean),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateIngestConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      stageArn: S.optional(S.String),
+      userId: S.optional(S.String),
+      attributes: S.optional(ParticipantAttributes),
+      ingestProtocol: IngestProtocol,
+      insecureIngest: S.optional(S.Boolean),
+      tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateIngestConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateIngestConfigurationRequest",
-}) as any as S.Schema<CreateIngestConfigurationRequest>;
+  ).annotate({
+    identifier: "CreateIngestConfigurationRequest",
+  }) as any as S.Schema<CreateIngestConfigurationRequest>;
 export interface IngestConfiguration {
   name?: string;
   arn: string;
@@ -280,7 +286,7 @@ export interface IngestConfiguration {
   attributes?: { [key: string]: string | undefined };
   tags?: { [key: string]: string | undefined };
 }
-export const IngestConfiguration = S.suspend(() =>
+export const IngestConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     arn: S.String,
@@ -299,18 +305,21 @@ export const IngestConfiguration = S.suspend(() =>
 export interface CreateIngestConfigurationResponse {
   ingestConfiguration?: IngestConfiguration;
 }
-export const CreateIngestConfigurationResponse = S.suspend(() =>
-  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
-).annotate({
-  identifier: "CreateIngestConfigurationResponse",
-}) as any as S.Schema<CreateIngestConfigurationResponse>;
+export const CreateIngestConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
+  ).annotate({
+    identifier: "CreateIngestConfigurationResponse",
+  }) as any as S.Schema<CreateIngestConfigurationResponse>;
 export type ParticipantTokenAttributes = { [key: string]: string | undefined };
-export const ParticipantTokenAttributes = S.Record(
+export const ParticipantTokenAttributes = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
 export type ParticipantTokenCapabilities = string[];
-export const ParticipantTokenCapabilities = S.Array(S.String);
+export const ParticipantTokenCapabilities = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface CreateParticipantTokenRequest {
   stageArn: string;
   duration?: number;
@@ -318,26 +327,27 @@ export interface CreateParticipantTokenRequest {
   attributes?: { [key: string]: string | undefined };
   capabilities?: string[];
 }
-export const CreateParticipantTokenRequest = S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    duration: S.optional(S.Number),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantTokenAttributes),
-    capabilities: S.optional(ParticipantTokenCapabilities),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateParticipantToken" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateParticipantTokenRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      stageArn: S.String,
+      duration: S.optional(S.Number),
+      userId: S.optional(S.String),
+      attributes: S.optional(ParticipantTokenAttributes),
+      capabilities: S.optional(ParticipantTokenCapabilities),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateParticipantToken" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateParticipantTokenRequest",
-}) as any as S.Schema<CreateParticipantTokenRequest>;
+  ).annotate({
+    identifier: "CreateParticipantTokenRequest",
+  }) as any as S.Schema<CreateParticipantTokenRequest>;
 export interface ParticipantToken {
   participantId?: string;
   token?: string | redacted.Redacted<string>;
@@ -347,7 +357,7 @@ export interface ParticipantToken {
   capabilities?: string[];
   expirationTime?: Date;
 }
-export const ParticipantToken = S.suspend(() =>
+export const ParticipantToken = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     participantId: S.optional(S.String),
     token: S.optional(SensitiveString),
@@ -365,69 +375,73 @@ export const ParticipantToken = S.suspend(() =>
 export interface CreateParticipantTokenResponse {
   participantToken?: ParticipantToken;
 }
-export const CreateParticipantTokenResponse = S.suspend(() =>
-  S.Struct({ participantToken: S.optional(ParticipantToken) }),
-).annotate({
-  identifier: "CreateParticipantTokenResponse",
-}) as any as S.Schema<CreateParticipantTokenResponse>;
+export const CreateParticipantTokenResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ participantToken: S.optional(ParticipantToken) }),
+  ).annotate({
+    identifier: "CreateParticipantTokenResponse",
+  }) as any as S.Schema<CreateParticipantTokenResponse>;
 export interface ParticipantTokenConfiguration {
   duration?: number;
   userId?: string;
   attributes?: { [key: string]: string | undefined };
   capabilities?: string[];
 }
-export const ParticipantTokenConfiguration = S.suspend(() =>
-  S.Struct({
-    duration: S.optional(S.Number),
-    userId: S.optional(S.String),
-    attributes: S.optional(ParticipantTokenAttributes),
-    capabilities: S.optional(ParticipantTokenCapabilities),
-  }),
-).annotate({
-  identifier: "ParticipantTokenConfiguration",
-}) as any as S.Schema<ParticipantTokenConfiguration>;
+export const ParticipantTokenConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      duration: S.optional(S.Number),
+      userId: S.optional(S.String),
+      attributes: S.optional(ParticipantTokenAttributes),
+      capabilities: S.optional(ParticipantTokenCapabilities),
+    }),
+  ).annotate({
+    identifier: "ParticipantTokenConfiguration",
+  }) as any as S.Schema<ParticipantTokenConfiguration>;
 export type ParticipantTokenConfigurations = ParticipantTokenConfiguration[];
-export const ParticipantTokenConfigurations = S.Array(
-  ParticipantTokenConfiguration,
-);
+export const ParticipantTokenConfigurations =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParticipantTokenConfiguration);
 export type ParticipantRecordingMediaType =
   | "AUDIO_VIDEO"
   | "AUDIO_ONLY"
   | "NONE"
   | (string & {});
-export const ParticipantRecordingMediaType = S.String;
+export const ParticipantRecordingMediaType =
+  /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ParticipantRecordingMediaTypeList = ParticipantRecordingMediaType[];
-export const ParticipantRecordingMediaTypeList = S.Array(
-  ParticipantRecordingMediaType,
-);
+export const ParticipantRecordingMediaTypeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParticipantRecordingMediaType);
 export type ThumbnailStorageType = "SEQUENTIAL" | "LATEST" | (string & {});
-export const ThumbnailStorageType = S.String;
+export const ThumbnailStorageType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ThumbnailStorageTypeList = ThumbnailStorageType[];
-export const ThumbnailStorageTypeList = S.Array(ThumbnailStorageType);
+export const ThumbnailStorageTypeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ThumbnailStorageType);
 export type ThumbnailRecordingMode = "INTERVAL" | "DISABLED" | (string & {});
-export const ThumbnailRecordingMode = S.String;
+export const ThumbnailRecordingMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ParticipantThumbnailConfiguration {
   targetIntervalSeconds?: number;
   storage?: ThumbnailStorageType[];
   recordingMode?: ThumbnailRecordingMode;
 }
-export const ParticipantThumbnailConfiguration = S.suspend(() =>
-  S.Struct({
-    targetIntervalSeconds: S.optional(S.Number),
-    storage: S.optional(ThumbnailStorageTypeList),
-    recordingMode: S.optional(ThumbnailRecordingMode),
-  }),
-).annotate({
-  identifier: "ParticipantThumbnailConfiguration",
-}) as any as S.Schema<ParticipantThumbnailConfiguration>;
+export const ParticipantThumbnailConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      targetIntervalSeconds: S.optional(S.Number),
+      storage: S.optional(ThumbnailStorageTypeList),
+      recordingMode: S.optional(ThumbnailRecordingMode),
+    }),
+  ).annotate({
+    identifier: "ParticipantThumbnailConfiguration",
+  }) as any as S.Schema<ParticipantThumbnailConfiguration>;
 export interface ParticipantRecordingHlsConfiguration {
   targetSegmentDurationSeconds?: number;
 }
-export const ParticipantRecordingHlsConfiguration = S.suspend(() =>
-  S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "ParticipantRecordingHlsConfiguration",
-}) as any as S.Schema<ParticipantRecordingHlsConfiguration>;
+export const ParticipantRecordingHlsConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
+  ).annotate({
+    identifier: "ParticipantRecordingHlsConfiguration",
+  }) as any as S.Schema<ParticipantRecordingHlsConfiguration>;
 export interface AutoParticipantRecordingConfiguration {
   storageConfigurationArn: string;
   mediaTypes?: ParticipantRecordingMediaType[];
@@ -436,25 +450,26 @@ export interface AutoParticipantRecordingConfiguration {
   hlsConfiguration?: ParticipantRecordingHlsConfiguration;
   recordParticipantReplicas?: boolean;
 }
-export const AutoParticipantRecordingConfiguration = S.suspend(() =>
-  S.Struct({
-    storageConfigurationArn: S.String,
-    mediaTypes: S.optional(ParticipantRecordingMediaTypeList),
-    thumbnailConfiguration: S.optional(ParticipantThumbnailConfiguration),
-    recordingReconnectWindowSeconds: S.optional(S.Number),
-    hlsConfiguration: S.optional(ParticipantRecordingHlsConfiguration),
-    recordParticipantReplicas: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "AutoParticipantRecordingConfiguration",
-}) as any as S.Schema<AutoParticipantRecordingConfiguration>;
+export const AutoParticipantRecordingConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storageConfigurationArn: S.String,
+      mediaTypes: S.optional(ParticipantRecordingMediaTypeList),
+      thumbnailConfiguration: S.optional(ParticipantThumbnailConfiguration),
+      recordingReconnectWindowSeconds: S.optional(S.Number),
+      hlsConfiguration: S.optional(ParticipantRecordingHlsConfiguration),
+      recordParticipantReplicas: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "AutoParticipantRecordingConfiguration",
+  }) as any as S.Schema<AutoParticipantRecordingConfiguration>;
 export interface CreateStageRequest {
   name?: string;
   participantTokenConfigurations?: ParticipantTokenConfiguration[];
   tags?: { [key: string]: string | undefined };
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
 }
-export const CreateStageRequest = S.suspend(() =>
+export const CreateStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     participantTokenConfigurations: S.optional(ParticipantTokenConfigurations),
@@ -481,7 +496,7 @@ export interface StageEndpoints {
   rtmp?: string;
   rtmps?: string;
 }
-export const StageEndpoints = S.suspend(() =>
+export const StageEndpoints = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     events: S.optional(S.String),
     whip: S.optional(S.String),
@@ -497,7 +512,7 @@ export interface Stage {
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
   endpoints?: StageEndpoints;
 }
-export const Stage = S.suspend(() =>
+export const Stage = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.optional(S.String),
@@ -510,12 +525,13 @@ export const Stage = S.suspend(() =>
   }),
 ).annotate({ identifier: "Stage" }) as any as S.Schema<Stage>;
 export type ParticipantTokenList = ParticipantToken[];
-export const ParticipantTokenList = S.Array(ParticipantToken);
+export const ParticipantTokenList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParticipantToken);
 export interface CreateStageResponse {
   stage?: Stage;
   participantTokens?: ParticipantToken[];
 }
-export const CreateStageResponse = S.suspend(() =>
+export const CreateStageResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     stage: S.optional(Stage),
     participantTokens: S.optional(ParticipantTokenList),
@@ -526,8 +542,8 @@ export const CreateStageResponse = S.suspend(() =>
 export interface S3StorageConfiguration {
   bucketName: string;
 }
-export const S3StorageConfiguration = S.suspend(() =>
-  S.Struct({ bucketName: S.String }),
+export const S3StorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ bucketName: S.String }),
 ).annotate({
   identifier: "S3StorageConfiguration",
 }) as any as S.Schema<S3StorageConfiguration>;
@@ -536,31 +552,32 @@ export interface CreateStorageConfigurationRequest {
   s3: S3StorageConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateStorageConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    s3: S3StorageConfiguration,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateStorageConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      s3: S3StorageConfiguration,
+      tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateStorageConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateStorageConfigurationRequest",
-}) as any as S.Schema<CreateStorageConfigurationRequest>;
+  ).annotate({
+    identifier: "CreateStorageConfigurationRequest",
+  }) as any as S.Schema<CreateStorageConfigurationRequest>;
 export interface StorageConfiguration {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const StorageConfiguration = S.suspend(() =>
+export const StorageConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.optional(S.String),
@@ -573,83 +590,87 @@ export const StorageConfiguration = S.suspend(() =>
 export interface CreateStorageConfigurationResponse {
   storageConfiguration?: StorageConfiguration;
 }
-export const CreateStorageConfigurationResponse = S.suspend(() =>
-  S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
-).annotate({
-  identifier: "CreateStorageConfigurationResponse",
-}) as any as S.Schema<CreateStorageConfigurationResponse>;
+export const CreateStorageConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
+  ).annotate({
+    identifier: "CreateStorageConfigurationResponse",
+  }) as any as S.Schema<CreateStorageConfigurationResponse>;
 export interface DeleteEncoderConfigurationRequest {
   arn: string;
 }
-export const DeleteEncoderConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteEncoderConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteEncoderConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteEncoderConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteEncoderConfigurationRequest",
-}) as any as S.Schema<DeleteEncoderConfigurationRequest>;
+  ).annotate({
+    identifier: "DeleteEncoderConfigurationRequest",
+  }) as any as S.Schema<DeleteEncoderConfigurationRequest>;
 export interface DeleteEncoderConfigurationResponse {}
-export const DeleteEncoderConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteEncoderConfigurationResponse",
-}) as any as S.Schema<DeleteEncoderConfigurationResponse>;
+export const DeleteEncoderConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteEncoderConfigurationResponse",
+  }) as any as S.Schema<DeleteEncoderConfigurationResponse>;
 export interface DeleteIngestConfigurationRequest {
   arn: string;
   force?: boolean;
 }
-export const DeleteIngestConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String, force: S.optional(S.Boolean) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteIngestConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String, force: S.optional(S.Boolean) }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteIngestConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteIngestConfigurationRequest",
-}) as any as S.Schema<DeleteIngestConfigurationRequest>;
+  ).annotate({
+    identifier: "DeleteIngestConfigurationRequest",
+  }) as any as S.Schema<DeleteIngestConfigurationRequest>;
 export interface DeleteIngestConfigurationResponse {}
-export const DeleteIngestConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteIngestConfigurationResponse",
-}) as any as S.Schema<DeleteIngestConfigurationResponse>;
+export const DeleteIngestConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteIngestConfigurationResponse",
+  }) as any as S.Schema<DeleteIngestConfigurationResponse>;
 export interface DeletePublicKeyRequest {
   arn: string;
 }
-export const DeletePublicKeyRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeletePublicKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeletePublicKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeletePublicKey" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeletePublicKeyRequest",
 }) as any as S.Schema<DeletePublicKeyRequest>;
 export interface DeletePublicKeyResponse {}
-export const DeletePublicKeyResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeletePublicKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DeletePublicKeyResponse",
 }) as any as S.Schema<DeletePublicKeyResponse>;
 export interface DeleteStageRequest {
   arn: string;
 }
-export const DeleteStageRequest = S.suspend(() =>
+export const DeleteStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/DeleteStage" }),
@@ -664,65 +685,67 @@ export const DeleteStageRequest = S.suspend(() =>
   identifier: "DeleteStageRequest",
 }) as any as S.Schema<DeleteStageRequest>;
 export interface DeleteStageResponse {}
-export const DeleteStageResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteStageResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteStageResponse",
 }) as any as S.Schema<DeleteStageResponse>;
 export interface DeleteStorageConfigurationRequest {
   arn: string;
 }
-export const DeleteStorageConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteStorageConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteStorageConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteStorageConfigurationRequest",
-}) as any as S.Schema<DeleteStorageConfigurationRequest>;
+  ).annotate({
+    identifier: "DeleteStorageConfigurationRequest",
+  }) as any as S.Schema<DeleteStorageConfigurationRequest>;
 export interface DeleteStorageConfigurationResponse {}
-export const DeleteStorageConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteStorageConfigurationResponse",
-}) as any as S.Schema<DeleteStorageConfigurationResponse>;
+export const DeleteStorageConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteStorageConfigurationResponse",
+  }) as any as S.Schema<DeleteStorageConfigurationResponse>;
 export interface DisconnectParticipantRequest {
   stageArn: string;
   participantId: string;
   reason?: string;
 }
-export const DisconnectParticipantRequest = S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    participantId: S.String,
-    reason: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DisconnectParticipant" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisconnectParticipantRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      stageArn: S.String,
+      participantId: S.String,
+      reason: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DisconnectParticipant" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DisconnectParticipantRequest",
-}) as any as S.Schema<DisconnectParticipantRequest>;
+  ).annotate({
+    identifier: "DisconnectParticipantRequest",
+  }) as any as S.Schema<DisconnectParticipantRequest>;
 export interface DisconnectParticipantResponse {}
-export const DisconnectParticipantResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DisconnectParticipantResponse",
-}) as any as S.Schema<DisconnectParticipantResponse>;
+export const DisconnectParticipantResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DisconnectParticipantResponse",
+  }) as any as S.Schema<DisconnectParticipantResponse>;
 export interface GetCompositionRequest {
   arn: string;
 }
-export const GetCompositionRequest = S.suspend(() =>
+export const GetCompositionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/GetComposition" }),
@@ -742,9 +765,9 @@ export type VideoAspectRatio =
   | "SQUARE"
   | "PORTRAIT"
   | (string & {});
-export const VideoAspectRatio = S.String;
+export const VideoAspectRatio = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type VideoFillMode = "FILL" | "COVER" | "CONTAIN" | (string & {});
-export const VideoFillMode = S.String;
+export const VideoFillMode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GridConfiguration {
   featuredParticipantAttribute?: string;
   omitStoppedVideo?: boolean;
@@ -753,7 +776,7 @@ export interface GridConfiguration {
   gridGap?: number;
   participantOrderAttribute?: string;
 }
-export const GridConfiguration = S.suspend(() =>
+export const GridConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     featuredParticipantAttribute: S.optional(S.String),
     omitStoppedVideo: S.optional(S.Boolean),
@@ -766,14 +789,14 @@ export const GridConfiguration = S.suspend(() =>
   identifier: "GridConfiguration",
 }) as any as S.Schema<GridConfiguration>;
 export type PipBehavior = "STATIC" | "DYNAMIC" | (string & {});
-export const PipBehavior = S.String;
+export const PipBehavior = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type PipPosition =
   | "TOP_LEFT"
   | "TOP_RIGHT"
   | "BOTTOM_LEFT"
   | "BOTTOM_RIGHT"
   | (string & {});
-export const PipPosition = S.String;
+export const PipPosition = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface PipConfiguration {
   featuredParticipantAttribute?: string;
   omitStoppedVideo?: boolean;
@@ -787,7 +810,7 @@ export interface PipConfiguration {
   pipHeight?: number;
   participantOrderAttribute?: string;
 }
-export const PipConfiguration = S.suspend(() =>
+export const PipConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     featuredParticipantAttribute: S.optional(S.String),
     omitStoppedVideo: S.optional(S.Boolean),
@@ -808,7 +831,7 @@ export interface LayoutConfiguration {
   grid?: GridConfiguration;
   pip?: PipConfiguration;
 }
-export const LayoutConfiguration = S.suspend(() =>
+export const LayoutConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     grid: S.optional(GridConfiguration),
     pip: S.optional(PipConfiguration),
@@ -820,33 +843,38 @@ export interface ChannelDestinationConfiguration {
   channelArn: string;
   encoderConfigurationArn?: string;
 }
-export const ChannelDestinationConfiguration = S.suspend(() =>
-  S.Struct({
-    channelArn: S.String,
-    encoderConfigurationArn: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ChannelDestinationConfiguration",
-}) as any as S.Schema<ChannelDestinationConfiguration>;
+export const ChannelDestinationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      channelArn: S.String,
+      encoderConfigurationArn: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ChannelDestinationConfiguration",
+  }) as any as S.Schema<ChannelDestinationConfiguration>;
 export type EncoderConfigurationArnList = string[];
-export const EncoderConfigurationArnList = S.Array(S.String);
+export const EncoderConfigurationArnList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export interface CompositionRecordingHlsConfiguration {
   targetSegmentDurationSeconds?: number;
 }
-export const CompositionRecordingHlsConfiguration = S.suspend(() =>
-  S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
-).annotate({
-  identifier: "CompositionRecordingHlsConfiguration",
-}) as any as S.Schema<CompositionRecordingHlsConfiguration>;
+export const CompositionRecordingHlsConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ targetSegmentDurationSeconds: S.optional(S.Number) }),
+  ).annotate({
+    identifier: "CompositionRecordingHlsConfiguration",
+  }) as any as S.Schema<CompositionRecordingHlsConfiguration>;
 export interface RecordingConfiguration {
   hlsConfiguration?: CompositionRecordingHlsConfiguration;
   format?: string;
 }
-export const RecordingConfiguration = S.suspend(() =>
-  S.Struct({
-    hlsConfiguration: S.optional(CompositionRecordingHlsConfiguration),
-    format: S.optional(S.String),
-  }),
+export const RecordingConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      hlsConfiguration: S.optional(CompositionRecordingHlsConfiguration),
+      format: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "RecordingConfiguration",
 }) as any as S.Schema<RecordingConfiguration>;
@@ -854,32 +882,35 @@ export interface CompositionThumbnailConfiguration {
   targetIntervalSeconds?: number;
   storage?: ThumbnailStorageType[];
 }
-export const CompositionThumbnailConfiguration = S.suspend(() =>
-  S.Struct({
-    targetIntervalSeconds: S.optional(S.Number),
-    storage: S.optional(ThumbnailStorageTypeList),
-  }),
-).annotate({
-  identifier: "CompositionThumbnailConfiguration",
-}) as any as S.Schema<CompositionThumbnailConfiguration>;
+export const CompositionThumbnailConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      targetIntervalSeconds: S.optional(S.Number),
+      storage: S.optional(ThumbnailStorageTypeList),
+    }),
+  ).annotate({
+    identifier: "CompositionThumbnailConfiguration",
+  }) as any as S.Schema<CompositionThumbnailConfiguration>;
 export type CompositionThumbnailConfigurationList =
   CompositionThumbnailConfiguration[];
-export const CompositionThumbnailConfigurationList = S.Array(
-  CompositionThumbnailConfiguration,
-);
+export const CompositionThumbnailConfigurationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CompositionThumbnailConfiguration);
 export interface S3DestinationConfiguration {
   storageConfigurationArn: string;
   encoderConfigurationArns: string[];
   recordingConfiguration?: RecordingConfiguration;
   thumbnailConfigurations?: CompositionThumbnailConfiguration[];
 }
-export const S3DestinationConfiguration = S.suspend(() =>
-  S.Struct({
-    storageConfigurationArn: S.String,
-    encoderConfigurationArns: EncoderConfigurationArnList,
-    recordingConfiguration: S.optional(RecordingConfiguration),
-    thumbnailConfigurations: S.optional(CompositionThumbnailConfigurationList),
-  }),
+export const S3DestinationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      storageConfigurationArn: S.String,
+      encoderConfigurationArns: EncoderConfigurationArnList,
+      recordingConfiguration: S.optional(RecordingConfiguration),
+      thumbnailConfigurations: S.optional(
+        CompositionThumbnailConfigurationList,
+      ),
+    }),
 ).annotate({
   identifier: "S3DestinationConfiguration",
 }) as any as S.Schema<S3DestinationConfiguration>;
@@ -888,25 +919,26 @@ export interface DestinationConfiguration {
   channel?: ChannelDestinationConfiguration;
   s3?: S3DestinationConfiguration;
 }
-export const DestinationConfiguration = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    channel: S.optional(ChannelDestinationConfiguration),
-    s3: S.optional(S3DestinationConfiguration),
-  }),
+export const DestinationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.optional(S.String),
+      channel: S.optional(ChannelDestinationConfiguration),
+      s3: S.optional(S3DestinationConfiguration),
+    }),
 ).annotate({
   identifier: "DestinationConfiguration",
 }) as any as S.Schema<DestinationConfiguration>;
 export interface S3Detail {
   recordingPrefix: string;
 }
-export const S3Detail = S.suspend(() =>
+export const S3Detail = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ recordingPrefix: S.String }),
 ).annotate({ identifier: "S3Detail" }) as any as S.Schema<S3Detail>;
 export interface DestinationDetail {
   s3?: S3Detail;
 }
-export const DestinationDetail = S.suspend(() =>
+export const DestinationDetail = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ s3: S.optional(S3Detail) }),
 ).annotate({
   identifier: "DestinationDetail",
@@ -919,7 +951,7 @@ export interface Destination {
   configuration: DestinationConfiguration;
   detail?: DestinationDetail;
 }
-export const Destination = S.suspend(() =>
+export const Destination = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     state: S.String,
@@ -932,7 +964,7 @@ export const Destination = S.suspend(() =>
   }),
 ).annotate({ identifier: "Destination" }) as any as S.Schema<Destination>;
 export type DestinationList = Destination[];
-export const DestinationList = S.Array(Destination);
+export const DestinationList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Destination);
 export interface Composition {
   arn: string;
   stageArn: string;
@@ -943,7 +975,7 @@ export interface Composition {
   startTime?: Date;
   endTime?: Date;
 }
-export const Composition = S.suspend(() =>
+export const Composition = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     stageArn: S.String,
@@ -960,67 +992,71 @@ export const Composition = S.suspend(() =>
 export interface GetCompositionResponse {
   composition?: Composition;
 }
-export const GetCompositionResponse = S.suspend(() =>
-  S.Struct({ composition: S.optional(Composition) }),
+export const GetCompositionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ composition: S.optional(Composition) }),
 ).annotate({
   identifier: "GetCompositionResponse",
 }) as any as S.Schema<GetCompositionResponse>;
 export interface GetEncoderConfigurationRequest {
   arn: string;
 }
-export const GetEncoderConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetEncoderConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetEncoderConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetEncoderConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetEncoderConfigurationRequest",
-}) as any as S.Schema<GetEncoderConfigurationRequest>;
+  ).annotate({
+    identifier: "GetEncoderConfigurationRequest",
+  }) as any as S.Schema<GetEncoderConfigurationRequest>;
 export interface GetEncoderConfigurationResponse {
   encoderConfiguration?: EncoderConfiguration;
 }
-export const GetEncoderConfigurationResponse = S.suspend(() =>
-  S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
-).annotate({
-  identifier: "GetEncoderConfigurationResponse",
-}) as any as S.Schema<GetEncoderConfigurationResponse>;
+export const GetEncoderConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ encoderConfiguration: S.optional(EncoderConfiguration) }),
+  ).annotate({
+    identifier: "GetEncoderConfigurationResponse",
+  }) as any as S.Schema<GetEncoderConfigurationResponse>;
 export interface GetIngestConfigurationRequest {
   arn: string;
 }
-export const GetIngestConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetIngestConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetIngestConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetIngestConfigurationRequest",
-}) as any as S.Schema<GetIngestConfigurationRequest>;
+  ).annotate({
+    identifier: "GetIngestConfigurationRequest",
+  }) as any as S.Schema<GetIngestConfigurationRequest>;
 export interface GetIngestConfigurationResponse {
   ingestConfiguration?: IngestConfiguration;
 }
-export const GetIngestConfigurationResponse = S.suspend(() =>
-  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
-).annotate({
-  identifier: "GetIngestConfigurationResponse",
-}) as any as S.Schema<GetIngestConfigurationResponse>;
+export const GetIngestConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
+  ).annotate({
+    identifier: "GetIngestConfigurationResponse",
+  }) as any as S.Schema<GetIngestConfigurationResponse>;
 export interface GetParticipantRequest {
   stageArn: string;
   sessionId: string;
   participantId: string;
 }
-export const GetParticipantRequest = S.suspend(() =>
+export const GetParticipantRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     stageArn: S.String,
     sessionId: S.String,
@@ -1044,7 +1080,7 @@ export type ParticipantProtocol =
   | "RTMP"
   | "RTMPS"
   | (string & {});
-export const ParticipantProtocol = S.String;
+export const ParticipantProtocol = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Participant {
   participantId?: string;
   userId?: string;
@@ -1067,7 +1103,7 @@ export interface Participant {
   sourceStageArn?: string;
   sourceSessionId?: string;
 }
-export const Participant = S.suspend(() =>
+export const Participant = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     participantId: S.optional(S.String),
     userId: S.optional(S.String),
@@ -1096,15 +1132,15 @@ export const Participant = S.suspend(() =>
 export interface GetParticipantResponse {
   participant?: Participant;
 }
-export const GetParticipantResponse = S.suspend(() =>
-  S.Struct({ participant: S.optional(Participant) }),
+export const GetParticipantResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ participant: S.optional(Participant) }),
 ).annotate({
   identifier: "GetParticipantResponse",
 }) as any as S.Schema<GetParticipantResponse>;
 export interface GetPublicKeyRequest {
   arn: string;
 }
-export const GetPublicKeyRequest = S.suspend(() =>
+export const GetPublicKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/GetPublicKey" }),
@@ -1125,7 +1161,7 @@ export interface PublicKey {
   fingerprint?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const PublicKey = S.suspend(() =>
+export const PublicKey = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
@@ -1137,7 +1173,7 @@ export const PublicKey = S.suspend(() =>
 export interface GetPublicKeyResponse {
   publicKey?: PublicKey;
 }
-export const GetPublicKeyResponse = S.suspend(() =>
+export const GetPublicKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ publicKey: S.optional(PublicKey) }),
 ).annotate({
   identifier: "GetPublicKeyResponse",
@@ -1145,7 +1181,7 @@ export const GetPublicKeyResponse = S.suspend(() =>
 export interface GetStageRequest {
   arn: string;
 }
-export const GetStageRequest = S.suspend(() =>
+export const GetStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/GetStage" }),
@@ -1162,7 +1198,7 @@ export const GetStageRequest = S.suspend(() =>
 export interface GetStageResponse {
   stage?: Stage;
 }
-export const GetStageResponse = S.suspend(() =>
+export const GetStageResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ stage: S.optional(Stage) }),
 ).annotate({
   identifier: "GetStageResponse",
@@ -1171,17 +1207,18 @@ export interface GetStageSessionRequest {
   stageArn: string;
   sessionId: string;
 }
-export const GetStageSessionRequest = S.suspend(() =>
-  S.Struct({ stageArn: S.String, sessionId: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStageSession" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetStageSessionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ stageArn: S.String, sessionId: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetStageSession" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetStageSessionRequest",
 }) as any as S.Schema<GetStageSessionRequest>;
@@ -1190,7 +1227,7 @@ export interface StageSession {
   startTime?: Date;
   endTime?: Date;
 }
-export const StageSession = S.suspend(() =>
+export const StageSession = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.optional(S.String),
     startTime: S.optional(
@@ -1202,64 +1239,67 @@ export const StageSession = S.suspend(() =>
 export interface GetStageSessionResponse {
   stageSession?: StageSession;
 }
-export const GetStageSessionResponse = S.suspend(() =>
-  S.Struct({ stageSession: S.optional(StageSession) }),
+export const GetStageSessionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ stageSession: S.optional(StageSession) }),
 ).annotate({
   identifier: "GetStageSessionResponse",
 }) as any as S.Schema<GetStageSessionResponse>;
 export interface GetStorageConfigurationRequest {
   arn: string;
 }
-export const GetStorageConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetStorageConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetStorageConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetStorageConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetStorageConfigurationRequest",
-}) as any as S.Schema<GetStorageConfigurationRequest>;
+  ).annotate({
+    identifier: "GetStorageConfigurationRequest",
+  }) as any as S.Schema<GetStorageConfigurationRequest>;
 export interface GetStorageConfigurationResponse {
   storageConfiguration?: StorageConfiguration;
 }
-export const GetStorageConfigurationResponse = S.suspend(() =>
-  S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
-).annotate({
-  identifier: "GetStorageConfigurationResponse",
-}) as any as S.Schema<GetStorageConfigurationResponse>;
+export const GetStorageConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ storageConfiguration: S.optional(StorageConfiguration) }),
+  ).annotate({
+    identifier: "GetStorageConfigurationResponse",
+  }) as any as S.Schema<GetStorageConfigurationResponse>;
 export interface ImportPublicKeyRequest {
   publicKeyMaterial: string;
   name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const ImportPublicKeyRequest = S.suspend(() =>
-  S.Struct({
-    publicKeyMaterial: S.String,
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ImportPublicKey" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ImportPublicKeyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      publicKeyMaterial: S.String,
+      name: S.optional(S.String),
+      tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ImportPublicKey" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ImportPublicKeyRequest",
 }) as any as S.Schema<ImportPublicKeyRequest>;
 export interface ImportPublicKeyResponse {
   publicKey?: PublicKey;
 }
-export const ImportPublicKeyResponse = S.suspend(() =>
-  S.Struct({ publicKey: S.optional(PublicKey) }),
+export const ImportPublicKeyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ publicKey: S.optional(PublicKey) }),
 ).annotate({
   identifier: "ImportPublicKeyResponse",
 }) as any as S.Schema<ImportPublicKeyResponse>;
@@ -1269,22 +1309,23 @@ export interface ListCompositionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListCompositionsRequest = S.suspend(() =>
-  S.Struct({
-    filterByStageArn: S.optional(S.String),
-    filterByEncoderConfigurationArn: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListCompositions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListCompositionsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      filterByStageArn: S.optional(S.String),
+      filterByEncoderConfigurationArn: S.optional(S.String),
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListCompositions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListCompositionsRequest",
 }) as any as S.Schema<ListCompositionsRequest>;
@@ -1294,7 +1335,7 @@ export interface DestinationSummary {
   startTime?: Date;
   endTime?: Date;
 }
-export const DestinationSummary = S.suspend(() =>
+export const DestinationSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     state: S.String,
@@ -1307,7 +1348,8 @@ export const DestinationSummary = S.suspend(() =>
   identifier: "DestinationSummary",
 }) as any as S.Schema<DestinationSummary>;
 export type DestinationSummaryList = DestinationSummary[];
-export const DestinationSummaryList = S.Array(DestinationSummary);
+export const DestinationSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DestinationSummary);
 export interface CompositionSummary {
   arn: string;
   stageArn: string;
@@ -1317,7 +1359,7 @@ export interface CompositionSummary {
   startTime?: Date;
   endTime?: Date;
 }
-export const CompositionSummary = S.suspend(() =>
+export const CompositionSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     stageArn: S.String,
@@ -1333,16 +1375,18 @@ export const CompositionSummary = S.suspend(() =>
   identifier: "CompositionSummary",
 }) as any as S.Schema<CompositionSummary>;
 export type CompositionSummaryList = CompositionSummary[];
-export const CompositionSummaryList = S.Array(CompositionSummary);
+export const CompositionSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(CompositionSummary);
 export interface ListCompositionsResponse {
   compositions: CompositionSummary[];
   nextToken?: string;
 }
-export const ListCompositionsResponse = S.suspend(() =>
-  S.Struct({
-    compositions: CompositionSummaryList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListCompositionsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      compositions: CompositionSummaryList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListCompositionsResponse",
 }) as any as S.Schema<ListCompositionsResponse>;
@@ -1350,78 +1394,81 @@ export interface ListEncoderConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListEncoderConfigurationsRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListEncoderConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListEncoderConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListEncoderConfigurations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListEncoderConfigurationsRequest",
-}) as any as S.Schema<ListEncoderConfigurationsRequest>;
+  ).annotate({
+    identifier: "ListEncoderConfigurationsRequest",
+  }) as any as S.Schema<ListEncoderConfigurationsRequest>;
 export interface EncoderConfigurationSummary {
   arn: string;
   name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const EncoderConfigurationSummary = S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "EncoderConfigurationSummary",
-}) as any as S.Schema<EncoderConfigurationSummary>;
+export const EncoderConfigurationSummary =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      arn: S.String,
+      name: S.optional(S.String),
+      tags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "EncoderConfigurationSummary",
+  }) as any as S.Schema<EncoderConfigurationSummary>;
 export type EncoderConfigurationSummaryList = EncoderConfigurationSummary[];
-export const EncoderConfigurationSummaryList = S.Array(
-  EncoderConfigurationSummary,
-);
+export const EncoderConfigurationSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(EncoderConfigurationSummary);
 export interface ListEncoderConfigurationsResponse {
   encoderConfigurations: EncoderConfigurationSummary[];
   nextToken?: string;
 }
-export const ListEncoderConfigurationsResponse = S.suspend(() =>
-  S.Struct({
-    encoderConfigurations: EncoderConfigurationSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListEncoderConfigurationsResponse",
-}) as any as S.Schema<ListEncoderConfigurationsResponse>;
+export const ListEncoderConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      encoderConfigurations: EncoderConfigurationSummaryList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListEncoderConfigurationsResponse",
+  }) as any as S.Schema<ListEncoderConfigurationsResponse>;
 export interface ListIngestConfigurationsRequest {
   filterByStageArn?: string;
   filterByState?: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListIngestConfigurationsRequest = S.suspend(() =>
-  S.Struct({
-    filterByStageArn: S.optional(S.String),
-    filterByState: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListIngestConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListIngestConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      filterByStageArn: S.optional(S.String),
+      filterByState: S.optional(S.String),
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListIngestConfigurations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListIngestConfigurationsRequest",
-}) as any as S.Schema<ListIngestConfigurationsRequest>;
+  ).annotate({
+    identifier: "ListIngestConfigurationsRequest",
+  }) as any as S.Schema<ListIngestConfigurationsRequest>;
 export interface IngestConfigurationSummary {
   name?: string;
   arn: string;
@@ -1431,33 +1478,37 @@ export interface IngestConfigurationSummary {
   state: string;
   userId?: string;
 }
-export const IngestConfigurationSummary = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    arn: S.String,
-    ingestProtocol: IngestProtocol,
-    stageArn: S.String,
-    participantId: S.String,
-    state: S.String,
-    userId: S.optional(S.String),
-  }),
+export const IngestConfigurationSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.optional(S.String),
+      arn: S.String,
+      ingestProtocol: IngestProtocol,
+      stageArn: S.String,
+      participantId: S.String,
+      state: S.String,
+      userId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "IngestConfigurationSummary",
 }) as any as S.Schema<IngestConfigurationSummary>;
 export type IngestConfigurationList = IngestConfigurationSummary[];
-export const IngestConfigurationList = S.Array(IngestConfigurationSummary);
+export const IngestConfigurationList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  IngestConfigurationSummary,
+);
 export interface ListIngestConfigurationsResponse {
   ingestConfigurations: IngestConfigurationSummary[];
   nextToken?: string;
 }
-export const ListIngestConfigurationsResponse = S.suspend(() =>
-  S.Struct({
-    ingestConfigurations: IngestConfigurationList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListIngestConfigurationsResponse",
-}) as any as S.Schema<ListIngestConfigurationsResponse>;
+export const ListIngestConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      ingestConfigurations: IngestConfigurationList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListIngestConfigurationsResponse",
+  }) as any as S.Schema<ListIngestConfigurationsResponse>;
 export interface ListParticipantEventsRequest {
   stageArn: string;
   sessionId: string;
@@ -1465,26 +1516,27 @@ export interface ListParticipantEventsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListParticipantEventsRequest = S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    sessionId: S.String,
-    participantId: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListParticipantEvents" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListParticipantEventsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      stageArn: S.String,
+      sessionId: S.String,
+      participantId: S.String,
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListParticipantEvents" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListParticipantEventsRequest",
-}) as any as S.Schema<ListParticipantEventsRequest>;
+  ).annotate({
+    identifier: "ListParticipantEventsRequest",
+  }) as any as S.Schema<ListParticipantEventsRequest>;
 export type EventErrorCode =
   | "INSUFFICIENT_CAPABILITIES"
   | "QUOTA_EXCEEDED"
@@ -1501,22 +1553,23 @@ export type EventErrorCode =
   | "INVALID_INPUT"
   | "INTERNAL_SERVER_EXCEPTION"
   | (string & {});
-export const EventErrorCode = S.String;
+export const EventErrorCode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ExchangedParticipantToken {
   capabilities?: string[];
   attributes?: { [key: string]: string | undefined };
   userId?: string;
   expirationTime?: Date;
 }
-export const ExchangedParticipantToken = S.suspend(() =>
-  S.Struct({
-    capabilities: S.optional(ParticipantTokenCapabilities),
-    attributes: S.optional(ParticipantTokenAttributes),
-    userId: S.optional(S.String),
-    expirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
+export const ExchangedParticipantToken = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      capabilities: S.optional(ParticipantTokenCapabilities),
+      attributes: S.optional(ParticipantTokenAttributes),
+      userId: S.optional(S.String),
+      expirationTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+    }),
 ).annotate({
   identifier: "ExchangedParticipantToken",
 }) as any as S.Schema<ExchangedParticipantToken>;
@@ -1532,7 +1585,7 @@ export interface Event {
   previousToken?: ExchangedParticipantToken;
   newToken?: ExchangedParticipantToken;
 }
-export const Event = S.suspend(() =>
+export const Event = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     participantId: S.optional(S.String),
@@ -1549,41 +1602,43 @@ export const Event = S.suspend(() =>
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type EventList = Event[];
-export const EventList = S.Array(Event);
+export const EventList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Event);
 export interface ListParticipantEventsResponse {
   events: Event[];
   nextToken?: string;
 }
-export const ListParticipantEventsResponse = S.suspend(() =>
-  S.Struct({ events: EventList, nextToken: S.optional(S.String) }),
-).annotate({
-  identifier: "ListParticipantEventsResponse",
-}) as any as S.Schema<ListParticipantEventsResponse>;
+export const ListParticipantEventsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ events: EventList, nextToken: S.optional(S.String) }),
+  ).annotate({
+    identifier: "ListParticipantEventsResponse",
+  }) as any as S.Schema<ListParticipantEventsResponse>;
 export interface ListParticipantReplicasRequest {
   sourceStageArn: string;
   participantId: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListParticipantReplicasRequest = S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    participantId: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListParticipantReplicas" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListParticipantReplicasRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceStageArn: S.String,
+      participantId: S.String,
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListParticipantReplicas" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListParticipantReplicasRequest",
-}) as any as S.Schema<ListParticipantReplicasRequest>;
+  ).annotate({
+    identifier: "ListParticipantReplicasRequest",
+  }) as any as S.Schema<ListParticipantReplicasRequest>;
 export interface ParticipantReplica {
   sourceStageArn: string;
   participantId: string;
@@ -1592,7 +1647,7 @@ export interface ParticipantReplica {
   destinationSessionId: string;
   replicationState: string;
 }
-export const ParticipantReplica = S.suspend(() =>
+export const ParticipantReplica = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sourceStageArn: S.String,
     participantId: S.String,
@@ -1605,19 +1660,21 @@ export const ParticipantReplica = S.suspend(() =>
   identifier: "ParticipantReplica",
 }) as any as S.Schema<ParticipantReplica>;
 export type ParticipantReplicaList = ParticipantReplica[];
-export const ParticipantReplicaList = S.Array(ParticipantReplica);
+export const ParticipantReplicaList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParticipantReplica);
 export interface ListParticipantReplicasResponse {
   replicas: ParticipantReplica[];
   nextToken?: string;
 }
-export const ListParticipantReplicasResponse = S.suspend(() =>
-  S.Struct({
-    replicas: ParticipantReplicaList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListParticipantReplicasResponse",
-}) as any as S.Schema<ListParticipantReplicasResponse>;
+export const ListParticipantReplicasResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      replicas: ParticipantReplicaList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListParticipantReplicasResponse",
+  }) as any as S.Schema<ListParticipantReplicasResponse>;
 export interface ListParticipantsRequest {
   stageArn: string;
   sessionId: string;
@@ -1628,26 +1685,27 @@ export interface ListParticipantsRequest {
   maxResults?: number;
   filterByRecordingState?: string;
 }
-export const ListParticipantsRequest = S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    sessionId: S.String,
-    filterByUserId: S.optional(S.String),
-    filterByPublished: S.optional(S.Boolean),
-    filterByState: S.optional(S.String),
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-    filterByRecordingState: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListParticipants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListParticipantsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      stageArn: S.String,
+      sessionId: S.String,
+      filterByUserId: S.optional(S.String),
+      filterByPublished: S.optional(S.Boolean),
+      filterByState: S.optional(S.String),
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+      filterByRecordingState: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListParticipants" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListParticipantsRequest",
 }) as any as S.Schema<ListParticipantsRequest>;
@@ -1663,7 +1721,7 @@ export interface ParticipantSummary {
   sourceStageArn?: string;
   sourceSessionId?: string;
 }
-export const ParticipantSummary = S.suspend(() =>
+export const ParticipantSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     participantId: S.optional(S.String),
     userId: S.optional(S.String),
@@ -1682,13 +1740,18 @@ export const ParticipantSummary = S.suspend(() =>
   identifier: "ParticipantSummary",
 }) as any as S.Schema<ParticipantSummary>;
 export type ParticipantList = ParticipantSummary[];
-export const ParticipantList = S.Array(ParticipantSummary);
+export const ParticipantList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParticipantSummary);
 export interface ListParticipantsResponse {
   participants: ParticipantSummary[];
   nextToken?: string;
 }
-export const ListParticipantsResponse = S.suspend(() =>
-  S.Struct({ participants: ParticipantList, nextToken: S.optional(S.String) }),
+export const ListParticipantsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      participants: ParticipantList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListParticipantsResponse",
 }) as any as S.Schema<ListParticipantsResponse>;
@@ -1696,7 +1759,7 @@ export interface ListPublicKeysRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListPublicKeysRequest = S.suspend(() =>
+export const ListPublicKeysRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -1718,7 +1781,7 @@ export interface PublicKeySummary {
   name?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const PublicKeySummary = S.suspend(() =>
+export const PublicKeySummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     name: S.optional(S.String),
@@ -1728,13 +1791,15 @@ export const PublicKeySummary = S.suspend(() =>
   identifier: "PublicKeySummary",
 }) as any as S.Schema<PublicKeySummary>;
 export type PublicKeyList = PublicKeySummary[];
-export const PublicKeyList = S.Array(PublicKeySummary);
+export const PublicKeyList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PublicKeySummary);
 export interface ListPublicKeysResponse {
   publicKeys: PublicKeySummary[];
   nextToken?: string;
 }
-export const ListPublicKeysResponse = S.suspend(() =>
-  S.Struct({ publicKeys: PublicKeyList, nextToken: S.optional(S.String) }),
+export const ListPublicKeysResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ publicKeys: PublicKeyList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListPublicKeysResponse",
 }) as any as S.Schema<ListPublicKeysResponse>;
@@ -1742,7 +1807,7 @@ export interface ListStagesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStagesRequest = S.suspend(() =>
+export const ListStagesRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
@@ -1765,7 +1830,7 @@ export interface StageSummary {
   activeSessionId?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const StageSummary = S.suspend(() =>
+export const StageSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.optional(S.String),
@@ -1774,12 +1839,13 @@ export const StageSummary = S.suspend(() =>
   }),
 ).annotate({ identifier: "StageSummary" }) as any as S.Schema<StageSummary>;
 export type StageSummaryList = StageSummary[];
-export const StageSummaryList = S.Array(StageSummary);
+export const StageSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(StageSummary);
 export interface ListStagesResponse {
   stages: StageSummary[];
   nextToken?: string;
 }
-export const ListStagesResponse = S.suspend(() =>
+export const ListStagesResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ stages: StageSummaryList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListStagesResponse",
@@ -1789,21 +1855,22 @@ export interface ListStageSessionsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStageSessionsRequest = S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStageSessions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListStageSessionsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      stageArn: S.String,
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListStageSessions" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListStageSessionsRequest",
 }) as any as S.Schema<ListStageSessionsRequest>;
@@ -1812,7 +1879,7 @@ export interface StageSessionSummary {
   startTime?: Date;
   endTime?: Date;
 }
-export const StageSessionSummary = S.suspend(() =>
+export const StageSessionSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.optional(S.String),
     startTime: S.optional(
@@ -1824,16 +1891,18 @@ export const StageSessionSummary = S.suspend(() =>
   identifier: "StageSessionSummary",
 }) as any as S.Schema<StageSessionSummary>;
 export type StageSessionList = StageSessionSummary[];
-export const StageSessionList = S.Array(StageSessionSummary);
+export const StageSessionList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(StageSessionSummary);
 export interface ListStageSessionsResponse {
   stageSessions: StageSessionSummary[];
   nextToken?: string;
 }
-export const ListStageSessionsResponse = S.suspend(() =>
-  S.Struct({
-    stageSessions: StageSessionList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListStageSessionsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      stageSessions: StageSessionList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListStageSessionsResponse",
 }) as any as S.Schema<ListStageSessionsResponse>;
@@ -1841,82 +1910,88 @@ export interface ListStorageConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListStorageConfigurationsRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListStorageConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListStorageConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListStorageConfigurations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListStorageConfigurationsRequest",
-}) as any as S.Schema<ListStorageConfigurationsRequest>;
+  ).annotate({
+    identifier: "ListStorageConfigurationsRequest",
+  }) as any as S.Schema<ListStorageConfigurationsRequest>;
 export interface StorageConfigurationSummary {
   arn: string;
   name?: string;
   s3?: S3StorageConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const StorageConfigurationSummary = S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    s3: S.optional(S3StorageConfiguration),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "StorageConfigurationSummary",
-}) as any as S.Schema<StorageConfigurationSummary>;
+export const StorageConfigurationSummary =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      arn: S.String,
+      name: S.optional(S.String),
+      s3: S.optional(S3StorageConfiguration),
+      tags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "StorageConfigurationSummary",
+  }) as any as S.Schema<StorageConfigurationSummary>;
 export type StorageConfigurationSummaryList = StorageConfigurationSummary[];
-export const StorageConfigurationSummaryList = S.Array(
-  StorageConfigurationSummary,
-);
+export const StorageConfigurationSummaryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(StorageConfigurationSummary);
 export interface ListStorageConfigurationsResponse {
   storageConfigurations: StorageConfigurationSummary[];
   nextToken?: string;
 }
-export const ListStorageConfigurationsResponse = S.suspend(() =>
-  S.Struct({
-    storageConfigurations: StorageConfigurationSummaryList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListStorageConfigurationsResponse",
-}) as any as S.Schema<ListStorageConfigurationsResponse>;
+export const ListStorageConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      storageConfigurations: StorageConfigurationSummaryList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListStorageConfigurationsResponse",
+  }) as any as S.Schema<ListStorageConfigurationsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: Tags }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: Tags }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export type DestinationConfigurationList = DestinationConfiguration[];
-export const DestinationConfigurationList = S.Array(DestinationConfiguration);
+export const DestinationConfigurationList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  DestinationConfiguration,
+);
 export interface StartCompositionRequest {
   stageArn: string;
   idempotencyToken?: string;
@@ -1924,31 +1999,32 @@ export interface StartCompositionRequest {
   destinations: DestinationConfiguration[];
   tags?: { [key: string]: string | undefined };
 }
-export const StartCompositionRequest = S.suspend(() =>
-  S.Struct({
-    stageArn: S.String,
-    idempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    layout: S.optional(LayoutConfiguration),
-    destinations: DestinationConfigurationList,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartComposition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartCompositionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      stageArn: S.String,
+      idempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+      layout: S.optional(LayoutConfiguration),
+      destinations: DestinationConfigurationList,
+      tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StartComposition" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StartCompositionRequest",
 }) as any as S.Schema<StartCompositionRequest>;
 export interface StartCompositionResponse {
   composition?: Composition;
 }
-export const StartCompositionResponse = S.suspend(() =>
-  S.Struct({ composition: S.optional(Composition) }),
+export const StartCompositionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ composition: S.optional(Composition) }),
 ).annotate({
   identifier: "StartCompositionResponse",
 }) as any as S.Schema<StartCompositionResponse>;
@@ -1959,26 +2035,27 @@ export interface StartParticipantReplicationRequest {
   reconnectWindowSeconds?: number;
   attributes?: { [key: string]: string | undefined };
 }
-export const StartParticipantReplicationRequest = S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    destinationStageArn: S.String,
-    participantId: S.String,
-    reconnectWindowSeconds: S.optional(S.Number),
-    attributes: S.optional(ParticipantAttributes),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StartParticipantReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StartParticipantReplicationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceStageArn: S.String,
+      destinationStageArn: S.String,
+      participantId: S.String,
+      reconnectWindowSeconds: S.optional(S.Number),
+      attributes: S.optional(ParticipantAttributes),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StartParticipantReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StartParticipantReplicationRequest",
-}) as any as S.Schema<StartParticipantReplicationRequest>;
+  ).annotate({
+    identifier: "StartParticipantReplicationRequest",
+  }) as any as S.Schema<StartParticipantReplicationRequest>;
 export interface StartParticipantReplicationResponse {
   accessControlAllowOrigin?: string;
   accessControlExposeHeaders?: string;
@@ -1988,48 +2065,52 @@ export interface StartParticipantReplicationResponse {
   xContentTypeOptions?: string;
   xFrameOptions?: string;
 }
-export const StartParticipantReplicationResponse = S.suspend(() =>
-  S.Struct({
-    accessControlAllowOrigin: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Allow-Origin"),
-    ),
-    accessControlExposeHeaders: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Expose-Headers"),
-    ),
-    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    contentSecurityPolicy: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Security-Policy"),
-    ),
-    strictTransportSecurity: S.optional(S.String).pipe(
-      T.HttpHeader("Strict-Transport-Security"),
-    ),
-    xContentTypeOptions: S.optional(S.String).pipe(
-      T.HttpHeader("X-Content-Type-Options"),
-    ),
-    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-  }),
-).annotate({
-  identifier: "StartParticipantReplicationResponse",
-}) as any as S.Schema<StartParticipantReplicationResponse>;
+export const StartParticipantReplicationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessControlAllowOrigin: S.optional(S.String).pipe(
+        T.HttpHeader("Access-Control-Allow-Origin"),
+      ),
+      accessControlExposeHeaders: S.optional(S.String).pipe(
+        T.HttpHeader("Access-Control-Expose-Headers"),
+      ),
+      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+      contentSecurityPolicy: S.optional(S.String).pipe(
+        T.HttpHeader("Content-Security-Policy"),
+      ),
+      strictTransportSecurity: S.optional(S.String).pipe(
+        T.HttpHeader("Strict-Transport-Security"),
+      ),
+      xContentTypeOptions: S.optional(S.String).pipe(
+        T.HttpHeader("X-Content-Type-Options"),
+      ),
+      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    }),
+  ).annotate({
+    identifier: "StartParticipantReplicationResponse",
+  }) as any as S.Schema<StartParticipantReplicationResponse>;
 export interface StopCompositionRequest {
   arn: string;
 }
-export const StopCompositionRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopComposition" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StopCompositionRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StopComposition" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "StopCompositionRequest",
 }) as any as S.Schema<StopCompositionRequest>;
 export interface StopCompositionResponse {}
-export const StopCompositionResponse = S.suspend(() => S.Struct({})).annotate({
+export const StopCompositionResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "StopCompositionResponse",
 }) as any as S.Schema<StopCompositionResponse>;
 export interface StopParticipantReplicationRequest {
@@ -2037,24 +2118,25 @@ export interface StopParticipantReplicationRequest {
   destinationStageArn: string;
   participantId: string;
 }
-export const StopParticipantReplicationRequest = S.suspend(() =>
-  S.Struct({
-    sourceStageArn: S.String,
-    destinationStageArn: S.String,
-    participantId: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/StopParticipantReplication" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const StopParticipantReplicationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      sourceStageArn: S.String,
+      destinationStageArn: S.String,
+      participantId: S.String,
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/StopParticipantReplication" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "StopParticipantReplicationRequest",
-}) as any as S.Schema<StopParticipantReplicationRequest>;
+  ).annotate({
+    identifier: "StopParticipantReplicationRequest",
+  }) as any as S.Schema<StopParticipantReplicationRequest>;
 export interface StopParticipantReplicationResponse {
   accessControlAllowOrigin?: string;
   accessControlExposeHeaders?: string;
@@ -2064,34 +2146,35 @@ export interface StopParticipantReplicationResponse {
   xContentTypeOptions?: string;
   xFrameOptions?: string;
 }
-export const StopParticipantReplicationResponse = S.suspend(() =>
-  S.Struct({
-    accessControlAllowOrigin: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Allow-Origin"),
-    ),
-    accessControlExposeHeaders: S.optional(S.String).pipe(
-      T.HttpHeader("Access-Control-Expose-Headers"),
-    ),
-    cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
-    contentSecurityPolicy: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Security-Policy"),
-    ),
-    strictTransportSecurity: S.optional(S.String).pipe(
-      T.HttpHeader("Strict-Transport-Security"),
-    ),
-    xContentTypeOptions: S.optional(S.String).pipe(
-      T.HttpHeader("X-Content-Type-Options"),
-    ),
-    xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-  }),
-).annotate({
-  identifier: "StopParticipantReplicationResponse",
-}) as any as S.Schema<StopParticipantReplicationResponse>;
+export const StopParticipantReplicationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      accessControlAllowOrigin: S.optional(S.String).pipe(
+        T.HttpHeader("Access-Control-Allow-Origin"),
+      ),
+      accessControlExposeHeaders: S.optional(S.String).pipe(
+        T.HttpHeader("Access-Control-Expose-Headers"),
+      ),
+      cacheControl: S.optional(S.String).pipe(T.HttpHeader("Cache-Control")),
+      contentSecurityPolicy: S.optional(S.String).pipe(
+        T.HttpHeader("Content-Security-Policy"),
+      ),
+      strictTransportSecurity: S.optional(S.String).pipe(
+        T.HttpHeader("Strict-Transport-Security"),
+      ),
+      xContentTypeOptions: S.optional(S.String).pipe(
+        T.HttpHeader("X-Content-Type-Options"),
+      ),
+      xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
+    }),
+  ).annotate({
+    identifier: "StopParticipantReplicationResponse",
+  }) as any as S.Schema<StopParticipantReplicationResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: Tags,
@@ -2109,16 +2192,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -2136,41 +2221,45 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateIngestConfigurationRequest {
   arn: string;
   stageArn?: string;
 }
-export const UpdateIngestConfigurationRequest = S.suspend(() =>
-  S.Struct({ arn: S.String, stageArn: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateIngestConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateIngestConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ arn: S.String, stageArn: S.optional(S.String) }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/UpdateIngestConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateIngestConfigurationRequest",
-}) as any as S.Schema<UpdateIngestConfigurationRequest>;
+  ).annotate({
+    identifier: "UpdateIngestConfigurationRequest",
+  }) as any as S.Schema<UpdateIngestConfigurationRequest>;
 export interface UpdateIngestConfigurationResponse {
   ingestConfiguration?: IngestConfiguration;
 }
-export const UpdateIngestConfigurationResponse = S.suspend(() =>
-  S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
-).annotate({
-  identifier: "UpdateIngestConfigurationResponse",
-}) as any as S.Schema<UpdateIngestConfigurationResponse>;
+export const UpdateIngestConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ ingestConfiguration: S.optional(IngestConfiguration) }),
+  ).annotate({
+    identifier: "UpdateIngestConfigurationResponse",
+  }) as any as S.Schema<UpdateIngestConfigurationResponse>;
 export interface UpdateStageRequest {
   arn: string;
   name?: string;
   autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
 }
-export const UpdateStageRequest = S.suspend(() =>
+export const UpdateStageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.optional(S.String),
@@ -2193,7 +2282,7 @@ export const UpdateStageRequest = S.suspend(() =>
 export interface UpdateStageResponse {
   stage?: Stage;
 }
-export const UpdateStageResponse = S.suspend(() =>
+export const UpdateStageResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ stage: S.optional(Stage) }),
 ).annotate({
   identifier: "UpdateStageResponse",

@@ -92,46 +92,47 @@ export type MetricName =
   | "Unit"
   | "Cost"
   | (string & {});
-export const MetricName = S.String;
+export const MetricName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type MetricNames = MetricName[];
-export const MetricNames = S.Array(MetricName);
+export const MetricNames = /*@__PURE__*/ /*#__PURE__*/ S.Array(MetricName);
 export type DateTimeType = "ABSOLUTE" | "RELATIVE" | (string & {});
-export const DateTimeType = S.String;
+export const DateTimeType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface DateTimeValue {
   type: DateTimeType;
   value: string;
 }
-export const DateTimeValue = S.suspend(() =>
+export const DateTimeValue = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ type: DateTimeType, value: S.String }),
 ).annotate({ identifier: "DateTimeValue" }) as any as S.Schema<DateTimeValue>;
 export interface DateTimeRange {
   startTime: DateTimeValue;
   endTime: DateTimeValue;
 }
-export const DateTimeRange = S.suspend(() =>
+export const DateTimeRange = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ startTime: DateTimeValue, endTime: DateTimeValue }),
 ).annotate({ identifier: "DateTimeRange" }) as any as S.Schema<DateTimeRange>;
 export type Granularity = "HOURLY" | "DAILY" | "MONTHLY" | (string & {});
-export const Granularity = S.String;
+export const Granularity = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type GroupDefinitionType =
   | "DIMENSION"
   | "TAG"
   | "COST_CATEGORY"
   | (string & {});
-export const GroupDefinitionType = S.String;
+export const GroupDefinitionType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GroupDefinition {
   key: string;
   type?: GroupDefinitionType;
 }
-export const GroupDefinition = S.suspend(() =>
+export const GroupDefinition = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, type: S.optional(GroupDefinitionType) }),
 ).annotate({
   identifier: "GroupDefinition",
 }) as any as S.Schema<GroupDefinition>;
 export type GroupDefinitions = GroupDefinition[];
-export const GroupDefinitions = S.Array(GroupDefinition);
+export const GroupDefinitions =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(GroupDefinition);
 export type Expressions = Expression[];
-export const Expressions = S.Array(
+export const Expressions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
   S.suspend((): S.Schema<Expression> => Expression).annotate({
     identifier: "Expression",
   }),
@@ -164,9 +165,9 @@ export type Dimension =
   | "SCOPE"
   | "PLATFORM"
   | (string & {});
-export const Dimension = S.String;
+export const Dimension = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type StringList = string[];
-export const StringList = S.Array(S.String);
+export const StringList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export type MatchOption =
   | "EQUALS"
   | "ABSENT"
@@ -177,15 +178,15 @@ export type MatchOption =
   | "CASE_SENSITIVE"
   | "CASE_INSENSITIVE"
   | (string & {});
-export const MatchOption = S.String;
+export const MatchOption = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type MatchOptions = MatchOption[];
-export const MatchOptions = S.Array(MatchOption);
+export const MatchOptions = /*@__PURE__*/ /*#__PURE__*/ S.Array(MatchOption);
 export interface DimensionValues {
   key: Dimension;
   values: string[];
   matchOptions?: MatchOption[];
 }
-export const DimensionValues = S.suspend(() =>
+export const DimensionValues = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     key: Dimension,
     values: StringList,
@@ -199,7 +200,7 @@ export interface TagValues {
   values?: string[];
   matchOptions?: MatchOption[];
 }
-export const TagValues = S.suspend(() =>
+export const TagValues = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     values: S.optional(StringList),
@@ -211,7 +212,7 @@ export interface CostCategoryValues {
   values?: string[];
   matchOptions?: MatchOption[];
 }
-export const CostCategoryValues = S.suspend(() =>
+export const CostCategoryValues = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     key: S.optional(S.String),
     values: S.optional(StringList),
@@ -228,7 +229,7 @@ export interface Expression {
   tags?: TagValues;
   costCategories?: CostCategoryValues;
 }
-export const Expression = S.suspend(() =>
+export const Expression = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     or: S.optional(
       S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
@@ -253,7 +254,7 @@ export interface CostAndUsageQuery {
   groupBy?: GroupDefinition[];
   filter?: Expression;
 }
-export const CostAndUsageQuery = S.suspend(() =>
+export const CostAndUsageQuery = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     metrics: MetricNames,
     timeRange: DateTimeRange,
@@ -271,14 +272,15 @@ export interface SavingsPlansCoverageQuery {
   groupBy?: GroupDefinition[];
   filter?: Expression;
 }
-export const SavingsPlansCoverageQuery = S.suspend(() =>
-  S.Struct({
-    timeRange: DateTimeRange,
-    metrics: S.optional(MetricNames),
-    granularity: S.optional(Granularity),
-    groupBy: S.optional(GroupDefinitions),
-    filter: S.optional(Expression),
-  }),
+export const SavingsPlansCoverageQuery = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      timeRange: DateTimeRange,
+      metrics: S.optional(MetricNames),
+      granularity: S.optional(Granularity),
+      groupBy: S.optional(GroupDefinitions),
+      filter: S.optional(Expression),
+    }),
 ).annotate({
   identifier: "SavingsPlansCoverageQuery",
 }) as any as S.Schema<SavingsPlansCoverageQuery>;
@@ -287,15 +289,16 @@ export interface SavingsPlansUtilizationQuery {
   granularity?: Granularity;
   filter?: Expression;
 }
-export const SavingsPlansUtilizationQuery = S.suspend(() =>
-  S.Struct({
-    timeRange: DateTimeRange,
-    granularity: S.optional(Granularity),
-    filter: S.optional(Expression),
-  }),
-).annotate({
-  identifier: "SavingsPlansUtilizationQuery",
-}) as any as S.Schema<SavingsPlansUtilizationQuery>;
+export const SavingsPlansUtilizationQuery =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      timeRange: DateTimeRange,
+      granularity: S.optional(Granularity),
+      filter: S.optional(Expression),
+    }),
+  ).annotate({
+    identifier: "SavingsPlansUtilizationQuery",
+  }) as any as S.Schema<SavingsPlansUtilizationQuery>;
 export interface ReservationCoverageQuery {
   timeRange: DateTimeRange;
   groupBy?: GroupDefinition[];
@@ -303,14 +306,15 @@ export interface ReservationCoverageQuery {
   filter?: Expression;
   metrics?: MetricName[];
 }
-export const ReservationCoverageQuery = S.suspend(() =>
-  S.Struct({
-    timeRange: DateTimeRange,
-    groupBy: S.optional(GroupDefinitions),
-    granularity: S.optional(Granularity),
-    filter: S.optional(Expression),
-    metrics: S.optional(MetricNames),
-  }),
+export const ReservationCoverageQuery = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      timeRange: DateTimeRange,
+      groupBy: S.optional(GroupDefinitions),
+      granularity: S.optional(Granularity),
+      filter: S.optional(Expression),
+      metrics: S.optional(MetricNames),
+    }),
 ).annotate({
   identifier: "ReservationCoverageQuery",
 }) as any as S.Schema<ReservationCoverageQuery>;
@@ -320,16 +324,17 @@ export interface ReservationUtilizationQuery {
   granularity?: Granularity;
   filter?: Expression;
 }
-export const ReservationUtilizationQuery = S.suspend(() =>
-  S.Struct({
-    timeRange: DateTimeRange,
-    groupBy: S.optional(GroupDefinitions),
-    granularity: S.optional(Granularity),
-    filter: S.optional(Expression),
-  }),
-).annotate({
-  identifier: "ReservationUtilizationQuery",
-}) as any as S.Schema<ReservationUtilizationQuery>;
+export const ReservationUtilizationQuery =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      timeRange: DateTimeRange,
+      groupBy: S.optional(GroupDefinitions),
+      granularity: S.optional(Granularity),
+      filter: S.optional(Expression),
+    }),
+  ).annotate({
+    identifier: "ReservationUtilizationQuery",
+  }) as any as S.Schema<ReservationUtilizationQuery>;
 export type QueryParameters =
   | {
       costAndUsage: CostAndUsageQuery;
@@ -366,7 +371,7 @@ export type QueryParameters =
       reservationCoverage?: never;
       reservationUtilization: ReservationUtilizationQuery;
     };
-export const QueryParameters = S.Union([
+export const QueryParameters = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ costAndUsage: CostAndUsageQuery }),
   S.Struct({ savingsPlansCoverage: SavingsPlansCoverageQuery }),
   S.Struct({ savingsPlansUtilization: SavingsPlansUtilizationQuery }),
@@ -374,11 +379,11 @@ export const QueryParameters = S.Union([
   S.Struct({ reservationUtilization: ReservationUtilizationQuery }),
 ]);
 export type VisualType = "LINE" | "BAR" | "STACK" | (string & {});
-export const VisualType = S.String;
+export const VisualType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GraphDisplayConfig {
   visualType: VisualType;
 }
-export const GraphDisplayConfig = S.suspend(() =>
+export const GraphDisplayConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ visualType: VisualType }),
 ).annotate({
   identifier: "GraphDisplayConfig",
@@ -386,18 +391,20 @@ export const GraphDisplayConfig = S.suspend(() =>
 export type GraphDisplayConfigMap = {
   [key: string]: GraphDisplayConfig | undefined;
 };
-export const GraphDisplayConfigMap = S.Record(
+export const GraphDisplayConfigMap = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   GraphDisplayConfig.pipe(S.optional),
 );
 export interface TableDisplayConfigStruct {}
-export const TableDisplayConfigStruct = S.suspend(() => S.Struct({})).annotate({
+export const TableDisplayConfigStruct = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "TableDisplayConfigStruct",
 }) as any as S.Schema<TableDisplayConfigStruct>;
 export type DisplayConfig =
   | { graph: { [key: string]: GraphDisplayConfig | undefined }; table?: never }
   | { graph?: never; table: TableDisplayConfigStruct };
-export const DisplayConfig = S.Union([
+export const DisplayConfig = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ graph: GraphDisplayConfigMap }),
   S.Struct({ table: TableDisplayConfigStruct }),
 ]);
@@ -405,11 +412,12 @@ export interface WidgetConfig {
   queryParameters: QueryParameters;
   displayConfig: DisplayConfig;
 }
-export const WidgetConfig = S.suspend(() =>
+export const WidgetConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ queryParameters: QueryParameters, displayConfig: DisplayConfig }),
 ).annotate({ identifier: "WidgetConfig" }) as any as S.Schema<WidgetConfig>;
 export type WidgetConfigList = WidgetConfig[];
-export const WidgetConfigList = S.Array(WidgetConfig);
+export const WidgetConfigList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(WidgetConfig);
 export interface Widget {
   id?: string;
   title: string;
@@ -419,7 +427,7 @@ export interface Widget {
   horizontalOffset?: number;
   configs: WidgetConfig[];
 }
-export const Widget = S.suspend(() =>
+export const Widget = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     title: S.String,
@@ -431,64 +439,66 @@ export const Widget = S.suspend(() =>
   }),
 ).annotate({ identifier: "Widget" }) as any as S.Schema<Widget>;
 export type WidgetList = Widget[];
-export const WidgetList = S.Array(Widget);
+export const WidgetList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Widget);
 export interface ResourceTag {
   key: string;
   value: string;
 }
-export const ResourceTag = S.suspend(() =>
+export const ResourceTag = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ key: S.String, value: S.String }),
 ).annotate({ identifier: "ResourceTag" }) as any as S.Schema<ResourceTag>;
 export type ResourceTagList = ResourceTag[];
-export const ResourceTagList = S.Array(ResourceTag);
+export const ResourceTagList = /*@__PURE__*/ /*#__PURE__*/ S.Array(ResourceTag);
 export interface CreateDashboardRequest {
   name: string;
   description?: string;
   widgets: Widget[];
   resourceTags?: ResourceTag[];
 }
-export const CreateDashboardRequest = S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    description: S.optional(S.String),
-    widgets: WidgetList,
-    resourceTags: S.optional(ResourceTagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const CreateDashboardRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      description: S.optional(S.String),
+      widgets: WidgetList,
+      resourceTags: S.optional(ResourceTagList),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "CreateDashboardRequest",
 }) as any as S.Schema<CreateDashboardRequest>;
 export interface CreateDashboardResponse {
   arn: string;
 }
-export const CreateDashboardResponse = S.suspend(() =>
-  S.Struct({ arn: S.String }),
+export const CreateDashboardResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ arn: S.String }),
 ).annotate({
   identifier: "CreateDashboardResponse",
 }) as any as S.Schema<CreateDashboardResponse>;
 export interface DeleteDashboardRequest {
   arn: string;
 }
-export const DeleteDashboardRequest = S.suspend(() =>
-  S.Struct({ arn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const DeleteDashboardRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ arn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "DeleteDashboardRequest",
 }) as any as S.Schema<DeleteDashboardRequest>;
 export interface DeleteDashboardResponse {
   arn: string;
 }
-export const DeleteDashboardResponse = S.suspend(() =>
-  S.Struct({ arn: S.String }),
+export const DeleteDashboardResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ arn: S.String }),
 ).annotate({
   identifier: "DeleteDashboardResponse",
 }) as any as S.Schema<DeleteDashboardResponse>;
 export interface GetDashboardRequest {
   arn: string;
 }
-export const GetDashboardRequest = S.suspend(() =>
+export const GetDashboardRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ arn: S.String }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -496,7 +506,7 @@ export const GetDashboardRequest = S.suspend(() =>
   identifier: "GetDashboardRequest",
 }) as any as S.Schema<GetDashboardRequest>;
 export type DashboardType = "CUSTOM" | (string & {});
-export const DashboardType = S.String;
+export const DashboardType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GetDashboardResponse {
   arn: string;
   name: string;
@@ -506,7 +516,7 @@ export interface GetDashboardResponse {
   createdAt: Date;
   updatedAt: Date;
 }
-export const GetDashboardResponse = S.suspend(() =>
+export const GetDashboardResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
@@ -522,10 +532,11 @@ export const GetDashboardResponse = S.suspend(() =>
 export interface GetResourcePolicyRequest {
   resourceArn: string;
 }
-export const GetResourcePolicyRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const GetResourcePolicyRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "GetResourcePolicyRequest",
 }) as any as S.Schema<GetResourcePolicyRequest>;
@@ -533,8 +544,8 @@ export interface GetResourcePolicyResponse {
   resourceArn: string;
   policyDocument: string;
 }
-export const GetResourcePolicyResponse = S.suspend(() =>
-  S.Struct({ resourceArn: S.String, policyDocument: S.String }),
+export const GetResourcePolicyResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ resourceArn: S.String, policyDocument: S.String }),
 ).annotate({
   identifier: "GetResourcePolicyResponse",
 }) as any as S.Schema<GetResourcePolicyResponse>;
@@ -542,7 +553,7 @@ export interface ListDashboardsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDashboardsRequest = S.suspend(() =>
+export const ListDashboardsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
@@ -560,7 +571,7 @@ export interface DashboardReference {
   createdAt: Date;
   updatedAt: Date;
 }
-export const DashboardReference = S.suspend(() =>
+export const DashboardReference = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.String,
     name: S.String,
@@ -573,42 +584,46 @@ export const DashboardReference = S.suspend(() =>
   identifier: "DashboardReference",
 }) as any as S.Schema<DashboardReference>;
 export type DashboardReferenceList = DashboardReference[];
-export const DashboardReferenceList = S.Array(DashboardReference);
+export const DashboardReferenceList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(DashboardReference);
 export interface ListDashboardsResponse {
   dashboards: DashboardReference[];
   nextToken?: string;
 }
-export const ListDashboardsResponse = S.suspend(() =>
-  S.Struct({
-    dashboards: DashboardReferenceList,
-    nextToken: S.optional(S.String),
-  }),
+export const ListDashboardsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      dashboards: DashboardReferenceList,
+      nextToken: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "ListDashboardsResponse",
 }) as any as S.Schema<ListDashboardsResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   resourceTags?: ResourceTag[];
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ resourceTags: S.optional(ResourceTagList) }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ resourceTags: S.optional(ResourceTagList) }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   resourceTags: ResourceTag[];
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTags: ResourceTagList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -616,16 +631,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type ResourceTagKeyList = string[];
-export const ResourceTagKeyList = S.Array(S.String);
+export const ResourceTagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   resourceTagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, resourceTagKeys: ResourceTagKeyList }).pipe(
     T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
@@ -633,7 +650,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDashboardRequest {
@@ -642,23 +661,24 @@ export interface UpdateDashboardRequest {
   description?: string;
   widgets?: Widget[];
 }
-export const UpdateDashboardRequest = S.suspend(() =>
-  S.Struct({
-    arn: S.String,
-    name: S.optional(S.String),
-    description: S.optional(S.String),
-    widgets: S.optional(WidgetList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const UpdateDashboardRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      arn: S.String,
+      name: S.optional(S.String),
+      description: S.optional(S.String),
+      widgets: S.optional(WidgetList),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "UpdateDashboardRequest",
 }) as any as S.Schema<UpdateDashboardRequest>;
 export interface UpdateDashboardResponse {
   arn: string;
 }
-export const UpdateDashboardResponse = S.suspend(() =>
-  S.Struct({ arn: S.String }),
+export const UpdateDashboardResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ arn: S.String }),
 ).annotate({
   identifier: "UpdateDashboardResponse",
 }) as any as S.Schema<UpdateDashboardResponse>;

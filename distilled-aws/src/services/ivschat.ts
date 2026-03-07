@@ -128,9 +128,11 @@ export type UpdateLoggingConfigurationState = string;
 
 //# Schemas
 export type ChatTokenCapabilities = string[];
-export const ChatTokenCapabilities = S.Array(S.String);
+export const ChatTokenCapabilities = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
 export type ChatTokenAttributes = { [key: string]: string | undefined };
-export const ChatTokenAttributes = S.Record(
+export const ChatTokenAttributes = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
@@ -141,23 +143,24 @@ export interface CreateChatTokenRequest {
   sessionDurationInMinutes?: number;
   attributes?: { [key: string]: string | undefined };
 }
-export const CreateChatTokenRequest = S.suspend(() =>
-  S.Struct({
-    roomIdentifier: S.String,
-    userId: SensitiveString,
-    capabilities: S.optional(ChatTokenCapabilities),
-    sessionDurationInMinutes: S.optional(S.Number),
-    attributes: S.optional(ChatTokenAttributes),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateChatToken" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateChatTokenRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      roomIdentifier: S.String,
+      userId: SensitiveString,
+      capabilities: S.optional(ChatTokenCapabilities),
+      sessionDurationInMinutes: S.optional(S.Number),
+      attributes: S.optional(ChatTokenAttributes),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateChatToken" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateChatTokenRequest",
 }) as any as S.Schema<CreateChatTokenRequest>;
@@ -166,16 +169,17 @@ export interface CreateChatTokenResponse {
   tokenExpirationTime?: Date;
   sessionExpirationTime?: Date;
 }
-export const CreateChatTokenResponse = S.suspend(() =>
-  S.Struct({
-    token: S.optional(SensitiveString),
-    tokenExpirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    sessionExpirationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }),
+export const CreateChatTokenResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      token: S.optional(SensitiveString),
+      tokenExpirationTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      sessionExpirationTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+    }),
 ).annotate({
   identifier: "CreateChatTokenResponse",
 }) as any as S.Schema<CreateChatTokenResponse>;
@@ -183,37 +187,41 @@ export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.String, message: S.String }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 export interface S3DestinationConfiguration {
   bucketName: string;
 }
-export const S3DestinationConfiguration = S.suspend(() =>
-  S.Struct({ bucketName: S.String }),
+export const S3DestinationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ bucketName: S.String }),
 ).annotate({
   identifier: "S3DestinationConfiguration",
 }) as any as S.Schema<S3DestinationConfiguration>;
 export interface CloudWatchLogsDestinationConfiguration {
   logGroupName: string;
 }
-export const CloudWatchLogsDestinationConfiguration = S.suspend(() =>
-  S.Struct({ logGroupName: S.String }),
-).annotate({
-  identifier: "CloudWatchLogsDestinationConfiguration",
-}) as any as S.Schema<CloudWatchLogsDestinationConfiguration>;
+export const CloudWatchLogsDestinationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ logGroupName: S.String }),
+  ).annotate({
+    identifier: "CloudWatchLogsDestinationConfiguration",
+  }) as any as S.Schema<CloudWatchLogsDestinationConfiguration>;
 export interface FirehoseDestinationConfiguration {
   deliveryStreamName: string;
 }
-export const FirehoseDestinationConfiguration = S.suspend(() =>
-  S.Struct({ deliveryStreamName: S.String }),
-).annotate({
-  identifier: "FirehoseDestinationConfiguration",
-}) as any as S.Schema<FirehoseDestinationConfiguration>;
+export const FirehoseDestinationConfiguration =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ deliveryStreamName: S.String }),
+  ).annotate({
+    identifier: "FirehoseDestinationConfiguration",
+  }) as any as S.Schema<FirehoseDestinationConfiguration>;
 export type DestinationConfiguration =
   | { s3: S3DestinationConfiguration; cloudWatchLogs?: never; firehose?: never }
   | {
@@ -226,36 +234,40 @@ export type DestinationConfiguration =
       cloudWatchLogs?: never;
       firehose: FirehoseDestinationConfiguration;
     };
-export const DestinationConfiguration = S.Union([
+export const DestinationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ s3: S3DestinationConfiguration }),
   S.Struct({ cloudWatchLogs: CloudWatchLogsDestinationConfiguration }),
   S.Struct({ firehose: FirehoseDestinationConfiguration }),
 ]);
 export type Tags = { [key: string]: string | undefined };
-export const Tags = S.Record(S.String, S.String.pipe(S.optional));
+export const Tags = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface CreateLoggingConfigurationRequest {
   name?: string;
   destinationConfiguration: DestinationConfiguration;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    name: S.optional(S.String),
-    destinationConfiguration: DestinationConfiguration,
-    tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/CreateLoggingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateLoggingConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.optional(S.String),
+      destinationConfiguration: DestinationConfiguration,
+      tags: S.optional(Tags),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/CreateLoggingConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateLoggingConfigurationRequest",
-}) as any as S.Schema<CreateLoggingConfigurationRequest>;
+  ).annotate({
+    identifier: "CreateLoggingConfigurationRequest",
+  }) as any as S.Schema<CreateLoggingConfigurationRequest>;
 export interface CreateLoggingConfigurationResponse {
   arn?: string;
   id?: string;
@@ -266,35 +278,37 @@ export interface CreateLoggingConfigurationResponse {
   state?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    id: S.optional(S.String),
-    createTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: S.optional(S.String),
-    destinationConfiguration: S.optional(DestinationConfiguration),
-    state: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "CreateLoggingConfigurationResponse",
-}) as any as S.Schema<CreateLoggingConfigurationResponse>;
+export const CreateLoggingConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      arn: S.optional(S.String),
+      id: S.optional(S.String),
+      createTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      updateTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      name: S.optional(S.String),
+      destinationConfiguration: S.optional(DestinationConfiguration),
+      state: S.optional(S.String),
+      tags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "CreateLoggingConfigurationResponse",
+  }) as any as S.Schema<CreateLoggingConfigurationResponse>;
 export interface MessageReviewHandler {
   uri?: string;
   fallbackResult?: string;
 }
-export const MessageReviewHandler = S.suspend(() =>
+export const MessageReviewHandler = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ uri: S.optional(S.String), fallbackResult: S.optional(S.String) }),
 ).annotate({
   identifier: "MessageReviewHandler",
 }) as any as S.Schema<MessageReviewHandler>;
 export type LoggingConfigurationIdentifierList = string[];
-export const LoggingConfigurationIdentifierList = S.Array(S.String);
+export const LoggingConfigurationIdentifierList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface CreateRoomRequest {
   name?: string;
   maximumMessageRatePerSecond?: number;
@@ -303,7 +317,7 @@ export interface CreateRoomRequest {
   tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
-export const CreateRoomRequest = S.suspend(() =>
+export const CreateRoomRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     maximumMessageRatePerSecond: S.optional(S.Number),
@@ -338,7 +352,7 @@ export interface CreateRoomResponse {
   tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
-export const CreateRoomResponse = S.suspend(() =>
+export const CreateRoomResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
@@ -363,32 +377,32 @@ export const CreateRoomResponse = S.suspend(() =>
 export interface DeleteLoggingConfigurationRequest {
   identifier: string;
 }
-export const DeleteLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({ identifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/DeleteLoggingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteLoggingConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ identifier: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/DeleteLoggingConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteLoggingConfigurationRequest",
-}) as any as S.Schema<DeleteLoggingConfigurationRequest>;
+  ).annotate({
+    identifier: "DeleteLoggingConfigurationRequest",
+  }) as any as S.Schema<DeleteLoggingConfigurationRequest>;
 export interface DeleteLoggingConfigurationResponse {}
-export const DeleteLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteLoggingConfigurationResponse",
-}) as any as S.Schema<DeleteLoggingConfigurationResponse>;
+export const DeleteLoggingConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteLoggingConfigurationResponse",
+  }) as any as S.Schema<DeleteLoggingConfigurationResponse>;
 export interface DeleteMessageRequest {
   roomIdentifier: string;
   id: string;
   reason?: string;
 }
-export const DeleteMessageRequest = S.suspend(() =>
+export const DeleteMessageRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     roomIdentifier: S.String,
     id: S.String,
@@ -409,7 +423,7 @@ export const DeleteMessageRequest = S.suspend(() =>
 export interface DeleteMessageResponse {
   id?: string;
 }
-export const DeleteMessageResponse = S.suspend(() =>
+export const DeleteMessageResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.optional(S.String) }),
 ).annotate({
   identifier: "DeleteMessageResponse",
@@ -417,7 +431,7 @@ export const DeleteMessageResponse = S.suspend(() =>
 export interface DeleteRoomRequest {
   identifier: string;
 }
-export const DeleteRoomRequest = S.suspend(() =>
+export const DeleteRoomRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/DeleteRoom" }),
@@ -432,7 +446,9 @@ export const DeleteRoomRequest = S.suspend(() =>
   identifier: "DeleteRoomRequest",
 }) as any as S.Schema<DeleteRoomRequest>;
 export interface DeleteRoomResponse {}
-export const DeleteRoomResponse = S.suspend(() => S.Struct({})).annotate({
+export const DeleteRoomResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "DeleteRoomResponse",
 }) as any as S.Schema<DeleteRoomResponse>;
 export interface DisconnectUserRequest {
@@ -440,7 +456,7 @@ export interface DisconnectUserRequest {
   userId: string | redacted.Redacted<string>;
   reason?: string;
 }
-export const DisconnectUserRequest = S.suspend(() =>
+export const DisconnectUserRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     roomIdentifier: S.String,
     userId: SensitiveString,
@@ -459,26 +475,29 @@ export const DisconnectUserRequest = S.suspend(() =>
   identifier: "DisconnectUserRequest",
 }) as any as S.Schema<DisconnectUserRequest>;
 export interface DisconnectUserResponse {}
-export const DisconnectUserResponse = S.suspend(() => S.Struct({})).annotate({
+export const DisconnectUserResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
   identifier: "DisconnectUserResponse",
 }) as any as S.Schema<DisconnectUserResponse>;
 export interface GetLoggingConfigurationRequest {
   identifier: string;
 }
-export const GetLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({ identifier: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetLoggingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetLoggingConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ identifier: S.String }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/GetLoggingConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetLoggingConfigurationRequest",
-}) as any as S.Schema<GetLoggingConfigurationRequest>;
+  ).annotate({
+    identifier: "GetLoggingConfigurationRequest",
+  }) as any as S.Schema<GetLoggingConfigurationRequest>;
 export interface GetLoggingConfigurationResponse {
   arn?: string;
   id?: string;
@@ -489,28 +508,29 @@ export interface GetLoggingConfigurationResponse {
   state?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const GetLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    id: S.optional(S.String),
-    createTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: S.optional(S.String),
-    destinationConfiguration: S.optional(DestinationConfiguration),
-    state: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "GetLoggingConfigurationResponse",
-}) as any as S.Schema<GetLoggingConfigurationResponse>;
+export const GetLoggingConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      arn: S.optional(S.String),
+      id: S.optional(S.String),
+      createTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      updateTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      name: S.optional(S.String),
+      destinationConfiguration: S.optional(DestinationConfiguration),
+      state: S.optional(S.String),
+      tags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "GetLoggingConfigurationResponse",
+  }) as any as S.Schema<GetLoggingConfigurationResponse>;
 export interface GetRoomRequest {
   identifier: string;
 }
-export const GetRoomRequest = S.suspend(() =>
+export const GetRoomRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/GetRoom" }),
@@ -534,7 +554,7 @@ export interface GetRoomResponse {
   tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
-export const GetRoomResponse = S.suspend(() =>
+export const GetRoomResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
@@ -560,23 +580,24 @@ export interface ListLoggingConfigurationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListLoggingConfigurationsRequest = S.suspend(() =>
-  S.Struct({
-    nextToken: S.optional(S.String),
-    maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ListLoggingConfigurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListLoggingConfigurationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/ListLoggingConfigurations" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListLoggingConfigurationsRequest",
-}) as any as S.Schema<ListLoggingConfigurationsRequest>;
+  ).annotate({
+    identifier: "ListLoggingConfigurationsRequest",
+  }) as any as S.Schema<ListLoggingConfigurationsRequest>;
 export interface LoggingConfigurationSummary {
   arn?: string;
   id?: string;
@@ -587,38 +608,42 @@ export interface LoggingConfigurationSummary {
   state?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const LoggingConfigurationSummary = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    id: S.optional(S.String),
-    createTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: S.optional(S.String),
-    destinationConfiguration: S.optional(DestinationConfiguration),
-    state: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "LoggingConfigurationSummary",
-}) as any as S.Schema<LoggingConfigurationSummary>;
+export const LoggingConfigurationSummary =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      arn: S.optional(S.String),
+      id: S.optional(S.String),
+      createTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      updateTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      name: S.optional(S.String),
+      destinationConfiguration: S.optional(DestinationConfiguration),
+      state: S.optional(S.String),
+      tags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "LoggingConfigurationSummary",
+  }) as any as S.Schema<LoggingConfigurationSummary>;
 export type LoggingConfigurationList = LoggingConfigurationSummary[];
-export const LoggingConfigurationList = S.Array(LoggingConfigurationSummary);
+export const LoggingConfigurationList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  LoggingConfigurationSummary,
+);
 export interface ListLoggingConfigurationsResponse {
   loggingConfigurations: LoggingConfigurationSummary[];
   nextToken?: string;
 }
-export const ListLoggingConfigurationsResponse = S.suspend(() =>
-  S.Struct({
-    loggingConfigurations: LoggingConfigurationList,
-    nextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListLoggingConfigurationsResponse",
-}) as any as S.Schema<ListLoggingConfigurationsResponse>;
+export const ListLoggingConfigurationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      loggingConfigurations: LoggingConfigurationList,
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListLoggingConfigurationsResponse",
+  }) as any as S.Schema<ListLoggingConfigurationsResponse>;
 export interface ListRoomsRequest {
   name?: string;
   nextToken?: string;
@@ -626,7 +651,7 @@ export interface ListRoomsRequest {
   messageReviewHandlerUri?: string;
   loggingConfigurationIdentifier?: string;
 }
-export const ListRoomsRequest = S.suspend(() =>
+export const ListRoomsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.optional(S.String),
     nextToken: S.optional(S.String),
@@ -656,7 +681,7 @@ export interface RoomSummary {
   tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
-export const RoomSummary = S.suspend(() =>
+export const RoomSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),
@@ -675,12 +700,12 @@ export const RoomSummary = S.suspend(() =>
   }),
 ).annotate({ identifier: "RoomSummary" }) as any as S.Schema<RoomSummary>;
 export type RoomList = RoomSummary[];
-export const RoomList = S.Array(RoomSummary);
+export const RoomList = /*@__PURE__*/ /*#__PURE__*/ S.Array(RoomSummary);
 export interface ListRoomsResponse {
   rooms: RoomSummary[];
   nextToken?: string;
 }
-export const ListRoomsResponse = S.suspend(() =>
+export const ListRoomsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ rooms: RoomList, nextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "ListRoomsResponse",
@@ -688,36 +713,41 @@ export const ListRoomsResponse = S.suspend(() =>
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
-export const ListTagsForResourceRequest = S.suspend(() =>
-  S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListTagsForResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
+      T.all(
+        T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
-export const ListTagsForResourceResponse = S.suspend(() =>
-  S.Struct({ tags: Tags }),
-).annotate({
-  identifier: "ListTagsForResourceResponse",
-}) as any as S.Schema<ListTagsForResourceResponse>;
+export const ListTagsForResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ tags: Tags }),
+  ).annotate({
+    identifier: "ListTagsForResourceResponse",
+  }) as any as S.Schema<ListTagsForResourceResponse>;
 export type EventAttributes = { [key: string]: string | undefined };
-export const EventAttributes = S.Record(S.String, S.String.pipe(S.optional));
+export const EventAttributes = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  S.String.pipe(S.optional),
+);
 export interface SendEventRequest {
   roomIdentifier: string;
   eventName: string;
   attributes?: { [key: string]: string | undefined };
 }
-export const SendEventRequest = S.suspend(() =>
+export const SendEventRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     roomIdentifier: S.String,
     eventName: S.String,
@@ -738,7 +768,7 @@ export const SendEventRequest = S.suspend(() =>
 export interface SendEventResponse {
   id?: string;
 }
-export const SendEventResponse = S.suspend(() =>
+export const SendEventResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.optional(S.String) }),
 ).annotate({
   identifier: "SendEventResponse",
@@ -747,7 +777,7 @@ export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
 }
-export const TagResourceRequest = S.suspend(() =>
+export const TagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: Tags,
@@ -765,16 +795,18 @@ export const TagResourceRequest = S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const TagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
-export const TagKeyList = S.Array(S.String);
+export const TagKeyList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UntagResourceRequest {
   resourceArn: string;
   tagKeys: string[];
 }
-export const UntagResourceRequest = S.suspend(() =>
+export const UntagResourceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
@@ -792,7 +824,9 @@ export const UntagResourceRequest = S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = S.suspend(() => S.Struct({})).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateLoggingConfigurationRequest {
@@ -800,24 +834,25 @@ export interface UpdateLoggingConfigurationRequest {
   name?: string;
   destinationConfiguration?: DestinationConfiguration;
 }
-export const UpdateLoggingConfigurationRequest = S.suspend(() =>
-  S.Struct({
-    identifier: S.String,
-    name: S.optional(S.String),
-    destinationConfiguration: S.optional(DestinationConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/UpdateLoggingConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateLoggingConfigurationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      identifier: S.String,
+      name: S.optional(S.String),
+      destinationConfiguration: S.optional(DestinationConfiguration),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/UpdateLoggingConfiguration" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateLoggingConfigurationRequest",
-}) as any as S.Schema<UpdateLoggingConfigurationRequest>;
+  ).annotate({
+    identifier: "UpdateLoggingConfigurationRequest",
+  }) as any as S.Schema<UpdateLoggingConfigurationRequest>;
 export interface UpdateLoggingConfigurationResponse {
   arn?: string;
   id?: string;
@@ -828,24 +863,25 @@ export interface UpdateLoggingConfigurationResponse {
   state?: string;
   tags?: { [key: string]: string | undefined };
 }
-export const UpdateLoggingConfigurationResponse = S.suspend(() =>
-  S.Struct({
-    arn: S.optional(S.String),
-    id: S.optional(S.String),
-    createTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    updateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    name: S.optional(S.String),
-    destinationConfiguration: S.optional(DestinationConfiguration),
-    state: S.optional(S.String),
-    tags: S.optional(Tags),
-  }),
-).annotate({
-  identifier: "UpdateLoggingConfigurationResponse",
-}) as any as S.Schema<UpdateLoggingConfigurationResponse>;
+export const UpdateLoggingConfigurationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      arn: S.optional(S.String),
+      id: S.optional(S.String),
+      createTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      updateTime: S.optional(
+        T.DateFromString.pipe(T.TimestampFormat("date-time")),
+      ),
+      name: S.optional(S.String),
+      destinationConfiguration: S.optional(DestinationConfiguration),
+      state: S.optional(S.String),
+      tags: S.optional(Tags),
+    }),
+  ).annotate({
+    identifier: "UpdateLoggingConfigurationResponse",
+  }) as any as S.Schema<UpdateLoggingConfigurationResponse>;
 export interface UpdateRoomRequest {
   identifier: string;
   name?: string;
@@ -854,7 +890,7 @@ export interface UpdateRoomRequest {
   messageReviewHandler?: MessageReviewHandler;
   loggingConfigurationIdentifiers?: string[];
 }
-export const UpdateRoomRequest = S.suspend(() =>
+export const UpdateRoomRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     identifier: S.String,
     name: S.optional(S.String),
@@ -889,7 +925,7 @@ export interface UpdateRoomResponse {
   tags?: { [key: string]: string | undefined };
   loggingConfigurationIdentifiers?: string[];
 }
-export const UpdateRoomResponse = S.suspend(() =>
+export const UpdateRoomResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     arn: S.optional(S.String),
     id: S.optional(S.String),

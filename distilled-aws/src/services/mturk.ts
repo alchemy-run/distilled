@@ -106,57 +106,58 @@ export interface AcceptQualificationRequestRequest {
   QualificationRequestId: string;
   IntegerValue?: number;
 }
-export const AcceptQualificationRequestRequest = S.suspend(() =>
-  S.Struct({
-    QualificationRequestId: S.String,
-    IntegerValue: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AcceptQualificationRequestRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationRequestId: S.String,
+      IntegerValue: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AcceptQualificationRequestRequest",
-}) as any as S.Schema<AcceptQualificationRequestRequest>;
+  ).annotate({
+    identifier: "AcceptQualificationRequestRequest",
+  }) as any as S.Schema<AcceptQualificationRequestRequest>;
 export interface AcceptQualificationRequestResponse {}
-export const AcceptQualificationRequestResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AcceptQualificationRequestResponse",
-}) as any as S.Schema<AcceptQualificationRequestResponse>;
+export const AcceptQualificationRequestResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AcceptQualificationRequestResponse",
+  }) as any as S.Schema<AcceptQualificationRequestResponse>;
 export interface ApproveAssignmentRequest {
   AssignmentId: string;
   RequesterFeedback?: string;
   OverrideRejection?: boolean;
 }
-export const ApproveAssignmentRequest = S.suspend(() =>
-  S.Struct({
-    AssignmentId: S.String,
-    RequesterFeedback: S.optional(S.String),
-    OverrideRejection: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ApproveAssignmentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AssignmentId: S.String,
+      RequesterFeedback: S.optional(S.String),
+      OverrideRejection: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ApproveAssignmentRequest",
 }) as any as S.Schema<ApproveAssignmentRequest>;
 export interface ApproveAssignmentResponse {}
-export const ApproveAssignmentResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const ApproveAssignmentResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "ApproveAssignmentResponse",
 }) as any as S.Schema<ApproveAssignmentResponse>;
@@ -166,62 +167,62 @@ export interface AssociateQualificationWithWorkerRequest {
   IntegerValue?: number;
   SendNotification?: boolean;
 }
-export const AssociateQualificationWithWorkerRequest = S.suspend(() =>
-  S.Struct({
-    QualificationTypeId: S.String,
-    WorkerId: S.String,
-    IntegerValue: S.optional(S.Number),
-    SendNotification: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const AssociateQualificationWithWorkerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationTypeId: S.String,
+      WorkerId: S.String,
+      IntegerValue: S.optional(S.Number),
+      SendNotification: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "AssociateQualificationWithWorkerRequest",
-}) as any as S.Schema<AssociateQualificationWithWorkerRequest>;
+  ).annotate({
+    identifier: "AssociateQualificationWithWorkerRequest",
+  }) as any as S.Schema<AssociateQualificationWithWorkerRequest>;
 export interface AssociateQualificationWithWorkerResponse {}
-export const AssociateQualificationWithWorkerResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AssociateQualificationWithWorkerResponse",
-}) as any as S.Schema<AssociateQualificationWithWorkerResponse>;
+export const AssociateQualificationWithWorkerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "AssociateQualificationWithWorkerResponse",
+  }) as any as S.Schema<AssociateQualificationWithWorkerResponse>;
 export interface CreateAdditionalAssignmentsForHITRequest {
   HITId: string;
   NumberOfAdditionalAssignments: number;
   UniqueRequestToken?: string;
 }
-export const CreateAdditionalAssignmentsForHITRequest = S.suspend(() =>
-  S.Struct({
-    HITId: S.String,
-    NumberOfAdditionalAssignments: S.Number,
-    UniqueRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateAdditionalAssignmentsForHITRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITId: S.String,
+      NumberOfAdditionalAssignments: S.Number,
+      UniqueRequestToken: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateAdditionalAssignmentsForHITRequest",
-}) as any as S.Schema<CreateAdditionalAssignmentsForHITRequest>;
+  ).annotate({
+    identifier: "CreateAdditionalAssignmentsForHITRequest",
+  }) as any as S.Schema<CreateAdditionalAssignmentsForHITRequest>;
 export interface CreateAdditionalAssignmentsForHITResponse {}
-export const CreateAdditionalAssignmentsForHITResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "CreateAdditionalAssignmentsForHITResponse",
-}) as any as S.Schema<CreateAdditionalAssignmentsForHITResponse>;
+export const CreateAdditionalAssignmentsForHITResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "CreateAdditionalAssignmentsForHITResponse",
+  }) as any as S.Schema<CreateAdditionalAssignmentsForHITResponse>;
 export type Comparator =
   | "LessThan"
   | "LessThanOrEqualTo"
@@ -234,24 +235,24 @@ export type Comparator =
   | "In"
   | "NotIn"
   | (string & {});
-export const Comparator = S.String;
+export const Comparator = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type IntegerList = number[];
-export const IntegerList = S.Array(S.Number);
+export const IntegerList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.Number);
 export interface Locale {
   Country: string;
   Subdivision?: string;
 }
-export const Locale = S.suspend(() =>
+export const Locale = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Country: S.String, Subdivision: S.optional(S.String) }),
 ).annotate({ identifier: "Locale" }) as any as S.Schema<Locale>;
 export type LocaleList = Locale[];
-export const LocaleList = S.Array(Locale);
+export const LocaleList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Locale);
 export type HITAccessActions =
   | "Accept"
   | "PreviewAndAccept"
   | "DiscoverPreviewAndAccept"
   | (string & {});
-export const HITAccessActions = S.String;
+export const HITAccessActions = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface QualificationRequirement {
   QualificationTypeId: string;
   Comparator: Comparator;
@@ -260,39 +261,43 @@ export interface QualificationRequirement {
   RequiredToPreview?: boolean;
   ActionsGuarded?: HITAccessActions;
 }
-export const QualificationRequirement = S.suspend(() =>
-  S.Struct({
-    QualificationTypeId: S.String,
-    Comparator: Comparator,
-    IntegerValues: S.optional(IntegerList),
-    LocaleValues: S.optional(LocaleList),
-    RequiredToPreview: S.optional(S.Boolean),
-    ActionsGuarded: S.optional(HITAccessActions),
-  }),
+export const QualificationRequirement = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      QualificationTypeId: S.String,
+      Comparator: Comparator,
+      IntegerValues: S.optional(IntegerList),
+      LocaleValues: S.optional(LocaleList),
+      RequiredToPreview: S.optional(S.Boolean),
+      ActionsGuarded: S.optional(HITAccessActions),
+    }),
 ).annotate({
   identifier: "QualificationRequirement",
 }) as any as S.Schema<QualificationRequirement>;
 export type QualificationRequirementList = QualificationRequirement[];
-export const QualificationRequirementList = S.Array(QualificationRequirement);
+export const QualificationRequirementList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  QualificationRequirement,
+);
 export type StringList = string[];
-export const StringList = S.Array(S.String);
+export const StringList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface ParameterMapEntry {
   Key?: string;
   Values?: string[];
 }
-export const ParameterMapEntry = S.suspend(() =>
+export const ParameterMapEntry = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Key: S.optional(S.String), Values: S.optional(StringList) }),
 ).annotate({
   identifier: "ParameterMapEntry",
 }) as any as S.Schema<ParameterMapEntry>;
 export type ParameterMapEntryList = ParameterMapEntry[];
-export const ParameterMapEntryList = S.Array(ParameterMapEntry);
+export const ParameterMapEntryList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ParameterMapEntry);
 export interface PolicyParameter {
   Key?: string;
   Values?: string[];
   MapEntries?: ParameterMapEntry[];
 }
-export const PolicyParameter = S.suspend(() =>
+export const PolicyParameter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Key: S.optional(S.String),
     Values: S.optional(StringList),
@@ -302,12 +307,13 @@ export const PolicyParameter = S.suspend(() =>
   identifier: "PolicyParameter",
 }) as any as S.Schema<PolicyParameter>;
 export type PolicyParameterList = PolicyParameter[];
-export const PolicyParameterList = S.Array(PolicyParameter);
+export const PolicyParameterList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(PolicyParameter);
 export interface ReviewPolicy {
   PolicyName: string;
   Parameters?: PolicyParameter[];
 }
-export const ReviewPolicy = S.suspend(() =>
+export const ReviewPolicy = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     PolicyName: S.String,
     Parameters: S.optional(PolicyParameterList),
@@ -317,13 +323,14 @@ export interface HITLayoutParameter {
   Name: string;
   Value: string;
 }
-export const HITLayoutParameter = S.suspend(() =>
+export const HITLayoutParameter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String, Value: S.String }),
 ).annotate({
   identifier: "HITLayoutParameter",
 }) as any as S.Schema<HITLayoutParameter>;
 export type HITLayoutParameterList = HITLayoutParameter[];
-export const HITLayoutParameterList = S.Array(HITLayoutParameter);
+export const HITLayoutParameterList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(HITLayoutParameter);
 export interface CreateHITRequest {
   MaxAssignments?: number;
   AutoApprovalDelayInSeconds?: number;
@@ -342,7 +349,7 @@ export interface CreateHITRequest {
   HITLayoutId?: string;
   HITLayoutParameters?: HITLayoutParameter[];
 }
-export const CreateHITRequest = S.suspend(() =>
+export const CreateHITRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxAssignments: S.optional(S.Number),
     AutoApprovalDelayInSeconds: S.optional(S.Number),
@@ -381,14 +388,14 @@ export type HITStatus =
   | "Reviewing"
   | "Disposed"
   | (string & {});
-export const HITStatus = S.String;
+export const HITStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type HITReviewStatus =
   | "NotReviewed"
   | "MarkedForReview"
   | "ReviewedAppropriate"
   | "ReviewedInappropriate"
   | (string & {});
-export const HITReviewStatus = S.String;
+export const HITReviewStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface HIT {
   HITId?: string;
   HITTypeId?: string;
@@ -412,7 +419,7 @@ export interface HIT {
   NumberOfAssignmentsAvailable?: number;
   NumberOfAssignmentsCompleted?: number;
 }
-export const HIT = S.suspend(() =>
+export const HIT = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     HITId: S.optional(S.String),
     HITTypeId: S.optional(S.String),
@@ -440,7 +447,7 @@ export const HIT = S.suspend(() =>
 export interface CreateHITResponse {
   HIT?: HIT;
 }
-export const CreateHITResponse = S.suspend(() =>
+export const CreateHITResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ HIT: S.optional(HIT) }).pipe(ns),
 ).annotate({
   identifier: "CreateHITResponse",
@@ -454,7 +461,7 @@ export interface CreateHITTypeRequest {
   Description: string;
   QualificationRequirements?: QualificationRequirement[];
 }
-export const CreateHITTypeRequest = S.suspend(() =>
+export const CreateHITTypeRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AutoApprovalDelayInSeconds: S.optional(S.Number),
     AssignmentDurationInSeconds: S.Number,
@@ -480,7 +487,7 @@ export const CreateHITTypeRequest = S.suspend(() =>
 export interface CreateHITTypeResponse {
   HITTypeId?: string;
 }
-export const CreateHITTypeResponse = S.suspend(() =>
+export const CreateHITTypeResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ HITTypeId: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "CreateHITTypeResponse",
@@ -497,42 +504,44 @@ export interface CreateHITWithHITTypeRequest {
   HITLayoutId?: string;
   HITLayoutParameters?: HITLayoutParameter[];
 }
-export const CreateHITWithHITTypeRequest = S.suspend(() =>
-  S.Struct({
-    HITTypeId: S.String,
-    MaxAssignments: S.optional(S.Number),
-    LifetimeInSeconds: S.Number,
-    Question: S.optional(S.String),
-    RequesterAnnotation: S.optional(S.String),
-    UniqueRequestToken: S.optional(S.String),
-    AssignmentReviewPolicy: S.optional(ReviewPolicy),
-    HITReviewPolicy: S.optional(ReviewPolicy),
-    HITLayoutId: S.optional(S.String),
-    HITLayoutParameters: S.optional(HITLayoutParameterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateHITWithHITTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITTypeId: S.String,
+      MaxAssignments: S.optional(S.Number),
+      LifetimeInSeconds: S.Number,
+      Question: S.optional(S.String),
+      RequesterAnnotation: S.optional(S.String),
+      UniqueRequestToken: S.optional(S.String),
+      AssignmentReviewPolicy: S.optional(ReviewPolicy),
+      HITReviewPolicy: S.optional(ReviewPolicy),
+      HITLayoutId: S.optional(S.String),
+      HITLayoutParameters: S.optional(HITLayoutParameterList),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateHITWithHITTypeRequest",
-}) as any as S.Schema<CreateHITWithHITTypeRequest>;
+  ).annotate({
+    identifier: "CreateHITWithHITTypeRequest",
+  }) as any as S.Schema<CreateHITWithHITTypeRequest>;
 export interface CreateHITWithHITTypeResponse {
   HIT?: HIT;
 }
-export const CreateHITWithHITTypeResponse = S.suspend(() =>
-  S.Struct({ HIT: S.optional(HIT) }).pipe(ns),
-).annotate({
-  identifier: "CreateHITWithHITTypeResponse",
-}) as any as S.Schema<CreateHITWithHITTypeResponse>;
+export const CreateHITWithHITTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ HIT: S.optional(HIT) }).pipe(ns),
+  ).annotate({
+    identifier: "CreateHITWithHITTypeResponse",
+  }) as any as S.Schema<CreateHITWithHITTypeResponse>;
 export type QualificationTypeStatus = "Active" | "Inactive" | (string & {});
-export const QualificationTypeStatus = S.String;
+export const QualificationTypeStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateQualificationTypeRequest {
   Name: string;
   Keywords?: string;
@@ -545,32 +554,33 @@ export interface CreateQualificationTypeRequest {
   AutoGranted?: boolean;
   AutoGrantedValue?: number;
 }
-export const CreateQualificationTypeRequest = S.suspend(() =>
-  S.Struct({
-    Name: S.String,
-    Keywords: S.optional(S.String),
-    Description: S.String,
-    QualificationTypeStatus: QualificationTypeStatus,
-    RetryDelayInSeconds: S.optional(S.Number),
-    Test: S.optional(S.String),
-    AnswerKey: S.optional(S.String),
-    TestDurationInSeconds: S.optional(S.Number),
-    AutoGranted: S.optional(S.Boolean),
-    AutoGrantedValue: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateQualificationTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.String,
+      Keywords: S.optional(S.String),
+      Description: S.String,
+      QualificationTypeStatus: QualificationTypeStatus,
+      RetryDelayInSeconds: S.optional(S.Number),
+      Test: S.optional(S.String),
+      AnswerKey: S.optional(S.String),
+      TestDurationInSeconds: S.optional(S.Number),
+      AutoGranted: S.optional(S.Boolean),
+      AutoGrantedValue: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "CreateQualificationTypeRequest",
-}) as any as S.Schema<CreateQualificationTypeRequest>;
+  ).annotate({
+    identifier: "CreateQualificationTypeRequest",
+  }) as any as S.Schema<CreateQualificationTypeRequest>;
 export interface QualificationType {
   QualificationTypeId?: string;
   CreationTime?: Date;
@@ -586,7 +596,7 @@ export interface QualificationType {
   AutoGranted?: boolean;
   AutoGrantedValue?: number;
 }
-export const QualificationType = S.suspend(() =>
+export const QualificationType = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     QualificationTypeId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -608,40 +618,42 @@ export const QualificationType = S.suspend(() =>
 export interface CreateQualificationTypeResponse {
   QualificationType?: QualificationType;
 }
-export const CreateQualificationTypeResponse = S.suspend(() =>
-  S.Struct({ QualificationType: S.optional(QualificationType) }).pipe(ns),
-).annotate({
-  identifier: "CreateQualificationTypeResponse",
-}) as any as S.Schema<CreateQualificationTypeResponse>;
+export const CreateQualificationTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ QualificationType: S.optional(QualificationType) }).pipe(ns),
+  ).annotate({
+    identifier: "CreateQualificationTypeResponse",
+  }) as any as S.Schema<CreateQualificationTypeResponse>;
 export interface CreateWorkerBlockRequest {
   WorkerId: string;
   Reason: string;
 }
-export const CreateWorkerBlockRequest = S.suspend(() =>
-  S.Struct({ WorkerId: S.String, Reason: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const CreateWorkerBlockRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ WorkerId: S.String, Reason: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "CreateWorkerBlockRequest",
 }) as any as S.Schema<CreateWorkerBlockRequest>;
 export interface CreateWorkerBlockResponse {}
-export const CreateWorkerBlockResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const CreateWorkerBlockResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "CreateWorkerBlockResponse",
 }) as any as S.Schema<CreateWorkerBlockResponse>;
 export interface DeleteHITRequest {
   HITId: string;
 }
-export const DeleteHITRequest = S.suspend(() =>
+export const DeleteHITRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ HITId: S.String }).pipe(
     T.all(
       ns,
@@ -657,7 +669,7 @@ export const DeleteHITRequest = S.suspend(() =>
   identifier: "DeleteHITRequest",
 }) as any as S.Schema<DeleteHITRequest>;
 export interface DeleteHITResponse {}
-export const DeleteHITResponse = S.suspend(() =>
+export const DeleteHITResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteHITResponse",
@@ -665,49 +677,50 @@ export const DeleteHITResponse = S.suspend(() =>
 export interface DeleteQualificationTypeRequest {
   QualificationTypeId: string;
 }
-export const DeleteQualificationTypeRequest = S.suspend(() =>
-  S.Struct({ QualificationTypeId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteQualificationTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ QualificationTypeId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DeleteQualificationTypeRequest",
-}) as any as S.Schema<DeleteQualificationTypeRequest>;
+  ).annotate({
+    identifier: "DeleteQualificationTypeRequest",
+  }) as any as S.Schema<DeleteQualificationTypeRequest>;
 export interface DeleteQualificationTypeResponse {}
-export const DeleteQualificationTypeResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeleteQualificationTypeResponse",
-}) as any as S.Schema<DeleteQualificationTypeResponse>;
+export const DeleteQualificationTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DeleteQualificationTypeResponse",
+  }) as any as S.Schema<DeleteQualificationTypeResponse>;
 export interface DeleteWorkerBlockRequest {
   WorkerId: string;
   Reason?: string;
 }
-export const DeleteWorkerBlockRequest = S.suspend(() =>
-  S.Struct({ WorkerId: S.String, Reason: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DeleteWorkerBlockRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ WorkerId: S.String, Reason: S.optional(S.String) }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "DeleteWorkerBlockRequest",
 }) as any as S.Schema<DeleteWorkerBlockRequest>;
 export interface DeleteWorkerBlockResponse {}
-export const DeleteWorkerBlockResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const DeleteWorkerBlockResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteWorkerBlockResponse",
 }) as any as S.Schema<DeleteWorkerBlockResponse>;
@@ -716,44 +729,45 @@ export interface DisassociateQualificationFromWorkerRequest {
   QualificationTypeId: string;
   Reason?: string;
 }
-export const DisassociateQualificationFromWorkerRequest = S.suspend(() =>
-  S.Struct({
-    WorkerId: S.String,
-    QualificationTypeId: S.String,
-    Reason: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const DisassociateQualificationFromWorkerRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      WorkerId: S.String,
+      QualificationTypeId: S.String,
+      Reason: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "DisassociateQualificationFromWorkerRequest",
-}) as any as S.Schema<DisassociateQualificationFromWorkerRequest>;
+  ).annotate({
+    identifier: "DisassociateQualificationFromWorkerRequest",
+  }) as any as S.Schema<DisassociateQualificationFromWorkerRequest>;
 export interface DisassociateQualificationFromWorkerResponse {}
-export const DisassociateQualificationFromWorkerResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DisassociateQualificationFromWorkerResponse",
-}) as any as S.Schema<DisassociateQualificationFromWorkerResponse>;
+export const DisassociateQualificationFromWorkerResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "DisassociateQualificationFromWorkerResponse",
+  }) as any as S.Schema<DisassociateQualificationFromWorkerResponse>;
 export interface GetAccountBalanceRequest {}
-export const GetAccountBalanceRequest = S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetAccountBalanceRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({}).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetAccountBalanceRequest",
 }) as any as S.Schema<GetAccountBalanceRequest>;
@@ -761,18 +775,19 @@ export interface GetAccountBalanceResponse {
   AvailableBalance?: string;
   OnHoldBalance?: string;
 }
-export const GetAccountBalanceResponse = S.suspend(() =>
-  S.Struct({
-    AvailableBalance: S.optional(S.String),
-    OnHoldBalance: S.optional(S.String),
-  }).pipe(ns),
+export const GetAccountBalanceResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      AvailableBalance: S.optional(S.String),
+      OnHoldBalance: S.optional(S.String),
+    }).pipe(ns),
 ).annotate({
   identifier: "GetAccountBalanceResponse",
 }) as any as S.Schema<GetAccountBalanceResponse>;
 export interface GetAssignmentRequest {
   AssignmentId: string;
 }
-export const GetAssignmentRequest = S.suspend(() =>
+export const GetAssignmentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ AssignmentId: S.String }).pipe(
     T.all(
       ns,
@@ -792,7 +807,7 @@ export type AssignmentStatus =
   | "Approved"
   | "Rejected"
   | (string & {});
-export const AssignmentStatus = S.String;
+export const AssignmentStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Assignment {
   AssignmentId?: string;
   WorkerId?: string;
@@ -807,7 +822,7 @@ export interface Assignment {
   Answer?: string;
   RequesterFeedback?: string;
 }
-export const Assignment = S.suspend(() =>
+export const Assignment = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     AssignmentId: S.optional(S.String),
     WorkerId: S.optional(S.String),
@@ -829,7 +844,7 @@ export interface GetAssignmentResponse {
   Assignment?: Assignment;
   HIT?: HIT;
 }
-export const GetAssignmentResponse = S.suspend(() =>
+export const GetAssignmentResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ Assignment: S.optional(Assignment), HIT: S.optional(HIT) }).pipe(
     ns,
   ),
@@ -840,33 +855,34 @@ export interface GetFileUploadURLRequest {
   AssignmentId: string;
   QuestionIdentifier: string;
 }
-export const GetFileUploadURLRequest = S.suspend(() =>
-  S.Struct({ AssignmentId: S.String, QuestionIdentifier: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetFileUploadURLRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ AssignmentId: S.String, QuestionIdentifier: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "GetFileUploadURLRequest",
 }) as any as S.Schema<GetFileUploadURLRequest>;
 export interface GetFileUploadURLResponse {
   FileUploadURL?: string;
 }
-export const GetFileUploadURLResponse = S.suspend(() =>
-  S.Struct({ FileUploadURL: S.optional(S.String) }).pipe(ns),
+export const GetFileUploadURLResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ FileUploadURL: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "GetFileUploadURLResponse",
 }) as any as S.Schema<GetFileUploadURLResponse>;
 export interface GetHITRequest {
   HITId: string;
 }
-export const GetHITRequest = S.suspend(() =>
+export const GetHITRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ HITId: S.String }).pipe(
     T.all(
       ns,
@@ -882,30 +898,31 @@ export const GetHITRequest = S.suspend(() =>
 export interface GetHITResponse {
   HIT?: HIT;
 }
-export const GetHITResponse = S.suspend(() =>
+export const GetHITResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ HIT: S.optional(HIT) }).pipe(ns),
 ).annotate({ identifier: "GetHITResponse" }) as any as S.Schema<GetHITResponse>;
 export interface GetQualificationScoreRequest {
   QualificationTypeId: string;
   WorkerId: string;
 }
-export const GetQualificationScoreRequest = S.suspend(() =>
-  S.Struct({ QualificationTypeId: S.String, WorkerId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetQualificationScoreRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ QualificationTypeId: S.String, WorkerId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetQualificationScoreRequest",
-}) as any as S.Schema<GetQualificationScoreRequest>;
+  ).annotate({
+    identifier: "GetQualificationScoreRequest",
+  }) as any as S.Schema<GetQualificationScoreRequest>;
 export type QualificationStatus = "Granted" | "Revoked" | (string & {});
-export const QualificationStatus = S.String;
+export const QualificationStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface Qualification {
   QualificationTypeId?: string;
   WorkerId?: string;
@@ -914,7 +931,7 @@ export interface Qualification {
   LocaleValue?: Locale;
   Status?: QualificationStatus;
 }
-export const Qualification = S.suspend(() =>
+export const Qualification = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     QualificationTypeId: S.optional(S.String),
     WorkerId: S.optional(S.String),
@@ -927,104 +944,111 @@ export const Qualification = S.suspend(() =>
 export interface GetQualificationScoreResponse {
   Qualification?: Qualification;
 }
-export const GetQualificationScoreResponse = S.suspend(() =>
-  S.Struct({ Qualification: S.optional(Qualification) }).pipe(ns),
-).annotate({
-  identifier: "GetQualificationScoreResponse",
-}) as any as S.Schema<GetQualificationScoreResponse>;
+export const GetQualificationScoreResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Qualification: S.optional(Qualification) }).pipe(ns),
+  ).annotate({
+    identifier: "GetQualificationScoreResponse",
+  }) as any as S.Schema<GetQualificationScoreResponse>;
 export interface GetQualificationTypeRequest {
   QualificationTypeId: string;
 }
-export const GetQualificationTypeRequest = S.suspend(() =>
-  S.Struct({ QualificationTypeId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const GetQualificationTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ QualificationTypeId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "GetQualificationTypeRequest",
-}) as any as S.Schema<GetQualificationTypeRequest>;
+  ).annotate({
+    identifier: "GetQualificationTypeRequest",
+  }) as any as S.Schema<GetQualificationTypeRequest>;
 export interface GetQualificationTypeResponse {
   QualificationType?: QualificationType;
 }
-export const GetQualificationTypeResponse = S.suspend(() =>
-  S.Struct({ QualificationType: S.optional(QualificationType) }).pipe(ns),
-).annotate({
-  identifier: "GetQualificationTypeResponse",
-}) as any as S.Schema<GetQualificationTypeResponse>;
+export const GetQualificationTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ QualificationType: S.optional(QualificationType) }).pipe(ns),
+  ).annotate({
+    identifier: "GetQualificationTypeResponse",
+  }) as any as S.Schema<GetQualificationTypeResponse>;
 export type AssignmentStatusList = AssignmentStatus[];
-export const AssignmentStatusList = S.Array(AssignmentStatus);
+export const AssignmentStatusList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(AssignmentStatus);
 export interface ListAssignmentsForHITRequest {
   HITId: string;
   NextToken?: string;
   MaxResults?: number;
   AssignmentStatuses?: AssignmentStatus[];
 }
-export const ListAssignmentsForHITRequest = S.suspend(() =>
-  S.Struct({
-    HITId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-    AssignmentStatuses: S.optional(AssignmentStatusList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListAssignmentsForHITRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITId: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+      AssignmentStatuses: S.optional(AssignmentStatusList),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListAssignmentsForHITRequest",
-}) as any as S.Schema<ListAssignmentsForHITRequest>;
+  ).annotate({
+    identifier: "ListAssignmentsForHITRequest",
+  }) as any as S.Schema<ListAssignmentsForHITRequest>;
 export type AssignmentList = Assignment[];
-export const AssignmentList = S.Array(Assignment);
+export const AssignmentList = /*@__PURE__*/ /*#__PURE__*/ S.Array(Assignment);
 export interface ListAssignmentsForHITResponse {
   NextToken?: string;
   NumResults?: number;
   Assignments?: Assignment[];
 }
-export const ListAssignmentsForHITResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    NumResults: S.optional(S.Number),
-    Assignments: S.optional(AssignmentList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListAssignmentsForHITResponse",
-}) as any as S.Schema<ListAssignmentsForHITResponse>;
+export const ListAssignmentsForHITResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      NumResults: S.optional(S.Number),
+      Assignments: S.optional(AssignmentList),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListAssignmentsForHITResponse",
+  }) as any as S.Schema<ListAssignmentsForHITResponse>;
 export interface ListBonusPaymentsRequest {
   HITId?: string;
   AssignmentId?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListBonusPaymentsRequest = S.suspend(() =>
-  S.Struct({
-    HITId: S.optional(S.String),
-    AssignmentId: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListBonusPaymentsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      HITId: S.optional(S.String),
+      AssignmentId: S.optional(S.String),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListBonusPaymentsRequest",
 }) as any as S.Schema<ListBonusPaymentsRequest>;
@@ -1035,7 +1059,7 @@ export interface BonusPayment {
   Reason?: string;
   GrantTime?: Date;
 }
-export const BonusPayment = S.suspend(() =>
+export const BonusPayment = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     WorkerId: S.optional(S.String),
     BonusAmount: S.optional(S.String),
@@ -1045,18 +1069,20 @@ export const BonusPayment = S.suspend(() =>
   }),
 ).annotate({ identifier: "BonusPayment" }) as any as S.Schema<BonusPayment>;
 export type BonusPaymentList = BonusPayment[];
-export const BonusPaymentList = S.Array(BonusPayment);
+export const BonusPaymentList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(BonusPayment);
 export interface ListBonusPaymentsResponse {
   NumResults?: number;
   NextToken?: string;
   BonusPayments?: BonusPayment[];
 }
-export const ListBonusPaymentsResponse = S.suspend(() =>
-  S.Struct({
-    NumResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    BonusPayments: S.optional(BonusPaymentList),
-  }).pipe(ns),
+export const ListBonusPaymentsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NumResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      BonusPayments: S.optional(BonusPaymentList),
+    }).pipe(ns),
 ).annotate({
   identifier: "ListBonusPaymentsResponse",
 }) as any as S.Schema<ListBonusPaymentsResponse>;
@@ -1064,7 +1090,7 @@ export interface ListHITsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListHITsRequest = S.suspend(() =>
+export const ListHITsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
@@ -1083,13 +1109,13 @@ export const ListHITsRequest = S.suspend(() =>
   identifier: "ListHITsRequest",
 }) as any as S.Schema<ListHITsRequest>;
 export type HITList = HIT[];
-export const HITList = S.Array(HIT);
+export const HITList = /*@__PURE__*/ /*#__PURE__*/ S.Array(HIT);
 export interface ListHITsResponse {
   NextToken?: string;
   NumResults?: number;
   HITs?: HIT[];
 }
-export const ListHITsResponse = S.suspend(() =>
+export const ListHITsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     NumResults: S.optional(S.Number),
@@ -1103,63 +1129,66 @@ export interface ListHITsForQualificationTypeRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListHITsForQualificationTypeRequest = S.suspend(() =>
-  S.Struct({
-    QualificationTypeId: S.String,
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListHITsForQualificationTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationTypeId: S.String,
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListHITsForQualificationTypeRequest",
-}) as any as S.Schema<ListHITsForQualificationTypeRequest>;
+  ).annotate({
+    identifier: "ListHITsForQualificationTypeRequest",
+  }) as any as S.Schema<ListHITsForQualificationTypeRequest>;
 export interface ListHITsForQualificationTypeResponse {
   NextToken?: string;
   NumResults?: number;
   HITs?: HIT[];
 }
-export const ListHITsForQualificationTypeResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    NumResults: S.optional(S.Number),
-    HITs: S.optional(HITList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListHITsForQualificationTypeResponse",
-}) as any as S.Schema<ListHITsForQualificationTypeResponse>;
+export const ListHITsForQualificationTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      NumResults: S.optional(S.Number),
+      HITs: S.optional(HITList),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListHITsForQualificationTypeResponse",
+  }) as any as S.Schema<ListHITsForQualificationTypeResponse>;
 export interface ListQualificationRequestsRequest {
   QualificationTypeId?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListQualificationRequestsRequest = S.suspend(() =>
-  S.Struct({
-    QualificationTypeId: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListQualificationRequestsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationTypeId: S.optional(S.String),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListQualificationRequestsRequest",
-}) as any as S.Schema<ListQualificationRequestsRequest>;
+  ).annotate({
+    identifier: "ListQualificationRequestsRequest",
+  }) as any as S.Schema<ListQualificationRequestsRequest>;
 export interface QualificationRequest {
   QualificationRequestId?: string;
   QualificationTypeId?: string;
@@ -1168,7 +1197,7 @@ export interface QualificationRequest {
   Answer?: string;
   SubmitTime?: Date;
 }
-export const QualificationRequest = S.suspend(() =>
+export const QualificationRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     QualificationRequestId: S.optional(S.String),
     QualificationTypeId: S.optional(S.String),
@@ -1181,21 +1210,23 @@ export const QualificationRequest = S.suspend(() =>
   identifier: "QualificationRequest",
 }) as any as S.Schema<QualificationRequest>;
 export type QualificationRequestList = QualificationRequest[];
-export const QualificationRequestList = S.Array(QualificationRequest);
+export const QualificationRequestList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(QualificationRequest);
 export interface ListQualificationRequestsResponse {
   NumResults?: number;
   NextToken?: string;
   QualificationRequests?: QualificationRequest[];
 }
-export const ListQualificationRequestsResponse = S.suspend(() =>
-  S.Struct({
-    NumResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    QualificationRequests: S.optional(QualificationRequestList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListQualificationRequestsResponse",
-}) as any as S.Schema<ListQualificationRequestsResponse>;
+export const ListQualificationRequestsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NumResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      QualificationRequests: S.optional(QualificationRequestList),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListQualificationRequestsResponse",
+  }) as any as S.Schema<ListQualificationRequestsResponse>;
 export interface ListQualificationTypesRequest {
   Query?: string;
   MustBeRequestable: boolean;
@@ -1203,68 +1234,72 @@ export interface ListQualificationTypesRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListQualificationTypesRequest = S.suspend(() =>
-  S.Struct({
-    Query: S.optional(S.String),
-    MustBeRequestable: S.Boolean,
-    MustBeOwnedByCaller: S.optional(S.Boolean),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListQualificationTypesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Query: S.optional(S.String),
+      MustBeRequestable: S.Boolean,
+      MustBeOwnedByCaller: S.optional(S.Boolean),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListQualificationTypesRequest",
-}) as any as S.Schema<ListQualificationTypesRequest>;
+  ).annotate({
+    identifier: "ListQualificationTypesRequest",
+  }) as any as S.Schema<ListQualificationTypesRequest>;
 export type QualificationTypeList = QualificationType[];
-export const QualificationTypeList = S.Array(QualificationType);
+export const QualificationTypeList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(QualificationType);
 export interface ListQualificationTypesResponse {
   NumResults?: number;
   NextToken?: string;
   QualificationTypes?: QualificationType[];
 }
-export const ListQualificationTypesResponse = S.suspend(() =>
-  S.Struct({
-    NumResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
-    QualificationTypes: S.optional(QualificationTypeList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListQualificationTypesResponse",
-}) as any as S.Schema<ListQualificationTypesResponse>;
+export const ListQualificationTypesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NumResults: S.optional(S.Number),
+      NextToken: S.optional(S.String),
+      QualificationTypes: S.optional(QualificationTypeList),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListQualificationTypesResponse",
+  }) as any as S.Schema<ListQualificationTypesResponse>;
 export type ReviewableHITStatus = "Reviewable" | "Reviewing" | (string & {});
-export const ReviewableHITStatus = S.String;
+export const ReviewableHITStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ListReviewableHITsRequest {
   HITTypeId?: string;
   Status?: ReviewableHITStatus;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListReviewableHITsRequest = S.suspend(() =>
-  S.Struct({
-    HITTypeId: S.optional(S.String),
-    Status: S.optional(ReviewableHITStatus),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListReviewableHITsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      HITTypeId: S.optional(S.String),
+      Status: S.optional(ReviewableHITStatus),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListReviewableHITsRequest",
 }) as any as S.Schema<ListReviewableHITsRequest>;
@@ -1273,19 +1308,21 @@ export interface ListReviewableHITsResponse {
   NumResults?: number;
   HITs?: HIT[];
 }
-export const ListReviewableHITsResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    NumResults: S.optional(S.Number),
-    HITs: S.optional(HITList),
-  }).pipe(ns),
+export const ListReviewableHITsResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      NumResults: S.optional(S.Number),
+      HITs: S.optional(HITList),
+    }).pipe(ns),
 ).annotate({
   identifier: "ListReviewableHITsResponse",
 }) as any as S.Schema<ListReviewableHITsResponse>;
 export type ReviewPolicyLevel = "Assignment" | "HIT" | (string & {});
-export const ReviewPolicyLevel = S.String;
+export const ReviewPolicyLevel = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type ReviewPolicyLevelList = ReviewPolicyLevel[];
-export const ReviewPolicyLevelList = S.Array(ReviewPolicyLevel);
+export const ReviewPolicyLevelList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ReviewPolicyLevel);
 export interface ListReviewPolicyResultsForHITRequest {
   HITId: string;
   PolicyLevels?: ReviewPolicyLevel[];
@@ -1294,28 +1331,29 @@ export interface ListReviewPolicyResultsForHITRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListReviewPolicyResultsForHITRequest = S.suspend(() =>
-  S.Struct({
-    HITId: S.String,
-    PolicyLevels: S.optional(ReviewPolicyLevelList),
-    RetrieveActions: S.optional(S.Boolean),
-    RetrieveResults: S.optional(S.Boolean),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListReviewPolicyResultsForHITRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITId: S.String,
+      PolicyLevels: S.optional(ReviewPolicyLevelList),
+      RetrieveActions: S.optional(S.Boolean),
+      RetrieveResults: S.optional(S.Boolean),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListReviewPolicyResultsForHITRequest",
-}) as any as S.Schema<ListReviewPolicyResultsForHITRequest>;
+  ).annotate({
+    identifier: "ListReviewPolicyResultsForHITRequest",
+  }) as any as S.Schema<ListReviewPolicyResultsForHITRequest>;
 export interface ReviewResultDetail {
   ActionId?: string;
   SubjectId?: string;
@@ -1324,7 +1362,7 @@ export interface ReviewResultDetail {
   Key?: string;
   Value?: string;
 }
-export const ReviewResultDetail = S.suspend(() =>
+export const ReviewResultDetail = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ActionId: S.optional(S.String),
     SubjectId: S.optional(S.String),
@@ -1337,14 +1375,15 @@ export const ReviewResultDetail = S.suspend(() =>
   identifier: "ReviewResultDetail",
 }) as any as S.Schema<ReviewResultDetail>;
 export type ReviewResultDetailList = ReviewResultDetail[];
-export const ReviewResultDetailList = S.Array(ReviewResultDetail);
+export const ReviewResultDetailList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ReviewResultDetail);
 export type ReviewActionStatus =
   | "Intended"
   | "Succeeded"
   | "Failed"
   | "Cancelled"
   | (string & {});
-export const ReviewActionStatus = S.String;
+export const ReviewActionStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ReviewActionDetail {
   ActionId?: string;
   ActionName?: string;
@@ -1355,7 +1394,7 @@ export interface ReviewActionDetail {
   Result?: string;
   ErrorCode?: string;
 }
-export const ReviewActionDetail = S.suspend(() =>
+export const ReviewActionDetail = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ActionId: S.optional(S.String),
     ActionName: S.optional(S.String),
@@ -1370,12 +1409,13 @@ export const ReviewActionDetail = S.suspend(() =>
   identifier: "ReviewActionDetail",
 }) as any as S.Schema<ReviewActionDetail>;
 export type ReviewActionDetailList = ReviewActionDetail[];
-export const ReviewActionDetailList = S.Array(ReviewActionDetail);
+export const ReviewActionDetailList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(ReviewActionDetail);
 export interface ReviewReport {
   ReviewResults?: ReviewResultDetail[];
   ReviewActions?: ReviewActionDetail[];
 }
-export const ReviewReport = S.suspend(() =>
+export const ReviewReport = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ReviewResults: S.optional(ReviewResultDetailList),
     ReviewActions: S.optional(ReviewActionDetailList),
@@ -1389,37 +1429,39 @@ export interface ListReviewPolicyResultsForHITResponse {
   HITReviewReport?: ReviewReport;
   NextToken?: string;
 }
-export const ListReviewPolicyResultsForHITResponse = S.suspend(() =>
-  S.Struct({
-    HITId: S.optional(S.String),
-    AssignmentReviewPolicy: S.optional(ReviewPolicy),
-    HITReviewPolicy: S.optional(ReviewPolicy),
-    AssignmentReviewReport: S.optional(ReviewReport),
-    HITReviewReport: S.optional(ReviewReport),
-    NextToken: S.optional(S.String),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListReviewPolicyResultsForHITResponse",
-}) as any as S.Schema<ListReviewPolicyResultsForHITResponse>;
+export const ListReviewPolicyResultsForHITResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITId: S.optional(S.String),
+      AssignmentReviewPolicy: S.optional(ReviewPolicy),
+      HITReviewPolicy: S.optional(ReviewPolicy),
+      AssignmentReviewReport: S.optional(ReviewReport),
+      HITReviewReport: S.optional(ReviewReport),
+      NextToken: S.optional(S.String),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListReviewPolicyResultsForHITResponse",
+  }) as any as S.Schema<ListReviewPolicyResultsForHITResponse>;
 export interface ListWorkerBlocksRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListWorkerBlocksRequest = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListWorkerBlocksRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "ListWorkerBlocksRequest",
 }) as any as S.Schema<ListWorkerBlocksRequest>;
@@ -1427,22 +1469,23 @@ export interface WorkerBlock {
   WorkerId?: string;
   Reason?: string;
 }
-export const WorkerBlock = S.suspend(() =>
+export const WorkerBlock = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ WorkerId: S.optional(S.String), Reason: S.optional(S.String) }),
 ).annotate({ identifier: "WorkerBlock" }) as any as S.Schema<WorkerBlock>;
 export type WorkerBlockList = WorkerBlock[];
-export const WorkerBlockList = S.Array(WorkerBlock);
+export const WorkerBlockList = /*@__PURE__*/ /*#__PURE__*/ S.Array(WorkerBlock);
 export interface ListWorkerBlocksResponse {
   NextToken?: string;
   NumResults?: number;
   WorkerBlocks?: WorkerBlock[];
 }
-export const ListWorkerBlocksResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    NumResults: S.optional(S.Number),
-    WorkerBlocks: S.optional(WorkerBlockList),
-  }).pipe(ns),
+export const ListWorkerBlocksResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      NumResults: S.optional(S.Number),
+      WorkerBlocks: S.optional(WorkerBlockList),
+    }).pipe(ns),
 ).annotate({
   identifier: "ListWorkerBlocksResponse",
 }) as any as S.Schema<ListWorkerBlocksResponse>;
@@ -1452,50 +1495,53 @@ export interface ListWorkersWithQualificationTypeRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListWorkersWithQualificationTypeRequest = S.suspend(() =>
-  S.Struct({
-    QualificationTypeId: S.String,
-    Status: S.optional(QualificationStatus),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const ListWorkersWithQualificationTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationTypeId: S.String,
+      Status: S.optional(QualificationStatus),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "ListWorkersWithQualificationTypeRequest",
-}) as any as S.Schema<ListWorkersWithQualificationTypeRequest>;
+  ).annotate({
+    identifier: "ListWorkersWithQualificationTypeRequest",
+  }) as any as S.Schema<ListWorkersWithQualificationTypeRequest>;
 export type QualificationList = Qualification[];
-export const QualificationList = S.Array(Qualification);
+export const QualificationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(Qualification);
 export interface ListWorkersWithQualificationTypeResponse {
   NextToken?: string;
   NumResults?: number;
   Qualifications?: Qualification[];
 }
-export const ListWorkersWithQualificationTypeResponse = S.suspend(() =>
-  S.Struct({
-    NextToken: S.optional(S.String),
-    NumResults: S.optional(S.Number),
-    Qualifications: S.optional(QualificationList),
-  }).pipe(ns),
-).annotate({
-  identifier: "ListWorkersWithQualificationTypeResponse",
-}) as any as S.Schema<ListWorkersWithQualificationTypeResponse>;
+export const ListWorkersWithQualificationTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      NumResults: S.optional(S.Number),
+      Qualifications: S.optional(QualificationList),
+    }).pipe(ns),
+  ).annotate({
+    identifier: "ListWorkersWithQualificationTypeResponse",
+  }) as any as S.Schema<ListWorkersWithQualificationTypeResponse>;
 export type CustomerIdList = string[];
-export const CustomerIdList = S.Array(S.String);
+export const CustomerIdList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface NotifyWorkersRequest {
   Subject: string;
   MessageText: string;
   WorkerIds: string[];
 }
-export const NotifyWorkersRequest = S.suspend(() =>
+export const NotifyWorkersRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Subject: S.String,
     MessageText: S.String,
@@ -1518,29 +1564,29 @@ export type NotifyWorkersFailureCode =
   | "SoftFailure"
   | "HardFailure"
   | (string & {});
-export const NotifyWorkersFailureCode = S.String;
+export const NotifyWorkersFailureCode = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface NotifyWorkersFailureStatus {
   NotifyWorkersFailureCode?: NotifyWorkersFailureCode;
   NotifyWorkersFailureMessage?: string;
   WorkerId?: string;
 }
-export const NotifyWorkersFailureStatus = S.suspend(() =>
-  S.Struct({
-    NotifyWorkersFailureCode: S.optional(NotifyWorkersFailureCode),
-    NotifyWorkersFailureMessage: S.optional(S.String),
-    WorkerId: S.optional(S.String),
-  }),
+export const NotifyWorkersFailureStatus = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      NotifyWorkersFailureCode: S.optional(NotifyWorkersFailureCode),
+      NotifyWorkersFailureMessage: S.optional(S.String),
+      WorkerId: S.optional(S.String),
+    }),
 ).annotate({
   identifier: "NotifyWorkersFailureStatus",
 }) as any as S.Schema<NotifyWorkersFailureStatus>;
 export type NotifyWorkersFailureStatusList = NotifyWorkersFailureStatus[];
-export const NotifyWorkersFailureStatusList = S.Array(
-  NotifyWorkersFailureStatus,
-);
+export const NotifyWorkersFailureStatusList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(NotifyWorkersFailureStatus);
 export interface NotifyWorkersResponse {
   NotifyWorkersFailureStatuses?: NotifyWorkersFailureStatus[];
 }
-export const NotifyWorkersResponse = S.suspend(() =>
+export const NotifyWorkersResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     NotifyWorkersFailureStatuses: S.optional(NotifyWorkersFailureStatusList),
   }).pipe(ns),
@@ -1551,24 +1597,25 @@ export interface RejectAssignmentRequest {
   AssignmentId: string;
   RequesterFeedback: string;
 }
-export const RejectAssignmentRequest = S.suspend(() =>
-  S.Struct({ AssignmentId: S.String, RequesterFeedback: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RejectAssignmentRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ AssignmentId: S.String, RequesterFeedback: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "RejectAssignmentRequest",
 }) as any as S.Schema<RejectAssignmentRequest>;
 export interface RejectAssignmentResponse {}
-export const RejectAssignmentResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const RejectAssignmentResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "RejectAssignmentResponse",
 }) as any as S.Schema<RejectAssignmentResponse>;
@@ -1576,30 +1623,30 @@ export interface RejectQualificationRequestRequest {
   QualificationRequestId: string;
   Reason?: string;
 }
-export const RejectQualificationRequestRequest = S.suspend(() =>
-  S.Struct({
-    QualificationRequestId: S.String,
-    Reason: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const RejectQualificationRequestRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationRequestId: S.String,
+      Reason: S.optional(S.String),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "RejectQualificationRequestRequest",
-}) as any as S.Schema<RejectQualificationRequestRequest>;
+  ).annotate({
+    identifier: "RejectQualificationRequestRequest",
+  }) as any as S.Schema<RejectQualificationRequestRequest>;
 export interface RejectQualificationRequestResponse {}
-export const RejectQualificationRequestResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "RejectQualificationRequestResponse",
-}) as any as S.Schema<RejectQualificationRequestResponse>;
+export const RejectQualificationRequestResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "RejectQualificationRequestResponse",
+  }) as any as S.Schema<RejectQualificationRequestResponse>;
 export interface SendBonusRequest {
   WorkerId: string;
   BonusAmount: string;
@@ -1607,7 +1654,7 @@ export interface SendBonusRequest {
   Reason: string;
   UniqueRequestToken?: string;
 }
-export const SendBonusRequest = S.suspend(() =>
+export const SendBonusRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     WorkerId: S.String,
     BonusAmount: S.String,
@@ -1629,13 +1676,13 @@ export const SendBonusRequest = S.suspend(() =>
   identifier: "SendBonusRequest",
 }) as any as S.Schema<SendBonusRequest>;
 export interface SendBonusResponse {}
-export const SendBonusResponse = S.suspend(() =>
+export const SendBonusResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "SendBonusResponse",
 }) as any as S.Schema<SendBonusResponse>;
 export type NotificationTransport = "Email" | "SQS" | "SNS" | (string & {});
-export const NotificationTransport = S.String;
+export const NotificationTransport = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EventType =
   | "AssignmentAccepted"
   | "AssignmentAbandoned"
@@ -1650,22 +1697,23 @@ export type EventType =
   | "HITDisposed"
   | "Ping"
   | (string & {});
-export const EventType = S.String;
+export const EventType = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type EventTypeList = EventType[];
-export const EventTypeList = S.Array(EventType);
+export const EventTypeList = /*@__PURE__*/ /*#__PURE__*/ S.Array(EventType);
 export interface NotificationSpecification {
   Destination: string;
   Transport: NotificationTransport;
   Version: string;
   EventTypes: EventType[];
 }
-export const NotificationSpecification = S.suspend(() =>
-  S.Struct({
-    Destination: S.String,
-    Transport: NotificationTransport,
-    Version: S.String,
-    EventTypes: EventTypeList,
-  }),
+export const NotificationSpecification = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      Destination: S.String,
+      Transport: NotificationTransport,
+      Version: S.String,
+      EventTypes: EventTypeList,
+    }),
 ).annotate({
   identifier: "NotificationSpecification",
 }) as any as S.Schema<NotificationSpecification>;
@@ -1673,105 +1721,106 @@ export interface SendTestEventNotificationRequest {
   Notification: NotificationSpecification;
   TestEventType: EventType;
 }
-export const SendTestEventNotificationRequest = S.suspend(() =>
-  S.Struct({
-    Notification: NotificationSpecification,
-    TestEventType: EventType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const SendTestEventNotificationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Notification: NotificationSpecification,
+      TestEventType: EventType,
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "SendTestEventNotificationRequest",
-}) as any as S.Schema<SendTestEventNotificationRequest>;
+  ).annotate({
+    identifier: "SendTestEventNotificationRequest",
+  }) as any as S.Schema<SendTestEventNotificationRequest>;
 export interface SendTestEventNotificationResponse {}
-export const SendTestEventNotificationResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SendTestEventNotificationResponse",
-}) as any as S.Schema<SendTestEventNotificationResponse>;
+export const SendTestEventNotificationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "SendTestEventNotificationResponse",
+  }) as any as S.Schema<SendTestEventNotificationResponse>;
 export interface UpdateExpirationForHITRequest {
   HITId: string;
   ExpireAt: Date;
 }
-export const UpdateExpirationForHITRequest = S.suspend(() =>
-  S.Struct({
-    HITId: S.String,
-    ExpireAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateExpirationForHITRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITId: S.String,
+      ExpireAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateExpirationForHITRequest",
-}) as any as S.Schema<UpdateExpirationForHITRequest>;
+  ).annotate({
+    identifier: "UpdateExpirationForHITRequest",
+  }) as any as S.Schema<UpdateExpirationForHITRequest>;
 export interface UpdateExpirationForHITResponse {}
-export const UpdateExpirationForHITResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateExpirationForHITResponse",
-}) as any as S.Schema<UpdateExpirationForHITResponse>;
+export const UpdateExpirationForHITResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "UpdateExpirationForHITResponse",
+  }) as any as S.Schema<UpdateExpirationForHITResponse>;
 export interface UpdateHITReviewStatusRequest {
   HITId: string;
   Revert?: boolean;
 }
-export const UpdateHITReviewStatusRequest = S.suspend(() =>
-  S.Struct({ HITId: S.String, Revert: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateHITReviewStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ HITId: S.String, Revert: S.optional(S.Boolean) }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateHITReviewStatusRequest",
-}) as any as S.Schema<UpdateHITReviewStatusRequest>;
+  ).annotate({
+    identifier: "UpdateHITReviewStatusRequest",
+  }) as any as S.Schema<UpdateHITReviewStatusRequest>;
 export interface UpdateHITReviewStatusResponse {}
-export const UpdateHITReviewStatusResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateHITReviewStatusResponse",
-}) as any as S.Schema<UpdateHITReviewStatusResponse>;
+export const UpdateHITReviewStatusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "UpdateHITReviewStatusResponse",
+  }) as any as S.Schema<UpdateHITReviewStatusResponse>;
 export interface UpdateHITTypeOfHITRequest {
   HITId: string;
   HITTypeId: string;
 }
-export const UpdateHITTypeOfHITRequest = S.suspend(() =>
-  S.Struct({ HITId: S.String, HITTypeId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateHITTypeOfHITRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({ HITId: S.String, HITTypeId: S.String }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
 ).annotate({
   identifier: "UpdateHITTypeOfHITRequest",
 }) as any as S.Schema<UpdateHITTypeOfHITRequest>;
 export interface UpdateHITTypeOfHITResponse {}
-export const UpdateHITTypeOfHITResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
+export const UpdateHITTypeOfHITResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "UpdateHITTypeOfHITResponse",
 }) as any as S.Schema<UpdateHITTypeOfHITResponse>;
@@ -1780,31 +1829,31 @@ export interface UpdateNotificationSettingsRequest {
   Notification?: NotificationSpecification;
   Active?: boolean;
 }
-export const UpdateNotificationSettingsRequest = S.suspend(() =>
-  S.Struct({
-    HITTypeId: S.String,
-    Notification: S.optional(NotificationSpecification),
-    Active: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateNotificationSettingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      HITTypeId: S.String,
+      Notification: S.optional(NotificationSpecification),
+      Active: S.optional(S.Boolean),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateNotificationSettingsRequest",
-}) as any as S.Schema<UpdateNotificationSettingsRequest>;
+  ).annotate({
+    identifier: "UpdateNotificationSettingsRequest",
+  }) as any as S.Schema<UpdateNotificationSettingsRequest>;
 export interface UpdateNotificationSettingsResponse {}
-export const UpdateNotificationSettingsResponse = S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "UpdateNotificationSettingsResponse",
-}) as any as S.Schema<UpdateNotificationSettingsResponse>;
+export const UpdateNotificationSettingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+    identifier: "UpdateNotificationSettingsResponse",
+  }) as any as S.Schema<UpdateNotificationSettingsResponse>;
 export interface UpdateQualificationTypeRequest {
   QualificationTypeId: string;
   Description?: string;
@@ -1816,39 +1865,41 @@ export interface UpdateQualificationTypeRequest {
   AutoGranted?: boolean;
   AutoGrantedValue?: number;
 }
-export const UpdateQualificationTypeRequest = S.suspend(() =>
-  S.Struct({
-    QualificationTypeId: S.String,
-    Description: S.optional(S.String),
-    QualificationTypeStatus: S.optional(QualificationTypeStatus),
-    Test: S.optional(S.String),
-    AnswerKey: S.optional(S.String),
-    TestDurationInSeconds: S.optional(S.Number),
-    RetryDelayInSeconds: S.optional(S.Number),
-    AutoGranted: S.optional(S.Boolean),
-    AutoGrantedValue: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+export const UpdateQualificationTypeRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      QualificationTypeId: S.String,
+      Description: S.optional(S.String),
+      QualificationTypeStatus: S.optional(QualificationTypeStatus),
+      Test: S.optional(S.String),
+      AnswerKey: S.optional(S.String),
+      TestDurationInSeconds: S.optional(S.Number),
+      RetryDelayInSeconds: S.optional(S.Number),
+      AutoGranted: S.optional(S.Boolean),
+      AutoGrantedValue: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        ns,
+        T.Http({ method: "POST", uri: "/" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
     ),
-  ),
-).annotate({
-  identifier: "UpdateQualificationTypeRequest",
-}) as any as S.Schema<UpdateQualificationTypeRequest>;
+  ).annotate({
+    identifier: "UpdateQualificationTypeRequest",
+  }) as any as S.Schema<UpdateQualificationTypeRequest>;
 export interface UpdateQualificationTypeResponse {
   QualificationType?: QualificationType;
 }
-export const UpdateQualificationTypeResponse = S.suspend(() =>
-  S.Struct({ QualificationType: S.optional(QualificationType) }).pipe(ns),
-).annotate({
-  identifier: "UpdateQualificationTypeResponse",
-}) as any as S.Schema<UpdateQualificationTypeResponse>;
+export const UpdateQualificationTypeResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ QualificationType: S.optional(QualificationType) }).pipe(ns),
+  ).annotate({
+    identifier: "UpdateQualificationTypeResponse",
+  }) as any as S.Schema<UpdateQualificationTypeResponse>;
 
 //# Errors
 export class RequestError extends S.TaggedErrorClass<RequestError>()(

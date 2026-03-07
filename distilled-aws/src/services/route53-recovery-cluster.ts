@@ -99,60 +99,65 @@ export type Owner = string;
 export interface GetRoutingControlStateRequest {
   RoutingControlArn: string;
 }
-export const GetRoutingControlStateRequest = S.suspend(() =>
-  S.Struct({ RoutingControlArn: S.String }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "GetRoutingControlStateRequest",
-}) as any as S.Schema<GetRoutingControlStateRequest>;
+export const GetRoutingControlStateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RoutingControlArn: S.String }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "GetRoutingControlStateRequest",
+  }) as any as S.Schema<GetRoutingControlStateRequest>;
 export type RoutingControlState = "On" | "Off" | (string & {});
-export const RoutingControlState = S.String;
+export const RoutingControlState = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface GetRoutingControlStateResponse {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
   RoutingControlName?: string;
 }
-export const GetRoutingControlStateResponse = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-    RoutingControlName: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "GetRoutingControlStateResponse",
-}) as any as S.Schema<GetRoutingControlStateResponse>;
+export const GetRoutingControlStateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControlArn: S.String,
+      RoutingControlState: RoutingControlState,
+      RoutingControlName: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "GetRoutingControlStateResponse",
+  }) as any as S.Schema<GetRoutingControlStateResponse>;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
   | "fieldValidationFailed"
   | "other"
   | (string & {});
-export const ValidationExceptionReason = S.String;
+export const ValidationExceptionReason = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ValidationExceptionField {
   name: string;
   message: string;
 }
-export const ValidationExceptionField = S.suspend(() =>
-  S.Struct({ name: S.String, message: S.String }),
+export const ValidationExceptionField = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () => S.Struct({ name: S.String, message: S.String }),
 ).annotate({
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = S.Array(ValidationExceptionField);
+export const ValidationExceptionFieldList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  ValidationExceptionField,
+);
 export interface ListRoutingControlsRequest {
   ControlPanelArn?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListRoutingControlsRequest = S.suspend(() =>
-  S.Struct({
-    ControlPanelArn: S.optional(S.String),
-    NextToken: S.optional(S.String),
-    MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+export const ListRoutingControlsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      ControlPanelArn: S.optional(S.String),
+      NextToken: S.optional(S.String),
+      MaxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
 ).annotate({
   identifier: "ListRoutingControlsRequest",
 }) as any as S.Schema<ListRoutingControlsRequest>;
@@ -164,7 +169,7 @@ export interface RoutingControl {
   RoutingControlState?: RoutingControlState;
   Owner?: string;
 }
-export const RoutingControl = S.suspend(() =>
+export const RoutingControl = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     ControlPanelArn: S.optional(S.String),
     ControlPanelName: S.optional(S.String),
@@ -175,79 +180,81 @@ export const RoutingControl = S.suspend(() =>
   }),
 ).annotate({ identifier: "RoutingControl" }) as any as S.Schema<RoutingControl>;
 export type RoutingControls = RoutingControl[];
-export const RoutingControls = S.Array(RoutingControl);
+export const RoutingControls =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RoutingControl);
 export interface ListRoutingControlsResponse {
   RoutingControls: RoutingControl[];
   NextToken?: string;
 }
-export const ListRoutingControlsResponse = S.suspend(() =>
-  S.Struct({
-    RoutingControls: RoutingControls,
-    NextToken: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "ListRoutingControlsResponse",
-}) as any as S.Schema<ListRoutingControlsResponse>;
+export const ListRoutingControlsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControls: RoutingControls,
+      NextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListRoutingControlsResponse",
+  }) as any as S.Schema<ListRoutingControlsResponse>;
 export type Arns = string[];
-export const Arns = S.Array(S.String);
+export const Arns = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
 export interface UpdateRoutingControlStateRequest {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
   SafetyRulesToOverride?: string[];
 }
-export const UpdateRoutingControlStateRequest = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-    SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRoutingControlStateRequest",
-}) as any as S.Schema<UpdateRoutingControlStateRequest>;
+export const UpdateRoutingControlStateRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControlArn: S.String,
+      RoutingControlState: RoutingControlState,
+      SafetyRulesToOverride: S.optional(Arns),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateRoutingControlStateRequest",
+  }) as any as S.Schema<UpdateRoutingControlStateRequest>;
 export interface UpdateRoutingControlStateResponse {}
-export const UpdateRoutingControlStateResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRoutingControlStateResponse",
-}) as any as S.Schema<UpdateRoutingControlStateResponse>;
+export const UpdateRoutingControlStateResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "UpdateRoutingControlStateResponse",
+  }) as any as S.Schema<UpdateRoutingControlStateResponse>;
 export interface UpdateRoutingControlStateEntry {
   RoutingControlArn: string;
   RoutingControlState: RoutingControlState;
 }
-export const UpdateRoutingControlStateEntry = S.suspend(() =>
-  S.Struct({
-    RoutingControlArn: S.String,
-    RoutingControlState: RoutingControlState,
-  }),
-).annotate({
-  identifier: "UpdateRoutingControlStateEntry",
-}) as any as S.Schema<UpdateRoutingControlStateEntry>;
+export const UpdateRoutingControlStateEntry =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RoutingControlArn: S.String,
+      RoutingControlState: RoutingControlState,
+    }),
+  ).annotate({
+    identifier: "UpdateRoutingControlStateEntry",
+  }) as any as S.Schema<UpdateRoutingControlStateEntry>;
 export type UpdateRoutingControlStateEntries = UpdateRoutingControlStateEntry[];
-export const UpdateRoutingControlStateEntries = S.Array(
-  UpdateRoutingControlStateEntry,
-);
+export const UpdateRoutingControlStateEntries =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(UpdateRoutingControlStateEntry);
 export interface UpdateRoutingControlStatesRequest {
   UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntry[];
   SafetyRulesToOverride?: string[];
 }
-export const UpdateRoutingControlStatesRequest = S.suspend(() =>
-  S.Struct({
-    UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
-    SafetyRulesToOverride: S.optional(Arns),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
-).annotate({
-  identifier: "UpdateRoutingControlStatesRequest",
-}) as any as S.Schema<UpdateRoutingControlStatesRequest>;
+export const UpdateRoutingControlStatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      UpdateRoutingControlStateEntries: UpdateRoutingControlStateEntries,
+      SafetyRulesToOverride: S.optional(Arns),
+    }).pipe(
+      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+    ),
+  ).annotate({
+    identifier: "UpdateRoutingControlStatesRequest",
+  }) as any as S.Schema<UpdateRoutingControlStatesRequest>;
 export interface UpdateRoutingControlStatesResponse {}
-export const UpdateRoutingControlStatesResponse = S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "UpdateRoutingControlStatesResponse",
-}) as any as S.Schema<UpdateRoutingControlStatesResponse>;
+export const UpdateRoutingControlStatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "UpdateRoutingControlStatesResponse",
+  }) as any as S.Schema<UpdateRoutingControlStatesResponse>;
 
 //# Errors
 export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedException>()(
