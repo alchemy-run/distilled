@@ -188,6 +188,21 @@ export function isBooleanAST(ast: AST.AST): boolean {
 }
 
 /**
+ * Check if AST represents a string type
+ */
+export function isStringAST(ast: AST.AST): boolean {
+  const unwrapped = unwrapUnion(ast);
+  if (unwrapped !== ast) return isStringAST(unwrapped);
+
+  if (unwrapped._tag === "String") return true;
+
+  if (unwrapped.encoding && unwrapped.encoding.length > 0) {
+    return isStringAST(unwrapped.encoding[0].to);
+  }
+  return false;
+}
+
+/**
  * Check if AST represents a Date type
  */
 export function isDateAST(ast: AST.AST): boolean {

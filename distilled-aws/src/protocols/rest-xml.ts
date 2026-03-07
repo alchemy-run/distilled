@@ -37,6 +37,7 @@ import {
   getArrayElementAST,
   getEncodedPropertySignatures,
   getIdentifier,
+  isStringAST,
   getXmlNameFromAST,
   getXmlNamespace,
   isArrayAST,
@@ -493,7 +494,12 @@ function serializeObject(
 // =============================================================================
 
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
-  if (value == null || value === "") return undefined;
+  if (value == null) return undefined;
+  if (value === "") {
+    // Some rest-xml APIs, notably CloudFront, use empty string as a meaningful
+    // round-trippable value in config reads/updates.
+    return isStringAST(ast) ? "" : undefined;
+  }
 
   // Handle empty objects (from empty XML elements) - treat as undefined
   if (

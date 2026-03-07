@@ -11,6 +11,7 @@ import { restXmlProtocol } from "../../src/protocols/rest-xml.ts";
 import {
   CustomOriginConfig,
   DistributionList,
+  GetDistributionConfigResult,
   GetDistributionResult,
   InvalidationList,
   ListDistributionsResult,
@@ -1836,6 +1837,7 @@ describe("restXml protocol", () => {
           ]).pipe(Effect.flip);
 
           expect(result).toBeInstanceOf(NoSuchBucket);
+          expect((result as NoSuchBucket).message).toBe("Bucket not found");
         }),
     );
 
@@ -1890,6 +1892,9 @@ describe("restXml protocol", () => {
 
         expect(result).toBeInstanceOf(UnknownAwsError);
         expect((result as UnknownAwsError).errorTag).toBe("SomeFutureError");
+        expect((result as UnknownAwsError).message).toBe(
+          "Something unexpected happened",
+        );
         expect((result as UnknownAwsError).errorData).toMatchObject({
           Type: "Receiver",
           Message: "Something unexpected happened",
@@ -2239,6 +2244,117 @@ describe("restXml protocol", () => {
 
           expect(result.InvalidationList?.MaxItems).toBe(100);
           expect(result.InvalidationList?.Quantity).toBe(0);
+        }),
+    );
+
+    it.effect(
+      "should preserve meaningful empty strings in CloudFront distribution config",
+      () =>
+        Effect.gen(function* () {
+          const response: Response = {
+            status: 200,
+            statusText: "OK",
+            headers: {
+              etag: '"cfg-etag"',
+            },
+            body: `<?xml version="1.0" encoding="UTF-8"?>
+<DistributionConfig>
+  <CallerReference>my-distribution-2024</CallerReference>
+  <Aliases>
+    <Quantity>0</Quantity>
+  </Aliases>
+  <DefaultRootObject></DefaultRootObject>
+  <Origins>
+    <Quantity>1</Quantity>
+    <Items>
+      <Origin>
+        <Id>my-origin</Id>
+        <DomainName>example.com</DomainName>
+        <OriginPath></OriginPath>
+        <CustomHeaders>
+          <Quantity>0</Quantity>
+        </CustomHeaders>
+        <CustomOriginConfig>
+          <HTTPPort>80</HTTPPort>
+          <HTTPSPort>443</HTTPSPort>
+          <OriginProtocolPolicy>https-only</OriginProtocolPolicy>
+          <OriginSslProtocols>
+            <Quantity>1</Quantity>
+            <Items>
+              <SslProtocol>TLSv1.2</SslProtocol>
+            </Items>
+          </OriginSslProtocols>
+        </CustomOriginConfig>
+        <ConnectionAttempts>3</ConnectionAttempts>
+        <ConnectionTimeout>10</ConnectionTimeout>
+        <OriginAccessControlId></OriginAccessControlId>
+      </Origin>
+    </Items>
+  </Origins>
+  <OriginGroups>
+    <Quantity>0</Quantity>
+  </OriginGroups>
+  <DefaultCacheBehavior>
+    <TargetOriginId>my-origin</TargetOriginId>
+    <ViewerProtocolPolicy>redirect-to-https</ViewerProtocolPolicy>
+    <Compress>true</Compress>
+    <FieldLevelEncryptionId></FieldLevelEncryptionId>
+    <CachePolicyId>658327ea-f89d-4fab-a63d-7e88639e58f6</CachePolicyId>
+  </DefaultCacheBehavior>
+  <CustomErrorResponses>
+    <Quantity>0</Quantity>
+  </CustomErrorResponses>
+  <Comment>Test distribution</Comment>
+  <Logging>
+    <Enabled>false</Enabled>
+    <IncludeCookies>false</IncludeCookies>
+    <Bucket></Bucket>
+    <Prefix></Prefix>
+  </Logging>
+  <PriceClass>PriceClass_All</PriceClass>
+  <Enabled>true</Enabled>
+  <ViewerCertificate>
+    <CloudFrontDefaultCertificate>true</CloudFrontDefaultCertificate>
+    <CertificateSource>cloudfront</CertificateSource>
+  </ViewerCertificate>
+  <Restrictions>
+    <GeoRestriction>
+      <RestrictionType>none</RestrictionType>
+      <Quantity>0</Quantity>
+    </GeoRestriction>
+  </Restrictions>
+  <WebACLId></WebACLId>
+  <HttpVersion>http2</HttpVersion>
+  <IsIPV6Enabled>true</IsIPV6Enabled>
+  <ContinuousDeploymentPolicyId></ContinuousDeploymentPolicyId>
+  <Staging>false</Staging>
+</DistributionConfig>`,
+          };
+
+          const result = yield* parseResponse(
+            GetDistributionConfigResult,
+            response,
+          );
+
+          expect(result.ETag).toBe('"cfg-etag"');
+          expect(result.DistributionConfig?.DefaultRootObject).toBe("");
+          expect(result.DistributionConfig?.WebACLId).toBe("");
+          expect(result.DistributionConfig?.ContinuousDeploymentPolicyId).toBe(
+            "",
+          );
+          expect(result.DistributionConfig?.Logging?.Bucket).toBe("");
+          expect(result.DistributionConfig?.Logging?.Prefix).toBe("");
+          expect(
+            result.DistributionConfig?.Origins?.Items?.[0]?.OriginPath,
+          ).toBe("");
+          expect(
+            result.DistributionConfig?.Origins?.Items?.[0]
+              ?.OriginAccessControlId,
+          ).toBe("");
+          expect(
+            result.DistributionConfig?.DefaultCacheBehavior
+              ?.FieldLevelEncryptionId,
+          ).toBe("");
         }),
     );
 

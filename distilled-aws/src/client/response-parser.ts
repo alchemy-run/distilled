@@ -101,8 +101,14 @@ export const makeResponseParser = <A>(
     registerError(err);
   }
 
+  const getErrorMessage = (data: Record<string, unknown>) =>
+    typeof data.message === "string"
+      ? data.message
+      : typeof data.Message === "string"
+        ? data.Message
+        : undefined;
+
   // Return a function that parses responses
-  // @ts-expect-error
   return Effect.fn(function* (response: Response) {
     // Success path
     if (response.status >= 200 && response.status < 300) {
@@ -150,6 +156,12 @@ export const makeResponseParser = <A>(
       const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(
         dataWithTag,
       ).pipe(Effect.catch(() => Effect.succeed(dataWithTag)));
+
+      const message = getErrorMessage(data as Record<string, unknown>);
+      if (message && decoded instanceof Error && !decoded.message) {
+        decoded.message = message;
+      }
+
       return yield* Effect.fail(decoded);
     }
 
@@ -158,7 +170,7 @@ export const makeResponseParser = <A>(
       errorData: data,
       service: options?.service,
       operation: options?.operation,
-      message: typeof data?.message === "string" ? data.message : errorCode,
+      message: getErrorMessage(data) ?? errorCode,
     });
   });
 };
