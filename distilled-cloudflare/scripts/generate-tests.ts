@@ -13,6 +13,7 @@
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect, FileSystem, Schema } from "effect";
 import * as ChildProcess from "effect/unstable/process/ChildProcess";
+import * as ChildProcessSpawner from "effect/unstable/process/ChildProcessSpawner";
 import { spawn } from "node:child_process";
 import * as path from "node:path";
 import * as url from "node:url";
@@ -122,9 +123,13 @@ const runOpencode = (
   });
 
 const generateSdk = Effect.fn(function* () {
-  yield* ChildProcess.make("bun", ["run", "generate"], {
-    cwd: PROJECT_ROOT,
-  }).pipe(ChildProcess.string());
+  yield* ChildProcessSpawner.ChildProcessSpawner.use((spawner) =>
+    spawner.string(
+      ChildProcess.make("bun", ["run", "generate"], {
+        cwd: PROJECT_ROOT,
+      }),
+    ),
+  );
 });
 
 const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
@@ -390,4 +395,4 @@ const main = Effect.gen(function* () {
   );
 });
 
-main.pipe(Effect.provide(NodeServices.layer), NodeRuntime.runMain);
+NodeRuntime.runMain(main.pipe(Effect.provide(NodeServices.layer)));

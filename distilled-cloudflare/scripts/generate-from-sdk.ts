@@ -17,6 +17,7 @@
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect, FileSystem } from "effect";
 import * as ChildProcess from "effect/unstable/process/ChildProcess";
+import * as ChildProcessSpawner from "effect/unstable/process/ChildProcessSpawner";
 import * as path from "node:path";
 import {
   type ParsedOperation,
@@ -1276,10 +1277,14 @@ const generateCode = (services: ServiceInfo[], options: GenerateOptions) =>
 
     // Format generated files
     yield* Console.log("Formatting generated files...");
-    yield* ChildProcess.make("bun oxfmt", {
-      cwd: outputPath,
-      shell: true,
-    }).pipe(ChildProcess.string);
+    yield* ChildProcessSpawner.ChildProcessSpawner.use((spawner) =>
+      spawner.string(
+        ChildProcess.make("bun oxfmt", {
+          cwd: outputPath,
+          shell: true,
+        }),
+      ),
+    );
 
     yield* Console.log("Done!");
   });

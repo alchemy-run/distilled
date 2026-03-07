@@ -191,7 +191,7 @@ export const make = <I extends Schema.Top, O extends Schema.Top>(
           if (isFormData) {
             // FormData body - use formData body type
             httpRequest = HttpClientRequest.setBody(
-              HttpBody.makeFormData(request.body as FormData),
+              HttpBody.formData(request.body as FormData),
             )(httpRequest);
           } else {
             // Serialize body based on content type

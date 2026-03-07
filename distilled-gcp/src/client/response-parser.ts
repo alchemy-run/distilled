@@ -18,11 +18,7 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import {
-  GCPHttpError,
-  GCPNetworkError,
-  UnknownGCPError,
-} from "../errors.ts";
+import { GCPHttpError, GCPNetworkError, UnknownGCPError } from "../errors.ts";
 import * as T from "../traits.ts";
 
 interface GCPErrorResponse {
@@ -52,95 +48,65 @@ interface ParsedResponse {
  * - 2xx: decode body with output schema
  * - 4xx/5xx: parse error body, match against error schemas
  */
-export const parseResponse = <O extends Schema.Top>(
+export const parseResponse = Effect.fnUntraced(function* <O extends Schema.Top>(
   response: ParsedResponse,
   outputSchema: O,
   errorSchemas: Map<string, Schema.Top>,
-): Effect.Effect<
-  Schema.Schema.Type<O>,
-  UnknownGCPError | GCPNetworkError | GCPHttpError,
-  O["DecodingServices"]
-> =>
-  Effect.gen(function* () {
-    // Read body bytes
-    const bodyBytes = yield* Effect.tryPromise({
-      try: async () => {
-        const reader = response.body.getReader();
-        const chunks: Uint8Array[] = [];
-        let done = false;
+) {
+  // Read body bytes
+  const bodyBytes = yield* Effect.tryPromise({
+    try: async () => {
+      const reader = response.body.getReader();
+      const chunks: Uint8Array[] = [];
+      let done = false;
 
-        while (!done) {
-          const result = await reader.read();
-          if (result.value) chunks.push(result.value);
-          done = result.done;
-        }
-
-        const totalLength = chunks.reduce((acc, c) => acc + c.length, 0);
-        const merged = new Uint8Array(totalLength);
-        let offset = 0;
-        for (const chunk of chunks) {
-          merged.set(chunk, offset);
-          offset += chunk.length;
-        }
-
-        return merged;
-      },
-      catch: (error) =>
-        new GCPNetworkError({
-          message: "Failed to read response body",
-          cause: error,
-        }),
-    });
-
-    const bodyText = new TextDecoder().decode(bodyBytes);
-
-    // Handle success responses (2xx)
-    if (response.status >= 200 && response.status < 300) {
-      // Empty body (204 No Content, etc.)
-      if (!bodyText || bodyText.trim() === "") {
-        return yield* Schema.decodeUnknownEffect(outputSchema)({}).pipe(
-          Effect.mapError(
-            (error) =>
-              new UnknownGCPError({
-                message: `Failed to decode empty response: ${String(error)}`,
-              }),
-          ),
-        );
+      while (!done) {
+        const result = await reader.read();
+        if (result.value) chunks.push(result.value);
+        done = result.done;
       }
 
-      let json: unknown;
-      try {
-        json = JSON.parse(bodyText);
-      } catch {
-        return yield* Effect.fail(
-          new GCPHttpError({
-            status: response.status,
-            statusText: response.statusText,
-            body: bodyText,
-          }),
-        );
+      const totalLength = chunks.reduce((acc, c) => acc + c.length, 0);
+      const merged = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        merged.set(chunk, offset);
+        offset += chunk.length;
       }
 
-      return yield* Schema.decodeUnknownEffect(outputSchema)(json).pipe(
+      return merged;
+    },
+    catch: (error) =>
+      new GCPNetworkError({
+        message: "Failed to read response body",
+        cause: error,
+      }),
+  });
+
+  const bodyText = new TextDecoder().decode(bodyBytes);
+
+  const decodeOutput = Schema.decodeUnknownEffect(outputSchema) as (
+    input: unknown,
+  ) => Effect.Effect<any, any, never>;
+
+  // Handle success responses (2xx)
+  if (response.status >= 200 && response.status < 300) {
+    // Empty body (204 No Content, etc.)
+    if (!bodyText || bodyText.trim() === "") {
+      return yield* decodeOutput({}).pipe(
         Effect.mapError(
           (error) =>
             new UnknownGCPError({
-              message: `Failed to decode response: ${String(error)}`,
-              code: response.status,
+              message: `Failed to decode empty response: ${String(error)}`,
             }),
         ),
       );
     }
 
-    // Handle error responses (4xx/5xx)
-    let errorData: GCPErrorResponse | undefined;
+    let json: unknown;
     try {
-      const parsed = JSON.parse(bodyText);
-      if (parsed && typeof parsed === "object" && "error" in parsed) {
-        errorData = parsed as GCPErrorResponse;
-      }
+      json = JSON.parse(bodyText);
     } catch {
-      // Not JSON - return raw HTTP error
       return yield* Effect.fail(
         new GCPHttpError({
           status: response.status,
@@ -150,70 +116,99 @@ export const parseResponse = <O extends Schema.Top>(
       );
     }
 
-    if (!errorData) {
-      return yield* Effect.fail(
-        new GCPHttpError({
-          status: response.status,
-          statusText: response.statusText,
-          body: bodyText,
-        }),
-      );
-    }
-
-    const gcpError = errorData.error;
-    const reason = gcpError.errors?.[0]?.reason;
-    const domain = gcpError.errors?.[0]?.domain;
-
-    // Try to match against registered error schemas
-    const matchedError = findMatchingError(
-      errorSchemas,
-      gcpError.code,
-      gcpError.status,
-      reason,
-      domain,
-      gcpError.message,
+    return yield* decodeOutput(json).pipe(
+      Effect.mapError(
+        (error) =>
+          new UnknownGCPError({
+            message: `Failed to decode response: ${String(error)}`,
+            code: response.status,
+          }),
+      ),
     );
+  }
 
-    if (matchedError) {
-      const { schema, _tag } = matchedError;
-      const errorPayload = {
-        _tag,
-        code: gcpError.code,
-        message: gcpError.message,
-        status: gcpError.status,
-        reason,
-        domain,
-      };
-
-      return yield* Schema.decodeUnknownEffect(schema)(errorPayload).pipe(
-        Effect.flatMap((decoded) => Effect.fail(decoded as any)),
-        Effect.catch(() =>
-          Effect.fail(
-            new UnknownGCPError({
-              code: gcpError.code,
-              message: gcpError.message,
-              status: gcpError.status,
-              reason,
-              domain,
-              errorData: gcpError,
-            }),
-          ),
-        ),
-      );
+  // Handle error responses (4xx/5xx)
+  let errorData: GCPErrorResponse | undefined;
+  try {
+    const parsed = JSON.parse(bodyText);
+    if (parsed && typeof parsed === "object" && "error" in parsed) {
+      errorData = parsed as GCPErrorResponse;
     }
-
-    // No match - return UnknownGCPError
+  } catch {
+    // Not JSON - return raw HTTP error
     return yield* Effect.fail(
-      new UnknownGCPError({
-        code: gcpError.code,
-        message: gcpError.message,
-        status: gcpError.status,
-        reason,
-        domain,
-        errorData: gcpError,
+      new GCPHttpError({
+        status: response.status,
+        statusText: response.statusText,
+        body: bodyText,
       }),
     );
-  });
+  }
+
+  if (!errorData) {
+    return yield* Effect.fail(
+      new GCPHttpError({
+        status: response.status,
+        statusText: response.statusText,
+        body: bodyText,
+      }),
+    );
+  }
+
+  const gcpError = errorData.error;
+  const reason = gcpError.errors?.[0]?.reason;
+  const domain = gcpError.errors?.[0]?.domain;
+
+  // Try to match against registered error schemas
+  const matchedError = findMatchingError(
+    errorSchemas,
+    gcpError.code,
+    gcpError.status,
+    reason,
+    domain,
+    gcpError.message,
+  );
+
+  if (matchedError) {
+    const { schema, _tag } = matchedError;
+    const errorPayload = {
+      _tag,
+      code: gcpError.code,
+      message: gcpError.message,
+      status: gcpError.status,
+      reason,
+      domain,
+    };
+
+    return yield* Schema.decodeUnknownEffect(schema)(errorPayload).pipe(
+      Effect.flatMap((decoded) => Effect.fail(decoded as any)),
+      Effect.catch(() =>
+        Effect.fail(
+          new UnknownGCPError({
+            code: gcpError.code,
+            message: gcpError.message,
+            status: gcpError.status,
+            reason,
+            domain,
+            errorData: gcpError,
+          }),
+        ),
+      ),
+    );
+  }
+
+  // No match - return UnknownGCPError
+  return yield* Effect.fail(
+    new UnknownGCPError({
+      code: gcpError.code,
+      message: gcpError.message,
+      status: gcpError.status,
+      reason,
+      domain,
+      errorData: gcpError,
+    }),
+  );
+});
 
 /**
  * Find the best matching error schema based on GCP error properties.
@@ -226,7 +221,9 @@ function findMatchingError(
   domain: string | undefined,
   message: string | undefined,
 ): { schema: Schema.Top; _tag: string } | undefined {
-  let bestMatch: { schema: Schema.Top; _tag: string; score: number } | undefined;
+  let bestMatch:
+    | { schema: Schema.Top; _tag: string; score: number }
+    | undefined;
 
   for (const [tag, schema] of errorSchemas) {
     const matchers = T.getHttpErrorMatchers(schema.ast);

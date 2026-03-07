@@ -48,9 +48,9 @@ export type ResponseParser<A, R> = (
 export const makeResponseParser = <A>(
   operation: Operation<any, any, any>,
   options?: ResponseParserOptions,
-): ((response: Response) => Effect.Effect<any, never, never>) => {
+): ((response: Response) => Effect.Effect<any, any, never>) => {
   const inputAst = operation.input.ast;
-  const outputSchema = operation.output;
+  const outputSchema = operation.output as Schema.Schema<any>;
   const outputAst = outputSchema.ast;
 
   // Discover protocol factory from annotations or use override (done once)
@@ -65,7 +65,9 @@ export const makeResponseParser = <A>(
   // Pre-create the decoder (done once, unless skipping validation)
   const decode = options?.skipValidation
     ? undefined
-    : Schema.decodeUnknownEffect(outputSchema);
+    : (Schema.decodeUnknownEffect(outputSchema) as (
+        input: unknown,
+      ) => Effect.Effect<any, never, never>);
 
   // Create stream parser if output has event stream member (done once)
   const streamParser = makeStreamParser(outputAst);
@@ -135,6 +137,9 @@ export const makeResponseParser = <A>(
     const errorSchema = errorSchemas.get(errorCode);
 
     if (errorSchema) {
+      const decodeError = Schema.decodeUnknownEffect(errorSchema) as (
+        input: unknown,
+      ) => Effect.Effect<any, never, never>;
       // Extract headers for error members with HttpHeader traits
       // This handles error fields not in the body (e.g., x-amz-bucket-region)
       const errorProps = getPropertySignatures(errorSchema.ast);
@@ -153,9 +158,9 @@ export const makeResponseParser = <A>(
       const schemaTag = getIdentifier(errorSchema.ast) ?? errorCode;
       // Add _tag to data for TaggedError decoding
       const dataWithTag = { _tag: schemaTag, ...data };
-      const decoded = yield* Schema.decodeUnknownEffect(errorSchema)(
-        dataWithTag,
-      ).pipe(Effect.catch(() => Effect.succeed(dataWithTag)));
+      const decoded = yield* decodeError(dataWithTag).pipe(
+        Effect.catch(() => Effect.succeed(dataWithTag)),
+      );
 
       const message = getErrorMessage(data as Record<string, unknown>);
       if (message && decoded instanceof Error && !decoded.message) {
