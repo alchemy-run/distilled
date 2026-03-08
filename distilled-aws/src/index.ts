@@ -119,3 +119,5 @@ export * as Sensitive from "./sensitive.ts";
  * @since 0.0.0
  */
 export * as Traits from "./traits.ts";
+
+export * as Auth from "./auth.ts";
