@@ -10,11 +10,12 @@
         "@typescript/native-preview": "catalog:",
         "oxfmt": "catalog:",
         "oxlint": "catalog:",
+        "yaml": "catalog:",
       },
     },
     "aws-sdk": {
       "name": "@distilled.cloud/aws",
-      "version": "0.0.1",
+      "version": "0.2.0",
       "dependencies": {
         "@aws-crypto/crc32": "^5.2.0",
         "@aws-crypto/util": "^5.2.0",
@@ -41,7 +42,7 @@
     },
     "cloudflare-sdk": {
       "name": "@distilled.cloud/cloudflare",
-      "version": "0.0.1",
+      "version": "0.2.0",
       "dependencies": {
         "@distilled.cloud/sdk-core": "workspace:*",
         "effect": "catalog:",
@@ -54,7 +55,7 @@
     },
     "gcp-sdk": {
       "name": "@distilled.cloud/gcp",
-      "version": "0.0.1",
+      "version": "0.2.0",
       "dependencies": {
         "@distilled.cloud/sdk-core": "workspace:*",
         "effect": "catalog:",
@@ -66,7 +67,7 @@
     },
     "neon-sdk": {
       "name": "@distilled.cloud/neon",
-      "version": "0.0.1",
+      "version": "0.2.0",
       "dependencies": {
         "@distilled.cloud/sdk-core": "workspace:*",
         "effect": "catalog:",
@@ -78,7 +79,7 @@
     },
     "planetscale-sdk": {
       "name": "@distilled.cloud/planetscale",
-      "version": "0.0.1",
+      "version": "0.2.0",
       "dependencies": {
         "@distilled.cloud/sdk-core": "workspace:*",
         "effect": "catalog:",
@@ -90,7 +91,7 @@
     },
     "sdk-core": {
       "name": "@distilled.cloud/sdk-core",
-      "version": "0.0.1",
+      "version": "0.2.0",
       "dependencies": {
         "effect": "catalog:",
       },
@@ -113,6 +114,7 @@
     "oxlint": "^1.51.0",
     "pathe": "^2.0.3",
     "vitest": "^3.2.3",
+    "yaml": "^2.7.1",
   },
   "packages": {
     "@aws-crypto/crc32": ["@aws-crypto/crc32@5.2.0", "", { "dependencies": { "@aws-crypto/util": "^5.2.0", "@aws-sdk/types": "^3.222.0", "tslib": "^2.6.2" } }, "sha512-nLbCWqQNgUiwwtFsen1AdzAtvuLRsQS8rYgMuxCrdKf9kOssamGLuPwyTY9wyYblNr9+1XM8v6zoDTPPSIeANg=="],

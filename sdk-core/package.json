@@ -17,7 +17,8 @@
     "typecheck": "tsgo",
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
-    "check": "tsgo && oxlint src && oxfmt --check src"
+    "check": "tsgo && oxlint src && oxfmt --check src",
+    "test": "bunx vitest run"
   },
   "dependencies": {
     "effect": "catalog:"

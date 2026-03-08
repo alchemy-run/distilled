@@ -1,2 +1,6 @@
+.distilled
 node_modules
+**/*.tsbuildinfo
+lib/
 .env
+pnpm-workspace.yaml

@@ -1,0 +1,133 @@
+name: Publish Preview Package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.changes.outputs.core }}
+      aws: ${{ steps.changes.outputs.aws }}
+      cloudflare: ${{ steps.changes.outputs.cloudflare }}
+      gcp: ${{ steps.changes.outputs.gcp }}
+      neon: ${{ steps.changes.outputs.neon }}
+      planetscale: ${{ steps.changes.outputs.planetscale }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            core:
+              - 'sdk-core/**'
+            aws:
+              - 'aws-sdk/**'
+            cloudflare:
+              - 'cloudflare-sdk/**'
+            gcp:
+              - 'gcp-sdk/**'
+            neon:
+              - 'neon-sdk/**'
+            planetscale:
+              - 'planetscale-sdk/**'
+
+  pkg-pr-core:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./sdk-core
+
+  pkg-pr-aws:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.aws == 'true'
+    runs-on: ubuntu-22-large
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: aws-sdk
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./aws-sdk
+
+  pkg-pr-cloudflare:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.cloudflare == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: cloudflare-sdk
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./cloudflare-sdk
+
+  pkg-pr-gcp:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.gcp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: gcp-sdk
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./gcp-sdk
+
+  pkg-pr-neon:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.neon == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: neon-sdk
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./neon-sdk
+
+  pkg-pr-planetscale:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.planetscale == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: planetscale-sdk
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./planetscale-sdk

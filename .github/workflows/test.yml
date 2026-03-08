@@ -1,0 +1,172 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.changes.outputs.core }}
+      aws: ${{ steps.changes.outputs.aws }}
+      cloudflare: ${{ steps.changes.outputs.cloudflare }}
+      gcp: ${{ steps.changes.outputs.gcp }}
+      neon: ${{ steps.changes.outputs.neon }}
+      planetscale: ${{ steps.changes.outputs.planetscale }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: changes
+        with:
+          filters: |
+            core:
+              - 'sdk-core/**'
+            aws:
+              - 'aws-sdk/**'
+              - 'sdk-core/**'
+            cloudflare:
+              - 'cloudflare-sdk/**'
+              - 'sdk-core/**'
+            gcp:
+              - 'gcp-sdk/**'
+              - 'sdk-core/**'
+            neon:
+              - 'neon-sdk/**'
+              - 'sdk-core/**'
+            planetscale:
+              - 'planetscale-sdk/**'
+              - 'sdk-core/**'
+
+  ci-core:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run check
+        working-directory: sdk-core
+      - run: bun run test
+        working-directory: sdk-core
+
+  ci-aws:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.aws == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::084828582823:role/alchemy-github-oidc-role
+          aws-region: us-west-2
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: aws-sdk
+      - run: bun run check
+        working-directory: aws-sdk
+      - run: bun run test
+        working-directory: aws-sdk
+
+  ci-cloudflare:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.cloudflare == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: cloudflare-sdk
+      - run: bun run check
+        working-directory: cloudflare-sdk
+      - run: bun run test
+        working-directory: cloudflare-sdk
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_API_EMAIL: ${{ secrets.CLOUDFLARE_API_EMAIL }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_ACM_ZONE_ID: ${{ secrets.CLOUDFLARE_ACM_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+  ci-gcp:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.gcp == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: gcp-sdk
+      - run: bun run check
+        working-directory: gcp-sdk
+      - run: bun run test
+        working-directory: gcp-sdk
+
+  ci-neon:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.neon == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: neon-sdk
+      - run: bun run check
+        working-directory: neon-sdk
+      - run: bun run test
+        working-directory: neon-sdk
+        env:
+          NEON_API_KEY: ${{ secrets.NEON_API_KEY }}
+
+  ci-planetscale:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.planetscale == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: false
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run specs:fetch
+        working-directory: planetscale-sdk
+      - run: bun run check
+        working-directory: planetscale-sdk
+      - run: bun run test
+        working-directory: planetscale-sdk
+        env:
+          PLANETSCALE_API_TOKEN: ${{ secrets.PLANETSCALE_API_TOKEN }}
+          PLANETSCALE_ORGANIZATION: ${{ secrets.PLANETSCALE_ORGANIZATION }}
